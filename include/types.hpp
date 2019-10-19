@@ -34,6 +34,10 @@
         // Runtime
         class TaskContext;
 
+        namespace config {
+            class ConfigMap;
+        }
+
         //Singleton instance of runtime application
         extern interfaces::RuntimeInterface *__rtInstance__;
         interfaces::RuntimeInterface &app();

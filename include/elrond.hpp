@@ -2,5 +2,6 @@
     #define _ELROND_HPP
 
     #include "types.hpp"
+    #include "interfaces.hpp"
 
 #endif

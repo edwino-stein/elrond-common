@@ -17,6 +17,16 @@
         using dWord = ELROND_UINT32_TYPE;
         using sizeT = size_t;
 
+
+        // Interfaces
+        namespace interfaces {
+            class RuntimeInterface;
+        }
+
+        //Singleton instance of runtime application
+        extern interfaces::RuntimeInterface *__rtInstance__;
+        interfaces::RuntimeInterface &app();
+        void error(const char *error);
     }
 
 #endif

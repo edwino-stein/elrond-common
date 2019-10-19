@@ -36,6 +36,7 @@
 
         namespace config {
             class ConfigMap;
+            class ConfigMapAllocator;
         }
 
         //Singleton instance of runtime application

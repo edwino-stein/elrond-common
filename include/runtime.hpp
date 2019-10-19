@@ -4,4 +4,5 @@
     #include "runtime/TaskContext.hpp"
 
     #include "runtime/config/ConfigMap.hpp"
+    #include "runtime/config/ConfigMapAllocator.hpp"
 #endif

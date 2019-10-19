@@ -38,6 +38,11 @@
             class DebugOutInterface;
         }
 
+        // Modules
+        namespace modules {
+            class BaseModule;
+        }
+
         // Runtime
         class TaskContext;
 

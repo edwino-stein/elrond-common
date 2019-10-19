@@ -4,5 +4,6 @@
     #include "types.hpp"
     #include "interfaces.hpp"
     #include "runtime.hpp"
+    #include "modules.hpp"
 
 #endif

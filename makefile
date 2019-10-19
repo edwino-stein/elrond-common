@@ -18,7 +18,8 @@ vpath %.c $(SRC_DIR_ROOT)
 .DEFAULT_GOAL := all
 
 # *********************************** RULES ************************************
+include Linux.mk
 
 $(PROJECT_NAME): all
-all:
-	$(info make all)
+all: $(COMMON_PIC_LIB) $(COMMON_NOPIC_LIB)
+clean: clean-build

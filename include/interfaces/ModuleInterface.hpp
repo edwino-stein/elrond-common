@@ -16,10 +16,13 @@
                     #endif
 
                     virtual elrond::ModuleType getType() const =0;
+                    virtual elrond::ModuleLoopControl &getLoopControl() =0;
 
                     virtual void onInit(elrond::config::ConfigMap &cfg)=0;
                     virtual void onStart()=0;
                     virtual void onStop()=0;
+                    virtual void loop()=0;
+
             };
         }
     }

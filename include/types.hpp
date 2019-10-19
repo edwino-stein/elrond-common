@@ -23,6 +23,13 @@
         };
 
 
+        // Structs
+        struct ModuleLoopControl {
+            bool allow = true;
+            bool async = false;
+            unsigned int time = 0;
+        };
+
         // Interfaces
         namespace interfaces {
             class RuntimeInterface;

@@ -41,6 +41,7 @@
         // Modules
         namespace modules {
             class BaseModule;
+            class ExampleModule;
         }
 
         // Runtime

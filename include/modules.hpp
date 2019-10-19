@@ -2,5 +2,6 @@
 #define _ELROND_MODULES_HPP
 
     #include "modules/BaseModule.hpp"
+    #include "modules/ExampleModule.hpp"
 
 #endif

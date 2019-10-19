@@ -3,5 +3,6 @@
 
     #include "interfaces/RuntimeInterface.hpp"
     #include "interfaces/ModuleInterface.hpp"
+    #include "interfaces/ConfigMapMemoryInterface.hpp"
 
 #endif

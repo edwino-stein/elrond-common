@@ -27,6 +27,7 @@
         namespace interfaces {
             class RuntimeInterface;
             class ModuleInterface;
+            class ConfigMapMemoryInterface;
         }
 
         //Singleton instance of runtime application

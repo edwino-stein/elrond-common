@@ -28,11 +28,13 @@
             class RuntimeInterface;
             class ModuleInterface;
             class ConfigMapMemoryInterface;
+            class DebugOutInterface;
         }
 
         //Singleton instance of runtime application
         extern interfaces::RuntimeInterface *__rtInstance__;
         interfaces::RuntimeInterface &app();
+        const interfaces::DebugOutInterface &dout();
         void error(const char *error);
     }
 

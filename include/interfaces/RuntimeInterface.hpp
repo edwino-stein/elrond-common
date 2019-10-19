@@ -8,6 +8,8 @@
 
             class RuntimeInterface {
                 public:
+                    virtual const elrond::interfaces::DebugOutInterface &dout() const =0;
+
                     virtual void onError(const char *error)=0;
             };
         }

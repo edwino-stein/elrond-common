@@ -17,10 +17,16 @@
         using dWord = ELROND_UINT32_TYPE;
         using sizeT = size_t;
 
+        //Enums
+        enum class ModuleType {
+            GENERIC
+        };
+
 
         // Interfaces
         namespace interfaces {
             class RuntimeInterface;
+            class ModuleInterface;
         }
 
         //Singleton instance of runtime application

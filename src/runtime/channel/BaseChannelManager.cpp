@@ -1,11 +1,13 @@
 #include "runtime/channel/BaseChannelManager.hpp"
 #include "modules/BaseTransportModule.hpp"
+#include "runtime/channel/RxChannel.hpp"
 #include "runtime/channel/TxChannel.hpp"
 #include "runtime/bitwise.hpp"
 
 using elrond::channel::BaseChannelManager;
 using elrond::modules::BaseTransportModule;
 using elrond::channel::TxChannel;
+using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
     ********** Implementation for elrond::channel::BaseChannelManager **********
@@ -55,6 +57,35 @@ void BaseChannelManager::txTrigger(const elrond::sizeT ch, const elrond::word da
 
 void BaseChannelManager::onSend(){
     this->transport.send(this->getTxBuffer(), this->getTxBufferSize());
+}
+
+void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT length){
+
+    if(length <= ELROND_PROTOCOL_HEADER_SIZE || length != this->getRxBufferSize()) return;
+    if(data[ELROND_PROTOCOL_HEAD_BYTE_ACTION] != ELROND_PROTOCOL_ACTION_UPDATE_CHANNEL) return;
+
+    const elrond::sizeT totalCh = (elrond::sizeT) data[ELROND_PROTOCOL_TOTAL_CH_BYTE];
+    if(totalCh != this->getTotalRx()) return;
+
+    elrond::sizeT offset = ELROND_PROTOCOL_BODY_FIRST_BYTE;
+    for(elrond::sizeT i = 0; i < totalCh; ++i){
+
+        if(offset >= length) break;
+
+        this->rxTrigger(
+            ELROND_GET_CH_INDEX(data, offset),
+            elrond::makeWord(
+                ELROND_GET_CH_DATA_HB(data, offset),
+                ELROND_GET_CH_DATA_HB(data, offset)
+            )
+        );
+
+        offset += ELROND_PROTOCOL_BYTES_PER_CHANNEL;
+    }
+}
+
+elrond::sizeT BaseChannelManager::getRxBufferSize() const {
+    return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalRx());
 }
 
 elrond::sizeT BaseChannelManager::getTxBufferSize() const {

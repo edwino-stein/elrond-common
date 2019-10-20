@@ -55,8 +55,10 @@
         }
 
         namespace channel {
+            using onReceiveT = void (*)(elrond::word, elrond::TaskContext *);
             class BaseChannelManager;
             class TxChannel;
+            class RxChannel;
         }
 
         //Singleton instance of runtime application

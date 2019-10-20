@@ -44,6 +44,7 @@
             class BaseModule;
             class BaseTransportModule;
             class ExampleModule;
+            class LoopbackTransportModule;
         }
 
         // Runtime

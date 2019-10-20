@@ -2,6 +2,7 @@
 #define _ELROND_BASE_CHANNEL_MANAGER_HPP
 
     #include "types.hpp"
+    #include "runtime/channel/ProtocolHelper.hpp"
 
     namespace elrond {
         namespace channel {

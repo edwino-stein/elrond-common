@@ -12,9 +12,19 @@
                 protected:
                     elrond::modules::BaseTransportModule &transport;
 
+                    virtual elrond::byte *getTxBuffer() const =0;
+
                 public:
 
                     BaseChannelManager(elrond::modules::BaseTransportModule &transport);
+
+                    virtual void init();
+                    virtual void txTrigger(const elrond::sizeT ch, elrond::word data);
+                    virtual void onSend();
+                    virtual elrond::sizeT getTotalTx() const =0;
+
+                    virtual elrond::sizeT getTxBufferSize() const;
+
             };
         }
     }

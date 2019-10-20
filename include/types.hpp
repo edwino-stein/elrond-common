@@ -56,6 +56,7 @@
 
         namespace channel {
             class BaseChannelManager;
+            class TxChannel;
         }
 
         //Singleton instance of runtime application

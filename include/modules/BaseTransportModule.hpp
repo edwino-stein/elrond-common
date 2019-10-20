@@ -15,6 +15,7 @@
                         virtual ~BaseTransportModule();
                     #endif
 
+                    virtual void send(elrond::byte data[], const elrond::sizeT length)=0;
                     virtual void setChannelManager(elrond::channel::BaseChannelManager *cm)=0;
                     virtual elrond::ModuleType getType() const override;
             };

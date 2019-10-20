@@ -7,6 +7,7 @@
     #include "runtime/config/ConfigMapAllocator.hpp"
 
     #include "runtime/channel/BaseChannelManager.hpp"
+    #include "runtime/channel/TxChannel.hpp"
 
     #include "runtime/bitwise.hpp"
     #include "runtime/time.hpp"

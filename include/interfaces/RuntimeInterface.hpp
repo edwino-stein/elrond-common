@@ -8,6 +8,7 @@
 
             class RuntimeInterface {
                 public:
+                    virtual elrond::channel::BaseChannelManager &getChannelManager(const elrond::sizeT id = 0) const =0;
                     virtual const elrond::interfaces::DebugOutInterface &dout() const =0;
 
                     virtual void onError(const char *error)=0;

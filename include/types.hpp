@@ -54,6 +54,10 @@
             class ConfigMapAllocator;
         }
 
+        namespace channel {
+            class BaseChannelManager;
+        }
+
         //Singleton instance of runtime application
         extern interfaces::RuntimeInterface *__rtInstance__;
         interfaces::RuntimeInterface &app();

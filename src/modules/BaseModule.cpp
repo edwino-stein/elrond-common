@@ -21,7 +21,7 @@ void BaseModule::loop(){}
 void BaseModule::onStop(){}
 
 elrond::ModuleType BaseModule::getType() const {
-    return elrond::moduleType::GENERIC;
+    return elrond::ModuleType::GENERIC;
 }
 
 elrond::ModuleLoopControl &BaseModule::getLoopControl(){

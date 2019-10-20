@@ -19,7 +19,8 @@
 
         //Enums
         enum class ModuleType {
-            GENERIC
+            GENERIC,
+            TRANSPORT
         };
 
 
@@ -41,6 +42,7 @@
         // Modules
         namespace modules {
             class BaseModule;
+            class BaseTransportModule;
             class ExampleModule;
         }
 

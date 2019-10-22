@@ -6,7 +6,7 @@
     #include "modules/BaseGpioModule.hpp"
     #include "modules/BaseInputDriverModule.hpp"
 
-    #include "modules/ExampleModule.hpp"
+    #include "modules/Example.hpp"
     #include "modules/LoopbackTransportModule.hpp"
     #include "modules/InputChannelModule.hpp"
     #include "modules/DigitalLed.hpp"

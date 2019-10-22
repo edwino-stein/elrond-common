@@ -30,6 +30,17 @@
                     virtual const elrond::interfaces::DebugOutInterface& putLn() const =0;
 
                     virtual const elrond::interfaces::DebugOutInterface& flush() const =0;
+
+                    #if defined INO_PLATFORM
+                        virtual const elrond::interfaces::DebugOutInterface& put(const __FlashStringHelper *fs) const =0;
+                        virtual const elrond::interfaces::DebugOutInterface& putLn(const __FlashStringHelper *fs) const =0;
+
+                        virtual const elrond::interfaces::DebugOutInterface& put(const Printable& p) const =0;
+                        virtual const elrond::interfaces::DebugOutInterface& putLn(const Printable& p) const =0;
+
+                        virtual const elrond::interfaces::DebugOutInterface& put(const String &s) const =0;
+                        virtual const elrond::interfaces::DebugOutInterface& putLn(const String &s) const =0;
+                    #endif
             };
         }
     }

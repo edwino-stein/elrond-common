@@ -18,8 +18,8 @@ vpath %.c $(SRC_DIR_ROOT)
 .DEFAULT_GOAL := all
 
 # *********************************** RULES ************************************
-include Linux.mk
+include Linux.mk Arduino.mk
 
 $(PROJECT_NAME): all
-all: $(COMMON_PIC_LIB) $(COMMON_NOPIC_LIB)
-clean: clean-build
+all: $(COMMON_PIC_LIB) $(COMMON_NOPIC_LIB) arduino-dist
+clean: clean-build clean-dist

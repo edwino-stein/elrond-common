@@ -20,7 +20,8 @@
         //Enums
         enum class ModuleType {
             GENERIC,
-            TRANSPORT
+            TRANSPORT,
+            INPUT
         };
 
 
@@ -43,6 +44,7 @@
         namespace modules {
             class BaseModule;
             class BaseTransportModule;
+            class BaseInputDriverModule;
             class ExampleModule;
             class LoopbackTransportModule;
         }

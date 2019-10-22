@@ -25,6 +25,11 @@
         #define ELROND_INT32_TYPE int
         #define ELROND_UINT32_TYPE unsigned int
 
+        #define ELROND_GPIO_DIO_TYPE ELROND_UINT16_TYPE
+        #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
+        #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE
+        #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
+
         // Module Definition
         #define DEFINE_MODULE(CLASS)    elrond::interfaces::RuntimeInterface * elrond::__rtInstance__ = NULL;\
                                         extern "C" void _setAppInstance(elrond::interfaces::RuntimeInterface *app){elrond::__rtInstance__ = app;}\

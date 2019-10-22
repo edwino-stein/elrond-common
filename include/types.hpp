@@ -57,6 +57,7 @@
             class ExampleModule;
             class LoopbackTransportModule;
             class InputChannelModule;
+            class DigitalLed;
         }
 
         // Runtime

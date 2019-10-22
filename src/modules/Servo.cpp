@@ -37,35 +37,38 @@ void Servo::onInit(ConfigMap &cfg){
     }, this);
 }
 
-const char *Servo::_getInternalName(){
-    return "elrond::Servo";
-}
+#if defined GENERIC_STD_PLATFORM
 
-const char *Servo::_infoMainClassName(){
-    return "Servo";
-}
+    const char *Servo::_getInternalName(){
+        return "elrond::Servo";
+    }
 
-int Servo::_infoApiVersion(){
-    return ELROND_API_VERSION;
-}
+    const char *Servo::_infoMainClassName(){
+        return "Servo";
+    }
 
-int Servo::_infoApiRevision(){
-    return ELROND_API_REVISION;
-}
+    int Servo::_infoApiVersion(){
+        return ELROND_API_VERSION;
+    }
 
-const char *Servo::_infoPrettyName(){
-    return "Servo";
-}
+    int Servo::_infoApiRevision(){
+        return ELROND_API_REVISION;
+    }
 
-const char *Servo::_infoAuthorName(){
-    return "Edwino Stein";
-}
+    const char *Servo::_infoPrettyName(){
+        return "Servo";
+    }
 
-const char *Servo::_infoAuthorEmail(){
-    return "edwino.stein@gmail.com";
-}
+    const char *Servo::_infoAuthorName(){
+        return "Edwino Stein";
+    }
 
-const char *Servo::_infoVersion(){
-    return "1.0";
-}
+    const char *Servo::_infoAuthorEmail(){
+        return "edwino.stein@gmail.com";
+    }
 
+    const char *Servo::_infoVersion(){
+        return "1.0";
+    }
+
+#endif

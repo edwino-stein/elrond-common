@@ -25,14 +25,16 @@
 
                     virtual void onInit(elrond::config::ConfigMap &cfg) override;
 
-                    static const char *_getInternalName();
-                    static const char *_infoMainClassName();
-                    static int _infoApiVersion();
-                    static int _infoApiRevision();
-                    static const char *_infoPrettyName();
-                    static const char *_infoAuthorName();
-                    static const char *_infoAuthorEmail();
-                    static const char *_infoVersion();
+                    #if defined GENERIC_STD_PLATFORM
+                        static const char *_getInternalName();
+                        static const char *_infoMainClassName();
+                        static int _infoApiVersion();
+                        static int _infoApiRevision();
+                        static const char *_infoPrettyName();
+                        static const char *_infoAuthorName();
+                        static const char *_infoAuthorEmail();
+                        static const char *_infoVersion();
+                    #endif
             };
         }
     }

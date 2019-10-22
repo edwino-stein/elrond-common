@@ -38,35 +38,38 @@ void DigitalLed::onInit(ConfigMap &cfg){
     }, this);
 }
 
-const char *DigitalLed::_getInternalName(){
-    return "elrond::DigitalLed";
-}
+#if defined GENERIC_STD_PLATFORM
 
-const char *DigitalLed::_infoMainClassName(){
-    return "DigitalLed";
-}
+    const char *DigitalLed::_getInternalName(){
+        return "elrond::DigitalLed";
+    }
 
-int DigitalLed::_infoApiVersion(){
-    return ELROND_API_VERSION;
-}
+    const char *DigitalLed::_infoMainClassName(){
+        return "DigitalLed";
+    }
 
-int DigitalLed::_infoApiRevision(){
-    return ELROND_API_REVISION;
-}
+    int DigitalLed::_infoApiVersion(){
+        return ELROND_API_VERSION;
+    }
 
-const char *DigitalLed::_infoPrettyName(){
-    return "Digital LED";
-}
+    int DigitalLed::_infoApiRevision(){
+        return ELROND_API_REVISION;
+    }
 
-const char *DigitalLed::_infoAuthorName(){
-    return "Edwino Stein";
-}
+    const char *DigitalLed::_infoPrettyName(){
+        return "Digital LED";
+    }
 
-const char *DigitalLed::_infoAuthorEmail(){
-    return "edwino.stein@gmail.com";
-}
+    const char *DigitalLed::_infoAuthorName(){
+        return "Edwino Stein";
+    }
 
-const char *DigitalLed::_infoVersion(){
-    return "1.0";
-}
+    const char *DigitalLed::_infoAuthorEmail(){
+        return "edwino.stein@gmail.com";
+    }
 
+    const char *DigitalLed::_infoVersion(){
+        return "1.0";
+    }
+
+#endif

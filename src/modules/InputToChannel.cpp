@@ -1,4 +1,4 @@
-#include "modules/InputChannelModule.hpp"
+#include "modules/InputToChannel.hpp"
 #include "interfaces/RuntimeInterface.hpp"
 #include "runtime/config/ConfigMap.hpp"
 
@@ -9,14 +9,14 @@ using elrond::channel::TxChannel;
 using elrond::input::InputCallback;
 
 /*  ****************************************************************************
-    ********** Implementation for elrond::modules::InputChannelModule **********
+    ************ Implementation for elrond::modules::InputToChannel ************
     ****************************************************************************/
 
 #if !defined WITHOUT_DESTRUCTORS
-    InputChannelModule::~InputChannelModule(){}
+    InputToChannel::~InputToChannel(){}
 #endif
 
-void InputChannelModule::onInit(ConfigMap &cfg){
+void InputToChannel::onInit(ConfigMap &cfg){
 
     this->getLoopControl().allow = false;
 
@@ -36,40 +36,43 @@ void InputChannelModule::onInit(ConfigMap &cfg){
 
     this->txCh.init(ch, chm);
     this->inKey.init(input, inServ, [](elrond::word data, elrond::TaskContext *ctx){
-        InputChannelModule *me = (InputChannelModule *) ctx;
+        InputToChannel *me = (InputToChannel *) ctx;
         me->txCh.trigger(me->inverted ? HIGH_VALUE - data : data);
     }, this);
 }
 
-const char *InputChannelModule::_getInternalName(){
-    return "elrond::InputChannelModule";
-}
+#if defined GENERIC_STD_PLATFORM
 
-const char *InputChannelModule::_infoMainClassName(){
-    return "InputChannelModule";
-}
+    const char *InputToChannel::_getInternalName(){
+        return "elrond::InputToChannel";
+    }
 
-int InputChannelModule::_infoApiVersion(){
-    return ELROND_API_VERSION;
-}
+    const char *InputToChannel::_infoMainClassName(){
+        return "InputToChannel";
+    }
 
-int InputChannelModule::_infoApiRevision(){
-    return ELROND_API_REVISION;
-}
+    int InputToChannel::_infoApiVersion(){
+        return ELROND_API_VERSION;
+    }
 
-const char *InputChannelModule::_infoPrettyName(){
-    return "Input Channel Module";
-}
+    int InputToChannel::_infoApiRevision(){
+        return ELROND_API_REVISION;
+    }
 
-const char *InputChannelModule::_infoAuthorName(){
-    return "Edwino Stein";
-}
+    const char *InputToChannel::_infoPrettyName(){
+        return "Input Channel Module";
+    }
 
-const char *InputChannelModule::_infoAuthorEmail(){
-    return "edwino.stein@gmail.com";
-}
+    const char *InputToChannel::_infoAuthorName(){
+        return "Edwino Stein";
+    }
 
-const char *InputChannelModule::_infoVersion(){
-    return "1.0";
-}
+    const char *InputToChannel::_infoAuthorEmail(){
+        return "edwino.stein@gmail.com";
+    }
 
+    const char *InputToChannel::_infoVersion(){
+        return "1.0";
+    }
+
+#endif

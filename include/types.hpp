@@ -56,7 +56,7 @@
             class BaseInputDriverModule;
             class Example;
             class Loopback;
-            class InputChannelModule;
+            class InputToChannel;
             class DigitalLed;
             class Servo;
         }

@@ -47,6 +47,7 @@
             class BaseInputDriverModule;
             class ExampleModule;
             class LoopbackTransportModule;
+            class InputChannelModule;
         }
 
         // Runtime

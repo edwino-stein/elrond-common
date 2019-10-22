@@ -7,5 +7,6 @@
 
     #include "modules/ExampleModule.hpp"
     #include "modules/LoopbackTransportModule.hpp"
+    #include "modules/InputChannelModule.hpp"
 
 #endif

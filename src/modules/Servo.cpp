@@ -3,6 +3,7 @@
 #include "runtime/config/ConfigMap.hpp"
 
 using namespace elrond::modules;
+using ServoModule = elrond::modules::Servo;
 using elrond::interfaces::RuntimeInterface;
 using elrond::config::ConfigMap;
 using elrond::channel::RxChannel;
@@ -12,10 +13,10 @@ using elrond::channel::RxChannel;
     ****************************************************************************/
 
 #if !defined WITHOUT_DESTRUCTORS
-    Servo::~Servo(){}
+    ServoModule::~Servo(){}
 #endif
 
-void Servo::onInit(ConfigMap &cfg){
+void ServoModule::onInit(ConfigMap &cfg){
 
      this->getLoopControl().allow = false;
 
@@ -32,42 +33,42 @@ void Servo::onInit(ConfigMap &cfg){
 
     this->pin.attach(pin);
     this->ch.init(ch, chm, [](elrond::word data, elrond::TaskContext *ctx){
-        Servo *me = (Servo *) ctx;
+        ServoModule *me = (ServoModule *) ctx;
         me->pin.write(me->inverted ? HIGH_VALUE - data : data);
     }, this);
 }
 
 #if defined GENERIC_STD_PLATFORM
 
-    const char *Servo::_getInternalName(){
+    const char *ServoModule::_getInternalName(){
         return "elrond::Servo";
     }
 
-    const char *Servo::_infoMainClassName(){
+    const char *ServoModule::_infoMainClassName(){
         return "Servo";
     }
 
-    int Servo::_infoApiVersion(){
+    int ServoModule::_infoApiVersion(){
         return ELROND_API_VERSION;
     }
 
-    int Servo::_infoApiRevision(){
+    int ServoModule::_infoApiRevision(){
         return ELROND_API_REVISION;
     }
 
-    const char *Servo::_infoPrettyName(){
+    const char *ServoModule::_infoPrettyName(){
         return "Servo";
     }
 
-    const char *Servo::_infoAuthorName(){
+    const char *ServoModule::_infoAuthorName(){
         return "Edwino Stein";
     }
 
-    const char *Servo::_infoAuthorEmail(){
+    const char *ServoModule::_infoAuthorEmail(){
         return "edwino.stein@gmail.com";
     }
 
-    const char *Servo::_infoVersion(){
+    const char *ServoModule::_infoVersion(){
         return "1.0";
     }
 

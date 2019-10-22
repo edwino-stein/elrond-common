@@ -46,7 +46,7 @@
         #define DEFINE_MODULE_AUTHOR_EMAIL(EMAIL) extern "C" const char *  _infoAuthorEmail(){return EMAIL;}
         #define DEFINE_MODULE_VERSION(VERSION) extern "C" const char *  _infoVersion(){return VERSION;}
 
-    #elif defined ARDUINO_ARCH_AVR
+    #elif defined ARDUINO_ARCH_AVR || defined ESP_PLATFORM
 
         // Includes
         #include "Arduino.h"
@@ -76,6 +76,20 @@
             #define ELROND_GPIO_DIO_TYPE ELROND_UINT8_TYPE
             #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
             #define ELROND_GPIO_SERVO_TYPE Servo
+            #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
+
+        #elif defined ESP_PLATFORM
+
+            #define ELROND_INT8_TYPE char
+            #define ELROND_UINT8_TYPE unsigned char
+            #define ELROND_INT16_TYPE short
+            #define ELROND_UINT16_TYPE unsigned short
+            #define ELROND_INT32_TYPE int
+            #define ELROND_UINT32_TYPE unsigned int
+
+            #define ELROND_GPIO_DIO_TYPE ELROND_UINT8_TYPE
+            #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
+            #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE
             #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
 
         #endif

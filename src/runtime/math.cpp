@@ -35,6 +35,10 @@ double elrond::mod(double v){
     #if defined GENERIC_STD_PLATFORM
         return ::modf(v, nullptr);
     #elif defined INO_PLATFORM
-        return modf(v, nullptr);
+        #if ARDUINO_ARCH_AVR
+            return modf(v, nullptr);
+        #elif defined ESP_PLATFORM
+            return v - ((int) v);
+        #endif
     #endif
 }

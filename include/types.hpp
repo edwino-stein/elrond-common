@@ -58,6 +58,7 @@
             class LoopbackTransportModule;
             class InputChannelModule;
             class DigitalLed;
+            class Servo;
         }
 
         // Runtime

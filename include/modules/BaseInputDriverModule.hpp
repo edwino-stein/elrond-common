@@ -15,6 +15,7 @@
                         virtual ~BaseInputDriverModule();
                     #endif
 
+                    virtual void addInputListener(const elrond::sizeT key, elrond::input::InputCallback *callback)=0;
                     virtual elrond::ModuleType getType() const override;
             };
         }

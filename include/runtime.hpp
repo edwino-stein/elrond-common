@@ -10,6 +10,8 @@
     #include "runtime/channel/TxChannel.hpp"
     #include "runtime/channel/RxChannel.hpp"
 
+    #include "runtime/InputCallback.hpp"
+
     #include "runtime/bitwise.hpp"
     #include "runtime/time.hpp"
     #include "runtime/math.hpp"

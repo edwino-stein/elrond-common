@@ -64,6 +64,11 @@
             class RxChannel;
         }
 
+        namespace input {
+            using onInputT = void (*)(elrond::word, elrond::TaskContext *);
+            class InputCallback;
+        }
+
         //Singleton instance of runtime application
         extern interfaces::RuntimeInterface *__rtInstance__;
         interfaces::RuntimeInterface &app();

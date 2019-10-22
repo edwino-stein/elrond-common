@@ -14,3 +14,7 @@ using namespace elrond::interfaces;
 RuntimeInterface &elrond::app(){return *(elrond::__rtInstance__);}
 const DebugOutInterface &elrond::dout(){ return elrond::app().dout(); }
 void elrond::error(const char *error){ elrond::app().onError(error); }
+
+#if defined INO_PLATFORM
+    void elrond::error(const __FlashStringHelper *error){ elrond::app().onError(error); }
+#endif

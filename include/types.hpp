@@ -97,6 +97,9 @@
         interfaces::RuntimeInterface &app();
         const interfaces::DebugOutInterface &dout();
         void error(const char *error);
+        #if defined INO_PLATFORM
+            void error(const __FlashStringHelper *error);
+        #endif
     }
 
 #endif

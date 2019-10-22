@@ -4,6 +4,9 @@
 #if defined GENERIC_STD_PLATFORM
     #include <cstring>
     #include <cstdio>
+#elif defined INO_PLATFORM
+    #include <string.h>
+    #include <stdio.h>
 #endif
 
 using namespace elrond::config;

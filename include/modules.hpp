@@ -3,6 +3,7 @@
 
     #include "modules/BaseModule.hpp"
     #include "modules/BaseTransportModule.hpp"
+    #include "modules/BaseGpioModule.hpp"
     #include "modules/BaseInputDriverModule.hpp"
 
     #include "modules/ExampleModule.hpp"

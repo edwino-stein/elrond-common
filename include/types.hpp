@@ -21,6 +21,7 @@
         enum class ModuleType {
             GENERIC,
             TRANSPORT,
+            GPIO,
             INPUT
         };
 
@@ -44,6 +45,7 @@
         namespace modules {
             class BaseModule;
             class BaseTransportModule;
+            class BaseGpioModule;
             class BaseInputDriverModule;
             class ExampleModule;
             class LoopbackTransportModule;

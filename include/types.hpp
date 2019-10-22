@@ -55,7 +55,7 @@
             class BaseGpioModule;
             class BaseInputDriverModule;
             class Example;
-            class LoopbackTransportModule;
+            class Loopback;
             class InputChannelModule;
             class DigitalLed;
             class Servo;

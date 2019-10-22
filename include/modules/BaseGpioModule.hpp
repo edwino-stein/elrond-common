@@ -16,6 +16,8 @@
                     #endif
 
                     virtual elrond::ModuleType getType() const override;
+
+                    virtual void attach(elrond::gpio::BaseGpioPin &pin)=0;
             };
         }
     }

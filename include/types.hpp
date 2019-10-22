@@ -25,6 +25,9 @@
             INPUT
         };
 
+        enum class GpioType {
+            UNKNOWN
+        };
 
         // Structs
         struct ModuleLoopControl {
@@ -58,6 +61,12 @@
         namespace config {
             class ConfigMap;
             class ConfigMapAllocator;
+        }
+
+        namespace gpio {
+            class BaseGpioPin;
+            using gpioReadHandleT = elrond::word(*)(elrond::gpio::BaseGpioPin &pin);
+            using gpioWriteHandleT = void (*)(elrond::gpio::BaseGpioPin &pin, elrond::word &data);
         }
 
         namespace channel {

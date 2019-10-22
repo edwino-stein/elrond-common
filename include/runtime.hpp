@@ -6,6 +6,8 @@
     #include "runtime/config/ConfigMap.hpp"
     #include "runtime/config/ConfigMapAllocator.hpp"
 
+    #include "runtime/gpio/BaseGpioPin.hpp"
+
     #include "runtime/channel/BaseChannelManager.hpp"
     #include "runtime/channel/TxChannel.hpp"
     #include "runtime/channel/RxChannel.hpp"

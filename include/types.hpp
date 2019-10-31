@@ -58,6 +58,7 @@
             class Loopback;
             class InputToChannel;
             class DigitalLed;
+            class AnalogLed;
             class Servo;
         }
 

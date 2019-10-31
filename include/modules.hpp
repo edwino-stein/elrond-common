@@ -10,6 +10,7 @@
     #include "modules/Loopback.hpp"
     #include "modules/InputToChannel.hpp"
     #include "modules/DigitalLed.hpp"
+    #include "modules/AnalogLed.hpp"
     #include "modules/Servo.hpp"
 
 #endif

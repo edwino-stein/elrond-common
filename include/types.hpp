@@ -57,6 +57,7 @@
             class Example;
             class Loopback;
             class InputToChannel;
+            class ChannelToChannel;
             class DigitalLed;
             class AnalogLed;
             class Servo;

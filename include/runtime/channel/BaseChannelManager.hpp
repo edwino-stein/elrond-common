@@ -11,6 +11,7 @@
 
                 protected:
                     elrond::modules::BaseTransportModule &transport;
+                    bool hasTxUpdate = false;
 
                     virtual void rxTrigger(const elrond::sizeT ch, const elrond::word data)=0;
                     virtual elrond::byte *getTxBuffer() const =0;
@@ -21,7 +22,8 @@
 
                     virtual void init();
                     virtual void txTrigger(const elrond::sizeT ch, elrond::word data);
-                    virtual void onSend();
+                    virtual bool txSync(const bool force = false);
+
                     virtual void onReceive(elrond::byte data[], const elrond::sizeT length);
                     virtual void addRxListener(const elrond::sizeT ch, elrond::channel::RxChannel *rx)=0;
 

@@ -52,11 +52,14 @@ void BaseChannelManager::txTrigger(const elrond::sizeT ch, const elrond::word da
     ELROND_GET_CH_DATA_HB(txBuffer, offset) = elrond::highByte(data);
     ELROND_GET_CH_DATA_LB(txBuffer, offset) = elrond::lowByte(data);
 
-    this->onSend();
+    this->hasTxUpdate = true;
 }
 
-void BaseChannelManager::onSend(){
+bool BaseChannelManager::txSync(const bool force){
+    if(!(this->hasTxUpdate || force)) return false;
     this->transport.send(this->getTxBuffer(), this->getTxBufferSize());
+    this->hasTxUpdate = false;
+    return true;
 }
 
 void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT length){

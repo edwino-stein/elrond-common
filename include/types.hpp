@@ -102,6 +102,15 @@
         #if defined INO_PLATFORM
             void error(const __FlashStringHelper *error);
         #endif
+
+        //Internal modules
+        using Example = elrond::modules::Example;
+        using Loopback = elrond::modules::Loopback;
+        using InputToChannel = elrond::modules::InputToChannel;
+        using ChannelToChannel = elrond::modules::ChannelToChannel;
+        using DigitalLed = elrond::modules::DigitalLed;
+        using AnalogLed = elrond::modules::AnalogLed;
+        using Servo = elrond::modules::Servo;
     }
 
 #endif

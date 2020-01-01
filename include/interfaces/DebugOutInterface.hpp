@@ -41,6 +41,11 @@
                         virtual const elrond::interfaces::DebugOutInterface& put(const String &s) const =0;
                         virtual const elrond::interfaces::DebugOutInterface& putLn(const String &s) const =0;
                     #endif
+
+                    #if defined GENERIC_STD_PLATFORM
+                        virtual const elrond::interfaces::DebugOutInterface& put(std::string str) const =0;
+                        virtual const elrond::interfaces::DebugOutInterface& putLn(std::string str) const =0;
+                    #endif
             };
         }
     }

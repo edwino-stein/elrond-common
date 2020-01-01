@@ -1,12 +1,10 @@
 #include "modules/BaseModule.hpp"
 #include "interfaces/RuntimeInterface.hpp"
-#include "runtime/config/ConfigMap.hpp"
 #include "interfaces/ConfigMapInterface.hpp"
 
 using namespace elrond::modules;
 using elrond::interfaces::ModuleInterface;
 using elrond::interfaces::RuntimeInterface;
-using elrond::config::ConfigMap;
 using elrond::interfaces::ConfigMapInterface;
 
 /*  ****************************************************************************

@@ -67,10 +67,6 @@
         // Runtime
         class TaskContext;
 
-        namespace config {
-            class ConfigMap;
-        }
-
         namespace gpio {
             class BaseGpioPin;
             template<class T, elrond::GpioType G> class GenericGpioPin;

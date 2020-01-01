@@ -1,12 +1,10 @@
 #include "modules/Loopback.hpp"
-#include "runtime/config/ConfigMap.hpp"
 #include "interfaces/ConfigMapInterface.hpp"
 #include "runtime/channel/BaseChannelManager.hpp"
 
 using namespace elrond::modules;
 using elrond::interfaces::ModuleInterface;
 using elrond::interfaces::RuntimeInterface;
-using elrond::config::ConfigMap;
 using elrond::interfaces::ConfigMapInterface;
 using elrond::channel::BaseChannelManager;
 

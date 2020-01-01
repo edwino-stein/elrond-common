@@ -9,9 +9,9 @@
         elrond::byte lowByte(const elrond::word data);
         elrond::word makeWord(const elrond::byte high, const elrond::byte low);
 
-        elrond::word highWord(const elrond::dword data);
-        elrond::word lowWord(const elrond::dword data);
-        elrond::dword makeDWord(const elrond::word high, elrond::word low);
+        elrond::word highWord(const elrond::dWord data);
+        elrond::word lowWord(const elrond::dWord data);
+        elrond::dWord makeDWord(const elrond::word high, elrond::word low);
     }
 
 #endif

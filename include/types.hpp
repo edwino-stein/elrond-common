@@ -13,7 +13,6 @@
 
         using byte = ELROND_UINT8_TYPE;
         using word = ELROND_UINT16_TYPE;
-        using dword = ELROND_UINT32_TYPE;
         using dWord = ELROND_UINT32_TYPE;
         using sizeT = size_t;
 

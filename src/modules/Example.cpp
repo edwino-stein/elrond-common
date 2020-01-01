@@ -1,12 +1,14 @@
 #include "modules/Example.hpp"
 #include "interfaces/RuntimeInterface.hpp"
 #include "runtime/config/ConfigMap.hpp"
+#include "interfaces/ConfigMapInterface.hpp"
 #include "interfaces/DebugOutInterface.hpp"
 
 using namespace elrond::modules;
 using elrond::interfaces::ModuleInterface;
 using elrond::interfaces::RuntimeInterface;
 using elrond::config::ConfigMap;
+using elrond::interfaces::ConfigMapInterface;
 
 /*  ****************************************************************************
     *************** Implementation for elrond::modules::Example ****************
@@ -16,7 +18,7 @@ using elrond::config::ConfigMap;
     Example::~Example(){}
 #endif
 
-void Example::onInit(ConfigMap &cfg) {
+void Example::onInit(ConfigMapInterface &cfg) {
     elrond::dout().putLn("Example::onInit");
 
     this->getLoopControl().time = 100;

@@ -21,7 +21,7 @@
                     virtual elrond::ModuleType getType() const override;
                     virtual elrond::ModuleLoopControl &getLoopControl() override;
 
-                    virtual void onInit(elrond::config::ConfigMap &cfg) override;
+                    virtual void onInit(elrond::interfaces::ConfigMapInterface &cfg) override;
                     virtual void onStart() override;
                     virtual void loop() override;
                     virtual void onStop() override;

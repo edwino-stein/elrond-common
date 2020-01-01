@@ -23,7 +23,7 @@
                         virtual ~DigitalLed();
                     #endif
 
-                    virtual void onInit(elrond::config::ConfigMap &cfg) override;
+                    virtual void onInit(elrond::interfaces::ConfigMapInterface &cfg) override;
 
                     #if defined GENERIC_STD_PLATFORM
                         static const char *_getInternalName();

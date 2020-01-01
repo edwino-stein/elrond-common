@@ -4,7 +4,6 @@
     #include "runtime/TaskContext.hpp"
 
     #include "runtime/config/ConfigMap.hpp"
-    #include "runtime/config/ConfigMapAllocator.hpp"
 
     #include "runtime/gpio/BaseGpioPin.hpp"
     #include "runtime/gpio/GenericGpioPin.hpp"

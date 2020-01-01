@@ -69,7 +69,6 @@
 
         namespace config {
             class ConfigMap;
-            class ConfigMapAllocator;
         }
 
         namespace gpio {

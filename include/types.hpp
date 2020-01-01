@@ -44,7 +44,6 @@
         namespace interfaces {
             class RuntimeInterface;
             class ModuleInterface;
-            class ConfigMapMemoryInterface;
             class ConfigMapInterface;
             class DebugOutInterface;
         }

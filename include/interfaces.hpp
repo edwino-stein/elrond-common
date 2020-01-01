@@ -3,7 +3,6 @@
 
     #include "interfaces/RuntimeInterface.hpp"
     #include "interfaces/ModuleInterface.hpp"
-    #include "interfaces/ConfigMapMemoryInterface.hpp"
     #include "interfaces/ConfigMapInterface.hpp"
     #include "interfaces/DebugOutInterface.hpp"
 

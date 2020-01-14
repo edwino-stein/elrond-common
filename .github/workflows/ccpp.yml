@@ -3,13 +3,13 @@ name: C/C++ CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test-ubuntu:
 
     runs-on: ubuntu-18.04
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: make libelrond.a 
       run: make libelrond.a
-    - name: make test-all
-      run: make test-all
+    - name: make test-all a="-s -d yes"
+      run: make test-all a="-s -d yes"

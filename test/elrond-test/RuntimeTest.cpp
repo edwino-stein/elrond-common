@@ -92,7 +92,7 @@ RuntimeTest& RuntimeTest::set(DebugOutInterface &dout)
     return *this;
 }
 
-void RuntimeTest::setAppInstance(elrond::interfaces::RuntimeInterface& app)
+void RuntimeTest::setAppInstance(elrond::interfaces::RuntimeInterface* app)
 {
-    elrond::__rtInstance__ = &app;
+    elrond::__rtInstance__ = app;
 }

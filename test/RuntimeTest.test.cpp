@@ -11,7 +11,7 @@ TEST_CASE("Runtime application for Elrond Test Library")
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(appt);
+    RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     Example inst;

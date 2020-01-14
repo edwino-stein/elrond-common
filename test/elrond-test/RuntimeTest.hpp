@@ -43,7 +43,7 @@
                     RuntimeTest& set(elrond::channel::BaseChannelManager &chmgr);
                     RuntimeTest& set(elrond::interfaces::DebugOutInterface &dout);
 
-                    static void setAppInstance(elrond::interfaces::RuntimeInterface& app);
+                    static void setAppInstance(elrond::interfaces::RuntimeInterface* app);
             };
         }
     }

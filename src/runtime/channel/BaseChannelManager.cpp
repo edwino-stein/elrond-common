@@ -79,7 +79,7 @@ void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT leng
             ELROND_GET_CH_INDEX(data, offset),
             elrond::makeWord(
                 ELROND_GET_CH_DATA_HB(data, offset),
-                ELROND_GET_CH_DATA_HB(data, offset)
+                ELROND_GET_CH_DATA_LB(data, offset)
             )
         );
 

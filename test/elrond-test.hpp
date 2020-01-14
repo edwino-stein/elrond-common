@@ -3,6 +3,7 @@
 
     #include "elrond-test/ConfigMap.hpp"
     #include "elrond-test/RuntimeTest.hpp"
+    #include "elrond-test/TransportTest.hpp"
     #include "elrond-test/DebugOut.hpp"
 
     #include "catch.hpp"

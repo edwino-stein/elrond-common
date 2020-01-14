@@ -1,5 +1,4 @@
 # General settings
-MAKE_FILE = test.mk
 SRC_DIR = test
 BUILD_DIR = build/$(SRC_DIR)
 

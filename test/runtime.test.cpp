@@ -4,12 +4,9 @@ TEST_CASE("Bitwise functions for Elrond Test Library", "[bitwise],[runtime]" )
 {
     REQUIRE(elrond::highByte(0xABCD) == 0xAB);
     REQUIRE(elrond::highByte(0xCD) == 0x00);
-
     REQUIRE(elrond::lowByte(0xABCD) == 0xCD);
     REQUIRE(elrond::lowByte(0xABCD) == 0xCD);
-
     REQUIRE(elrond::makeWord(0xAB, 0xCD) == 0xABCD);
-
 
     REQUIRE(elrond::highWord(0x1234ABCD) == 0x1234);
     REQUIRE(elrond::lowWord(0x1234ABCD) == 0xABCD);

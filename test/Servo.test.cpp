@@ -11,7 +11,7 @@ using elrond::modules::Servo;
 using elrond::gpio::BaseGpioPin;
 using elrond::gpio::ServoPin;
 
-TEST_CASE("Servo LED module params test (no channel)")
+TEST_CASE("Servo module params test (no channel)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
@@ -27,7 +27,7 @@ TEST_CASE("Servo LED module params test (no channel)")
     }());
 }
 
-TEST_CASE("Servo LED module params test (no pin)")
+TEST_CASE("Servo module params test (no pin)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
@@ -45,7 +45,7 @@ TEST_CASE("Servo LED module params test (no pin)")
     }());
 }
 
-TEST_CASE("Servo LED module params test (invalid gpio)")
+TEST_CASE("Servo module params test (invalid gpio)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
@@ -64,7 +64,7 @@ TEST_CASE("Servo LED module params test (invalid gpio)")
     }());
 }
 
-TEST_CASE("Servo LED module params test (invalid channel manager)")
+TEST_CASE("Servo module params test (invalid channel manager)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
@@ -86,7 +86,7 @@ TEST_CASE("Servo LED module params test (invalid channel manager)")
     }());
 }
 
-TEST_CASE("Servo LED module (normal)")
+TEST_CASE("Servo module (normal)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
@@ -131,7 +131,7 @@ TEST_CASE("Servo LED module (normal)")
     }());
 }
 
-TEST_CASE("Servo LED module (inverted)")
+TEST_CASE("Servo module (inverted)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(

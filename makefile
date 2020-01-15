@@ -24,8 +24,8 @@ all: $(COMMON_PIC_LIB) $(COMMON_NONPIC_LIB) arduino-dist
 
 clean: clean-build clean-dist
 
-test: $(COMMON_NONPIC_LIB)
-	@$(MAKE) --no-print-directory -f test.mk run t="$(t)" l="build/$(COMMON_NONPIC_LIB)" a="$a"
+test: $(BUILD_DIR)/$(COMMON_NONPIC_LIB)
+	@$(MAKE) --no-print-directory -f test.mk run t="$(t)" l="$(BUILD_DIR)/$(COMMON_NONPIC_LIB)" a="$a"
 
-test-all: $(COMMON_NONPIC_LIB)
-	@$(MAKE) --no-print-directory -f test.mk all l="build/$(COMMON_NONPIC_LIB)" a="$a"
+test-all: $(BUILD_DIR)/$(COMMON_NONPIC_LIB)
+	@$(MAKE) --no-print-directory -f test.mk all l="$(BUILD_DIR)/$(COMMON_NONPIC_LIB)" a="$a"

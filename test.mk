@@ -34,9 +34,11 @@ all: $(ALL_TEST_SRC) $(LIB_CATCH_OBJ) $(LIB_TEST)
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ $(LSLIBS) $(MACROS) -o $(BUILD_DIR)/all.test $(LDFLAGS) $(LDLIBS)
 	./$(BUILD_DIR)/all.test $(a)
+	rm -f $(BUILD_DIR)/all.test
 
 run: $(BUILD_DIR)/$(notdir $(basename $(t)))
 	./$^ $a
+	rm -f $^
 
 clean:
 	rm -rf $(BUILD_DIR)

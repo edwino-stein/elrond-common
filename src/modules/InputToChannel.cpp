@@ -41,7 +41,7 @@ void InputToChannel::onInit(ConfigMapInterface &cfg){
     }, this);
 }
 
-#if defined GENERIC_STD_PLATFORM
+#ifdef ELROND_WITH_MODULES_INFO
 
     const char *InputToChannel::_getInternalName(){
         return "elrond::InputToChannel";

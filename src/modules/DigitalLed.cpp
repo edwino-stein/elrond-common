@@ -38,7 +38,7 @@ void DigitalLed::onInit(ConfigMapInterface &cfg){
     }, this);
 }
 
-#if defined GENERIC_STD_PLATFORM
+#ifdef ELROND_WITH_MODULES_INFO
 
     const char *DigitalLed::_getInternalName(){
         return "elrond::DigitalLed";

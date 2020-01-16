@@ -38,7 +38,7 @@ void AnalogLed::onInit(ConfigMapInterface &cfg){
     }, this);
 }
 
-#if defined GENERIC_STD_PLATFORM
+#ifdef ELROND_WITH_MODULES_INFO
 
     const char *AnalogLed::_getInternalName(){
         return "elrond::AnalogLed";

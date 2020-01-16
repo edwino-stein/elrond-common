@@ -59,9 +59,10 @@
     /* *********************************************************************** */
 
     // Build Options
-    // #define ELROND_WITH_LINKED_NODES
+    #define ELROND_WITH_MODULES_INFO
     #define ELROND_WITH_DESTRUCTORS
     #define ELROND_WITH_STR_TYPE
+    // #define ELROND_WITH_LINKED_NODES
 
     // Includes
     #include <iostream>

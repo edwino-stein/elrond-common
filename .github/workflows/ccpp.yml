@@ -1,15 +1,18 @@
-name: C/C++ CI
+name: Build and test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  build-and-test-ubuntu:
+    build-and-test-linux:
+        name: Build and test on ${{matrix.os}}
+        runs-on: ${{ matrix.os }}
 
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: make libelrond.a 
-      run: make libelrond.a
-    - name: make test-all a="-s -d yes"
-      run: make test-all a="-s -d yes"
+        strategy:
+            matrix:
+                os: [ubuntu-latest, ubuntu-18.04, ubuntu-16.04]
+        steps:
+            - uses: actions/checkout@v1
+            - name: Building the libelrond.a 
+              run: make libelrond.a
+            - name: Building and doing all tests
+              run: make test-all a="-s -d yes"

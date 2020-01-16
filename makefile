@@ -5,7 +5,6 @@ INCLUDE_DIR = include
 
 # Search for all srcs and includes files
 SRC_FILES = $(shell find $(SRC_DIR) -type f \( -name "*.cpp" -or -name "*.c" \) )
-INCLUDE_FILES = $(shell find $(INCLUDE_DIR) -type f \( -name "*.hpp" -or -name "*.h" \) )
 
 # Defines src path and source file extensions
 VPATH = src: $(SRC_DIR)
@@ -18,11 +17,11 @@ vpath %.c $(SRC_DIR)
 .DEFAULT_GOAL := all
 
 # *********************************** RULES ************************************
-include Linux.mk Arduino.mk
+include Linux.mk
 
-all: $(COMMON_PIC_LIB) $(COMMON_NONPIC_LIB) arduino-dist
+all: $(COMMON_PIC_LIB) $(COMMON_NONPIC_LIB)
 
-clean: clean-build clean-dist
+clean: clean-build
 
 test: $(BUILD_DIR)/$(COMMON_NONPIC_LIB)
 	@$(MAKE) --no-print-directory -f test.mk run t="$(t)" l="$(BUILD_DIR)/$(COMMON_NONPIC_LIB)" a="$a"

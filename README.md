@@ -1,5 +1,9 @@
 # Elrond Common Library
 
+<p align="right" >
+ <img src="https://github.com/edwino-stein/elrond-common/workflows/Build%20and%20test/badge.svg" />
+</p>
+
 Open source framework for remotely controlled models and things, focusing on modularization and easy configuration with a declarative syntax.
 
 The **Elrond Common Library** is the core of the Elrond Project. The **ECL** provides a API and an abstraction layer for Elrond Modules works on differents platforms without code modifications.

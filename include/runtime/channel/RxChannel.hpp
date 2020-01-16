@@ -7,9 +7,10 @@
         namespace channel {
             class RxChannel {
 
-                elrond::word _data;
-                elrond::channel::onReceiveT handle;
-                elrond::TaskContext *ctx = nullptr;
+                protected:
+                    elrond::word _data;
+                    elrond::channel::onReceiveT handle;
+                    elrond::TaskContext *ctx = nullptr;
 
                 public:
 

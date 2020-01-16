@@ -33,10 +33,12 @@ long int elrond::abs(long int v){
 
 double elrond::mod(double v){
     #if defined GENERIC_STD_PLATFORM
-        return ::modf(v, nullptr);
+        double i;
+        return ::modf(v, &i);
     #elif defined INO_PLATFORM
         #if ARDUINO_ARCH_AVR
-            return modf(v, nullptr);
+            double i;
+            return modf(v, &i);
         #elif defined ESP_PLATFORM
             return v - ((int) v);
         #endif

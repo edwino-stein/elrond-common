@@ -8,7 +8,7 @@ using elrond::interfaces::DebugOutInterface;
     ************ elrond::interfaces::ModuleInterface implementations ***********
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     ModuleInterface::~ModuleInterface(){}
 #endif
 

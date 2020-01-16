@@ -12,7 +12,7 @@ using elrond::channel::BaseChannelManager;
     ************** Implementation for elrond::modules::Loopback ****************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     Loopback::~Loopback(){}
 #endif
 

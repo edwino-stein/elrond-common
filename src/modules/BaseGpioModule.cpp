@@ -5,7 +5,7 @@ using namespace elrond::modules;
     ************ Implementation for elrond::modules::BaseGpioModule ************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     BaseGpioModule::~BaseGpioModule(){}
 #endif
 

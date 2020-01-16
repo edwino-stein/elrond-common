@@ -11,7 +11,7 @@
 
                 public:
 
-                    #if !defined WITHOUT_DESTRUCTORS
+                    #ifdef ELROND_WITH_DESTRUCTORS
                         virtual ~BaseInputDriverModule();
                     #endif
 

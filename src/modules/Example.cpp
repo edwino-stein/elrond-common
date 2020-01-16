@@ -12,7 +12,7 @@ using elrond::interfaces::ConfigMapInterface;
     *************** Implementation for elrond::modules::Example ****************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     Example::~Example(){}
 #endif
 

@@ -12,7 +12,7 @@ using elrond::input::InputCallback;
     ************ Implementation for elrond::modules::InputToChannel ************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     InputToChannel::~InputToChannel(){}
 #endif
 

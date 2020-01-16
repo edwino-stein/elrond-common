@@ -11,7 +11,7 @@ using elrond::interfaces::ConfigMapInterface;
     ************** Implementation for elrond::modules::BaseModule **************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     BaseModule::~BaseModule(){}
 #endif
 

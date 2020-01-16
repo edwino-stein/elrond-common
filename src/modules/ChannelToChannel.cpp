@@ -12,7 +12,7 @@ using elrond::channel::RxChannel;
     *********** Implementation for elrond::modules::ChannelToChannel ***********
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     ChannelToChannel::~ChannelToChannel(){}
 #endif
 

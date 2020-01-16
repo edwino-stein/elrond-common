@@ -19,7 +19,7 @@
                     void init(const elrond::sizeT chId, const elrond::sizeT chm, elrond::channel::onReceiveT handle, elrond::TaskContext *ctx = nullptr);
                     void trigger(const elrond::word data);
 
-                    #if defined USE_LINKED_NODES
+                    #ifdef ELROND_WITH_LINKED_NODES
                         RxChannel *_nextNode = nullptr;
                     #endif
             };

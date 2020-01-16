@@ -59,7 +59,7 @@
     /* *********************************************************************** */
 
     // Build Options
-    // #define USE_LINKED_NODES
+    // #define ELROND_WITH_LINKED_NODES
     // #define WITHOUT_DESTRUCTORS
     #define ELROND_WITH_STR_TYPE
 

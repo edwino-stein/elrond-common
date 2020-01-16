@@ -15,7 +15,7 @@ ARFLAGS = rvs
 
 # Params lists
 INCLUDES = $(INCLUDE_DIR)
-MACROS = GENERIC_STD_PLATFORM LINUX_PLATFORM $(m)
+MACROS = $(m)
 
 # Elrond COMMON library setup
 COMMON_NAME_LIB = lib$(PROJECT_NAME)

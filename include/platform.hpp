@@ -19,6 +19,41 @@
 
     #include "version.hpp"
 
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+
+        #define GENERIC_STD_PLATFORM
+        #define WINDOWS_PLATFORM
+
+        #ifdef _WIN64
+            #define WINDOWS_64_PLATFORM
+        #else
+            #define WINDOWS_32_PLATFORM
+        #endif
+
+        #error "Incompatible Windows Platform."
+
+    #elif __APPLE__
+
+        #include <TargetConditionals.h>
+
+        #define GENERIC_STD_PLATFORM
+        #define APPLE_PLATFORM
+
+        #if TARGET_OS_MAC
+            #define MACOS_PLATFORM
+        #else
+            #error "Incompatible Apple Platform."
+        #endif
+
+    #elif __linux__
+
+        #define GENERIC_STD_PLATFORM
+        #define LINUX_PLATFORM
+
+    #else
+        #error "Incompatible Platform"
+    #endif
+
     /* *********************************************************************** */
     /* ************************* Platform definitions ************************ */
     /* *********************************************************************** */

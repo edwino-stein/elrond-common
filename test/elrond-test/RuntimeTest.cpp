@@ -68,6 +68,13 @@ void RuntimeTest::onError(const char *error)
     throw std::string("Error: ") + error;
 }
 
+#ifdef ELROND_WITH_STR_TYPE
+    void RuntimeTest::onError(elrond::String error)
+    {
+        throw std::string("Error: ") + error;
+    }
+#endif
+
 RuntimeTest& RuntimeTest::set(BaseGpioModule& gpio)
 {
     this->gpio = &gpio;

@@ -69,15 +69,6 @@ const DebugOutInterface& DebugOut::put(double d) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(std::string str) const
-{
-    std::ostringstream oss;
-    oss << str;
-    this->handle(oss);
-    return *this;
-}
-
-
 const DebugOutInterface& DebugOut::putLn(const char c[]) const
 {
     std::ostringstream oss;
@@ -142,14 +133,6 @@ const DebugOutInterface& DebugOut::putLn(double d) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(std::string str) const
-{
-    std::ostringstream oss;
-    oss << str << std::endl;
-    this->handle(oss);
-    return *this;
-}
-
 const DebugOutInterface& DebugOut::putLn() const
 {
     std::ostringstream oss;
@@ -159,3 +142,23 @@ const DebugOutInterface& DebugOut::putLn() const
 }
 
 const DebugOutInterface& DebugOut::flush() const { return *this; }
+
+#ifdef ELROND_WITH_STR_TYPE
+
+    const DebugOutInterface& DebugOut::put(elrond::String str) const
+    {
+        std::ostringstream oss;
+        oss << str;
+        this->handle(oss);
+        return *this;
+    }
+
+    const DebugOutInterface& DebugOut::putLn(elrond::String str) const
+    {
+        std::ostringstream oss;
+        oss << str << std::endl;
+        this->handle(oss);
+        return *this;
+    }
+
+#endif

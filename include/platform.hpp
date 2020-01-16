@@ -61,9 +61,14 @@
     // Build Options
     // #define USE_LINKED_NODES
     // #define WITHOUT_DESTRUCTORS
+    #define ELROND_WITH_STR_TYPE
 
     // Includes
     #include <iostream>
+
+    #ifdef ELROND_WITH_STR_TYPE
+        #include <string>
+    #endif
 
     // Constants
     #define HIGH_VALUE 0xFFFF
@@ -82,7 +87,12 @@
     #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE
     #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
 
-    #define STR(S) S
+    #ifdef ELROND_WITH_STR_TYPE
+        #define ELROND_STR_TYPE std::string
+        #define ELROND_STR(S) ELROND_STR_TYPE(S)
+    #else
+        #define ELROND_STR(S) S
+    #endif
 
     // Module Definition
     #define DEFINE_MODULE(CLASS)    elrond::interfaces::RuntimeInterface * elrond::__rtInstance__ = NULL;\
@@ -97,6 +107,5 @@
     #define DEFINE_MODULE_AUTHOR_NAME(NAME) extern "C" const char *  _infoAuthorName(){return NAME;}
     #define DEFINE_MODULE_AUTHOR_EMAIL(EMAIL) extern "C" const char *  _infoAuthorEmail(){return EMAIL;}
     #define DEFINE_MODULE_VERSION(VERSION) extern "C" const char *  _infoVersion(){return VERSION;}
-
 
 #endif

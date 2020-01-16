@@ -16,6 +16,10 @@
         using dWord = ELROND_UINT32_TYPE;
         using sizeT = size_t;
 
+        #ifdef ELROND_WITH_STR_TYPE
+            using String = ELROND_STR_TYPE;
+        #endif
+
         //Enums
         enum class ModuleType {
             GENERIC,
@@ -93,8 +97,8 @@
         interfaces::RuntimeInterface &app();
         const interfaces::DebugOutInterface &dout();
         void error(const char *error);
-        #if defined INO_PLATFORM
-            void error(const __FlashStringHelper *error);
+        #ifdef ELROND_WITH_STR_TYPE
+            void error(elrond::String error);
         #endif
 
         //Internal modules

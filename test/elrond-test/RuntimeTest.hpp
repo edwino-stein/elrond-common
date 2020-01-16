@@ -36,7 +36,12 @@
                     elrond::modules::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
                     elrond::channel::BaseChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
                     const elrond::interfaces::DebugOutInterface &dout() const override;
+
                     void onError(const char *error) override;
+
+                    #ifdef ELROND_WITH_STR_TYPE
+                        void onError(elrond::String error) override;
+                    #endif
 
                     RuntimeTest& set(elrond::modules::BaseGpioModule& gpio);
                     RuntimeTest& set(elrond::modules::BaseInputDriverModule &input);

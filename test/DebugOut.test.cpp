@@ -41,7 +41,9 @@ TEST_CASE("DebugOut for Elrond Test Library (string)", "[debug]" )
     );
 
     dout.put("hello world");
-    dout.put(std::string("hello world"));
+
+    elrond::String estr = ELROND_STR("hello world");
+    dout.put(estr);
 }
 
 TEST_CASE("DebugOut for Elrond Test Library (char)", "[debug]" )

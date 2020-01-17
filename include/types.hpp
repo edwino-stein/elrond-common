@@ -90,8 +90,8 @@
         }
 
         namespace input {
-            using onInputT = void (*)(elrond::word, elrond::TaskContext *);
             class InputCallback;
+            using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
         }
 
         //Singleton instance of runtime application

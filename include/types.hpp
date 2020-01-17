@@ -13,10 +13,12 @@
         using int32 = ELROND_INT32_TYPE;
         using uInt32 = ELROND_UINT32_TYPE;
 
+        using sizeT = ELROND_SIZE_TYPE;
+        using timeT = ELROND_TIME_TYPE;
+
         using byte = ELROND_UINT8_TYPE;
         using word = ELROND_UINT16_TYPE;
         using dWord = ELROND_UINT32_TYPE;
-        using sizeT = size_t;
 
         #ifdef ELROND_WITH_STR_TYPE
             using String = ELROND_STR_TYPE;

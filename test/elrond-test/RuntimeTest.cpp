@@ -22,7 +22,7 @@ const RuntimeTest& RuntimeTest::start(ModuleInterface& inst, std::function<bool(
 {
     inst.onStart();
 
-    unsigned long timeout = 0;
+    elrond::timeT timeout = 0;
     const auto allow = inst.getLoopControl().allow;
     const auto loopTime = inst.getLoopControl().time;
 

@@ -88,6 +88,9 @@
     #define ELROND_INT32_TYPE int
     #define ELROND_UINT32_TYPE unsigned int
 
+    #define ELROND_SIZE_TYPE std::size_t
+    #define ELROND_TIME_TYPE unsigned long long
+
     #define ELROND_GPIO_DIO_TYPE ELROND_UINT16_TYPE
     #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
     #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE

@@ -3,7 +3,7 @@
 using elrond::test::DebugOut;
 using elrond::interfaces::DebugOutInterface;
 
-DebugOut::DebugOut(std::function<void(std::ostringstream&)> handle): handle(handle) {}
+DebugOut::DebugOut(DebugOutHandleT handle): handle(handle) {}
 
 const DebugOutInterface& DebugOut::put(const char c[]) const
 {

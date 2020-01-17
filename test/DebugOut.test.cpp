@@ -1,15 +1,15 @@
 #include "elrond-test.hpp"
 #include <string>
+#include <sstream>
 
 using elrond::test::DebugOut;
 
 TEST_CASE("DebugOut for Elrond Test Library (int)", "[debug]" )
 {
-
     DebugOut dout(
         [](std::ostringstream& oss)
         {
-            REQUIRE(oss.str() == "123");
+            CHECK(oss.str() == "123");
         }
     );
 
@@ -19,11 +19,10 @@ TEST_CASE("DebugOut for Elrond Test Library (int)", "[debug]" )
 
 TEST_CASE("DebugOut for Elrond Test Library (double)", "[debug]" )
 {
-
     DebugOut dout(
         [](std::ostringstream& oss)
         {
-            REQUIRE(oss.str() == "123.456");
+            CHECK(oss.str() == "123.456");
         }
     );
 
@@ -32,11 +31,10 @@ TEST_CASE("DebugOut for Elrond Test Library (double)", "[debug]" )
 
 TEST_CASE("DebugOut for Elrond Test Library (string)", "[debug]" )
 {
-
     DebugOut dout(
         [](std::ostringstream& oss)
         {
-            REQUIRE(oss.str() == "hello world");
+            CHECK(oss.str() == "hello world");
         }
     );
 
@@ -48,11 +46,10 @@ TEST_CASE("DebugOut for Elrond Test Library (string)", "[debug]" )
 
 TEST_CASE("DebugOut for Elrond Test Library (char)", "[debug]" )
 {
-
     DebugOut dout(
         [](std::ostringstream& oss)
         {
-            REQUIRE(oss.str() == "c");
+            CHECK(oss.str() == "c");
         }
     );
 

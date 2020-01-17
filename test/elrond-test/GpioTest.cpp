@@ -6,13 +6,15 @@ using elrond::gpio::DOutPin;
 using elrond::gpio::AInPin;
 using elrond::gpio::ServoPin;
 using elrond::gpio::PwmPin;
+using elrond::gpio::WriteHandleT;
+using elrond::gpio::ReadHandleT;
 
-GpioTest* GpioTest::currentGpio = nullptr;
-
-GpioTest::GpioTest(const bool current, onWriteActionT onWrite, onReadActionT onRead)
+GpioTest::GpioTest(WriteHandleT onWrite, ReadHandleT onRead)
 {
+    GpioTest &me = *this;
+
     if(onWrite == nullptr){
-        this->onWrite = [](BaseGpioPin& pin, elrond::word data, GpioTest& me)
+        this->onWrite = [&me](BaseGpioPin& pin, const elrond::word data)
         {
             switch (pin.getType()) {
                 case elrond::GpioType::DOUT: me.write((DOutPin&) pin, data); break;
@@ -27,7 +29,7 @@ GpioTest::GpioTest(const bool current, onWriteActionT onWrite, onReadActionT onR
     }
 
     if(onRead == nullptr){
-        this->onRead = [](BaseGpioPin& pin, GpioTest& me)
+        this->onRead = [&me](BaseGpioPin& pin)
         {
             switch (pin.getType()) {
                 case elrond::GpioType::DOUT: return me.read((DOutPin&) pin); break;
@@ -42,15 +44,13 @@ GpioTest::GpioTest(const bool current, onWriteActionT onWrite, onReadActionT onR
     else {
         this->onRead = onRead;
     }
-
-    if(current) GpioTest::setCurrentGpio(this);
 }
 
 void GpioTest::attach(BaseGpioPin &pin)
 {
     if(pin.getType() == elrond::GpioType::UNKNOWN) throw "Invalid GPIO pin type";
-    pin.setReadHandle(GpioTest::read);
-    pin.setWriteHandle(GpioTest::write);
+    pin.setWriteHandle(this->onWrite);
+    pin.setReadHandle(this->onRead);
 }
 
 DOutPin& GpioTest::attachDOut(int pin)
@@ -122,25 +122,6 @@ void GpioTest::simulateAin(const int pin, const elrond::word data)
     auto it = this->testAinValues.find(pin);
     if(it != this->testAinValues.end()) this->testAinValues.erase(it);
     this->testAinValues[pin] = data;
-}
-
-void GpioTest::write(BaseGpioPin &pin, elrond::word& data)
-{
-    if(GpioTest::currentGpio == nullptr) return;
-    auto gpio = GpioTest::currentGpio;
-    if(gpio->onWrite != nullptr) gpio->onWrite(pin, data, *gpio);
-}
-
-elrond::word GpioTest::read(BaseGpioPin &pin)
-{
-    if(GpioTest::currentGpio == nullptr) return 0;
-    auto gpio = GpioTest::currentGpio;
-    return gpio->onRead != nullptr ? gpio->onRead(pin, *gpio) : 0;
-}
-
-void GpioTest::setCurrentGpio(GpioTest* gpio)
-{
-    GpioTest::currentGpio = gpio;
 }
 
 GpioTest::TestDOutPin::TestDOutPin(int pin) { this->pin = pin; }

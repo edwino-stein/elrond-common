@@ -3,7 +3,6 @@
 
     #include "elrond.hpp"
 
-    #include <functional>
     #include <vector>
     #include <memory>
     #include <map>
@@ -14,8 +13,6 @@
             class GpioTest : public elrond::modules::BaseGpioModule {
 
                 private:
-                    using onWriteActionT = std::function<void(elrond::gpio::BaseGpioPin&, elrond::word, GpioTest&)>;
-                    using onReadActionT = std::function<elrond::word(elrond::gpio::BaseGpioPin&, GpioTest&)>;
 
                     class TestDOutPin: public elrond::gpio::DOutPin
                     { public: TestDOutPin(int pin); };
@@ -31,17 +28,19 @@
 
                 protected:
 
-                    static GpioTest* currentGpio;
-
-                    onWriteActionT onWrite;
-                    onReadActionT onRead;
+                    elrond::gpio::WriteHandleT onWrite;
+                    elrond::gpio::ReadHandleT onRead;
 
                     using BaseGpioPinP = std::unique_ptr<elrond::gpio::BaseGpioPin>;
                     std::vector<BaseGpioPinP> testPinInsts;
                     std::map<int, elrond::word> testAinValues;
 
                 public:
-                    GpioTest(const bool current = true, onWriteActionT onWrite = nullptr, onReadActionT onRead = nullptr);
+
+                    GpioTest(
+                        elrond::gpio::WriteHandleT onWrite = nullptr,
+                        elrond::gpio::ReadHandleT onRead = nullptr
+                    );
 
                     void attach(elrond::gpio::BaseGpioPin &pin) override;
                     elrond::gpio::DOutPin& attachDOut(int pin);
@@ -59,10 +58,6 @@
                     elrond::word read(elrond::gpio::AInPin& pin) const;
 
                     void simulateAin(const int pin, const elrond::word data);
-
-                    static void write(elrond::gpio::BaseGpioPin &pin, elrond::word& data);
-                    static elrond::word read(elrond::gpio::BaseGpioPin &pin);
-                    static void setCurrentGpio(GpioTest* gpio);
             };
         }
     }

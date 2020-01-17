@@ -11,8 +11,8 @@
                 protected:
 
                     int pin = -1;
-                    elrond::gpio::gpioReadHandleT readHandle = nullptr;
-                    elrond::gpio::gpioWriteHandleT writeHandle = nullptr;
+                    elrond::gpio::ReadHandleT readHandle = nullptr;
+                    elrond::gpio::WriteHandleT writeHandle = nullptr;
 
                 public:
 
@@ -21,10 +21,10 @@
                     virtual elrond::GpioType getType() const =0;
 
                     virtual elrond::word read();
-                    virtual void write(elrond::word data);
+                    virtual void write(const elrond::word data);
 
-                    virtual void setReadHandle(elrond::gpio::gpioReadHandleT handle);
-                    virtual void setWriteHandle(elrond::gpio::gpioWriteHandleT handle);
+                    virtual void setReadHandle(elrond::gpio::ReadHandleT handle);
+                    virtual void setWriteHandle(elrond::gpio::WriteHandleT handle);
             };
         }
     }

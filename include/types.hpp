@@ -73,9 +73,9 @@
 
         namespace gpio {
             class BaseGpioPin;
-            template<class T, elrond::GpioType G> class GenericGpioPin;
-            using gpioReadHandleT = elrond::word(*)(elrond::gpio::BaseGpioPin &pin);
-            using gpioWriteHandleT = void (*)(elrond::gpio::BaseGpioPin &pin, elrond::word &data);
+            using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
+            using WriteHandleT = ELROND_LAMBDA_FUNC(void, elrond::gpio::BaseGpioPin&, const elrond::word);
+            template <class T, elrond::GpioType G> class GenericGpioPin;
             using DOutPin = GenericGpioPin<ELROND_GPIO_DIO_TYPE, elrond::GpioType::DOUT>;
             using AInPin = GenericGpioPin<ELROND_GPIO_AIO_TYPE, elrond::GpioType::AIN>;
             using ServoPin = GenericGpioPin<ELROND_GPIO_SERVO_TYPE, elrond::GpioType::SERVO>;

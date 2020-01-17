@@ -5,7 +5,6 @@
 
     #include <vector>
     #include <memory>
-    #include <functional>
 
     namespace elrond {
         namespace test {
@@ -20,12 +19,9 @@
 
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
 
-                    class RxChannelTest : public elrond::channel::RxChannel, elrond::TaskContext {
-                        protected:
-                            std::function<void(elrond::word)> _handle;
-
+                    class RxChannelTest : public elrond::channel::RxChannel {
                         public:
-                            RxChannelTest(std::function<void(elrond::word)> handle);
+                            RxChannelTest(elrond::channel::OnReceiveHandleT handle);
                     };
 
                     using RxChTestP = std::unique_ptr<RxChannelTest>;
@@ -44,14 +40,19 @@
 
                 public:
 
-                    ChannelManagerTest(elrond::modules::BaseTransportModule& transport, const elrond::sizeT chs, const bool autoSync = true);
+                    ChannelManagerTest(
+                        elrond::modules::BaseTransportModule& transport,
+                        const elrond::sizeT chs,
+                        const bool autoSync = true,
+                        const bool autoInit = true
+                    );
 
                     void txTrigger(const elrond::sizeT ch, const elrond::word data) override;
                     void addRxListener(const elrond::sizeT ch, elrond::channel::RxChannel *rx) override;
                     elrond::sizeT getTotalTx() const override;
                     elrond::sizeT getTotalRx() const override;
 
-                    void onRxReceive(const elrond::sizeT ch, std::function<void(elrond::word)> handle);
+                    void onRxReceive(const elrond::sizeT ch, elrond::channel::OnReceiveHandleT handle);
             };
         }
     }

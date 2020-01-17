@@ -90,11 +90,10 @@ TEST_CASE("Servo module (normal)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
+        [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK(pin.getType() == elrond::GpioType::SERVO);
             CHECK(data == HIGH_VALUE);
-            me.write((ServoPin&) pin, data);
+            gpio.write((ServoPin&) pin, data);
         }
     );
 
@@ -135,11 +134,10 @@ TEST_CASE("Servo module (inverted)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
+        [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK(pin.getType() == elrond::GpioType::SERVO);
             CHECK(data == LOW_VALUE);
-            me.write((ServoPin&) pin, data);
+            gpio.write((ServoPin&) pin, data);
         }
     );
 

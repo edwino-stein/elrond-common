@@ -9,22 +9,22 @@ using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    *********** Implementation for elrond::modules::ChannelToChannel ***********
+    ************* elrond::modules::ChannelToChannel Implementation *************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
     ChannelToChannel::~ChannelToChannel(){}
 #endif
 
-void ChannelToChannel::onInit(ConfigMapInterface &cfg){
-
+void ChannelToChannel::onInit(ConfigMapInterface &cfg)
+{
     this->getLoopControl().allow = false;
 
     if(!cfg.isInt("txCh")) elrond::error("Invalid or missing key \"txCh\".");
-    int txCh = cfg.asInt("txCh");
+    const int txCh = cfg.asInt("txCh");
 
     if(!cfg.isInt("txChm")) elrond::error("Invalid or missing key \"txChm\".");
-    int txChm = cfg.asInt("txChm");
+    const int txChm = cfg.asInt("txChm");
 
     if(!cfg.isInt("rxCh")) elrond::error("Invalid or missing key \"rxCh\".");
     int rxCh = cfg.asInt("rxCh");
@@ -36,8 +36,8 @@ void ChannelToChannel::onInit(ConfigMapInterface &cfg){
 
     this->txCh.init(txCh, txChm);
 
-    this->rxCh.init(rxCh, rxChm, [](elrond::word data, elrond::TaskContext *ctx){
-        ChannelToChannel *me = (ChannelToChannel *) ctx;
+    this->rxCh.init(rxCh, rxChm, [](const elrond::word data, elrond::TaskContext* const ctx){
+        ChannelToChannel* const me = (ChannelToChannel*) ctx;
         me->txCh.trigger(me->inverted ? HIGH_VALUE - data : data);
     }, this);
 }

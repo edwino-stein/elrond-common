@@ -4,11 +4,13 @@ using elrond::test::ChannelManagerTest;
 using elrond::channel::BaseChannelManager;
 using elrond::modules::BaseTransportModule;
 using elrond::channel::RxChannel;
+using elrond::channel::OnReceiveHandleT;
 
 ChannelManagerTest::ChannelManagerTest(
     BaseTransportModule& transport,
     const elrond::sizeT chs,
-    const bool autoSync
+    const bool autoSync,
+    const bool autoInit
 ):
 BaseChannelManager(transport),
 chs(chs),
@@ -17,6 +19,7 @@ txBuffer(new elrond::byte[ELROND_PROTOCOL_CALC_BUFFER(chs)]),
 rxChannels(new RxChCollectionP[chs])
 {
     for(elrond::sizeT i = 0; i < chs; ++i) this->rxChannels[i] = nullptr;
+    if(autoInit) this->init();
 }
 
 void ChannelManagerTest::txTrigger(const elrond::sizeT ch, const elrond::word data)
@@ -42,21 +45,16 @@ void ChannelManagerTest::rxTrigger(const elrond::sizeT ch, const elrond::word da
     }
 }
 
-void ChannelManagerTest::onRxReceive(const elrond::sizeT ch, std::function<void(elrond::word)> handle)
+void ChannelManagerTest::onRxReceive(const elrond::sizeT ch, OnReceiveHandleT handle)
 {
     ChannelManagerTest::RxChTestP rxCh(new RxChannelTest(handle));
     this->addRxListener(ch, (RxChannel*) rxCh.get());
     this->rxChTestInsts.push_back(std::move(rxCh));
 }
 
-ChannelManagerTest::RxChannelTest::RxChannelTest(std::function<void(elrond::word)> handle):
-_handle(handle)
+ChannelManagerTest::RxChannelTest::RxChannelTest(OnReceiveHandleT handle)
 {
-    this->ctx = this;
-    this->handle = [](elrond::word data, elrond::TaskContext *me)
-    {
-        ((RxChannelTest*) me)->_handle(data);
-    };
+    this->handle = handle;
 }
 
 elrond::byte *ChannelManagerTest::getTxBuffer() const{ return this->txBuffer.get(); }

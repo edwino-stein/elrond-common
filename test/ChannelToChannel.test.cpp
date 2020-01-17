@@ -20,15 +20,8 @@ TEST_CASE("Channel to Channel module params test (no txCh)")
     ChannelToChannel inst;
     ConfigMap cfg;
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        appt.init(inst, cfg);
     }());
 }
 
@@ -46,15 +39,8 @@ TEST_CASE("Channel to Channel module params test (no txChm)")
 
     cfg.set("txCh", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        appt.init(inst, cfg);
     }());
 }
 
@@ -73,15 +59,8 @@ TEST_CASE("Channel to Channel module params test (no rxCh)")
     cfg.set("txCh", 0)
        .set("txChm", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        appt.init(inst, cfg);
     }());
 }
 
@@ -101,15 +80,8 @@ TEST_CASE("Channel to Channel module params test (no rxChm)")
        .set("txChm", 0)
        .set("rxCh", 1);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        appt.init(inst, cfg);
     }());
 }
 
@@ -130,15 +102,8 @@ TEST_CASE("Channel to Channel module params test (invalid channel manager)")
        .set("rxCh", 1)
        .set("rxChm", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        appt.init(inst, cfg);
     }());
 }
 
@@ -154,10 +119,13 @@ TEST_CASE("Channel to Channel module (normal)")
     appt.set(dout);
     appt.set(chm);
 
-    chm.init();
-    chm.onRxReceive(1, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE);
-    });
+    chm.onRxReceive(
+        1,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK(data == HIGH_VALUE);
+        }
+    );
 
     ChannelToChannel inst;
     ConfigMap cfg;
@@ -167,7 +135,7 @@ TEST_CASE("Channel to Channel module (normal)")
        .set("rxCh", 0)
        .set("rxChm", 0);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
         int loops = 0;
         appt.init(inst, cfg)
             .start(
@@ -193,10 +161,13 @@ TEST_CASE("Channel to Channel module (inverted)")
     appt.set(dout);
     appt.set(chm);
 
-    chm.init();
-    chm.onRxReceive(1, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE - 123);
-    });
+    chm.onRxReceive(
+        1,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK(data == HIGH_VALUE - 123);
+        }
+    );
 
     ChannelToChannel inst;
     ConfigMap cfg;
@@ -207,7 +178,7 @@ TEST_CASE("Channel to Channel module (inverted)")
        .set("rxChm", 0)
        .set("inverted", true);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
         int loops = 0;
         appt.init(inst, cfg)
             .start(

@@ -62,6 +62,7 @@
     #define ELROND_WITH_MODULES_INFO
     #define ELROND_WITH_DESTRUCTORS
     #define ELROND_WITH_STR_TYPE
+    #define ELROND_WITH_LAMBDA_TYPE
     // #define ELROND_WITH_LINKED_NODES
 
     // Includes
@@ -69,6 +70,10 @@
 
     #ifdef ELROND_WITH_STR_TYPE
         #include <string>
+    #endif
+
+    #ifdef ELROND_WITH_LAMBDA_TYPE
+        #include <functional>
     #endif
 
     // Constants
@@ -93,6 +98,13 @@
         #define ELROND_STR(S) ELROND_STR_TYPE(S)
     #else
         #define ELROND_STR(S) S
+    #endif
+
+    #ifdef ELROND_WITH_LAMBDA_TYPE
+        #define ELROND_LAMBDA_TYPE std::function
+        #define ELROND_LAMBDA_FUNC(R, ...) ELROND_LAMBDA_TYPE < R ( __VA_ARGS__ ) >
+    #else
+        #define ELROND_LAMBDA_FUNC(R, ...) R (*)( __VA_ARGS__ );
     #endif
 
     // Module Definition

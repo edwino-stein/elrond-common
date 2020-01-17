@@ -6,6 +6,8 @@
     namespace elrond {
 
         // Scalar types
+        using int8 = ELROND_INT8_TYPE;
+        using uInt8 = ELROND_UINT8_TYPE;
         using int16 = ELROND_INT16_TYPE;
         using uInt16 = ELROND_UINT16_TYPE;
         using int32 = ELROND_INT32_TYPE;
@@ -93,10 +95,10 @@
         }
 
         //Singleton instance of runtime application
-        extern interfaces::RuntimeInterface *__rtInstance__;
-        interfaces::RuntimeInterface &app();
-        const interfaces::DebugOutInterface &dout();
-        void error(const char *error);
+        extern interfaces::RuntimeInterface* __rtInstance__;
+        interfaces::RuntimeInterface& app();
+        const interfaces::DebugOutInterface& dout();
+        void error(const char* error);
         #ifdef ELROND_WITH_STR_TYPE
             void error(elrond::String error);
         #endif

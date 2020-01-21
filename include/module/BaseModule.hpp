@@ -8,10 +8,6 @@
 
             class BaseModule : public elrond::interface::Module {
 
-                protected:
-
-                    elrond::ModuleLoopControl _loopControl;
-
                 public:
 
                     #ifdef ELROND_WITH_DESTRUCTORS

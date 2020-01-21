@@ -10,28 +10,29 @@ using elrond::interface::DebugOut;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputDriverModule;
 using elrond::channel::BaseChannelManager;
+using elrond::LoopControl;
 
 Runtime* elrond::__rtInstance__ = nullptr;
 
-const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMapInterface &cfg) const
+const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMapInterface &cfg, LoopControl &lc) const
 {
-    inst.onInit(cfg);
+    inst.onInit(cfg, lc);
     return *this;
 }
 
-const RuntimeTest& RuntimeTest::start(Module& inst, std::function<bool()> loopContinue) const
+const RuntimeTest& RuntimeTest::start(Module& inst, LoopControl& lc, std::function<bool()> loopContinue) const
 {
     inst.onStart();
 
     elrond::timeT timeout = 0;
-    const auto allow = inst.getLoopControl().allow;
-    const auto loopTime = inst.getLoopControl().time;
+    const auto enable = lc.enable;
+    const auto interval = lc.interval;
 
     while(loopContinue()){
-        if(allow){
+        if(enable){
             if(timeout >= elrond::millis()) continue;
             inst.loop();
-            timeout = elrond::millis() + loopTime;
+            timeout = elrond::millis() + interval;
         }
     }
 

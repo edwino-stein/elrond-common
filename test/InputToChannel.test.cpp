@@ -9,6 +9,7 @@ using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
 using elrond::module::InputToChannel;
+using elrond::LoopControl;
 
 TEST_CASE("Input to Channel module params test (no channel)")
 {
@@ -22,7 +23,8 @@ TEST_CASE("Input to Channel module params test (no channel)")
     ConfigMap cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -40,7 +42,8 @@ TEST_CASE("Input to Channel module params test (no input)")
     cfg.set("channel", 0);
 
     CHECK_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -60,7 +63,8 @@ TEST_CASE("Input to Channel module params test (invalid channel manager)")
        .set("input", 0);
 
     CHECK_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -84,7 +88,8 @@ TEST_CASE("Input to Channel module params test (invalid input driver)")
        .set("ins", 123);
 
     CHECK_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -116,10 +121,12 @@ TEST_CASE("Input to Channel module (normal)")
        .set("input", 0);
 
     CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &input](){
                    if(loops++ >= 1) return false;
                    input.trigger(0, HIGH_VALUE);
@@ -158,10 +165,12 @@ TEST_CASE("Input to Channel module (inverted)")
        .set("inverted", true);
 
     CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &input](){
                    if(loops++ >= 1) return false;
                    input.trigger(0, LOW_VALUE);

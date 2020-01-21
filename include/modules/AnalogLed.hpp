@@ -3,9 +3,9 @@
 
     #include "types.hpp"
     #include "modules/BaseModule.hpp"
-    #include "runtime/gpio/BaseGpioPin.hpp"
-    #include "runtime/gpio/GenericGpioPin.hpp"
     #include "channel/RxChannel.hpp"
+    #include "gpio/BaseGpioPin.hpp"
+    #include "gpio/GenericGpioPin.hpp"
 
     namespace elrond {
         namespace modules {

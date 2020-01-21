@@ -22,6 +22,9 @@
     #include "runtime.hpp"
     #include "modules.hpp"
 
+    #include "gpio/BaseGpioPin.hpp"
+    #include "gpio/GenericGpioPin.ipp"
+
     #include "channel/BaseChannelManager.hpp"
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"

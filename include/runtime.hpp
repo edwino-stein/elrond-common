@@ -3,9 +3,6 @@
 
     #include "runtime/TaskContext.hpp"
 
-    #include "runtime/gpio/BaseGpioPin.hpp"
-    #include "runtime/gpio/GenericGpioPin.hpp"
-
     #include "runtime/InputCallback.hpp"
 
     #include "runtime/bitwise.hpp"

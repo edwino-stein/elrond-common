@@ -70,7 +70,7 @@
             class Servo;
         }
 
-        // Runtime
+        // Others
         class TaskContext;
 
         namespace gpio {
@@ -113,6 +113,11 @@
         using DigitalLed = elrond::modules::DigitalLed;
         using AnalogLed = elrond::modules::AnalogLed;
         using Servo = elrond::modules::Servo;
+
+        #ifndef ELROND_TASK_CONTEXT
+            #define ELRONND_TASK_CONTEXT
+            class TaskContext {};
+        #endif
     }
 
 #endif

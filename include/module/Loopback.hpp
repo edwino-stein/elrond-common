@@ -17,7 +17,6 @@
                         virtual ~Loopback();
                     #endif
 
-                    void onInit(elrond::interface::ConfigMap& cfg) override;
                     void send(elrond::byte data[], const elrond::sizeT length) override;
                     void setChannelManager(elrond::channel::BaseChannelManager* cm) override;
 

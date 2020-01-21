@@ -7,6 +7,7 @@ using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::input::InputCallback;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     *************** elrond::module::InputToChannel Implementation **************
@@ -16,10 +17,8 @@ using elrond::input::InputCallback;
     InputToChannel::~InputToChannel(){}
 #endif
 
-void InputToChannel::onInit(ConfigMap& cfg)
+void InputToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
 {
-    this->getLoopControl().allow = false;
-
     if(!cfg.isInt("channel")) elrond::error("Invalid or missing key \"channel\".");
     const int ch = cfg.asInt("channel");
 

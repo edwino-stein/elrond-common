@@ -11,6 +11,7 @@ using elrond::test::DebugOut;
 using elrond::module::DigitalLed;
 using elrond::gpio::BaseGpioPin;
 using elrond::gpio::DOutPin;
+using elrond::LoopControl;
 
 TEST_CASE("Digital LED module params test (no channel)")
 {
@@ -23,8 +24,9 @@ TEST_CASE("Digital LED module params test (no channel)")
     DigitalLed inst;
     ConfigMap cfg;
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -41,8 +43,9 @@ TEST_CASE("Digital LED module params test (no pin)")
 
     cfg.set("channel", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -60,8 +63,9 @@ TEST_CASE("Digital LED module params test (invalid gpio)")
     cfg.set("channel", 0)
        .set("pin", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -82,8 +86,9 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
        .set("pin", 0)
        .set("chm", 123);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -117,11 +122,13 @@ TEST_CASE("Digital LED module (normal)")
        .set("pin", 0)
        .set("chm", 0);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                 inst,
+                lc,
                 [&loops, &chm](){
                     if(loops++ >= 1) return false;
                     chm.txTrigger(0, HIGH_VALUE);
@@ -162,11 +169,13 @@ TEST_CASE("Digital LED module (inverted)")
        .set("chm", 0)
        .set("inverted", true);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                 inst,
+                lc,
                 [&loops, &chm](){
                     if(loops++ >= 1) return false;
                     chm.txTrigger(0, HIGH_VALUE);

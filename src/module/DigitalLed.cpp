@@ -7,6 +7,7 @@ using elrond::module::DigitalLed;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     **************** elrond::module::DigitalLed Implementation *****************
@@ -16,10 +17,8 @@ using elrond::channel::RxChannel;
     DigitalLed::~DigitalLed(){}
 #endif
 
-void DigitalLed::onInit(ConfigMap &cfg)
+void DigitalLed::onInit(ConfigMap &cfg, LoopControl& lc)
 {
-    this->getLoopControl().allow = false;
-
     if(!cfg.isInt("channel")) elrond::error("Invalid or missing key \"channel\".");
     const int ch = cfg.asInt("channel");
 

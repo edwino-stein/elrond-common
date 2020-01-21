@@ -22,11 +22,13 @@
 
                     const RuntimeTest& init(
                         elrond::interface::Module& inst,
-                        elrond::interface::ConfigMap &cfg
+                        elrond::interface::ConfigMap &cfg,
+                        elrond::LoopControl& lc
                     ) const;
 
                     const RuntimeTest& start(
                         elrond::interface::Module& inst,
+                        elrond::LoopControl& lc,
                         std::function<bool()> loopContinue
                     ) const;
 

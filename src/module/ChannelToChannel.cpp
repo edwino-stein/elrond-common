@@ -19,8 +19,6 @@ using elrond::LoopControl;
 
 void ChannelToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
 {
-    this->getLoopControl().allow = false;
-
     if(!cfg.isInt("txCh")) elrond::error("Invalid or missing key \"txCh\".");
     const int txCh = cfg.asInt("txCh");
 

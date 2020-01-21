@@ -19,8 +19,6 @@ using elrond::LoopControl;
 
 void AnalogLed::onInit(ConfigMap &cfg, LoopControl& lc)
 {
-    this->getLoopControl().allow = false;
-
     if(!cfg.isInt("channel")) elrond::error("Invalid or missing key \"channel\".");
     const int ch = cfg.asInt("channel");
 

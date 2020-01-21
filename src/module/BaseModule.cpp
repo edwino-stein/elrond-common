@@ -25,8 +25,3 @@ elrond::ModuleType BaseModule::getType() const
 {
     return elrond::ModuleType::GENERIC;
 }
-
-elrond::ModuleLoopControl &BaseModule::getLoopControl()
-{
-    return this->_loopControl;
-}

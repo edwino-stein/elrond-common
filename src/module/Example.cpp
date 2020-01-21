@@ -21,10 +21,10 @@ void Example::onInit(ConfigMap& cfg, LoopControl& lc)
 {
     elrond::dout().putLn("Example::onInit");
 
-    this->getLoopControl().time = 100;
-    if(cfg.isBool("allowLoop")) this->getLoopControl().allow = cfg.asBool("allowLoop");
-    if(cfg.isBool("asyncLoop")) this->getLoopControl().async = cfg.asBool("asyncLoop");
-    if(cfg.isInt("timeLoop")) this->getLoopControl().time = cfg.asInt("timeLoop");
+    lc.interval = 100;
+    if(cfg.isBool("loop")) lc.enable = cfg.asBool("loop");
+    if(cfg.isBool("async")) lc.async = cfg.asBool("async");
+    if(cfg.isInt("interval")) lc.interval = cfg.asInt("interval");
 }
 
 void Example::onStart() {
@@ -32,9 +32,7 @@ void Example::onStart() {
 }
 
 void Example::loop() {
-    elrond::dout().put("Example::loop");
-    if(this->getLoopControl().async) elrond::dout().putLn(" (async)");
-    else elrond::dout().putLn(" (sync)");
+    elrond::dout().putLn("Example::loop");
 }
 
 void Example::onStop() {

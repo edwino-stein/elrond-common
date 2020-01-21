@@ -48,15 +48,15 @@
         };
 
         // Interfaces
-        namespace interfaces {
-            class RuntimeInterface;
-            class ModuleInterface;
-            class ConfigMapInterface;
-            class DebugOutInterface;
+        namespace interface {
+            class Runtime;
+            class Module;
+            class ConfigMap;
+            class DebugOut;
         }
 
         // Modules
-        namespace modules {
+        namespace module {
             class BaseModule;
             class BaseTransportModule;
             class BaseGpioModule;
@@ -70,7 +70,7 @@
             class Servo;
         }
 
-        // Runtime
+        // Others
         class TaskContext;
 
         namespace gpio {
@@ -97,22 +97,27 @@
         }
 
         //Singleton instance of runtime application
-        extern interfaces::RuntimeInterface* __rtInstance__;
-        interfaces::RuntimeInterface& app();
-        const interfaces::DebugOutInterface& dout();
+        extern interface::Runtime* __rtInstance__;
+        interface::Runtime& app();
+        const interface::DebugOut& dout();
         void error(const char* error);
         #ifdef ELROND_WITH_STR_TYPE
             void error(elrond::String error);
         #endif
 
         //Internal modules
-        using Example = elrond::modules::Example;
-        using Loopback = elrond::modules::Loopback;
-        using InputToChannel = elrond::modules::InputToChannel;
-        using ChannelToChannel = elrond::modules::ChannelToChannel;
-        using DigitalLed = elrond::modules::DigitalLed;
-        using AnalogLed = elrond::modules::AnalogLed;
-        using Servo = elrond::modules::Servo;
+        using Example = elrond::module::Example;
+        using Loopback = elrond::module::Loopback;
+        using InputToChannel = elrond::module::InputToChannel;
+        using ChannelToChannel = elrond::module::ChannelToChannel;
+        using DigitalLed = elrond::module::DigitalLed;
+        using AnalogLed = elrond::module::AnalogLed;
+        using Servo = elrond::module::Servo;
+
+        #ifndef ELROND_TASK_CONTEXT
+            #define ELRONND_TASK_CONTEXT
+            class TaskContext {};
+        #endif
     }
 
 #endif

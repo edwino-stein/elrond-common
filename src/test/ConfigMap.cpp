@@ -1,7 +1,7 @@
 #include "test/ConfigMap.hpp"
 
 using elrond::test::ConfigMap;
-using elrond::interfaces::ConfigMapInterface;
+using ConfigMapInterface = elrond::interface::ConfigMap;
 
 int ConfigMap::asInt(const char* key) const
 {

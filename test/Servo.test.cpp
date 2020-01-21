@@ -8,7 +8,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::Servo;
+using elrond::module::Servo;
 using elrond::gpio::BaseGpioPin;
 using elrond::gpio::ServoPin;
 

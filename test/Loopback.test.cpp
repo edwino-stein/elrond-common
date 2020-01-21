@@ -5,7 +5,7 @@ using elrond::test::RuntimeTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::DebugOut;
 
-using elrond::modules::Loopback;
+using elrond::module::Loopback;
 
 TEST_CASE("Loopback module")
 {

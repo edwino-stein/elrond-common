@@ -111,9 +111,9 @@
     #endif
 
     // Module Definition
-    #define DEFINE_MODULE(CLASS)    elrond::interfaces::RuntimeInterface * elrond::__rtInstance__ = NULL;\
-                                    extern "C" void _setAppInstance(elrond::interfaces::RuntimeInterface *app){elrond::__rtInstance__ = app;}\
-                                    extern "C" elrond::interfaces::ModuleInterface *_getInstance(){return (elrond::interfaces::ModuleInterface*) new CLASS();}\
+    #define DEFINE_MODULE(CLASS)    elrond::interface::Runtime* elrond::__rtInstance__ = NULL;\
+                                    extern "C" void _setAppInstance(elrond::interface::Runtime* app){elrond::__rtInstance__ = app;}\
+                                    extern "C" elrond::interface::Module* _getInstance(){return (elrond::interface::Module*) new CLASS();}\
                                     extern "C" void _deleteInstance(CLASS *obj){ delete obj; }\
                                     extern "C" const char * _infoMainClassName(){return #CLASS;}\
                                     extern "C" int _infoApiVersion(){return ELROND_API_VERSION;}\

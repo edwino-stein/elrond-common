@@ -2,7 +2,7 @@
 
 using elrond::test::ChannelManagerTest;
 using elrond::channel::BaseChannelManager;
-using elrond::modules::BaseTransportModule;
+using elrond::module::BaseTransportModule;
 using elrond::channel::RxChannel;
 using elrond::channel::OnReceiveHandleT;
 

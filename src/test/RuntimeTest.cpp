@@ -3,23 +3,23 @@
 #include <string>
 
 using elrond::test::RuntimeTest;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ModuleInterface;
-using elrond::interfaces::ConfigMapInterface;
-using elrond::interfaces::DebugOutInterface;
-using elrond::modules::BaseGpioModule;
-using elrond::modules::BaseInputDriverModule;
+using elrond::interface::Runtime;
+using elrond::interface::Module;
+using ConfigMapInterface = elrond::interface::ConfigMap;
+using elrond::interface::DebugOut;
+using elrond::module::BaseGpioModule;
+using elrond::module::BaseInputDriverModule;
 using elrond::channel::BaseChannelManager;
 
-RuntimeInterface* elrond::__rtInstance__ = nullptr;
+Runtime* elrond::__rtInstance__ = nullptr;
 
-const RuntimeTest& RuntimeTest::init(ModuleInterface& inst, ConfigMapInterface &cfg) const
+const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMapInterface &cfg) const
 {
     inst.onInit(cfg);
     return *this;
 }
 
-const RuntimeTest& RuntimeTest::start(ModuleInterface& inst, std::function<bool()> loopContinue) const
+const RuntimeTest& RuntimeTest::start(Module& inst, std::function<bool()> loopContinue) const
 {
     inst.onStart();
 
@@ -58,7 +58,7 @@ BaseChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
     return *(this->chmgr);
 }
 
-const DebugOutInterface& RuntimeTest::dout() const
+const DebugOut& RuntimeTest::dout() const
 {
     if(this->debugOut == nullptr) throw "Undefined Debug service";
     return *(this->debugOut);
@@ -94,13 +94,13 @@ RuntimeTest& RuntimeTest::set(BaseChannelManager &chmgr)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(DebugOutInterface &dout)
+RuntimeTest& RuntimeTest::set(DebugOut &dout)
 {
     this->debugOut = &dout;
     return *this;
 }
 
-void RuntimeTest::setAppInstance(elrond::interfaces::RuntimeInterface* app)
+void RuntimeTest::setAppInstance(elrond::interface::Runtime* app)
 {
     elrond::__rtInstance__ = app;
 }

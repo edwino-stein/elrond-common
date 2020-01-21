@@ -8,7 +8,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::InputToChannel;
+using elrond::module::InputToChannel;
 
 TEST_CASE("Input to Channel module params test (no channel)")
 {

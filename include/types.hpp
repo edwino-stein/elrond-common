@@ -41,10 +41,10 @@
         };
 
         // Structs
-        struct ModuleLoopControl {
-            bool allow = true;
+        struct LoopControl {
+            bool enable = false;
             bool async = false;
-            unsigned int time = 0;
+            elrond::timeT interval = 0;
         };
 
         // Interfaces

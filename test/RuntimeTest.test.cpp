@@ -22,6 +22,7 @@ TEST_CASE("Runtime application for Elrond Test Library")
     ConfigMap cfg;
 
     cfg.set("loop", true)
+       .set("thread", false)
        .set("interval", 1000);
 
     CHECK_NOTHROW([&appt, &inst, &cfg](){
@@ -32,6 +33,7 @@ TEST_CASE("Runtime application for Elrond Test Library")
         appt.init(inst, cfg, lc);
 
         CHECK(lc.enable == true);
+        CHECK(lc.ownThread == false);
         CHECK(lc.interval == 1000);
 
         appt.start(

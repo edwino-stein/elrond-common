@@ -43,7 +43,7 @@
         // Structs
         struct LoopControl {
             bool enable = false;
-            bool async = false;
+            bool ownThread = false;
             elrond::timeT interval = 0;
         };
 

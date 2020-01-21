@@ -23,7 +23,7 @@ void Example::onInit(ConfigMap& cfg, LoopControl& lc)
 
     lc.interval = 100;
     if(cfg.isBool("loop")) lc.enable = cfg.asBool("loop");
-    if(cfg.isBool("async")) lc.async = cfg.asBool("async");
+    if(cfg.isBool("thread")) lc.ownThread = cfg.asBool("thread");
     if(cfg.isInt("interval")) lc.interval = cfg.asInt("interval");
 }
 

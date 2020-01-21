@@ -1,4 +1,4 @@
-#include "elrond-test/InputDriverTest.hpp"
+#include "test/InputDriverTest.hpp"
 
 using elrond::test::InputDriverTest;
 using elrond::modules::BaseInputDriverModule;

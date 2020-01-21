@@ -1,4 +1,4 @@
-#include "elrond-test/GpioTest.hpp"
+#include "test/GpioTest.hpp"
 
 using elrond::test::GpioTest;
 using elrond::gpio::BaseGpioPin;

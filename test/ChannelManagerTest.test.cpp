@@ -1,4 +1,5 @@
 #include "elrond-test.hpp"
+#include "catch.hpp"
 
 using elrond::test::ChannelManagerTest;
 using elrond::test::TransportTest;

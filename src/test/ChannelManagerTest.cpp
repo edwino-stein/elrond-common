@@ -1,4 +1,4 @@
-#include "elrond-test/ChannelManagerTest.hpp"
+#include "test/ChannelManagerTest.hpp"
 
 using elrond::test::ChannelManagerTest;
 using elrond::channel::BaseChannelManager;

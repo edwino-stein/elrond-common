@@ -1,4 +1,6 @@
 #include "elrond-test.hpp"
+#include "catch.hpp"
+
 #include <string>
 #include <sstream>
 

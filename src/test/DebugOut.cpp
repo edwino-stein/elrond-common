@@ -1,4 +1,4 @@
-#include "elrond-test/DebugOut.hpp"
+#include "test/DebugOut.hpp"
 
 using elrond::test::DebugOut;
 using elrond::interfaces::DebugOutInterface;

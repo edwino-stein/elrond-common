@@ -1,4 +1,5 @@
-#include "elrond-test/RuntimeTest.hpp"
+#include "test/RuntimeTest.hpp"
+
 #include <string>
 
 using elrond::test::RuntimeTest;

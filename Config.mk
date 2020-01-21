@@ -5,12 +5,14 @@
 # Main settings
 PROJECT_NAME = elrond
 SRC_DIR = src
+SRC_TEST_DIR = $(SRC_DIR)/test
 INCLUDE_DIR = include
 BUILD_DIR = build
 
 # Util
-TEST_MAKEFILE = test.mk
+TEST_MAKEFILE = Test.mk
 COMMON_NAME_LIB = lib$(PROJECT_NAME)
+TEST_NAME_LIB = lib$(PROJECT_NAME)-test
 INCLUDES = $(INCLUDE_DIR)
 MACROS =
 

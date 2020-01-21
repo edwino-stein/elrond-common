@@ -1,4 +1,4 @@
-#include "elrond-test/ConfigMap.hpp"
+#include "test/ConfigMap.hpp"
 
 using elrond::test::ConfigMap;
 using elrond::interfaces::ConfigMapInterface;

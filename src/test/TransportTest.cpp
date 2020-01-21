@@ -1,4 +1,4 @@
-#include "elrond-test/TransportTest.hpp"
+#include "test/TransportTest.hpp"
 
 using elrond::test::TransportTest;
 using elrond::modules::BaseTransportModule;

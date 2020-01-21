@@ -1,59 +1,43 @@
 # General settings
-SRC_DIR = test
-BUILD_DIR = build/$(SRC_DIR)
+include Config.mk
 
-CXX = g++
-CXXFLAGS = -std=c++11 -Wall -MMD
-AR = ar
-ARFLAGS = rs
+TEST_DIR = test
+BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
 
-LIB_TEST_NAME = libelrond-test.a
-LIB_TEST = $(BUILD_DIR)/$(LIB_TEST_NAME)
-
-INCLUDES = -I$(SRC_DIR) -Iinclude $(addprefix -I, $(i))
-MACROS =
+INCLUDES := $(addprefix -I, $(INCLUDES) $(i))
+MACROS := $(addprefix -D, $(MACROS) $(m))
 
 LDLIBS = $(addprefix -l, $(ld))
 LSLIBS = $(l)
 
-LIB_TEST_SRC = $(shell find $(SRC_DIR)/elrond-test -type f \( -name "*.cpp" \) )
-LIB_TEST_OBJ := $(addsuffix .o, $(subst $(SRC_DIR)/elrond-test,$(BUILD_DIR)/elrond-test,$(LIB_TEST_SRC)))
-
+ALL_TEST_SRC = $(shell find $(TEST_DIR) -type f \( -name "*.test.cpp" \))
 LIB_CATCH_OBJ = $(BUILD_DIR)/catch.cpp.o
 
-ALL_TEST_SRC = $(shell find $(SRC_DIR) -type f \( -name "*.test.cpp" \))
+VPATH = src: $(TEST_DIR)
+vpath %.cpp $(TEST_DIR)
 
-VPATH = src: $(SRC_DIR)
-vpath %.cpp $(SRC_DIR)
+CXXFLAGS += $(INCLUDES) $(MACROS)
+LDFLAGS += $(INCLUDES) $(MACROS)
 
 .PHONY: all run clean
 
 # *********************************** RULES ************************************
 
-all: $(ALL_TEST_SRC) $(LIB_CATCH_OBJ) $(LIB_TEST)
+all: $(ALL_TEST_SRC) $(LIB_CATCH_OBJ)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ $(LSLIBS) $(MACROS) -o $(BUILD_DIR)/all.test $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) $(INCLUDES) $^ $(LSLIBS) $(MACROS) -o $(BUILD_DIR)/all.test $(LDLIBS)
 	./$(BUILD_DIR)/all.test $(a)
-	rm -f $(BUILD_DIR)/all.test
+	@rm -f $(BUILD_DIR)/all.test
 
 run: $(BUILD_DIR)/$(notdir $(basename $(t)))
 	./$^ $a
-	rm -f $^
-
-clean:
-	rm -rf $(BUILD_DIR)
-
-# Test lib builder
-$(LIB_TEST): $(LIB_TEST_OBJ)
-	@mkdir -p $(@D)
-	$(AR) $(ARFLAGS) $@ $?
-
-# Test lib objects builder
-$(BUILD_DIR)/%.cpp.o: %.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(MACROS) -c $< -o $@
+	@rm -f $^
 
 # Generic test runner builder
-$(BUILD_DIR)/%.test: %.test.cpp $(LIB_CATCH_OBJ) $(LIB_TEST)
+$(BUILD_DIR)/%.test: %.test.cpp $(LIB_CATCH_OBJ)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ $(LSLIBS) $(MACROS) -o $@ $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(LDFLAGS) $^ $(LSLIBS) $(MACROS) -o $@  $(LDLIBS)
+
+$(LIB_CATCH_OBJ): catch.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $< -o $@

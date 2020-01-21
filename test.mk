@@ -11,7 +11,7 @@ LIB_TEST_NAME = libelrond-test.a
 LIB_TEST = $(BUILD_DIR)/$(LIB_TEST_NAME)
 
 INCLUDES = -I$(SRC_DIR) -Iinclude $(addprefix -I, $(i))
-MACROS = -DGENERIC_STD_PLATFORM -DLINUX_PLATFORM
+MACROS =
 
 LDLIBS = $(addprefix -l, $(ld))
 LSLIBS = $(l)

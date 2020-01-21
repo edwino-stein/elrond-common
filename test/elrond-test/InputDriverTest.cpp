@@ -3,6 +3,7 @@
 using elrond::test::InputDriverTest;
 using elrond::modules::BaseInputDriverModule;
 using elrond::input::InputCallback;
+using elrond::input::OnInputHandleT;
 
 void InputDriverTest::addInputListener(const elrond::sizeT key, InputCallback *callback)
 {
@@ -19,22 +20,14 @@ void InputDriverTest::trigger(const elrond::sizeT key, const elrond::word data) 
 }
 
 void InputDriverTest::addInputListener(
-    const elrond::sizeT key,
-    std::function<void(const elrond::word data)> handle
+    const elrond::sizeT key, OnInputHandleT handle
 ){
     InputDriverTest::InputCallbackTestP testInput(new InputDriverTest::InputCallbackTest(handle));
     this->addInputListener(key, testInput.get());
     this->testInputCbInsts.push_back(std::move(testInput));
 }
 
-InputDriverTest::InputCallbackTest::InputCallbackTest(
-    std::function<void(const elrond::word data)> handle
-): _handle(handle)
+InputDriverTest::InputCallbackTest::InputCallbackTest(OnInputHandleT handle)
 {
-    this->handle = [](elrond::word data, elrond::TaskContext *me)
-    {
-        ((InputDriverTest::InputCallbackTest*) me)->_handle(data);
-    };
-
-    this->ctx = this;
+    this->handle = handle;
 }

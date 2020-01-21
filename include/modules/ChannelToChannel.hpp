@@ -18,13 +18,13 @@
 
                 public:
 
-                    #if !defined WITHOUT_DESTRUCTORS
+                    #ifdef ELROND_WITH_DESTRUCTORS
                         virtual ~ChannelToChannel();
                     #endif
 
                     virtual void onInit(elrond::interfaces::ConfigMapInterface &cfg) override;
 
-                    #if defined GENERIC_STD_PLATFORM
+                    #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();
                         static const char *_infoMainClassName();
                         static int _infoApiVersion();

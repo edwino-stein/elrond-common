@@ -23,14 +23,14 @@ elrond::word BaseGpioPin::read(){
     return this->readHandle != nullptr ? this->readHandle(*this) : 0;
 }
 
-void BaseGpioPin::write(elrond::word data){
+void BaseGpioPin::write(const elrond::word data){
     if(this->writeHandle != nullptr) this->writeHandle(*this, data);
 }
 
-void BaseGpioPin::setReadHandle(elrond::gpio::gpioReadHandleT handle){
+void BaseGpioPin::setReadHandle(elrond::gpio::ReadHandleT handle){
     this->readHandle = handle;
 }
 
-void BaseGpioPin::setWriteHandle(elrond::gpio::gpioWriteHandleT handle){
+void BaseGpioPin::setWriteHandle(elrond::gpio::WriteHandleT handle){
     this->writeHandle = handle;
 }

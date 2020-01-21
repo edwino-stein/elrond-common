@@ -3,16 +3,21 @@
 #include "modules/BaseInputDriverModule.hpp"
 
 using elrond::input::InputCallback;
-using elrond::input::onInputT;
 using elrond::modules::BaseInputDriverModule;
+using elrond::input::OnInputHandleT;
 
 /*  ****************************************************************************
-    ************** Implementation for elrond::input::InputCallback *************
+    **************** elrond::input::InputCallback Implementation ***************
     ****************************************************************************/
 
 InputCallback::InputCallback(){}
 
-void InputCallback::init(const elrond::sizeT key, const elrond::sizeT inService, onInputT handle, elrond::TaskContext *ctx){
+void InputCallback::init(
+    const elrond::sizeT key,
+    const elrond::sizeT inService,
+    OnInputHandleT handle,
+    elrond::TaskContext* const ctx
+){
     BaseInputDriverModule &input = elrond::app().getInputService(inService);
     input.addInputListener(key, this);
     this->handle = handle;

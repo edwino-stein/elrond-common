@@ -11,7 +11,7 @@
 
                 public:
 
-                    #if !defined WITHOUT_DESTRUCTORS
+                    #ifdef ELROND_WITH_DESTRUCTORS
                         virtual ~ModuleInterface();
                     #endif
 
@@ -23,7 +23,7 @@
                     virtual void onStop()=0;
                     virtual void loop()=0;
 
-                    #if defined USE_LINKED_NODES
+                    #ifdef ELROND_WITH_LINKED_NODES
                         ModuleInterface *_nextNode = nullptr;
                     #endif
             };

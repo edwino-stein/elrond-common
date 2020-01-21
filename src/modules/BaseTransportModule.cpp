@@ -5,7 +5,7 @@ using namespace elrond::modules;
     ********** Implementation for elrond::modules::BaseTransportModule *********
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     BaseTransportModule::~BaseTransportModule(){}
 #endif
 

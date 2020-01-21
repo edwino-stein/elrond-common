@@ -9,12 +9,21 @@
             class InputCallback {
 
                 protected:
-                    elrond::input::onInputT handle;
-                    elrond::TaskContext *ctx = nullptr;
+
+                    elrond::input::OnInputHandleT handle;
+                    elrond::TaskContext* ctx = nullptr;
 
                 public:
+
                     InputCallback();
-                    void init(const elrond::sizeT key, const elrond::sizeT inService, elrond::input::onInputT handle, elrond::TaskContext *ctx = nullptr);
+
+                    void init(
+                        const elrond::sizeT key,
+                        const elrond::sizeT inService,
+                        elrond::input::OnInputHandleT handle,
+                        elrond::TaskContext* const ctx = nullptr
+                    );
+
                     void trigger(const elrond::word data);
             };
         }

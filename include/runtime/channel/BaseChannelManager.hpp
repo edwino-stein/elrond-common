@@ -33,7 +33,7 @@
                     virtual elrond::sizeT getRxBufferSize() const;
                     virtual elrond::sizeT getTxBufferSize() const;
 
-                    #if defined USE_LINKED_NODES
+                    #ifdef ELROND_WITH_LINKED_NODES
                         BaseChannelManager *_nextNode = nullptr;
                     #endif
             };

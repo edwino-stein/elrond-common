@@ -11,7 +11,7 @@
 
                 public:
 
-                    #if !defined WITHOUT_DESTRUCTORS
+                    #ifdef ELROND_WITH_DESTRUCTORS
                         virtual ~Example();
                     #endif
 
@@ -20,7 +20,7 @@
                     virtual void loop() override;
                     virtual void onStop() override;
 
-                    #if defined GENERIC_STD_PLATFORM
+                    #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();
                         static const char *_infoMainClassName();
                         static int _infoApiVersion();

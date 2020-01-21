@@ -90,11 +90,10 @@ TEST_CASE("Analog LED module (normal)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
+        [&gpio](BaseGpioPin& pin, elrond::word data){
             CHECK(pin.getType() == elrond::GpioType::PWM);
             CHECK(data == HIGH_VALUE);
-            me.write((PwmPin&) pin, data);
+            gpio.write((PwmPin&) pin, data);
         }
     );
 
@@ -135,11 +134,10 @@ TEST_CASE("Analog LED module (inverted)")
 {
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
+        [&gpio](BaseGpioPin& pin, elrond::word data){
             CHECK(pin.getType() == elrond::GpioType::PWM);
             CHECK(data == LOW_VALUE);
-            me.write((PwmPin&) pin, data);
+            gpio.write((PwmPin&) pin, data);
         }
     );
 

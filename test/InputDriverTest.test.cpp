@@ -11,22 +11,22 @@ TEST_CASE("Input Driver for Elrond Test Library")
 
     input.addInputListener(
         0,
-        [](const elrond::word data){
-            REQUIRE(data == 123);
+        [](const elrond::word data, elrond::TaskContext* const ctx){
+            CHECK(data == 123);
         }
     );
 
     input.addInputListener(
         1,
-        [](const elrond::word data){
-            REQUIRE(data == HIGH_VALUE);
+        [](const elrond::word data, elrond::TaskContext* const ctx){
+            CHECK(data == HIGH_VALUE);
         }
     );
 
     input.addInputListener(
         2,
-        [](const elrond::word data){
-            REQUIRE(data == LOW_VALUE);
+        [](const elrond::word data, elrond::TaskContext* const ctx){
+            CHECK(data == LOW_VALUE);
         }
     );
 

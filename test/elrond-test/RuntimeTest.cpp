@@ -22,7 +22,7 @@ const RuntimeTest& RuntimeTest::start(ModuleInterface& inst, std::function<bool(
 {
     inst.onStart();
 
-    unsigned long timeout = 0;
+    elrond::timeT timeout = 0;
     const auto allow = inst.getLoopControl().allow;
     const auto loopTime = inst.getLoopControl().time;
 
@@ -67,6 +67,13 @@ void RuntimeTest::onError(const char *error)
 {
     throw std::string("Error: ") + error;
 }
+
+#ifdef ELROND_WITH_STR_TYPE
+    void RuntimeTest::onError(elrond::String error)
+    {
+        throw std::string("Error: ") + error;
+    }
+#endif
 
 RuntimeTest& RuntimeTest::set(BaseGpioModule& gpio)
 {

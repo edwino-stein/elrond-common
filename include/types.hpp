@@ -6,15 +6,23 @@
     namespace elrond {
 
         // Scalar types
+        using int8 = ELROND_INT8_TYPE;
+        using uInt8 = ELROND_UINT8_TYPE;
         using int16 = ELROND_INT16_TYPE;
         using uInt16 = ELROND_UINT16_TYPE;
         using int32 = ELROND_INT32_TYPE;
         using uInt32 = ELROND_UINT32_TYPE;
 
+        using sizeT = ELROND_SIZE_TYPE;
+        using timeT = ELROND_TIME_TYPE;
+
         using byte = ELROND_UINT8_TYPE;
         using word = ELROND_UINT16_TYPE;
         using dWord = ELROND_UINT32_TYPE;
-        using sizeT = size_t;
+
+        #ifdef ELROND_WITH_STR_TYPE
+            using String = ELROND_STR_TYPE;
+        #endif
 
         //Enums
         enum class ModuleType {
@@ -67,9 +75,9 @@
 
         namespace gpio {
             class BaseGpioPin;
-            template<class T, elrond::GpioType G> class GenericGpioPin;
-            using gpioReadHandleT = elrond::word(*)(elrond::gpio::BaseGpioPin &pin);
-            using gpioWriteHandleT = void (*)(elrond::gpio::BaseGpioPin &pin, elrond::word &data);
+            using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
+            using WriteHandleT = ELROND_LAMBDA_FUNC(void, elrond::gpio::BaseGpioPin&, const elrond::word);
+            template <class T, elrond::GpioType G> class GenericGpioPin;
             using DOutPin = GenericGpioPin<ELROND_GPIO_DIO_TYPE, elrond::GpioType::DOUT>;
             using AInPin = GenericGpioPin<ELROND_GPIO_AIO_TYPE, elrond::GpioType::AIN>;
             using ServoPin = GenericGpioPin<ELROND_GPIO_SERVO_TYPE, elrond::GpioType::SERVO>;
@@ -77,24 +85,24 @@
         }
 
         namespace channel {
-            using onReceiveT = void (*)(elrond::word, elrond::TaskContext *);
+            using OnReceiveHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
             class BaseChannelManager;
             class TxChannel;
             class RxChannel;
         }
 
         namespace input {
-            using onInputT = void (*)(elrond::word, elrond::TaskContext *);
             class InputCallback;
+            using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
         }
 
         //Singleton instance of runtime application
-        extern interfaces::RuntimeInterface *__rtInstance__;
-        interfaces::RuntimeInterface &app();
-        const interfaces::DebugOutInterface &dout();
-        void error(const char *error);
-        #if defined INO_PLATFORM
-            void error(const __FlashStringHelper *error);
+        extern interfaces::RuntimeInterface* __rtInstance__;
+        interfaces::RuntimeInterface& app();
+        const interfaces::DebugOutInterface& dout();
+        void error(const char* error);
+        #ifdef ELROND_WITH_STR_TYPE
+            void error(elrond::String error);
         #endif
 
         //Internal modules

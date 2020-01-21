@@ -12,7 +12,7 @@ using elrond::channel::BaseChannelManager;
     ************** Implementation for elrond::modules::Loopback ****************
     ****************************************************************************/
 
-#if !defined WITHOUT_DESTRUCTORS
+#ifdef ELROND_WITH_DESTRUCTORS
     Loopback::~Loopback(){}
 #endif
 
@@ -39,7 +39,7 @@ void Loopback::setChannelManager(BaseChannelManager *cm){
     if(this->cm == nullptr) this->cm = cm;
 }
 
-#if defined GENERIC_STD_PLATFORM
+#ifdef ELROND_WITH_MODULES_INFO
 
     const char *Loopback::_getInternalName(){
         return "elrond::Loopback";

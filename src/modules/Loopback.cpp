@@ -1,6 +1,6 @@
 #include "modules/Loopback.hpp"
 #include "interfaces/ConfigMapInterface.hpp"
-#include "runtime/channel/BaseChannelManager.hpp"
+#include "channel/BaseChannelManager.hpp"
 
 using namespace elrond::modules;
 using elrond::interfaces::ModuleInterface;
@@ -9,19 +9,20 @@ using elrond::interfaces::ConfigMapInterface;
 using elrond::channel::BaseChannelManager;
 
 /*  ****************************************************************************
-    ************** Implementation for elrond::modules::Loopback ****************
+    ***************** elrond::modules::Loopback Implementation *****************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
     Loopback::~Loopback(){}
 #endif
 
-void Loopback::onInit(ConfigMapInterface &cfg){
+void Loopback::onInit(ConfigMapInterface& cfg)
+{
     this->getLoopControl().allow = false;
 }
 
-void Loopback::send(elrond::byte data[], const elrond::sizeT length){
-
+void Loopback::send(elrond::byte data[], const elrond::sizeT length)
+{
     if(this->cm == nullptr) return;
 
     const elrond::sizeT bufferLen = this->cm->getRxBufferSize();
@@ -35,7 +36,8 @@ void Loopback::send(elrond::byte data[], const elrond::sizeT length){
     this->cm->onReceive(rxBuffer, bufferLen);
 }
 
-void Loopback::setChannelManager(BaseChannelManager *cm){
+void Loopback::setChannelManager(BaseChannelManager* cm)
+{
     if(this->cm == nullptr) this->cm = cm;
 }
 

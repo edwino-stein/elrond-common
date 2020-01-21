@@ -1,7 +1,7 @@
-#include "runtime/channel/BaseChannelManager.hpp"
+#include "channel/BaseChannelManager.hpp"
 #include "modules/BaseTransportModule.hpp"
-#include "runtime/channel/RxChannel.hpp"
-#include "runtime/channel/TxChannel.hpp"
+#include "channel/RxChannel.hpp"
+#include "channel/TxChannel.hpp"
 #include "runtime/bitwise.hpp"
 
 using elrond::channel::BaseChannelManager;
@@ -10,15 +10,17 @@ using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    ********** Implementation for elrond::channel::BaseChannelManager **********
+    ************ elrond::channel::BaseChannelManager Implementation ************
     ****************************************************************************/
 
-BaseChannelManager::BaseChannelManager(BaseTransportModule &transport): transport(transport){
+BaseChannelManager::BaseChannelManager(BaseTransportModule &transport):
+transport(transport)
+{
     this->transport.setChannelManager(this);
 }
 
-void BaseChannelManager::init(){
-
+void BaseChannelManager::init()
+{
     const elrond::sizeT length = this->getTxBufferSize();
     if(length < ELROND_PROTOCOL_HEADER_SIZE) return;
 
@@ -43,8 +45,8 @@ void BaseChannelManager::init(){
     }
 }
 
-void BaseChannelManager::txTrigger(const elrond::sizeT ch, const elrond::word data){
-
+void BaseChannelManager::txTrigger(const elrond::sizeT ch, const elrond::word data)
+{
     if(ch >= this->getTotalTx()) return;
 
     elrond::byte *txBuffer = this->getTxBuffer();
@@ -55,15 +57,16 @@ void BaseChannelManager::txTrigger(const elrond::sizeT ch, const elrond::word da
     this->hasTxUpdate = true;
 }
 
-bool BaseChannelManager::txSync(const bool force){
+bool BaseChannelManager::txSync(const bool force)
+{
     if(!(this->hasTxUpdate || force)) return false;
     this->transport.send(this->getTxBuffer(), this->getTxBufferSize());
     this->hasTxUpdate = false;
     return true;
 }
 
-void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT length){
-
+void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT length)
+{
     if(length <= ELROND_PROTOCOL_HEADER_SIZE || length != this->getRxBufferSize()) return;
     if(data[ELROND_PROTOCOL_HEAD_BYTE_ACTION] != ELROND_PROTOCOL_ACTION_UPDATE_CHANNEL) return;
 
@@ -87,10 +90,12 @@ void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT leng
     }
 }
 
-elrond::sizeT BaseChannelManager::getRxBufferSize() const {
+elrond::sizeT BaseChannelManager::getRxBufferSize() const
+{
     return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalRx());
 }
 
-elrond::sizeT BaseChannelManager::getTxBufferSize() const {
+elrond::sizeT BaseChannelManager::getTxBufferSize() const
+{
     return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalTx());
 }

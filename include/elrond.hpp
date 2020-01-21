@@ -22,4 +22,8 @@
     #include "runtime.hpp"
     #include "modules.hpp"
 
+    #include "channel/BaseChannelManager.hpp"
+    #include "channel/TxChannel.hpp"
+    #include "channel/RxChannel.hpp"
+
 #endif

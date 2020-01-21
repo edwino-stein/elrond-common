@@ -1,7 +1,7 @@
 #include "test/DebugOut.hpp"
 
 using elrond::test::DebugOut;
-using elrond::interfaces::DebugOutInterface;
+using DebugOutInterface = elrond::interface::DebugOut;
 
 DebugOut::DebugOut(DebugOutHandleT handle): handle(handle) {}
 

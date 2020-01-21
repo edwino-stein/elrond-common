@@ -23,7 +23,7 @@
                         virtual ~Servo();
                     #endif
 
-                    virtual void onInit(elrond::interfaces::ConfigMapInterface &cfg) override;
+                    virtual void onInit(elrond::interface::ConfigMap& cfg) override;
 
                     #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();

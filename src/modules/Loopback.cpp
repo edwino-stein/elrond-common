@@ -1,11 +1,11 @@
 #include "modules/Loopback.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
+#include "interface/ConfigMap.hpp"
 #include "channel/BaseChannelManager.hpp"
 
 using namespace elrond::modules;
-using elrond::interfaces::ModuleInterface;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Module;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 using elrond::channel::BaseChannelManager;
 
 /*  ****************************************************************************
@@ -16,7 +16,7 @@ using elrond::channel::BaseChannelManager;
     Loopback::~Loopback(){}
 #endif
 
-void Loopback::onInit(ConfigMapInterface& cfg)
+void Loopback::onInit(ConfigMap& cfg)
 {
     this->getLoopControl().allow = false;
 }

@@ -1,11 +1,11 @@
 #include "modules/Servo.hpp"
-#include "interfaces/RuntimeInterface.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
+#include "interface/Runtime.hpp"
+#include "interface/ConfigMap.hpp"
 
 using namespace elrond::modules;
 using ServoModule = elrond::modules::Servo;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
@@ -16,7 +16,7 @@ using elrond::channel::RxChannel;
     ServoModule::~Servo(){}
 #endif
 
-void ServoModule::onInit(ConfigMapInterface &cfg)
+void ServoModule::onInit(ConfigMap& cfg)
 {
     this->getLoopControl().allow = false;
 

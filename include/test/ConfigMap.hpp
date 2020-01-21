@@ -9,7 +9,7 @@
     namespace elrond {
         namespace test {
 
-            class ConfigMap : public elrond::interfaces::ConfigMapInterface {
+            class ConfigMap : public elrond::interface::ConfigMap {
 
                 private:
 

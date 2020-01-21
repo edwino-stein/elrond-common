@@ -1,29 +1,29 @@
-#if !defined  _ELROND_MODULE_INTERFACE_HPP
-#define _ELROND_MODULE_INTERFACE_HPP
+#if !defined  _ELROND_INTERFACE_MODULE_HPP
+#define _ELROND_INTERFACE_MODULE_HPP
 
     #include "types.hpp"
 
     namespace elrond {
-        namespace interfaces {
+        namespace interface {
 
-            class ModuleInterface : public elrond::TaskContext {
+            class Module : public elrond::TaskContext {
 
                 public:
 
                     #ifdef ELROND_WITH_DESTRUCTORS
-                        virtual ~ModuleInterface();
+                        virtual ~Module();
                     #endif
 
                     virtual elrond::ModuleType getType() const =0;
-                    virtual elrond::ModuleLoopControl &getLoopControl() =0;
+                    virtual elrond::ModuleLoopControl& getLoopControl()=0;
 
-                    virtual void onInit(elrond::interfaces::ConfigMapInterface &cfg)=0;
+                    virtual void onInit(elrond::interface::ConfigMap& cfg)=0;
                     virtual void onStart()=0;
                     virtual void onStop()=0;
                     virtual void loop()=0;
 
                     #ifdef ELROND_WITH_LINKED_NODES
-                        ModuleInterface *_nextNode = nullptr;
+                        Module* _nextNode = nullptr;
                     #endif
             };
         }

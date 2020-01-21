@@ -1,10 +1,10 @@
 #include "modules/InputToChannel.hpp"
-#include "interfaces/RuntimeInterface.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
+#include "interface/Runtime.hpp"
+#include "interface/ConfigMap.hpp"
 
 using namespace elrond::modules;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::input::InputCallback;
 
@@ -16,7 +16,7 @@ using elrond::input::InputCallback;
     InputToChannel::~InputToChannel(){}
 #endif
 
-void InputToChannel::onInit(ConfigMapInterface &cfg)
+void InputToChannel::onInit(ConfigMap& cfg)
 {
     this->getLoopControl().allow = false;
 

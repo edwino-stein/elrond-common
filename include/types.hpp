@@ -48,11 +48,11 @@
         };
 
         // Interfaces
-        namespace interfaces {
-            class RuntimeInterface;
-            class ModuleInterface;
-            class ConfigMapInterface;
-            class DebugOutInterface;
+        namespace interface {
+            class Runtime;
+            class Module;
+            class ConfigMap;
+            class DebugOut;
         }
 
         // Modules
@@ -97,9 +97,9 @@
         }
 
         //Singleton instance of runtime application
-        extern interfaces::RuntimeInterface* __rtInstance__;
-        interfaces::RuntimeInterface& app();
-        const interfaces::DebugOutInterface& dout();
+        extern interface::Runtime* __rtInstance__;
+        interface::Runtime& app();
+        const interface::DebugOut& dout();
         void error(const char* error);
         #ifdef ELROND_WITH_STR_TYPE
             void error(elrond::String error);

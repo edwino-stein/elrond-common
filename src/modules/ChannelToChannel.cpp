@@ -1,10 +1,10 @@
 #include "modules/ChannelToChannel.hpp"
-#include "interfaces/RuntimeInterface.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
+#include "interface/Runtime.hpp"
+#include "interface/ConfigMap.hpp"
 
 using namespace elrond::modules;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
 
@@ -16,7 +16,7 @@ using elrond::channel::RxChannel;
     ChannelToChannel::~ChannelToChannel(){}
 #endif
 
-void ChannelToChannel::onInit(ConfigMapInterface &cfg)
+void ChannelToChannel::onInit(ConfigMap& cfg)
 {
     this->getLoopControl().allow = false;
 

@@ -1,11 +1,11 @@
 #include "modules/AnalogLed.hpp"
-#include "interfaces/RuntimeInterface.hpp"
-#include "interfaces/DebugOutInterface.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
+#include "interface/Runtime.hpp"
+#include "interface/DebugOut.hpp"
+#include "interface/ConfigMap.hpp"
 
 using namespace elrond::modules;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
@@ -16,7 +16,7 @@ using elrond::channel::RxChannel;
     AnalogLed::~AnalogLed(){}
 #endif
 
-void AnalogLed::onInit(ConfigMapInterface &cfg)
+void AnalogLed::onInit(ConfigMap &cfg)
 {
     this->getLoopControl().allow = false;
 

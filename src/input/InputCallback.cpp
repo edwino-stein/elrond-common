@@ -1,5 +1,5 @@
 #include "input/InputCallback.hpp"
-#include "interfaces/RuntimeInterface.hpp"
+#include "interface/Runtime.hpp"
 #include "modules/BaseInputDriverModule.hpp"
 
 using elrond::input::InputCallback;

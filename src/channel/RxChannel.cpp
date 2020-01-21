@@ -1,6 +1,6 @@
 #include "channel/RxChannel.hpp"
 #include "channel/BaseChannelManager.hpp"
-#include "interfaces/RuntimeInterface.hpp"
+#include "interface/Runtime.hpp"
 
 using elrond::channel::BaseChannelManager;
 using elrond::channel::RxChannel;

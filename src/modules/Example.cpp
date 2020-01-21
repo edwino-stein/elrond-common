@@ -1,22 +1,23 @@
 #include "modules/Example.hpp"
-#include "interfaces/RuntimeInterface.hpp"
-#include "interfaces/ConfigMapInterface.hpp"
-#include "interfaces/DebugOutInterface.hpp"
+#include "interface/Runtime.hpp"
+#include "interface/ConfigMap.hpp"
+#include "interface/DebugOut.hpp"
 
 using namespace elrond::modules;
-using elrond::interfaces::ModuleInterface;
-using elrond::interfaces::RuntimeInterface;
-using elrond::interfaces::ConfigMapInterface;
+using elrond::interface::Module;
+using elrond::interface::Runtime;
+using elrond::interface::ConfigMap;
 
 /*  ****************************************************************************
-    *************** Implementation for elrond::modules::Example ****************
+    ***************** elrond::modules::Example Implementation ******************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
     Example::~Example(){}
 #endif
 
-void Example::onInit(ConfigMapInterface &cfg) {
+void Example::onInit(ConfigMap& cfg)
+{
     elrond::dout().putLn("Example::onInit");
 
     this->getLoopControl().time = 100;

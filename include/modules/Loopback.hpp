@@ -18,9 +18,9 @@
                         virtual ~Loopback();
                     #endif
 
-                    void onInit(elrond::interfaces::ConfigMapInterface &cfg) override;
+                    void onInit(elrond::interface::ConfigMap& cfg) override;
                     void send(elrond::byte data[], const elrond::sizeT length) override;
-                    void setChannelManager(elrond::channel::BaseChannelManager *cm) override;
+                    void setChannelManager(elrond::channel::BaseChannelManager* cm) override;
 
                     #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();

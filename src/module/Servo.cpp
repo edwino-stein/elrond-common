@@ -1,22 +1,21 @@
-#include "modules/DigitalLed.hpp"
+#include "module/Servo.hpp"
 #include "interface/Runtime.hpp"
-#include "interface/DebugOut.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
+using ServoModule = elrond::module::Servo;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    **************** elrond::modules::DigitalLed Implementation ****************
+    ******************* elrond::module::Servo Implementation *******************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
-    DigitalLed::~DigitalLed(){}
+    ServoModule::~Servo(){}
 #endif
 
-void DigitalLed::onInit(ConfigMap &cfg)
+void ServoModule::onInit(ConfigMap& cfg)
 {
     this->getLoopControl().allow = false;
 
@@ -38,7 +37,7 @@ void DigitalLed::onInit(ConfigMap &cfg)
         chm,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            DigitalLed* const me = (DigitalLed*) ctx;
+            ServoModule* const me = (ServoModule *) ctx;
             me->pin.write(me->inverted ? HIGH_VALUE - data : data);
         },
         this
@@ -47,35 +46,35 @@ void DigitalLed::onInit(ConfigMap &cfg)
 
 #ifdef ELROND_WITH_MODULES_INFO
 
-    const char *DigitalLed::_getInternalName(){
-        return "elrond::DigitalLed";
+    const char *ServoModule::_getInternalName(){
+        return "elrond::Servo";
     }
 
-    const char *DigitalLed::_infoMainClassName(){
-        return "DigitalLed";
+    const char *ServoModule::_infoMainClassName(){
+        return "Servo";
     }
 
-    int DigitalLed::_infoApiVersion(){
+    int ServoModule::_infoApiVersion(){
         return ELROND_API_VERSION;
     }
 
-    int DigitalLed::_infoApiRevision(){
+    int ServoModule::_infoApiRevision(){
         return ELROND_API_REVISION;
     }
 
-    const char *DigitalLed::_infoPrettyName(){
-        return "Digital LED";
+    const char *ServoModule::_infoPrettyName(){
+        return "Servo";
     }
 
-    const char *DigitalLed::_infoAuthorName(){
+    const char *ServoModule::_infoAuthorName(){
         return "Edwino Stein";
     }
 
-    const char *DigitalLed::_infoAuthorEmail(){
+    const char *ServoModule::_infoAuthorEmail(){
         return "edwino.stein@gmail.com";
     }
 
-    const char *DigitalLed::_infoVersion(){
+    const char *ServoModule::_infoVersion(){
         return "1.0";
     }
 

@@ -1,22 +1,22 @@
-#include "modules/AnalogLed.hpp"
+#include "module/DigitalLed.hpp"
 #include "interface/Runtime.hpp"
 #include "interface/DebugOut.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
+using elrond::module::DigitalLed;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    **************** elrond::modules::AnalogLed Implementation *****************
+    **************** elrond::module::DigitalLed Implementation *****************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
-    AnalogLed::~AnalogLed(){}
+    DigitalLed::~DigitalLed(){}
 #endif
 
-void AnalogLed::onInit(ConfigMap &cfg)
+void DigitalLed::onInit(ConfigMap &cfg)
 {
     this->getLoopControl().allow = false;
 
@@ -38,7 +38,7 @@ void AnalogLed::onInit(ConfigMap &cfg)
         chm,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            AnalogLed* const me = (AnalogLed*) ctx;
+            DigitalLed* const me = (DigitalLed*) ctx;
             me->pin.write(me->inverted ? HIGH_VALUE - data : data);
         },
         this
@@ -47,35 +47,35 @@ void AnalogLed::onInit(ConfigMap &cfg)
 
 #ifdef ELROND_WITH_MODULES_INFO
 
-    const char *AnalogLed::_getInternalName(){
-        return "elrond::AnalogLed";
+    const char *DigitalLed::_getInternalName(){
+        return "elrond::DigitalLed";
     }
 
-    const char *AnalogLed::_infoMainClassName(){
-        return "AnalogLed";
+    const char *DigitalLed::_infoMainClassName(){
+        return "DigitalLed";
     }
 
-    int AnalogLed::_infoApiVersion(){
+    int DigitalLed::_infoApiVersion(){
         return ELROND_API_VERSION;
     }
 
-    int AnalogLed::_infoApiRevision(){
+    int DigitalLed::_infoApiRevision(){
         return ELROND_API_REVISION;
     }
 
-    const char *AnalogLed::_infoPrettyName(){
-        return "Analog LED";
+    const char *DigitalLed::_infoPrettyName(){
+        return "Digital LED";
     }
 
-    const char *AnalogLed::_infoAuthorName(){
+    const char *DigitalLed::_infoAuthorName(){
         return "Edwino Stein";
     }
 
-    const char *AnalogLed::_infoAuthorEmail(){
+    const char *DigitalLed::_infoAuthorEmail(){
         return "edwino.stein@gmail.com";
     }
 
-    const char *AnalogLed::_infoVersion(){
+    const char *DigitalLed::_infoVersion(){
         return "1.0";
     }
 

@@ -13,8 +13,8 @@
 
                 protected:
 
-                    elrond::modules::BaseGpioModule* gpio = nullptr;
-                    elrond::modules::BaseInputDriverModule* input = nullptr;
+                    elrond::module::BaseGpioModule* gpio = nullptr;
+                    elrond::module::BaseInputDriverModule* input = nullptr;
                     elrond::channel::BaseChannelManager* chmgr = nullptr;
                     elrond::interface::DebugOut* debugOut = nullptr;
 
@@ -30,8 +30,8 @@
                         std::function<bool()> loopContinue
                     ) const;
 
-                    elrond::modules::BaseGpioModule &getGpioService() const override;
-                    elrond::modules::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
+                    elrond::module::BaseGpioModule &getGpioService() const override;
+                    elrond::module::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
                     elrond::channel::BaseChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
                     const elrond::interface::DebugOut &dout() const override;
 
@@ -41,8 +41,8 @@
                         void onError(elrond::String error) override;
                     #endif
 
-                    RuntimeTest& set(elrond::modules::BaseGpioModule& gpio);
-                    RuntimeTest& set(elrond::modules::BaseInputDriverModule &input);
+                    RuntimeTest& set(elrond::module::BaseGpioModule& gpio);
+                    RuntimeTest& set(elrond::module::BaseInputDriverModule &input);
                     RuntimeTest& set(elrond::channel::BaseChannelManager &chmgr);
                     RuntimeTest& set(elrond::interface::DebugOut &dout);
 

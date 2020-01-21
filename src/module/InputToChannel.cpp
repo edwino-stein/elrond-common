@@ -1,15 +1,15 @@
-#include "modules/InputToChannel.hpp"
+#include "module/InputToChannel.hpp"
 #include "interface/Runtime.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
+using elrond::module::InputToChannel;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::input::InputCallback;
 
 /*  ****************************************************************************
-    ************** elrond::modules::InputToChannel Implementation **************
+    *************** elrond::module::InputToChannel Implementation **************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS

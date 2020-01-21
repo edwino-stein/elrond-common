@@ -1,28 +1,25 @@
-#if !defined  _ELROND_CHANNEL_TO_CHANNEL_MODULE_HPP
-    #define _ELROND_CHANNEL_TO_CHANNEL_MODULE_HPP
+#if !defined  _ELROND_LOOPBACK_MODULE_HPP
+    #define _ELROND_LOOPBACK_MODULE_HPP
 
-    #include "types.hpp"
-    #include "modules/BaseModule.hpp"
-    #include "channel/TxChannel.hpp"
-    #include "channel/RxChannel.hpp"
+    #include "module/BaseTransportModule.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class ChannelToChannel : public modules::BaseModule {
+            class Loopback : public elrond::module::BaseTransportModule {
 
                 protected:
-                    bool inverted = false;
-                    elrond::channel::TxChannel txCh;
-                    elrond::channel::RxChannel rxCh;
+                    elrond::channel::BaseChannelManager *cm = nullptr;
 
                 public:
 
                     #ifdef ELROND_WITH_DESTRUCTORS
-                        virtual ~ChannelToChannel();
+                        virtual ~Loopback();
                     #endif
 
-                    virtual void onInit(elrond::interface::ConfigMap& cfg) override;
+                    void onInit(elrond::interface::ConfigMap& cfg) override;
+                    void send(elrond::byte data[], const elrond::sizeT length) override;
+                    void setChannelManager(elrond::channel::BaseChannelManager* cm) override;
 
                     #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();

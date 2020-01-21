@@ -6,7 +6,7 @@
 using elrond::test::RuntimeTest;
 using elrond::test::DebugOut;
 using elrond::test::ConfigMap;
-using elrond::modules::Example;
+using elrond::module::Example;
 
 TEST_CASE("Runtime application for Elrond Test Library")
 {

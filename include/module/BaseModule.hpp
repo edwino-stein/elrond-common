@@ -1,13 +1,12 @@
 #if !defined  _ELROND_BASE_MODULE_HPP
     #define _ELROND_BASE_MODULE_HPP
 
-    #include "types.hpp"
     #include "interface/Module.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class BaseModule : public interface::Module {
+            class BaseModule : public elrond::interface::Module {
 
                 protected:
 

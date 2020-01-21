@@ -1,14 +1,14 @@
-#include "modules/BaseModule.hpp"
+#include "module/BaseModule.hpp"
 #include "interface/Runtime.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
+using elrond::module::BaseModule;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 
 /*  ****************************************************************************
-    **************** elrond::modules::BaseModule Implementation ****************
+    **************** elrond::module::BaseModule Implementation *****************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS

@@ -1,14 +1,16 @@
-#include "modules/BaseInputDriverModule.hpp"
-using namespace elrond::modules;
+#include "module/BaseInputDriverModule.hpp"
+
+using elrond::module::BaseInputDriverModule;
 
 /*  ****************************************************************************
-    ********* Implementation for elrond::modules::BaseInputDriverModule ********
+    *********** elrond::module::BaseInputDriverModule Implementation ***********
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
     BaseInputDriverModule::~BaseInputDriverModule(){}
 #endif
 
-elrond::ModuleType BaseInputDriverModule::getType() const {
+elrond::ModuleType BaseInputDriverModule::getType() const
+{
     return elrond::ModuleType::INPUT;
 }

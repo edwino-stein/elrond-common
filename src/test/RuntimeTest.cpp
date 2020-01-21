@@ -7,8 +7,8 @@ using elrond::interface::Runtime;
 using elrond::interface::Module;
 using ConfigMapInterface = elrond::interface::ConfigMap;
 using elrond::interface::DebugOut;
-using elrond::modules::BaseGpioModule;
-using elrond::modules::BaseInputDriverModule;
+using elrond::module::BaseGpioModule;
+using elrond::module::BaseInputDriverModule;
 using elrond::channel::BaseChannelManager;
 
 Runtime* elrond::__rtInstance__ = nullptr;

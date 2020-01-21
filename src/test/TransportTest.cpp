@@ -1,8 +1,7 @@
 #include "test/TransportTest.hpp"
 
 using elrond::test::TransportTest;
-using elrond::modules::BaseTransportModule;
-using elrond::modules::BaseInputDriverModule;
+using elrond::module::BaseTransportModule;
 using elrond::channel::BaseChannelManager;
 
 TransportTest::TransportTest(onActionT onSend, onActionT onReceive)

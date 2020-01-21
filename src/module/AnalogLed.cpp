@@ -1,22 +1,22 @@
-#include "modules/Servo.hpp"
+#include "module/AnalogLed.hpp"
 #include "interface/Runtime.hpp"
+#include "interface/DebugOut.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
-using ServoModule = elrond::modules::Servo;
+using elrond::module::AnalogLed;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    ******************* elrond::modules::Servo Implementation ******************
+    ***************** elrond::module::AnalogLed Implementation *****************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
-    ServoModule::~Servo(){}
+    AnalogLed::~AnalogLed(){}
 #endif
 
-void ServoModule::onInit(ConfigMap& cfg)
+void AnalogLed::onInit(ConfigMap &cfg)
 {
     this->getLoopControl().allow = false;
 
@@ -38,7 +38,7 @@ void ServoModule::onInit(ConfigMap& cfg)
         chm,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            ServoModule* const me = (ServoModule *) ctx;
+            AnalogLed* const me = (AnalogLed*) ctx;
             me->pin.write(me->inverted ? HIGH_VALUE - data : data);
         },
         this
@@ -47,35 +47,35 @@ void ServoModule::onInit(ConfigMap& cfg)
 
 #ifdef ELROND_WITH_MODULES_INFO
 
-    const char *ServoModule::_getInternalName(){
-        return "elrond::Servo";
+    const char *AnalogLed::_getInternalName(){
+        return "elrond::AnalogLed";
     }
 
-    const char *ServoModule::_infoMainClassName(){
-        return "Servo";
+    const char *AnalogLed::_infoMainClassName(){
+        return "AnalogLed";
     }
 
-    int ServoModule::_infoApiVersion(){
+    int AnalogLed::_infoApiVersion(){
         return ELROND_API_VERSION;
     }
 
-    int ServoModule::_infoApiRevision(){
+    int AnalogLed::_infoApiRevision(){
         return ELROND_API_REVISION;
     }
 
-    const char *ServoModule::_infoPrettyName(){
-        return "Servo";
+    const char *AnalogLed::_infoPrettyName(){
+        return "Analog LED";
     }
 
-    const char *ServoModule::_infoAuthorName(){
+    const char *AnalogLed::_infoAuthorName(){
         return "Edwino Stein";
     }
 
-    const char *ServoModule::_infoAuthorEmail(){
+    const char *AnalogLed::_infoAuthorEmail(){
         return "edwino.stein@gmail.com";
     }
 
-    const char *ServoModule::_infoVersion(){
+    const char *AnalogLed::_infoVersion(){
         return "1.0";
     }
 

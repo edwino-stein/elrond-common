@@ -7,7 +7,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::ChannelToChannel;
+using elrond::module::ChannelToChannel;
 
 TEST_CASE("Channel to Channel module params test (no txCh)")
 {

@@ -1,14 +1,16 @@
-#include "modules/BaseGpioModule.hpp"
-using namespace elrond::modules;
+#include "module/BaseGpioModule.hpp"
+
+using elrond::module::BaseGpioModule;
 
 /*  ****************************************************************************
-    ************ Implementation for elrond::modules::BaseGpioModule ************
+    ************** elrond::module::BaseGpioModule Implementation ***************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS
     BaseGpioModule::~BaseGpioModule(){}
 #endif
 
-elrond::ModuleType BaseGpioModule::getType() const {
+elrond::ModuleType BaseGpioModule::getType() const
+{
     return elrond::ModuleType::GPIO;
 }

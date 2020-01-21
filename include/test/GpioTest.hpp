@@ -10,7 +10,7 @@
     namespace elrond {
         namespace test {
 
-            class GpioTest : public elrond::modules::BaseGpioModule {
+            class GpioTest : public elrond::module::BaseGpioModule {
 
                 private:
 

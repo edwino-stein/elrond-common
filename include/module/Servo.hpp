@@ -1,16 +1,15 @@
 #if !defined  _ELROND_SERVO_MODULE_HPP
     #define _ELROND_SERVO_MODULE_HPP
 
-    #include "types.hpp"
-    #include "modules/BaseModule.hpp"
+    #include "module/BaseModule.hpp"
     #include "channel/RxChannel.hpp"
     #include "gpio/BaseGpioPin.hpp"
     #include "gpio/GenericGpioPin.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class Servo : public modules::BaseModule {
+            class Servo : public elrond::module::BaseModule {
 
                 protected:
                     bool inverted = false;

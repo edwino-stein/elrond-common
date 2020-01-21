@@ -1,24 +1,27 @@
-#if !defined  _ELROND_EXAMPLE_MODULE_HPP
-    #define _ELROND_EXAMPLE_MODULE_HPP
+#if !defined  _ELROND_INPUT_TO_CHANNEL_MODULE_HPP
+    #define _ELROND_INPUT_TO_CHANNEL_MODULE_HPP
 
-    #include "types.hpp"
-    #include "modules/BaseModule.hpp"
+    #include "module/BaseModule.hpp"
+    #include "channel/TxChannel.hpp"
+    #include "input/InputCallback.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class Example : public modules::BaseModule {
+            class InputToChannel : public elrond::module::BaseModule {
+
+                protected:
+                    bool inverted = false;
+                    elrond::channel::TxChannel txCh;
+                    elrond::input::InputCallback inKey;
 
                 public:
 
                     #ifdef ELROND_WITH_DESTRUCTORS
-                        virtual ~Example();
+                        virtual ~InputToChannel();
                     #endif
 
                     virtual void onInit(elrond::interface::ConfigMap& cfg) override;
-                    virtual void onStart() override;
-                    virtual void loop() override;
-                    virtual void onStop() override;
 
                     #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();

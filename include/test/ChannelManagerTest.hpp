@@ -41,7 +41,7 @@
                 public:
 
                     ChannelManagerTest(
-                        elrond::modules::BaseTransportModule& transport,
+                        elrond::module::BaseTransportModule& transport,
                         const elrond::sizeT chs,
                         const bool autoSync = true,
                         const bool autoInit = true

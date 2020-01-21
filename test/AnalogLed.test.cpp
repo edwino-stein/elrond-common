@@ -8,7 +8,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::AnalogLed;
+using elrond::module::AnalogLed;
 using elrond::gpio::BaseGpioPin;
 using elrond::gpio::PwmPin;
 

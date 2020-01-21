@@ -1,15 +1,15 @@
-#include "modules/Loopback.hpp"
+#include "module/Loopback.hpp"
 #include "interface/ConfigMap.hpp"
 #include "channel/BaseChannelManager.hpp"
 
-using namespace elrond::modules;
+using elrond::module::Loopback;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::BaseChannelManager;
 
 /*  ****************************************************************************
-    ***************** elrond::modules::Loopback Implementation *****************
+    ****************** elrond::module::Loopback Implementation *****************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS

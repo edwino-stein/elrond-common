@@ -1,13 +1,12 @@
 #if !defined  _ELROND_BASE_TRANSPORT_MODULE_HPP
     #define _ELROND_BASE_TRANSPORT_MODULE_HPP
 
-    #include "types.hpp"
-    #include "modules/BaseModule.hpp"
+    #include "module/BaseModule.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class BaseTransportModule : public elrond::modules::BaseModule {
+            class BaseTransportModule : public elrond::module::BaseModule {
 
                 public:
 
@@ -16,7 +15,7 @@
                     #endif
 
                     virtual void send(elrond::byte data[], const elrond::sizeT length)=0;
-                    virtual void setChannelManager(elrond::channel::BaseChannelManager *cm)=0;
+                    virtual void setChannelManager(elrond::channel::BaseChannelManager* cm)=0;
                     virtual elrond::ModuleType getType() const override;
             };
         }

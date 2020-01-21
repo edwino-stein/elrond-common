@@ -1,10 +1,10 @@
 #include "gpio/BaseGpioPin.hpp"
 #include "interface/Runtime.hpp"
-#include "modules/BaseGpioModule.hpp"
+#include "module/BaseGpioModule.hpp"
 
 using elrond::gpio::BaseGpioPin;
 using elrond::interface::Runtime;
-using elrond::modules::BaseGpioModule;
+using elrond::module::BaseGpioModule;
 
 /*  ****************************************************************************
     ***************** elrond::gpio::BaseGpioPin Implementation *****************

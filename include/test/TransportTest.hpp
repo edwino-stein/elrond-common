@@ -8,7 +8,7 @@
     namespace elrond {
         namespace test {
 
-            class TransportTest : public elrond::modules::BaseTransportModule {
+            class TransportTest : public elrond::module::BaseTransportModule {
 
                 private:
                     using onActionT = std::function<void(elrond::byte[], const elrond::sizeT, TransportTest&)>;

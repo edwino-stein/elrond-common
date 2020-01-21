@@ -1,7 +1,7 @@
 #include "test/InputDriverTest.hpp"
 
 using elrond::test::InputDriverTest;
-using elrond::modules::BaseInputDriverModule;
+using elrond::module::BaseInputDriverModule;
 using elrond::input::InputCallback;
 using elrond::input::OnInputHandleT;
 

@@ -10,7 +10,7 @@
             class BaseChannelManager {
 
                 protected:
-                    elrond::modules::BaseTransportModule &transport;
+                    elrond::module::BaseTransportModule &transport;
                     bool hasTxUpdate = false;
 
                     virtual void rxTrigger(const elrond::sizeT ch, const elrond::word data)=0;
@@ -18,7 +18,7 @@
 
                 public:
 
-                    BaseChannelManager(elrond::modules::BaseTransportModule &transport);
+                    BaseChannelManager(elrond::module::BaseTransportModule &transport);
 
                     virtual void init();
                     virtual void txTrigger(const elrond::sizeT ch, elrond::word data);

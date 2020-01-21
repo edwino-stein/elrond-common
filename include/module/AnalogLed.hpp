@@ -1,16 +1,15 @@
 #if !defined  _ELROND_ANALOG_LED_MODULE_HPP
     #define _ELROND_ANALOG_LED_MODULE_HPP
 
-    #include "types.hpp"
-    #include "modules/BaseModule.hpp"
+    #include "module/BaseModule.hpp"
     #include "channel/RxChannel.hpp"
     #include "gpio/BaseGpioPin.hpp"
     #include "gpio/GenericGpioPin.hpp"
 
     namespace elrond {
-        namespace modules {
+        namespace module {
 
-            class AnalogLed : public modules::BaseModule {
+            class AnalogLed : public module::BaseModule {
 
                 protected:
                     bool inverted = false;

@@ -10,7 +10,7 @@
     namespace elrond {
         namespace test {
 
-            class InputDriverTest : public elrond::modules::BaseInputDriverModule {
+            class InputDriverTest : public elrond::module::BaseInputDriverModule {
 
                 private:
 

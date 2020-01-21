@@ -56,7 +56,7 @@
         }
 
         // Modules
-        namespace modules {
+        namespace module {
             class BaseModule;
             class BaseTransportModule;
             class BaseGpioModule;
@@ -106,13 +106,13 @@
         #endif
 
         //Internal modules
-        using Example = elrond::modules::Example;
-        using Loopback = elrond::modules::Loopback;
-        using InputToChannel = elrond::modules::InputToChannel;
-        using ChannelToChannel = elrond::modules::ChannelToChannel;
-        using DigitalLed = elrond::modules::DigitalLed;
-        using AnalogLed = elrond::modules::AnalogLed;
-        using Servo = elrond::modules::Servo;
+        using Example = elrond::module::Example;
+        using Loopback = elrond::module::Loopback;
+        using InputToChannel = elrond::module::InputToChannel;
+        using ChannelToChannel = elrond::module::ChannelToChannel;
+        using DigitalLed = elrond::module::DigitalLed;
+        using AnalogLed = elrond::module::AnalogLed;
+        using Servo = elrond::module::Servo;
 
         #ifndef ELROND_TASK_CONTEXT
             #define ELRONND_TASK_CONTEXT

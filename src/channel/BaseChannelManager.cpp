@@ -1,11 +1,11 @@
 #include "channel/BaseChannelManager.hpp"
-#include "modules/BaseTransportModule.hpp"
+#include "module/BaseTransportModule.hpp"
 #include "channel/RxChannel.hpp"
 #include "channel/TxChannel.hpp"
 #include "runtime/bitwise.hpp"
 
 using elrond::channel::BaseChannelManager;
-using elrond::modules::BaseTransportModule;
+using elrond::module::BaseTransportModule;
 using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
 

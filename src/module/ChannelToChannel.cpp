@@ -1,15 +1,15 @@
-#include "modules/ChannelToChannel.hpp"
+#include "module/ChannelToChannel.hpp"
 #include "interface/Runtime.hpp"
 #include "interface/ConfigMap.hpp"
 
-using namespace elrond::modules;
+using elrond::module::ChannelToChannel;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
 
 /*  ****************************************************************************
-    ************* elrond::modules::ChannelToChannel Implementation *************
+    ************** elrond::module::ChannelToChannel Implementation *************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS

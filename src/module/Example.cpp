@@ -1,15 +1,15 @@
-#include "modules/Example.hpp"
+#include "module/Example.hpp"
 #include "interface/Runtime.hpp"
 #include "interface/ConfigMap.hpp"
 #include "interface/DebugOut.hpp"
 
-using namespace elrond::modules;
+using elrond::module::Example;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 
 /*  ****************************************************************************
-    ***************** elrond::modules::Example Implementation ******************
+    ****************** elrond::module::Example Implementation ******************
     ****************************************************************************/
 
 #ifdef ELROND_WITH_DESTRUCTORS

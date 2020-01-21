@@ -3,8 +3,6 @@
 
     #include "runtime/TaskContext.hpp"
 
-    #include "runtime/InputCallback.hpp"
-
     #include "runtime/bitwise.hpp"
     #include "runtime/time.hpp"
     #include "runtime/math.hpp"

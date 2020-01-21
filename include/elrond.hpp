@@ -29,4 +29,6 @@
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"
 
+    #include "input/InputCallback.hpp"
+
 #endif

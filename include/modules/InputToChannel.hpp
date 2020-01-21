@@ -3,8 +3,8 @@
 
     #include "types.hpp"
     #include "modules/BaseModule.hpp"
-    #include "runtime/InputCallback.hpp"
     #include "channel/TxChannel.hpp"
+    #include "input/InputCallback.hpp"
 
     namespace elrond {
         namespace modules {

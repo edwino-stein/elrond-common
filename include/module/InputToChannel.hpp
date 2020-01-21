@@ -21,7 +21,7 @@
                         virtual ~InputToChannel();
                     #endif
 
-                    virtual void onInit(elrond::interface::ConfigMap& cfg) override;
+                    virtual void onInit(elrond::interface::ConfigMap& cfg, elrond::LoopControl& lc) override;
 
                     #ifdef ELROND_WITH_MODULES_INFO
                         static const char *_getInternalName();

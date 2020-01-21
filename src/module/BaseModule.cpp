@@ -6,6 +6,7 @@ using elrond::module::BaseModule;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     **************** elrond::module::BaseModule Implementation *****************
@@ -15,7 +16,7 @@ using elrond::interface::ConfigMap;
     BaseModule::~BaseModule(){}
 #endif
 
-void BaseModule::onInit(ConfigMap& cfg){}
+void BaseModule::onInit(ConfigMap& cfg, LoopControl& lc){}
 void BaseModule::onStart(){}
 void BaseModule::loop(){}
 void BaseModule::onStop(){}

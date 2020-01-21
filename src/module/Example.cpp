@@ -7,6 +7,7 @@ using elrond::module::Example;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     ****************** elrond::module::Example Implementation ******************
@@ -16,7 +17,7 @@ using elrond::interface::ConfigMap;
     Example::~Example(){}
 #endif
 
-void Example::onInit(ConfigMap& cfg)
+void Example::onInit(ConfigMap& cfg, LoopControl& lc)
 {
     elrond::dout().putLn("Example::onInit");
 

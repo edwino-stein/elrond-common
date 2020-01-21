@@ -7,6 +7,7 @@ using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::BaseChannelManager;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     ****************** elrond::module::Loopback Implementation *****************
@@ -15,11 +16,6 @@ using elrond::channel::BaseChannelManager;
 #ifdef ELROND_WITH_DESTRUCTORS
     Loopback::~Loopback(){}
 #endif
-
-void Loopback::onInit(ConfigMap& cfg)
-{
-    this->getLoopControl().allow = false;
-}
 
 void Loopback::send(elrond::byte data[], const elrond::sizeT length)
 {

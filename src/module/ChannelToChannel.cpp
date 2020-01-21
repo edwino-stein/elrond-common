@@ -7,6 +7,7 @@ using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
 using elrond::channel::RxChannel;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     ************** elrond::module::ChannelToChannel Implementation *************
@@ -16,7 +17,7 @@ using elrond::channel::RxChannel;
     ChannelToChannel::~ChannelToChannel(){}
 #endif
 
-void ChannelToChannel::onInit(ConfigMap& cfg)
+void ChannelToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
 {
     this->getLoopControl().allow = false;
 

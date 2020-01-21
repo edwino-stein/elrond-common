@@ -7,6 +7,7 @@ using elrond::module::AnalogLed;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
+using elrond::LoopControl;
 
 /*  ****************************************************************************
     ***************** elrond::module::AnalogLed Implementation *****************
@@ -16,7 +17,7 @@ using elrond::channel::RxChannel;
     AnalogLed::~AnalogLed(){}
 #endif
 
-void AnalogLed::onInit(ConfigMap &cfg)
+void AnalogLed::onInit(ConfigMap &cfg, LoopControl& lc)
 {
     this->getLoopControl().allow = false;
 

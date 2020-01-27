@@ -133,5 +133,8 @@
     #define DEFINE_MODULE_AUTHOR_NAME(NAME) extern "C" const char *  _infoAuthorName(){return NAME;}
     #define DEFINE_MODULE_AUTHOR_EMAIL(EMAIL) extern "C" const char *  _infoAuthorEmail(){return EMAIL;}
     #define DEFINE_MODULE_VERSION(VERSION) extern "C" const char *  _infoVersion(){return VERSION;}
+    #define ELROND_MOD_INFO_APP_P elrond::interface::Runtime*
+    #define ELROND_MOD_APP_VAR_N __rt_instance__
+    #define ELROND_MOD_APP_VAR elrond::ELROND_MOD_APP_VAR_N
 
 #endif

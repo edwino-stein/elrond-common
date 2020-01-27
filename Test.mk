@@ -7,7 +7,7 @@ BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
 INCLUDES := $(addprefix -I, $(INCLUDES) $(i))
 MACROS := $(addprefix -D, $(MACROS) $(m))
 
-LDLIBS = $(addprefix -l, $(ld))
+LDLIBS = $(addprefix -l, pthread $(ld))
 LSLIBS = $(l)
 
 ALL_TEST_SRC = $(shell find $(TEST_DIR) -type f \( -name "*.test.cpp" \))
@@ -25,7 +25,7 @@ LDFLAGS += $(INCLUDES) $(MACROS)
 
 all: $(ALL_TEST_SRC) $(LIB_CATCH_OBJ)
 	@mkdir -p $(@D)
-	$(CXX) $(LDFLAGS) $(INCLUDES) $^ $(LSLIBS) $(MACROS) -o $(BUILD_DIR)/all.test $(LDLIBS)
+	$(CXX) $(LDFLAGS) $^ $(LSLIBS) $(MACROS) -o $(BUILD_DIR)/all.test $(LDLIBS)
 	./$(BUILD_DIR)/all.test $(a)
 	@rm -f $(BUILD_DIR)/all.test
 

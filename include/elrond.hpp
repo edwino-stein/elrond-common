@@ -47,10 +47,8 @@
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"
 
-
     // Input
     #include "input/InputCallback.hpp"
-
 
     // Runtime functions
     #include "runtime/bitwise.hpp"

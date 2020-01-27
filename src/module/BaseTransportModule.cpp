@@ -1,16 +1,17 @@
 #include "module/BaseTransportModule.hpp"
 
-using elrond::module::BaseTransportModule;
-
 /*  ****************************************************************************
     ************ elrond::module::BaseTransportModule Implementation ************
     ****************************************************************************/
 
-#ifdef ELROND_WITH_DESTRUCTORS
-    BaseTransportModule::~BaseTransportModule(){}
-#endif
+namespace elrond {
+    namespace module {
 
-elrond::ModuleType BaseTransportModule::getType() const
-{
-    return elrond::ModuleType::TRANSPORT;
+        #ifdef ELROND_WITH_DESTRUCTORS
+            ELROND_INLINE_FUNC BaseTransportModule::~BaseTransportModule(){}
+        #endif
+
+        ELROND_INLINE_FUNC elrond::ModuleType BaseTransportModule::getType() const
+        { return elrond::ModuleType::TRANSPORT; }
+    }
 }

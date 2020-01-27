@@ -8,9 +8,11 @@ SRC_DIR = src
 SRC_TEST_DIR = $(SRC_DIR)/test
 INCLUDE_DIR = include
 BUILD_DIR = build
+DIST_DIR = dist
 
 # Util
 TEST_MAKEFILE = Test.mk
+HO_MAKEFILE = Headeronly.mk
 COMMON_NAME_LIB = lib$(PROJECT_NAME)
 TEST_NAME_LIB = lib$(PROJECT_NAME)-test
 INCLUDES = $(INCLUDE_DIR)
@@ -19,6 +21,8 @@ MACROS =
 # File extensions
 CPP_SRC_EXT = cpp
 C_SRC_EXT = c
+HPP_SRC_EXT = hpp
+IPP_SRC_EXT = ipp
 OBJ_EXT = o
 DEP_EXT = d
 DYNAMIC_LIB_EXT = so

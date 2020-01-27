@@ -97,7 +97,7 @@
         }
 
         //Singleton instance of runtime application
-        extern interface::Runtime* __rtInstance__;
+        extern ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR_N;
         interface::Runtime& app();
         const interface::DebugOut& dout();
         void error(const char* error);

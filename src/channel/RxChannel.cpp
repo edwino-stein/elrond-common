@@ -2,32 +2,32 @@
 #include "channel/BaseChannelManager.hpp"
 #include "interface/Runtime.hpp"
 
-using elrond::channel::BaseChannelManager;
-using elrond::channel::RxChannel;
-using elrond::channel::OnReceiveHandleT;
-using elrond::TaskContext;
-
 /*  ****************************************************************************
     ***************** elrond::channel::RxChannel Implementation ****************
     ****************************************************************************/
 
-RxChannel::RxChannel() : _data(0), data(_data) {}
+namespace elrond {
+    namespace channel {
 
-void RxChannel::init(
-    const elrond::sizeT chId,
-    const elrond::sizeT chm,
-    OnReceiveHandleT handle,
-    TaskContext* const ctx
-){
-    BaseChannelManager& cm = elrond::app().getChannelManager(chm);
-    cm.addRxListener(chId, this);
-    this->handle = handle;
-    this->ctx = ctx;
-}
+        ELROND_INLINE_FUNC RxChannel::RxChannel() : _data(0), data(_data) {}
 
-void RxChannel::trigger(const elrond::word data)
-{
-    if(this->_data == data) return;
-    this->_data = data;
-    this->handle(data, this->ctx);
+        ELROND_INLINE_FUNC void RxChannel::init(
+            const elrond::sizeT chId,
+            const elrond::sizeT chm,
+            OnReceiveHandleT handle,
+            TaskContext* const ctx
+        ){
+            BaseChannelManager& cm = elrond::app().getChannelManager(chm);
+            cm.addRxListener(chId, this);
+            this->handle = handle;
+            this->ctx = ctx;
+        }
+
+        ELROND_INLINE_FUNC void RxChannel::trigger(const elrond::word data)
+        {
+            if(this->_data == data) return;
+            this->_data = data;
+            this->handle(data, this->ctx);
+        }
+    }
 }

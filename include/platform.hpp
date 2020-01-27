@@ -63,6 +63,7 @@
     #define ELROND_WITH_DESTRUCTORS
     #define ELROND_WITH_STR_TYPE
     #define ELROND_WITH_LAMBDA_TYPE
+    // #define ELROND_WITH_INLINE_FUNC
     // #define ELROND_WITH_LINKED_NODES
 
     // Includes
@@ -110,7 +111,13 @@
         #define ELROND_LAMBDA_TYPE std::function
         #define ELROND_LAMBDA_FUNC(R, ...) ELROND_LAMBDA_TYPE < R ( __VA_ARGS__ ) >
     #else
-        #define ELROND_LAMBDA_FUNC(R, ...) R (*)( __VA_ARGS__ );
+        #define ELROND_LAMBDA_FUNC(R, ...) R (*)( __VA_ARGS__ )
+    #endif
+
+    #ifdef ELROND_WITH_INLINE_FUNC
+        #define ELROND_INLINE_FUNC inline
+    #else
+        #define ELROND_INLINE_FUNC
     #endif
 
     // Module Definition
@@ -126,5 +133,8 @@
     #define DEFINE_MODULE_AUTHOR_NAME(NAME) extern "C" const char *  _infoAuthorName(){return NAME;}
     #define DEFINE_MODULE_AUTHOR_EMAIL(EMAIL) extern "C" const char *  _infoAuthorEmail(){return EMAIL;}
     #define DEFINE_MODULE_VERSION(VERSION) extern "C" const char *  _infoVersion(){return VERSION;}
+    #define ELROND_MOD_INFO_APP_P elrond::interface::Runtime*
+    #define ELROND_MOD_APP_VAR_N __rt_instance__
+    #define ELROND_MOD_APP_VAR elrond::ELROND_MOD_APP_VAR_N
 
 #endif

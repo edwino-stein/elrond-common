@@ -3,25 +3,35 @@
 #include "interface/ConfigMap.hpp"
 #include "interface/DebugOut.hpp"
 
-using elrond::interface::Module;
-using elrond::interface::Runtime;
-using elrond::interface::DebugOut;
-
-/*  ****************************************************************************
-    **************** elrond::interface::Module implementations *****************
-    ****************************************************************************/
-
-#ifdef ELROND_WITH_DESTRUCTORS
-    Module::~Module(){}
-#endif
-
 /*  ****************************************************************************
     *************************** elrond implementation **************************
     ****************************************************************************/
 
-Runtime& elrond::app(){return *(elrond::__rtInstance__);}
-const DebugOut& elrond::dout(){ return elrond::app().dout(); }
-void elrond::error(const char* error){ elrond::app().onError(error); }
-#ifdef ELROND_WITH_STR_TYPE
-    void elrond::error(elrond::String error){ elrond::app().onError(error); }
-#endif
+namespace elrond {
+
+    ELROND_INLINE_FUNC interface::Runtime& app()
+    { return *(ELROND_MOD_APP_VAR); }
+
+    ELROND_INLINE_FUNC const interface::DebugOut& dout()
+    { return elrond::app().dout(); }
+
+    ELROND_INLINE_FUNC void error(const char* error)
+    { app().onError(error); }
+
+    #ifdef ELROND_WITH_STR_TYPE
+        ELROND_INLINE_FUNC void error(elrond::String error)
+        { app().onError(error); }
+    #endif
+
+}
+
+/*  ****************************************************************************
+    **************** elrond::interface::Module implementations *****************
+    ****************************************************************************/
+namespace elrond {
+    namespace interface {
+        #ifdef ELROND_WITH_DESTRUCTORS
+            ELROND_INLINE_FUNC Module::~Module(){}
+        #endif
+    }
+}

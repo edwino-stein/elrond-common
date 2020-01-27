@@ -14,12 +14,31 @@ TEST_CASE("Bitwise functions for Elrond Test Library")
     CHECK(elrond::makeDWord(0x1234, 0xABCD) == 0x1234ABCD);
 }
 
-TEST_CASE("Math functions for Elrond Test Library", "[math],[runtime]" )
+TEST_CASE("Math functions for Elrond Test Library")
 {
-    REQUIRE(elrond::abs(-1) == 1);
-    REQUIRE(elrond::abs(1) == 1);
-    REQUIRE(elrond::abs(0) == 0);
-    REQUIRE(elrond::mod(123.456) == Approx(0.456));
+    CHECK(elrond::abs(-1) == 1);
+    CHECK(elrond::abs(1) == 1);
+    CHECK(elrond::abs(0) == 0);
+    CHECK(elrond::mod(123.456) == Approx(0.456));
+
+    CHECK(elrond::map(0, 0, 100, LOW_VALUE, HIGH_VALUE) == LOW_VALUE);
+    CHECK(elrond::map(100, 0, 100, LOW_VALUE, HIGH_VALUE) == HIGH_VALUE);
+    CHECK(elrond::map(50, 0, 100, LOW_VALUE, HIGH_VALUE) == (elrond::int32) (HIGH_VALUE * 0.5));
+
+    int a = 10, b = 20;
+    elrond::swap<int>(a, b);
+    CHECK(a == 20);
+    CHECK(b == 10);
+
+    double c = 123.456, d = 3.14;
+    elrond::swap<double>(c, d);
+    CHECK(c == Approx(3.14));
+    CHECK(d == Approx(123.456));
+
+    elrond::String e = "hello", f = "world";
+    elrond::swap<elrond::String>(e, f);
+    CHECK(e == "world");
+    CHECK(f == "hello");
 }
 
 TEST_CASE("Time functions for Elrond Test Library", "[time],[runtime]" )

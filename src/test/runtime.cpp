@@ -1,33 +1,7 @@
-#include <cmath>
 #include <chrono>
 #include <thread>
 
-#include "runtime/math.hpp"
 #include "runtime/time.hpp"
-
-/* *********************************** Math *********************************** */
-
-long elrond::map(long x, long in_min, long in_max, long out_min, long out_max)
-{
-    // Based in Arduino map funtion
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-int elrond::abs(int v)
-{
-    return ::abs(v);
-}
-
-long int elrond::abs(long int v)
-{
-    return ::abs(v);
-}
-
-double elrond::mod(double v)
-{
-    double i;
-    return ::modf(v, &i);
-}
 
 /* *********************************** Time ********************************** */
 

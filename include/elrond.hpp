@@ -55,6 +55,6 @@
     // Runtime functions
     #include "runtime/bitwise.hpp"
     #include "runtime/time.hpp"
-    #include "runtime/math.hpp"
+    #include "runtime/math.ipp"
 
 #endif

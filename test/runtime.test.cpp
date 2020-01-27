@@ -1,17 +1,17 @@
 #include "elrond-test.hpp"
 #include "catch.hpp"
 
-TEST_CASE("Bitwise functions for Elrond Test Library", "[bitwise],[runtime]" )
+TEST_CASE("Bitwise functions for Elrond Test Library")
 {
-    REQUIRE(elrond::highByte(0xABCD) == 0xAB);
-    REQUIRE(elrond::highByte(0xCD) == 0x00);
-    REQUIRE(elrond::lowByte(0xABCD) == 0xCD);
-    REQUIRE(elrond::lowByte(0xABCD) == 0xCD);
-    REQUIRE(elrond::makeWord(0xAB, 0xCD) == 0xABCD);
+    CHECK(elrond::highByte(0xABCD) == 0xAB);
+    CHECK(elrond::highByte(0xCD) == 0x00);
+    CHECK(elrond::lowByte(0xABCD) == 0xCD);
+    CHECK(elrond::lowByte(0xABCD) == 0xCD);
+    CHECK(elrond::makeWord(0xAB, 0xCD) == 0xABCD);
 
-    REQUIRE(elrond::highWord(0x1234ABCD) == 0x1234);
-    REQUIRE(elrond::lowWord(0x1234ABCD) == 0xABCD);
-    REQUIRE(elrond::makeDWord(0x1234, 0xABCD) == 0x1234ABCD);
+    CHECK(elrond::highWord(0x1234ABCD) == 0x1234);
+    CHECK(elrond::lowWord(0x1234ABCD) == 0xABCD);
+    CHECK(elrond::makeDWord(0x1234, 0xABCD) == 0x1234ABCD);
 }
 
 TEST_CASE("Math functions for Elrond Test Library", "[math],[runtime]" )

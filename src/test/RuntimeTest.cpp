@@ -12,7 +12,7 @@ using elrond::module::BaseInputDriverModule;
 using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
 
-Runtime* elrond::__rtInstance__ = nullptr;
+ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr;
 
 const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMapInterface &cfg, LoopControl &lc) const
 {
@@ -103,5 +103,5 @@ RuntimeTest& RuntimeTest::set(DebugOut &dout)
 
 void RuntimeTest::setAppInstance(elrond::interface::Runtime* app)
 {
-    elrond::__rtInstance__ = app;
+    ELROND_MOD_APP_VAR = app;
 }

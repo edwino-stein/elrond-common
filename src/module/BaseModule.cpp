@@ -2,26 +2,27 @@
 #include "interface/Runtime.hpp"
 #include "interface/ConfigMap.hpp"
 
-using elrond::module::BaseModule;
-using elrond::interface::Module;
-using elrond::interface::Runtime;
-using elrond::interface::ConfigMap;
-using elrond::LoopControl;
-
 /*  ****************************************************************************
     **************** elrond::module::BaseModule Implementation *****************
     ****************************************************************************/
 
-#ifdef ELROND_WITH_DESTRUCTORS
-    BaseModule::~BaseModule(){}
-#endif
+namespace elrond {
+    namespace module {
 
-void BaseModule::onInit(ConfigMap& cfg, LoopControl& lc){}
-void BaseModule::onStart(){}
-void BaseModule::loop(){}
-void BaseModule::onStop(){}
+        #ifdef ELROND_WITH_DESTRUCTORS
+            ELROND_INLINE_FUNC BaseModule::~BaseModule(){}
+        #endif
 
-elrond::ModuleType BaseModule::getType() const
-{
-    return elrond::ModuleType::GENERIC;
+        ELROND_INLINE_FUNC void BaseModule::onInit(
+            elrond::interface::ConfigMap& cfg,
+            elrond::LoopControl& lc
+        ){}
+
+        ELROND_INLINE_FUNC void BaseModule::onStart(){}
+        ELROND_INLINE_FUNC void BaseModule::loop(){}
+        ELROND_INLINE_FUNC void BaseModule::onStop(){}
+
+        ELROND_INLINE_FUNC elrond::ModuleType BaseModule::getType() const
+        { return elrond::ModuleType::GENERIC; }
+    }
 }

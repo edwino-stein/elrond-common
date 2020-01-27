@@ -13,6 +13,7 @@
 
     #include "test/ConfigMap.hpp"
     #include "test/RuntimeTest.hpp"
+    #include "test/ExternalModuleTest.hpp"
     #include "test/ChannelManagerTest.hpp"
     #include "test/TransportTest.hpp"
     #include "test/InputDriverTest.hpp"

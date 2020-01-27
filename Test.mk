@@ -7,7 +7,7 @@ BUILD_DIR := $(BUILD_DIR)/$(TEST_DIR)
 INCLUDES := $(addprefix -I, $(INCLUDES) $(i))
 MACROS := $(addprefix -D, $(MACROS) $(m))
 
-LDLIBS = $(addprefix -l, pthread $(ld))
+LDLIBS = $(addprefix -l, pthread dl $(ld))
 LSLIBS = $(l)
 
 ALL_TEST_SRC = $(shell find $(TEST_DIR) -type f \( -name "*.test.cpp" \))

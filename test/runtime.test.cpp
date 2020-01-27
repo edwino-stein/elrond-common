@@ -41,13 +41,13 @@ TEST_CASE("Math functions for Elrond Test Library")
     CHECK(f == "hello");
 }
 
-TEST_CASE("Time functions for Elrond Test Library", "[time],[runtime]" )
+TEST_CASE("Time functions for Elrond Test Library")
 {
-    auto now = elrond::millis();
+    auto nowMs = elrond::millis();
     elrond::delay(100);
-    REQUIRE(elrond::millis() >= now + 100);
+    CHECK(elrond::millis() >= nowMs + 100);
 
-    now = elrond::micros();
+    auto nowUs = elrond::micros();
     elrond::delayMicroseconds(100);
-    REQUIRE(elrond::micros() >= now + 100);
+    CHECK(elrond::micros() >= nowUs + 100);
 }

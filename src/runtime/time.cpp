@@ -1,9 +1,8 @@
-#include <chrono>
-#include <thread>
-
 #include "runtime/time.hpp"
 
-/* *********************************** Time ********************************** */
+/*  ****************************************************************************
+    ******************* Elrond time functions implementation *******************
+    ****************************************************************************/
 
 elrond::timeT elrond::millis()
 {
@@ -18,11 +17,7 @@ elrond::timeT elrond::micros()
 }
 
 void elrond::delay(const elrond::timeT ms)
-{
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-}
+{ std::this_thread::sleep_for(std::chrono::milliseconds(ms)); }
 
 void elrond::delayMicroseconds(const elrond::timeT us)
-{
-    std::this_thread::sleep_for(std::chrono::microseconds(us));
-}
+{ std::this_thread::sleep_for(std::chrono::microseconds(us)); }

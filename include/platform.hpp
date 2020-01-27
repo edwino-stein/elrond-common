@@ -68,6 +68,8 @@
     // Includes
     #include <iostream>
     #include <cmath>
+    #include <chrono>
+    #include <thread>
 
     #ifdef ELROND_WITH_STR_TYPE
         #include <string>

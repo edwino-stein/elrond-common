@@ -12,7 +12,7 @@ jobs:
                 os: [ubuntu-latest, ubuntu-18.04, ubuntu-16.04]
         steps:
             - uses: actions/checkout@v1
-            - name: Building the libelrond.so and libelrond.a
+            - name: Building everything...
               run: make all -j4
-            - name: Building and doing all tests
+            - name: Building and doing all tests...
               run: make test-all a="-s -d yes" -j4

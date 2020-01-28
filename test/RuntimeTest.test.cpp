@@ -56,7 +56,7 @@ TEST_CASE("External module Test")
     ChannelManagerTest chm(transport, 2);
     InputDriverTest input;
     GpioTest gpio(
-        [&gpio, &ats](BaseGpioPin& pin, elrond::word data){
+        [&gpio](BaseGpioPin& pin, elrond::word data){
             CHECK(pin.getType() == elrond::GpioType::DOUT);
             CHECK(data == HIGH_VALUE);
             gpio.write((DOutPin&) pin, data);
@@ -72,7 +72,7 @@ TEST_CASE("External module Test")
         .set(gpio);
 
     REQUIRE_NOTHROW(
-        [&appt, &input, &ats]()
+        [&appt, &input]()
         {
             ExternalModuleTest inst("build/test/external-module.so", appt);
 

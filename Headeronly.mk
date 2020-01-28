@@ -3,10 +3,10 @@ include Config.mk
 
 HEADER_FILES = $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/, version platform types))\
 			   $(shell find $(INCLUDE_DIR)/interface -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(addsuffix .hpp, $(addprefix $(INCLUDE_DIR)/module/, BaseModule\
+			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/module/, BaseModule\
 			   BaseGpioModule BaseInputDriverModule BaseTransportModule))\
 			   $(shell find $(INCLUDE_DIR)/channel -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(shell find $(INCLUDE_DIR)/gpio -type f -name "*.$(HPP_SRC_EXT)")\
+			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/gpio/, BaseGpioPin GenericGpioPin))\
 			   $(shell find $(INCLUDE_DIR)/input -type f -name "*.$(HPP_SRC_EXT)")\
 			   $(shell find $(INCLUDE_DIR)/runtime -type f -name "*.$(HPP_SRC_EXT)")
 

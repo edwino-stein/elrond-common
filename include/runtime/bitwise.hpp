@@ -11,7 +11,7 @@
 
         elrond::word highWord(const elrond::dWord data);
         elrond::word lowWord(const elrond::dWord data);
-        elrond::dWord makeDWord(const elrond::word high, elrond::word low);
+        elrond::dWord makeDWord(const elrond::word high, const elrond::word low);
     }
 
 #endif

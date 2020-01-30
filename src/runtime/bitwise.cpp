@@ -25,7 +25,7 @@ namespace elrond {
 
     ELROND_INLINE_FUNC elrond::dWord makeDWord(
         const elrond::word high,
-        elrond::word low
+        const elrond::word low
     ){ return (elrond::dWord) ((((elrond::dWord) high) << 16) | (low & 0x0000FFFF)); }
 
 }

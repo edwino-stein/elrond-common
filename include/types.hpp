@@ -97,7 +97,8 @@
         }
 
         //Singleton instance of runtime application
-        elrond::dWord makeDWord(const elrond::word high, elrond::word low);
+        elrond::dWord makeDWord(const elrond::word high, const elrond::word low);
+
         extern ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR_N;
         interface::Runtime& app();
         const interface::DebugOut& dout();

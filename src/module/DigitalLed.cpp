@@ -44,38 +44,10 @@ void DigitalLed::onInit(ConfigMap &cfg, LoopControl& lc)
     );
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *DigitalLed::_getInternalName(){
-        return "elrond::DigitalLed";
-    }
-
-    const char *DigitalLed::_infoMainClassName(){
-        return "DigitalLed";
-    }
-
-    int DigitalLed::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int DigitalLed::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *DigitalLed::_infoPrettyName(){
-        return "Digital LED";
-    }
-
-    const char *DigitalLed::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *DigitalLed::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *DigitalLed::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::DigitalLed,
+    "Digital LED",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

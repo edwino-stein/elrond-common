@@ -43,38 +43,10 @@ void ServoModule::onInit(ConfigMap& cfg, LoopControl& lc)
     );
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *ServoModule::_getInternalName(){
-        return "elrond::Servo";
-    }
-
-    const char *ServoModule::_infoMainClassName(){
-        return "Servo";
-    }
-
-    int ServoModule::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int ServoModule::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *ServoModule::_infoPrettyName(){
-        return "Servo";
-    }
-
-    const char *ServoModule::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *ServoModule::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *ServoModule::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::Servo,
+    "Servo",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

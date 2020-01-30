@@ -37,38 +37,10 @@ void Loopback::setChannelManager(BaseChannelManager* cm)
     if(this->cm == nullptr) this->cm = cm;
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *Loopback::_getInternalName(){
-        return "elrond::Loopback";
-    }
-
-    const char *Loopback::_infoMainClassName(){
-        return "Loopback";
-    }
-
-    int Loopback::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int Loopback::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *Loopback::_infoPrettyName(){
-        return "Loopback Transport";
-    }
-
-    const char *Loopback::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *Loopback::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *Loopback::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::Loopback,
+    "Loopback Transport",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

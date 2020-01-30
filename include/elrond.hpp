@@ -50,9 +50,4 @@
     // Input
     #include "input/InputCallback.hpp"
 
-    // Runtime functions
-    #include "runtime/bitwise.hpp"
-    #include "runtime/time.hpp"
-    #include "runtime/math.ipp"
-
 #endif

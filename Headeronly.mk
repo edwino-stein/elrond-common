@@ -2,22 +2,22 @@
 include Config.mk
 
 HEADER_FILES = $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/, version platform types))\
+			   $(shell find $(INCLUDE_DIR)/runtime -type f -name "*.$(HPP_SRC_EXT)")\
 			   $(shell find $(INCLUDE_DIR)/interface -type f -name "*.$(HPP_SRC_EXT)")\
 			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/module/, BaseModule\
 			   BaseGpioModule BaseInputDriverModule BaseTransportModule))\
 			   $(shell find $(INCLUDE_DIR)/channel -type f -name "*.$(HPP_SRC_EXT)")\
 			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/gpio/, BaseGpioPin GenericGpioPin))\
-			   $(shell find $(INCLUDE_DIR)/input -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(shell find $(INCLUDE_DIR)/runtime -type f -name "*.$(HPP_SRC_EXT)")
+			   $(shell find $(INCLUDE_DIR)/input -type f -name "*.$(HPP_SRC_EXT)")
 
 IPP_FILES = $(shell find $(INCLUDE_DIR) -type f -name "*.$(IPP_SRC_EXT)")
 
 SRC_FILES = $(addsuffix .$(CPP_SRC_EXT), $(addprefix $(SRC_DIR)/, elrond))\
+			$(shell find $(SRC_DIR)/runtime -type f -name "*.$(CPP_SRC_EXT)")\
 			$(shell find $(SRC_DIR)/module -type f -name "Base*.$(CPP_SRC_EXT)")\
 			$(shell find $(SRC_DIR)/channel -type f -name "Rx*.$(CPP_SRC_EXT)" -or -name "Tx*$(CPP_SRC_EXT)")\
 			$(shell find $(SRC_DIR)/gpio -type f -name "*.$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/input -type f -name "*.$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/runtime -type f -name "*.$(CPP_SRC_EXT)")
+			$(shell find $(SRC_DIR)/input -type f -name "*.$(CPP_SRC_EXT)")
 
 HEADERS_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_FILES))
 HEADERS_DIST += $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(addsuffix .$(HPP_SRC_EXT), $(IPP_FILES)))

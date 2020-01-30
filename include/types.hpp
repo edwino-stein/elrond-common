@@ -96,9 +96,7 @@
             using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
         }
 
-        //Singleton instance of runtime application
-        elrond::dWord makeDWord(const elrond::word high, const elrond::word low);
-
+        // Singleton instance of runtime application
         extern ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR_N;
         interface::Runtime& app();
         const interface::DebugOut& dout();
@@ -108,6 +106,7 @@
         #endif
 
         //Internal modules
+
         using Example = elrond::module::Example;
         using Loopback = elrond::module::Loopback;
         using InputToChannel = elrond::module::InputToChannel;
@@ -121,5 +120,10 @@
             class TaskContext {};
         #endif
     }
+
+    // Runtime functions
+    #include "runtime/bitwise.hpp"
+    #include "runtime/time.hpp"
+    #include "runtime/math.ipp"
 
 #endif

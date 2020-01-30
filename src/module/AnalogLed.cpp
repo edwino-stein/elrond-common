@@ -44,38 +44,10 @@ void AnalogLed::onInit(ConfigMap &cfg, LoopControl& lc)
     );
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *AnalogLed::_getInternalName(){
-        return "elrond::AnalogLed";
-    }
-
-    const char *AnalogLed::_infoMainClassName(){
-        return "AnalogLed";
-    }
-
-    int AnalogLed::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int AnalogLed::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *AnalogLed::_infoPrettyName(){
-        return "Analog LED";
-    }
-
-    const char *AnalogLed::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *AnalogLed::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *AnalogLed::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::AnalogLed,
+    "Analog LED",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

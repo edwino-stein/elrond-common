@@ -47,38 +47,10 @@ void InputToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
     );
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *InputToChannel::_getInternalName(){
-        return "elrond::InputToChannel";
-    }
-
-    const char *InputToChannel::_infoMainClassName(){
-        return "InputToChannel";
-    }
-
-    int InputToChannel::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int InputToChannel::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *InputToChannel::_infoPrettyName(){
-        return "Input Channel Module";
-    }
-
-    const char *InputToChannel::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *InputToChannel::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *InputToChannel::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::InputToChannel,
+    "Input to Channel",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

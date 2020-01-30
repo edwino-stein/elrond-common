@@ -161,4 +161,26 @@
     #define ELROND_DEFINE_MODULE_AUTHOR_EMAIL(E) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_EMAIL_FUNC_N (){ return E; }
     #define ELROND_DEFINE_MODULE_VERSION(V) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_VERSION_FUNC_N (){ return V; }
 
+    #ifdef ELROND_WITH_MODULES_INFO
+        #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS static ELROND_MOD_INFO_STR_T ELROND_MOD_MAIN_CLASS_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_NUM_T ELROND_MOD_API_VER_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_PRETTY_NAME_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_NAME_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_EMAIL_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_VERSION_FUNC_N ();
+
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E, V) ELROND_MOD_INFO_NUM_T C::ELROND_MOD_API_VER_FUNC_N ()\
+                                                       { return elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION); }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_PRETTY_NAME_FUNC_N (){ return P; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_AUTHOR_NAME_FUNC_N (){ return A; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_AUTHOR_EMAIL_FUNC_N (){ return E; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_VERSION_FUNC_N (){ return V; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_MAIN_CLASS_FUNC_N ()\
+                                                       { return #C; }
+
+    #else
+        #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E, V) // C, P, A, E, V
+    #endif
+
 #endif

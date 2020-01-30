@@ -31,10 +31,10 @@ libelrond-headeronly:
 	@rm -rf $(DIST_DIR)
 	@$(MAKE) --no-print-directory -f $(HO_MAKEFILE) $(PROJECT_NAME).$(HPP_SRC_EXT)
 
-test: $(TEST_STATIC_LIB) $(COMMON_STATIC_LIB)
+test: $(TEST_STATIC_LIB) $(COMMON_STATIC_LIB) libelrond-headeronly
 	@rm -f $(BUILD_DIR)/test/$(notdir $(basename $(t)))
-	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) run t="$(t)" l="$^" a="$a"
+	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) run t="$(t)" l="$(TEST_STATIC_LIB) $(COMMON_STATIC_LIB)" a="$a"
 
-test-all: $(TEST_STATIC_LIB) $(COMMON_STATIC_LIB)
+test-all: $(TEST_STATIC_LIB) $(COMMON_STATIC_LIB) libelrond-headeronly
 	@rm -f $(BUILD_DIR)/test/all.test
-	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) all l="$^" a="$a"
+	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) all l="$(TEST_STATIC_LIB) $(COMMON_STATIC_LIB)" a="$a"

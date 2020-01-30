@@ -39,37 +39,10 @@ void Example::onStop() {
     elrond::dout().putLn("Example::onStop");
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *Example::_getInternalName(){
-        return "elrond::Example";
-    }
-
-    const char *Example::_infoMainClassName(){
-        return "Example";
-    }
-
-    int Example::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int Example::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *Example::_infoPrettyName(){
-        return "Example";
-    }
-
-    const char *Example::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *Example::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *Example::_infoVersion(){
-        return "1.0";
-    }
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::Example,
+    "Example",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

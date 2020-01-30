@@ -120,21 +120,67 @@
         #define ELROND_INLINE_FUNC
     #endif
 
-    // Module Definition
-    #define DEFINE_MODULE(CLASS)    elrond::interface::Runtime* elrond::__rtInstance__ = NULL;\
-                                    extern "C" void _setAppInstance(elrond::interface::Runtime* app){elrond::__rtInstance__ = app;}\
-                                    extern "C" elrond::interface::Module* _getInstance(){return (elrond::interface::Module*) new CLASS();}\
-                                    extern "C" void _deleteInstance(CLASS *obj){ delete obj; }\
-                                    extern "C" const char * _infoMainClassName(){return #CLASS;}\
-                                    extern "C" int _infoApiVersion(){return ELROND_API_VERSION;}\
-                                    extern "C" int _infoApiRevision(){return ELROND_API_REVISION;}
+    // Util macros
+    #define _ELROND_TO_STR(M) #M
+    #define ELROND_TO_STR(M) _ELROND_TO_STR(M)
+    #define ELROND_TO_STR_CONCAT(...) _ELROND_TO_STR(__VA_ARGS__)
 
-    #define DEFINE_MODULE_PRETTY_NAME(NAME) extern "C" const char *  _infoPrettyName(){return NAME;}
-    #define DEFINE_MODULE_AUTHOR_NAME(NAME) extern "C" const char *  _infoAuthorName(){return NAME;}
-    #define DEFINE_MODULE_AUTHOR_EMAIL(EMAIL) extern "C" const char *  _infoAuthorEmail(){return EMAIL;}
-    #define DEFINE_MODULE_VERSION(VERSION) extern "C" const char *  _infoVersion(){return VERSION;}
+    // Module Definition
+    #define ELROND_MOD_INFO_STR_T const char*
+    #define ELROND_MOD_INFO_NUM_T ELROND_UINT32_TYPE
     #define ELROND_MOD_INFO_APP_P elrond::interface::Runtime*
+    #define ELROND_MOD_INFO_MOD_P elrond::interface::Module*
     #define ELROND_MOD_APP_VAR_N __rt_instance__
     #define ELROND_MOD_APP_VAR elrond::ELROND_MOD_APP_VAR_N
+
+    #define ELROND_MOD_SET_APP_FUNC_N __elrond_set_app_instance__
+    #define ELROND_MOD_NEW_INST_FUNC_N __elrond_new_instance__
+    #define ELROND_MOD_DEL_INST_FUNC_N __elrond_delete_instance__
+    #define ELROND_MOD_API_VER_FUNC_N __elrond_api_ver__
+    #define ELROND_MOD_MAIN_CLASS_FUNC_N __elrond_main_class_name__
+
+    #define ELROND_MOD_PRETTY_NAME_FUNC_N __elrond_info_pretty_name__
+    #define ELROND_MOD_AUTHOR_NAME_FUNC_N __elrond_info_author_name__
+    #define ELROND_MOD_AUTHOR_EMAIL_FUNC_N __elrond_info_author_email__
+    #define ELROND_MOD_VERSION_FUNC_N __elrond_info_version__
+
+    #define ELROND_DEFINE_MODULE(C) ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr;\
+                                    extern  "C" {void ELROND_MOD_SET_APP_FUNC_N (ELROND_MOD_INFO_APP_P a)\
+                                                { ELROND_MOD_APP_VAR = a; }\
+                                                ELROND_MOD_INFO_MOD_P ELROND_MOD_NEW_INST_FUNC_N ()\
+                                                { return (ELROND_MOD_INFO_MOD_P) new C(); }\
+                                                void ELROND_MOD_DEL_INST_FUNC_N (ELROND_MOD_INFO_MOD_P o)\
+                                                { delete o; }\
+                                                ELROND_MOD_INFO_NUM_T ELROND_MOD_API_VER_FUNC_N ()\
+                                                { return elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION); }\
+                                                ELROND_MOD_INFO_STR_T ELROND_MOD_MAIN_CLASS_FUNC_N ()\
+                                                { return #C; }}
+
+    #define ELROND_DEFINE_MODULE_PRETTY_NAME(N) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_PRETTY_NAME_FUNC_N (){ return N; }
+    #define ELROND_DEFINE_MODULE_AUTHOR_NAME(N) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_NAME_FUNC_N (){ return N; }
+    #define ELROND_DEFINE_MODULE_AUTHOR_EMAIL(E) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_EMAIL_FUNC_N (){ return E; }
+    #define ELROND_DEFINE_MODULE_VERSION(V) extern "C" ELROND_MOD_INFO_STR_T ELROND_MOD_VERSION_FUNC_N (){ return V; }
+
+    #ifdef ELROND_WITH_MODULES_INFO
+        #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS static ELROND_MOD_INFO_STR_T ELROND_MOD_MAIN_CLASS_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_NUM_T ELROND_MOD_API_VER_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_PRETTY_NAME_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_NAME_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_AUTHOR_EMAIL_FUNC_N ();\
+                                                  static ELROND_MOD_INFO_STR_T ELROND_MOD_VERSION_FUNC_N ();
+
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E, V) ELROND_MOD_INFO_NUM_T C::ELROND_MOD_API_VER_FUNC_N ()\
+                                                       { return elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION); }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_PRETTY_NAME_FUNC_N (){ return P; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_AUTHOR_NAME_FUNC_N (){ return A; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_AUTHOR_EMAIL_FUNC_N (){ return E; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_VERSION_FUNC_N (){ return V; }\
+                                                       ELROND_MOD_INFO_STR_T C::ELROND_MOD_MAIN_CLASS_FUNC_N ()\
+                                                       { return #C; }
+
+    #else
+        #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E, V) // C, P, A, E, V
+    #endif
 
 #endif

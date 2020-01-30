@@ -41,38 +41,10 @@ void ChannelToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
     }, this);
 }
 
-#ifdef ELROND_WITH_MODULES_INFO
-
-    const char *ChannelToChannel::_getInternalName(){
-        return "elrond::ChannelToChannel";
-    }
-
-    const char *ChannelToChannel::_infoMainClassName(){
-        return "ChannelToChannel";
-    }
-
-    int ChannelToChannel::_infoApiVersion(){
-        return ELROND_API_VERSION;
-    }
-
-    int ChannelToChannel::_infoApiRevision(){
-        return ELROND_API_REVISION;
-    }
-
-    const char *ChannelToChannel::_infoPrettyName(){
-        return "Channel to Channel";
-    }
-
-    const char *ChannelToChannel::_infoAuthorName(){
-        return "Edwino Stein";
-    }
-
-    const char *ChannelToChannel::_infoAuthorEmail(){
-        return "edwino.stein@gmail.com";
-    }
-
-    const char *ChannelToChannel::_infoVersion(){
-        return "1.0";
-    }
-
-#endif
+ELROND_DEFINE_INTER_MOD(
+    elrond::ChannelToChannel,
+    "Channel to Channel",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+)

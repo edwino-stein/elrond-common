@@ -19,12 +19,12 @@ using elrond::gpio::DOutPin;
 TEST_CASE("Example module metadata check")
 {
     RuntimeTest::setAppInstance(nullptr);
-    CHECK(Example::ELROND_MOD_API_VER_FUNC_N() == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+    CHECK(Example::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(Example::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::Example"));
     CHECK(Example::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Example"));
     CHECK(Example::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
     CHECK(Example::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
-    CHECK(Example::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)));
+    CHECK(Example::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
 }
 #endif
 
@@ -91,12 +91,12 @@ TEST_CASE("External module Test")
         {
             ExternalModuleTest inst("build/test/external-module.so", appt);
 
-            CHECK_N_COUNT(inst.apiVer == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+            CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
             CHECK_N_COUNT(inst.className == "ExternalMod");
             CHECK_N_COUNT(inst.prettyName == "External Module Test");
             CHECK_N_COUNT(inst.authorName == "Elrond Half-elven");
             CHECK_N_COUNT(inst.authorEmail == "elrond@rivendell.com");
-            CHECK_N_COUNT(inst.version == ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE));
+            CHECK_N_COUNT(inst.version == ELROND_API_VERSION_STR);
 
             ConfigMap cfg;
             LoopControl lc;

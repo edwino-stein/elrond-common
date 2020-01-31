@@ -17,12 +17,12 @@ using elrond::LoopControl;
 TEST_CASE("Servo module metadata check")
 {
     RuntimeTest::setAppInstance(nullptr);
-    CHECK(Servo::ELROND_MOD_API_VER_FUNC_N() == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+    CHECK(Servo::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(Servo::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::Servo"));
     CHECK(Servo::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Servo"));
     CHECK(Servo::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
     CHECK(Servo::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
-    CHECK(Servo::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)));
+    CHECK(Servo::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
 }
 #endif
 

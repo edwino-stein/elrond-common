@@ -14,12 +14,12 @@ using elrond::module::ChannelToChannel;
 TEST_CASE("Channel to Channel module metadata check")
 {
     RuntimeTest::setAppInstance(nullptr);
-    CHECK(ChannelToChannel::ELROND_MOD_API_VER_FUNC_N() == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+    CHECK(ChannelToChannel::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(ChannelToChannel::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::ChannelToChannel"));
     CHECK(ChannelToChannel::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Channel to Channel"));
     CHECK(ChannelToChannel::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
     CHECK(ChannelToChannel::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
-    CHECK(ChannelToChannel::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)));
+    CHECK(ChannelToChannel::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
 }
 #endif
 

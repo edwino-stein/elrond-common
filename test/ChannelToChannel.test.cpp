@@ -1,5 +1,5 @@
 #include "elrond-test.hpp"
-#include "catch.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::TransportTest;
@@ -129,6 +129,7 @@ TEST_CASE("Channel to Channel module params test (invalid channel manager)")
 
 TEST_CASE("Channel to Channel module (normal)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
@@ -143,7 +144,7 @@ TEST_CASE("Channel to Channel module (normal)")
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == HIGH_VALUE);
+            CHECK_N_COUNT(data == HIGH_VALUE);
         }
     );
 
@@ -169,10 +170,13 @@ TEST_CASE("Channel to Channel module (normal)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Channel to Channel module (inverted)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
@@ -187,7 +191,7 @@ TEST_CASE("Channel to Channel module (inverted)")
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == HIGH_VALUE - 123);
+            CHECK_N_COUNT(data == HIGH_VALUE - 123);
         }
     );
 
@@ -214,4 +218,6 @@ TEST_CASE("Channel to Channel module (inverted)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

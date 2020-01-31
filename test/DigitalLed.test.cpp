@@ -1,5 +1,5 @@
 #include "elrond-test.hpp"
-#include "catch.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
@@ -107,11 +107,14 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
 
 TEST_CASE("Digital LED module (normal)")
 {
+    EXPECT_ASSERTS(2);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, const elrond::word data){
-            CHECK(pin.getType() == elrond::GpioType::DOUT);
-            CHECK(data == HIGH_VALUE);
+        [&gpio](BaseGpioPin& pin, const elrond::word data)
+        {
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == HIGH_VALUE);
             gpio.write((DOutPin&) pin, data);
         }
     );
@@ -149,15 +152,20 @@ TEST_CASE("Digital LED module (normal)")
                 }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Digital LED module (inverted)")
 {
+    EXPECT_ASSERTS(2);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, const elrond::word data){
-            CHECK(pin.getType() == elrond::GpioType::DOUT);
-            CHECK(data == LOW_VALUE);
+        [&gpio](BaseGpioPin& pin, const elrond::word data)
+        {
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == LOW_VALUE);
             gpio.write((DOutPin&) pin, data);
         }
     );
@@ -196,4 +204,6 @@ TEST_CASE("Digital LED module (inverted)")
                 }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

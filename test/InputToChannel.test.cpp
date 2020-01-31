@@ -1,5 +1,5 @@
 #include "elrond-test.hpp"
-#include "catch.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::InputDriverTest;
@@ -108,6 +108,8 @@ TEST_CASE("Input to Channel module params test (invalid input driver)")
 
 TEST_CASE("Input to Channel module (normal)")
 {
+    EXPECT_ASSERTS(1);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
     TransportTest transport;
@@ -123,7 +125,7 @@ TEST_CASE("Input to Channel module (normal)")
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == HIGH_VALUE);
+            CHECK_N_COUNT(data == HIGH_VALUE);
         }
     );
 
@@ -147,10 +149,14 @@ TEST_CASE("Input to Channel module (normal)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Input to Channel module (inverted)")
 {
+    EXPECT_ASSERTS(1);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
     TransportTest transport;
@@ -166,7 +172,7 @@ TEST_CASE("Input to Channel module (inverted)")
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == HIGH_VALUE);
+            CHECK_N_COUNT(data == HIGH_VALUE);
         }
     );
 
@@ -191,4 +197,6 @@ TEST_CASE("Input to Channel module (inverted)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

@@ -1,5 +1,5 @@
 #include "elrond-test.hpp"
-#include "catch.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::ExternalModuleTest;
@@ -64,14 +64,16 @@ TEST_CASE("Runtime application for Elrond Test Library")
 
 TEST_CASE("External module Test")
 {
+    EXPECT_ASSERTS(11);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     InputDriverTest input;
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, elrond::word data){
-            CHECK(pin.getType() == elrond::GpioType::DOUT);
-            CHECK(data == HIGH_VALUE);
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == HIGH_VALUE);
             gpio.write((DOutPin&) pin, data);
         }
     );
@@ -89,12 +91,12 @@ TEST_CASE("External module Test")
         {
             ExternalModuleTest inst("build/test/external-module.so", appt);
 
-            CHECK(inst.apiVer == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
-            CHECK(inst.className == "ExternalMod");
-            CHECK(inst.prettyName == "External Module Test");
-            CHECK(inst.authorName == "Elrond Half-elven");
-            CHECK(inst.authorEmail == "elrond@rivendell.com");
-            CHECK(inst.version == ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE));
+            CHECK_N_COUNT(inst.apiVer == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+            CHECK_N_COUNT(inst.className == "ExternalMod");
+            CHECK_N_COUNT(inst.prettyName == "External Module Test");
+            CHECK_N_COUNT(inst.authorName == "Elrond Half-elven");
+            CHECK_N_COUNT(inst.authorEmail == "elrond@rivendell.com");
+            CHECK_N_COUNT(inst.version == ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE));
 
             ConfigMap cfg;
             LoopControl lc;
@@ -102,9 +104,9 @@ TEST_CASE("External module Test")
 
             appt.init(inst.getInstance(), cfg, lc);
 
-            CHECK(lc.enable == true);
-            CHECK(lc.ownThread == false);
-            CHECK(lc.interval == 1000);
+            CHECK_N_COUNT(lc.enable == true);
+            CHECK_N_COUNT(lc.ownThread == false);
+            CHECK_N_COUNT(lc.interval == 1000);
 
             appt.start(
                inst.getInstance(),
@@ -119,4 +121,6 @@ TEST_CASE("External module Test")
 
         }()
     );
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

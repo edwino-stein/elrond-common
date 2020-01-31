@@ -1,5 +1,5 @@
 #include "elrond-test.hpp"
-#include "catch.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::ChannelManagerTest;
@@ -22,8 +22,9 @@ TEST_CASE("Loopback module metadata check")
 
 TEST_CASE("Loopback module")
 {
-    RuntimeTest::setAppInstance(nullptr);
+    EXPECT_ASSERTS(3);
 
+    RuntimeTest::setAppInstance(nullptr);
     Loopback transport;
     ChannelManagerTest chm(transport, 3, false);
 
@@ -31,7 +32,7 @@ TEST_CASE("Loopback module")
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == 123);
+            CHECK_N_COUNT(data == 123);
         }
     );
 
@@ -39,7 +40,7 @@ TEST_CASE("Loopback module")
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == 0xAB00);
+            CHECK_N_COUNT(data == 0xAB00);
         }
     );
 
@@ -47,7 +48,7 @@ TEST_CASE("Loopback module")
         2,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
-            CHECK(data == 0x00CD);
+            CHECK_N_COUNT(data == 0x00CD);
         }
     );
 
@@ -55,4 +56,6 @@ TEST_CASE("Loopback module")
     chm.txTrigger(1, 0xAB00);
     chm.txTrigger(2, 0x00CD);
     chm.txSync();
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

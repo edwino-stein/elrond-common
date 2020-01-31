@@ -41,6 +41,5 @@ ELROND_DEFINE_INTER_MOD(
     elrond::Loopback,
     "Loopback Transport",
     "Edwino Stein",
-    "edwino.stein@gmail.com",
-    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+    "edwino.stein@gmail.com"
 )

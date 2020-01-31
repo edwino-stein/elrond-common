@@ -51,6 +51,5 @@ ELROND_DEFINE_INTER_MOD(
     elrond::InputToChannel,
     "Input to Channel",
     "Edwino Stein",
-    "edwino.stein@gmail.com",
-    ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)
+    "edwino.stein@gmail.com"
 )

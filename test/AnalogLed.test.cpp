@@ -17,12 +17,12 @@ using elrond::gpio::PwmPin;
 TEST_CASE("Analog LED module metadata check")
 {
     RuntimeTest::setAppInstance(nullptr);
-    CHECK(AnalogLed::ELROND_MOD_API_VER_FUNC_N() == elrond::makeDWord(ELROND_API_VERSION, ELROND_API_REVISION));
+    CHECK(AnalogLed::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(AnalogLed::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::AnalogLed"));
     CHECK(AnalogLed::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Analog LED"));
     CHECK(AnalogLed::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
     CHECK(AnalogLed::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
-    CHECK(AnalogLed::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_TO_STR_CONCAT(ELROND_API_VERSION.ELROND_API_REVISION-ELROND_API_DEVSTATE)));
+    CHECK(AnalogLed::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
 }
 #endif
 

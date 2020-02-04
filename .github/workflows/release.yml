@@ -29,7 +29,7 @@ jobs:
             First prerelease
           draft: true
           prerelease: true
-      - name: Upload Release Asset: libelrond.so
+      - name: Upload Release Asset libelrond.so
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +38,7 @@ jobs:
           asset_path: ./build/libelrond.so
           asset_name: libelrond.so
           asset_content_type: application/x-sharedlib
-      - name: Upload Release Asset: libelrond.a
+      - name: Upload Release Asset libelrond.a
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
           asset_path: ./build/libelrond.a
           asset_name: libelrond.a
           asset_content_type: application/x-archive
-      - name: Upload Release Asset: libelrond-test.a
+      - name: Upload Release Asset libelrond-test.a
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,7 +56,7 @@ jobs:
           asset_path: ./build/libelrond-test.a
           asset_name: libelrond-test.a
           asset_content_type: application/x-archive
-      - name: Upload Release Asset: elrond.hpp
+      - name: Upload Release Asset elrond.hpp
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

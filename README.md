@@ -1,7 +1,9 @@
 # Elrond Common Library
 
 <p align="right" >
- <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/edwino-stein/elrond-common?include_prereleases">
+ <a href="https://github.com/edwino-stein/elrond-common/releases">
+   <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/edwino-stein/elrond-common?include_prereleases">
+ </a>
  <img src="https://github.com/edwino-stein/elrond-common/workflows/Build%20and%20test/badge.svg" />
 
 </p>

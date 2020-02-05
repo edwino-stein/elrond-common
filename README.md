@@ -1,8 +1,9 @@
 # Elrond Common Library
 
 <p align="right" >
- <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/edwino.stein/elrond-common">
+ <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/edwino-stein/elrond-common?include_prereleases">
  <img src="https://github.com/edwino-stein/elrond-common/workflows/Build%20and%20test/badge.svg" />
+
 </p>
 
 Open source framework for remotely controlled models, focusing on modularization and easy configuration with a declarative syntax.

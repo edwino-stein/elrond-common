@@ -17,7 +17,13 @@
 #if !defined  _ELROND_VERSION_HPP
     #define _ELROND_VERSION_HPP
 
-    #define ELROND_API_VERSION 0
-    #define ELROND_API_REVISION 2
+    #define ELROND_API_MAJOR 0
+    #define ELROND_API_MINOR 3
+    #define ELROND_API_PATCH 0
+    #define ELROND_API_DEV_STAGE 0
+
+    #define ELROND_DEV_STAGE_NAME_0 alpha
+    #define ELROND_DEV_STAGE_NAME_1 beta
+    #define ELROND_DEV_STAGE_NAME_2 release
 
 #endif

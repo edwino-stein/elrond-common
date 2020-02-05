@@ -5,11 +5,11 @@
 
     namespace elrond {
 
-        unsigned long millis();
-        unsigned long micros();
+        elrond::timeT millis();
+        elrond::timeT micros();
 
-        void delay(unsigned long ms);
-        void delayMicroseconds(unsigned int us);
+        void delay(const elrond::timeT ms);
+        void delayMicroseconds(const elrond::timeT us);
     }
 
 #endif

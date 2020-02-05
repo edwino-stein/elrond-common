@@ -1,20 +1,37 @@
-#include "interfaces.hpp"
-using namespace elrond::interfaces;
+#include "interface/Runtime.hpp"
+#include "interface/Module.hpp"
+#include "interface/ConfigMap.hpp"
+#include "interface/DebugOut.hpp"
 
 /*  ****************************************************************************
-    ********* Implementations for elrond::interfaces::ModuleInterface **********
+    *************************** elrond implementation **************************
     ****************************************************************************/
-#if !defined WITHOUT_DESTRUCTORS
-    ModuleInterface::~ModuleInterface(){}
-#endif
+
+namespace elrond {
+
+    ELROND_INLINE_FUNC interface::Runtime& app()
+    { return *(ELROND_MOD_APP_VAR); }
+
+    ELROND_INLINE_FUNC const interface::DebugOut& dout()
+    { return elrond::app().dout(); }
+
+    ELROND_INLINE_FUNC void error(const char* error)
+    { app().onError(error); }
+
+    #ifdef ELROND_WITH_STR_TYPE
+        ELROND_INLINE_FUNC void error(elrond::String error)
+        { app().onError(error); }
+    #endif
+
+}
 
 /*  ****************************************************************************
-    ************************* Implementations for elrond ***********************
+    **************** elrond::interface::Module implementations *****************
     ****************************************************************************/
-RuntimeInterface &elrond::app(){return *(elrond::__rtInstance__);}
-const DebugOutInterface &elrond::dout(){ return elrond::app().dout(); }
-void elrond::error(const char *error){ elrond::app().onError(error); }
-
-#if defined INO_PLATFORM
-    void elrond::error(const __FlashStringHelper *error){ elrond::app().onError(error); }
-#endif
+namespace elrond {
+    namespace interface {
+        #ifdef ELROND_WITH_DESTRUCTORS
+            ELROND_INLINE_FUNC Module::~Module(){}
+        #endif
+    }
+}

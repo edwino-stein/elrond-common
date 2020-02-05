@@ -17,9 +17,37 @@
 #if !defined  _ELROND_HPP
     #define _ELROND_HPP
 
-    #include "types.hpp"
-    #include "interfaces.hpp"
-    #include "runtime.hpp"
-    #include "modules.hpp"
+    // Interfaces
+    #include "interface/Runtime.hpp"
+    #include "interface/Module.hpp"
+    #include "interface/ConfigMap.hpp"
+    #include "interface/DebugOut.hpp"
+
+    // Base modules
+    #include "module/BaseModule.hpp"
+    #include "module/BaseTransportModule.hpp"
+    #include "module/BaseGpioModule.hpp"
+    #include "module/BaseInputDriverModule.hpp"
+
+    // Modules
+    #include "module/Example.hpp"
+    #include "module/Loopback.hpp"
+    #include "module/InputToChannel.hpp"
+    #include "module/ChannelToChannel.hpp"
+    #include "module/DigitalLed.hpp"
+    #include "module/AnalogLed.hpp"
+    #include "module/Servo.hpp"
+
+    // Gpio
+    #include "gpio/BaseGpioPin.hpp"
+    #include "gpio/GenericGpioPin.ipp"
+
+    // Channel
+    #include "channel/BaseChannelManager.hpp"
+    #include "channel/TxChannel.hpp"
+    #include "channel/RxChannel.hpp"
+
+    // Input
+    #include "input/InputCallback.hpp"
 
 #endif

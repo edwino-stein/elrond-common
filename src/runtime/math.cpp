@@ -1,46 +1,29 @@
 #include "runtime/math.hpp"
 
-#if defined GENERIC_STD_PLATFORM
-    #include <cmath>
-#endif
+/*  ****************************************************************************
+    ******************* Elrond math functions implementation *******************
+    ****************************************************************************/
 
-/* ******************************** Math Util ******************************** */
+namespace elrond {
 
-long elrond::map(long x, long in_min, long in_max, long out_min, long out_max){
-    #if defined GENERIC_STD_PLATFORM
-        // Based in Arduino map funtion
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    #elif defined INO_PLATFORM
-        return ::map(x, in_min, in_max, out_min, out_max);
-    #endif
-}
+    // Based in Arduino map funtion
+    ELROND_INLINE_FUNC long map(
+        const long x,
+        const long inMin,
+        const long inMax,
+        const long outMin,
+        const long outMax
+    ){ return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin; }
 
-int elrond::abs(int v){
-    #if defined GENERIC_STD_PLATFORM
-        return ::abs(v);
-    #elif defined INO_PLATFORM
-        return ((v) > 0 ? (v) : -(v));
-    #endif
-}
+    ELROND_INLINE_FUNC int abs(int v)
+    { return ::abs(v); }
 
-long int elrond::abs(long int v){
-    #if defined GENERIC_STD_PLATFORM
-        return ::abs(v);
-    #elif defined INO_PLATFORM
-        return ((v) > 0 ? (v) : -(v));
-    #endif
-}
+    ELROND_INLINE_FUNC long int abs(long int v)
+    { return ::abs(v); }
 
-double elrond::mod(double v){
-    #if defined GENERIC_STD_PLATFORM
+    ELROND_INLINE_FUNC double mod(double v)
+    {
         double i;
         return ::modf(v, &i);
-    #elif defined INO_PLATFORM
-        #if ARDUINO_ARCH_AVR
-            double i;
-            return modf(v, &i);
-        #elif defined ESP_PLATFORM
-            return v - ((int) v);
-        #endif
-    #endif
+    }
 }

@@ -6,15 +6,23 @@
     namespace elrond {
 
         // Scalar types
+        using int8 = ELROND_INT8_TYPE;
+        using uInt8 = ELROND_UINT8_TYPE;
         using int16 = ELROND_INT16_TYPE;
         using uInt16 = ELROND_UINT16_TYPE;
         using int32 = ELROND_INT32_TYPE;
         using uInt32 = ELROND_UINT32_TYPE;
 
+        using sizeT = ELROND_SIZE_TYPE;
+        using timeT = ELROND_TIME_TYPE;
+
         using byte = ELROND_UINT8_TYPE;
         using word = ELROND_UINT16_TYPE;
         using dWord = ELROND_UINT32_TYPE;
-        using sizeT = size_t;
+
+        #ifdef ELROND_WITH_STR_TYPE
+            using String = ELROND_STR_TYPE;
+        #endif
 
         //Enums
         enum class ModuleType {
@@ -33,22 +41,22 @@
         };
 
         // Structs
-        struct ModuleLoopControl {
-            bool allow = true;
-            bool async = false;
-            unsigned int time = 0;
+        struct LoopControl {
+            bool enable = false;
+            bool ownThread = false;
+            elrond::timeT interval = 0;
         };
 
         // Interfaces
-        namespace interfaces {
-            class RuntimeInterface;
-            class ModuleInterface;
-            class ConfigMapInterface;
-            class DebugOutInterface;
+        namespace interface {
+            class Runtime;
+            class Module;
+            class ConfigMap;
+            class DebugOut;
         }
 
         // Modules
-        namespace modules {
+        namespace module {
             class BaseModule;
             class BaseTransportModule;
             class BaseGpioModule;
@@ -62,14 +70,14 @@
             class Servo;
         }
 
-        // Runtime
+        // Others
         class TaskContext;
 
         namespace gpio {
             class BaseGpioPin;
-            template<class T, elrond::GpioType G> class GenericGpioPin;
-            using gpioReadHandleT = elrond::word(*)(elrond::gpio::BaseGpioPin &pin);
-            using gpioWriteHandleT = void (*)(elrond::gpio::BaseGpioPin &pin, elrond::word &data);
+            using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
+            using WriteHandleT = ELROND_LAMBDA_FUNC(void, elrond::gpio::BaseGpioPin&, const elrond::word);
+            template <class T, elrond::GpioType G> class GenericGpioPin;
             using DOutPin = GenericGpioPin<ELROND_GPIO_DIO_TYPE, elrond::GpioType::DOUT>;
             using AInPin = GenericGpioPin<ELROND_GPIO_AIO_TYPE, elrond::GpioType::AIN>;
             using ServoPin = GenericGpioPin<ELROND_GPIO_SERVO_TYPE, elrond::GpioType::SERVO>;
@@ -77,34 +85,45 @@
         }
 
         namespace channel {
-            using onReceiveT = void (*)(elrond::word, elrond::TaskContext *);
+            using OnReceiveHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
             class BaseChannelManager;
             class TxChannel;
             class RxChannel;
         }
 
         namespace input {
-            using onInputT = void (*)(elrond::word, elrond::TaskContext *);
             class InputCallback;
+            using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
         }
 
-        //Singleton instance of runtime application
-        extern interfaces::RuntimeInterface *__rtInstance__;
-        interfaces::RuntimeInterface &app();
-        const interfaces::DebugOutInterface &dout();
-        void error(const char *error);
-        #if defined INO_PLATFORM
-            void error(const __FlashStringHelper *error);
+        // Singleton instance of runtime application
+        extern ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR_N;
+        interface::Runtime& app();
+        const interface::DebugOut& dout();
+        void error(const char* error);
+        #ifdef ELROND_WITH_STR_TYPE
+            void error(elrond::String error);
         #endif
 
         //Internal modules
-        using Example = elrond::modules::Example;
-        using Loopback = elrond::modules::Loopback;
-        using InputToChannel = elrond::modules::InputToChannel;
-        using ChannelToChannel = elrond::modules::ChannelToChannel;
-        using DigitalLed = elrond::modules::DigitalLed;
-        using AnalogLed = elrond::modules::AnalogLed;
-        using Servo = elrond::modules::Servo;
+
+        using Example = elrond::module::Example;
+        using Loopback = elrond::module::Loopback;
+        using InputToChannel = elrond::module::InputToChannel;
+        using ChannelToChannel = elrond::module::ChannelToChannel;
+        using DigitalLed = elrond::module::DigitalLed;
+        using AnalogLed = elrond::module::AnalogLed;
+        using Servo = elrond::module::Servo;
+
+        #ifndef ELROND_TASK_CONTEXT
+            #define ELRONND_TASK_CONTEXT
+            class TaskContext {};
+        #endif
     }
+
+    // Runtime functions
+    #include "runtime/bitwise.hpp"
+    #include "runtime/time.hpp"
+    #include "runtime/math.ipp"
 
 #endif

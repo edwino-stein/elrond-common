@@ -1,70 +1,59 @@
-# General Linux build settings
-BUILD_DIR = build
-OBJ_EXTENSION = .o
-OBJ_PIC_EXTENSION = .pic$(OBJ_EXTENSION)
-DEPENDENCE_EXTENSION = .d
-
-# Compiler and linker settings
-CXX = g++
-CXXFLAGS = -std=c++11 -Wall -MMD -c
-LDFLAGS = -std=c++11 -Wall
-LDLIBS =
-LD = ld
-AR = ar
-ARFLAGS = rvs
+################################################################################
+#                              Linux build Rules                               #
+################################################################################
 
 # Params lists
-INCLUDES = $(INCLUDE_DIR)
-MACROS = GENERIC_STD_PLATFORM LINUX_PLATFORM $(m)
+INCLUDES += $(i)
+MACROS += $(m)
 
 # Elrond COMMON library setup
-COMMON_NAME_LIB = lib$(PROJECT_NAME)
-COMMON_PIC_LIB = $(COMMON_NAME_LIB)$(OBJ_PIC_EXTENSION)
-COMMON_NONPIC_LIB = $(COMMON_NAME_LIB).a
+COMMON_SHARED_LIB = $(BUILD_DIR)/$(COMMON_NAME_LIB).$(DYNAMIC_LIB_EXT)
+COMMON_STATIC_LIB = $(BUILD_DIR)/$(COMMON_NAME_LIB).$(STATIC_LIB_EXT)
+TEST_STATIC_LIB = $(BUILD_DIR)/$(TEST_NAME_LIB).$(STATIC_LIB_EXT)
 
 # Define object files
 OBJS_FILES = $(subst $(SRC_DIR)/,$(BUILD_DIR)/,$(SRC_FILES))
-OBJS := $(addsuffix $(OBJ_EXTENSION), $(OBJS_FILES))
+OBJS := $(addsuffix .$(OBJ_EXT), $(OBJS_FILES))
 
 # Set PIC objects
-OBJS_PIC := $(addsuffix $(OBJ_PIC_EXTENSION), $(OBJS_FILES))
+OBJS_PIC := $(addsuffix .pic.$(OBJ_EXT), $(OBJS_FILES))
+
+# Set test objects
+OBJ_TEST_FILES = $(subst $(SRC_DIR)/,$(BUILD_DIR)/,$(SRC_TEST_FILES))
+OBJS_TEST := $(addsuffix .$(OBJ_EXT), $(OBJ_TEST_FILES))
 
 # Define dependencies files
-DEPS = $(OBJS:$(OBJ_EXTENSION)=$(DEPENDENCE_EXTENSION))
-DEPS += $(OBJS_PIC:$(OBJ_EXTENSION)=$(DEPENDENCE_EXTENSION))
+DEPS = $(OBJS:.$(OBJ_EXT)=.$(DEP_EXT)) $(OBJS_PIC:.$(OBJ_EXT)=.$(DEP_EXT)) $(OBJS_TEST:.$(OBJ_EXT)=.$(DEP_EXT))
 
 # Add includes and macros to compiler options
 CXXFLAGS += $(addprefix -I, $(INCLUDES))
 CXXFLAGS += $(addprefix -D, $(MACROS))
 
-.PHONY: $(COMMON_PIC_LIB) $(COMMON_NONPIC_LIB) clean-build
+################################## BUILD RULES #################################
 
-# ************************** BUILD RULES **************************
-
-# PIC library builder
-$(COMMON_PIC_LIB): $(BUILD_DIR)/$(COMMON_PIC_LIB)
-$(BUILD_DIR)/$(COMMON_PIC_LIB): $(OBJS_PIC)
+# Shared library builder
+$(COMMON_SHARED_LIB): $(OBJS_PIC)
 	@mkdir -p $(@D)
-	$(LD) -r $^ -o $@
+	$(CXX) -shared $(LDFLAGS) $^ -o $@
 
 # PIC objects builder
-$(BUILD_DIR)/%.cpp$(OBJ_PIC_EXTENSION): $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.cpp.pic.$(OBJ_EXT): $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) -fPIC $(CXXFLAGS) -DPIC $< -o $@
 
-# NOPIC library builder
-$(COMMON_NONPIC_LIB): $(BUILD_DIR)/$(COMMON_NONPIC_LIB)
-$(BUILD_DIR)/$(COMMON_NONPIC_LIB): $(OBJS)
+# Static library builder
+$(COMMON_STATIC_LIB): $(OBJS)
 	@mkdir -p $(@D)
-	@$(AR) $(ARFLAGS) $@ $?
+	$(AR) $(ARFLAGS) $@ $?
+
+$(TEST_STATIC_LIB): $(OBJS_TEST)
+	@mkdir -p $(@D)
+	$(AR) $(ARFLAGS) $@ $?
 
 # Objects builder
-$(BUILD_DIR)/%.cpp$(OBJ_EXTENSION): $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.cpp.$(OBJ_EXT): $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $< -o $@
-
-clean-build:
-	rm -rf $(BUILD_DIR)
 
 # Include all .d files
 -include $(DEPS)

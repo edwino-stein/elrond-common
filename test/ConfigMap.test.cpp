@@ -1,4 +1,5 @@
 #include "elrond-test.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::ConfigMap;
 

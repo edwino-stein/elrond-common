@@ -1,4 +1,5 @@
 #include "elrond-test.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::InputDriverTest;
@@ -7,75 +8,60 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::InputToChannel;
+using elrond::module::InputToChannel;
+using elrond::LoopControl;
+
+#ifdef ELROND_WITH_MODULES_INFO
+TEST_CASE("Input to Channel module metadata check")
+{
+    RuntimeTest::setAppInstance(nullptr);
+    CHECK(InputToChannel::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
+    CHECK(InputToChannel::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::InputToChannel"));
+    CHECK(InputToChannel::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Input to Channel"));
+    CHECK(InputToChannel::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
+    CHECK(InputToChannel::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
+    CHECK(InputToChannel::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
+}
+#endif
 
 TEST_CASE("Input to Channel module params test (no channel)")
 {
-
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    InputDriverTest input;
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
-    appt.set(input);
-    appt.set(chm);
-
-    chm.init();
 
     InputToChannel inst;
     ConfigMap cfg;
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Input to Channel module params test (no input)")
 {
-
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    InputDriverTest input;
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
-    appt.set(input);
-    appt.set(chm);
-
-    chm.init();
 
     InputToChannel inst;
     ConfigMap cfg;
 
     cfg.set("channel", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Input to Channel module params test (invalid channel manager)")
 {
-
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
@@ -89,30 +75,22 @@ TEST_CASE("Input to Channel module params test (invalid channel manager)")
        .set("chm", 123)
        .set("input", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Input to Channel module params test (invalid input driver)")
 {
-
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 1);
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
-
-    chm.init();
+    appt.set(dout)
+        .set(chm);
 
     InputToChannel inst;
     ConfigMap cfg;
@@ -122,20 +100,15 @@ TEST_CASE("Input to Channel module params test (invalid input driver)")
        .set("input", 0)
        .set("ins", 123);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Input to Channel module (normal)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
@@ -144,14 +117,17 @@ TEST_CASE("Input to Channel module (normal)")
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
-    appt.set(input);
-    appt.set(chm);
+    appt.set(dout)
+        .set(input)
+        .set(chm);
 
-    chm.init();
-    chm.onRxReceive(0, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE);
-    });
+    chm.onRxReceive(
+        0,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK_N_COUNT(data == HIGH_VALUE);
+        }
+    );
 
     InputToChannel inst;
     ConfigMap cfg;
@@ -159,11 +135,13 @@ TEST_CASE("Input to Channel module (normal)")
     cfg.set("channel", 0)
        .set("input", 0);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &input](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &input](){
                    if(loops++ >= 1) return false;
                    input.trigger(0, HIGH_VALUE);
@@ -171,10 +149,13 @@ TEST_CASE("Input to Channel module (normal)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Input to Channel module (inverted)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
@@ -187,10 +168,13 @@ TEST_CASE("Input to Channel module (inverted)")
     appt.set(input);
     appt.set(chm);
 
-    chm.init();
-    chm.onRxReceive(0, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE);
-    });
+    chm.onRxReceive(
+        0,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK_N_COUNT(data == HIGH_VALUE);
+        }
+    );
 
     InputToChannel inst;
     ConfigMap cfg;
@@ -199,11 +183,13 @@ TEST_CASE("Input to Channel module (inverted)")
        .set("input", 0)
        .set("inverted", true);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &input](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &input](){
                    if(loops++ >= 1) return false;
                    input.trigger(0, LOW_VALUE);
@@ -211,4 +197,6 @@ TEST_CASE("Input to Channel module (inverted)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

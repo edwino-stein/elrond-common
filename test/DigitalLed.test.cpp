@@ -1,4 +1,5 @@
 #include "elrond-test.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
@@ -7,9 +8,23 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
 
-using elrond::modules::DigitalLed;
+using elrond::module::DigitalLed;
 using elrond::gpio::BaseGpioPin;
 using elrond::gpio::DOutPin;
+using elrond::LoopControl;
+
+#ifdef ELROND_WITH_MODULES_INFO
+TEST_CASE("Digital LED module metadata check")
+{
+    RuntimeTest::setAppInstance(nullptr);
+    CHECK(DigitalLed::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
+    CHECK(DigitalLed::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::DigitalLed"));
+    CHECK(DigitalLed::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Digital LED"));
+    CHECK(DigitalLed::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
+    CHECK(DigitalLed::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
+    CHECK(DigitalLed::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
+}
+#endif
 
 TEST_CASE("Digital LED module params test (no channel)")
 {
@@ -22,8 +37,9 @@ TEST_CASE("Digital LED module params test (no channel)")
     DigitalLed inst;
     ConfigMap cfg;
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -40,8 +56,9 @@ TEST_CASE("Digital LED module params test (no pin)")
 
     cfg.set("channel", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -59,8 +76,9 @@ TEST_CASE("Digital LED module params test (invalid gpio)")
     cfg.set("channel", 0)
        .set("pin", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -81,20 +99,23 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
        .set("pin", 0)
        .set("chm", 123);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        appt.init(inst, cfg);
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Digital LED module (normal)")
 {
+    EXPECT_ASSERTS(2);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
-            CHECK(pin.getType() == elrond::GpioType::DOUT);
-            CHECK(data == HIGH_VALUE);
-            me.write((DOutPin&) pin, data);
+        [&gpio](BaseGpioPin& pin, const elrond::word data)
+        {
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == HIGH_VALUE);
+            gpio.write((DOutPin&) pin, data);
         }
     );
 
@@ -117,11 +138,13 @@ TEST_CASE("Digital LED module (normal)")
        .set("pin", 0)
        .set("chm", 0);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                 inst,
+                lc,
                 [&loops, &chm](){
                     if(loops++ >= 1) return false;
                     chm.txTrigger(0, HIGH_VALUE);
@@ -129,17 +152,21 @@ TEST_CASE("Digital LED module (normal)")
                 }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Digital LED module (inverted)")
 {
+    EXPECT_ASSERTS(2);
+
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
-        true,
-        [](BaseGpioPin& pin, elrond::word data, GpioTest& me){
-            CHECK(pin.getType() == elrond::GpioType::DOUT);
-            CHECK(data == LOW_VALUE);
-            me.write((DOutPin&) pin, data);
+        [&gpio](BaseGpioPin& pin, const elrond::word data)
+        {
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == LOW_VALUE);
+            gpio.write((DOutPin&) pin, data);
         }
     );
 
@@ -163,11 +190,13 @@ TEST_CASE("Digital LED module (inverted)")
        .set("chm", 0)
        .set("inverted", true);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                 inst,
+                lc,
                 [&loops, &chm](){
                     if(loops++ >= 1) return false;
                     chm.txTrigger(0, HIGH_VALUE);
@@ -175,4 +204,6 @@ TEST_CASE("Digital LED module (inverted)")
                 }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

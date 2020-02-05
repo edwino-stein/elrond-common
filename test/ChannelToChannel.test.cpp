@@ -1,12 +1,27 @@
 #include "elrond-test.hpp"
+#include "elrond-catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
+using elrond::LoopControl;
 
-using elrond::modules::ChannelToChannel;
+using elrond::module::ChannelToChannel;
+
+#ifdef ELROND_WITH_MODULES_INFO
+TEST_CASE("Channel to Channel module metadata check")
+{
+    RuntimeTest::setAppInstance(nullptr);
+    CHECK(ChannelToChannel::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
+    CHECK(ChannelToChannel::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::ChannelToChannel"));
+    CHECK(ChannelToChannel::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Channel to Channel"));
+    CHECK(ChannelToChannel::ELROND_MOD_AUTHOR_NAME_FUNC_N() == elrond::String("Edwino Stein"));
+    CHECK(ChannelToChannel::ELROND_MOD_AUTHOR_EMAIL_FUNC_N() == elrond::String("edwino.stein@gmail.com"));
+    CHECK(ChannelToChannel::ELROND_MOD_VERSION_FUNC_N() == elrond::String(ELROND_API_VERSION_STR));
+}
+#endif
 
 TEST_CASE("Channel to Channel module params test (no txCh)")
 {
@@ -20,15 +35,9 @@ TEST_CASE("Channel to Channel module params test (no txCh)")
     ChannelToChannel inst;
     ConfigMap cfg;
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -46,15 +55,9 @@ TEST_CASE("Channel to Channel module params test (no txChm)")
 
     cfg.set("txCh", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -73,15 +76,9 @@ TEST_CASE("Channel to Channel module params test (no rxCh)")
     cfg.set("txCh", 0)
        .set("txChm", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -101,15 +98,9 @@ TEST_CASE("Channel to Channel module params test (no rxChm)")
        .set("txChm", 0)
        .set("rxCh", 1);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
@@ -130,20 +121,15 @@ TEST_CASE("Channel to Channel module params test (invalid channel manager)")
        .set("rxCh", 1)
        .set("rxChm", 0);
 
-    REQUIRE_THROWS([&appt, &inst, &cfg](){
-        int loops = 0;
-        appt.init(inst, cfg)
-            .start(
-               inst,
-               [&loops](){
-                   return loops++ < 1;
-               }
-            );
+    CHECK_THROWS([&appt, &inst, &cfg](){
+        LoopControl lc;
+        appt.init(inst, cfg, lc);
     }());
 }
 
 TEST_CASE("Channel to Channel module (normal)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
@@ -154,10 +140,13 @@ TEST_CASE("Channel to Channel module (normal)")
     appt.set(dout);
     appt.set(chm);
 
-    chm.init();
-    chm.onRxReceive(1, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE);
-    });
+    chm.onRxReceive(
+        1,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK_N_COUNT(data == HIGH_VALUE);
+        }
+    );
 
     ChannelToChannel inst;
     ConfigMap cfg;
@@ -167,11 +156,13 @@ TEST_CASE("Channel to Channel module (normal)")
        .set("rxCh", 0)
        .set("rxChm", 0);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &chm](){
                    if(loops++ >= 1) return false;
                    chm.txTrigger(0, HIGH_VALUE);
@@ -179,10 +170,13 @@ TEST_CASE("Channel to Channel module (normal)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
 TEST_CASE("Channel to Channel module (inverted)")
 {
+    EXPECT_ASSERTS(1);
 
     DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
@@ -193,10 +187,13 @@ TEST_CASE("Channel to Channel module (inverted)")
     appt.set(dout);
     appt.set(chm);
 
-    chm.init();
-    chm.onRxReceive(1, [](elrond::word data){
-        REQUIRE(data == HIGH_VALUE - 123);
-    });
+    chm.onRxReceive(
+        1,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        {
+            CHECK_N_COUNT(data == HIGH_VALUE - 123);
+        }
+    );
 
     ChannelToChannel inst;
     ConfigMap cfg;
@@ -207,11 +204,13 @@ TEST_CASE("Channel to Channel module (inverted)")
        .set("rxChm", 0)
        .set("inverted", true);
 
-    REQUIRE_NOTHROW([&appt, &inst, &cfg, &chm](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+        LoopControl lc;
         int loops = 0;
-        appt.init(inst, cfg)
+        appt.init(inst, cfg, lc)
             .start(
                inst,
+               lc,
                [&loops, &chm](){
                    if(loops++ >= 1) return false;
                    chm.txTrigger(0, 123);
@@ -219,4 +218,6 @@ TEST_CASE("Channel to Channel module (inverted)")
                }
             );
     }());
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
 }

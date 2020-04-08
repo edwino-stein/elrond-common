@@ -14,10 +14,7 @@
 
                 private:
 
-                    struct RxChCollection {
-                        std::vector<elrond::channel::RxChannel*> channels;
-                    };
-
+                    using RxChCollection = std::vector<elrond::channel::RxChannel*>;
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
                     using RxChannelTestP = std::unique_ptr<RxChannelTest>;
 

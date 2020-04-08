@@ -11,13 +11,13 @@
         #error "The Elrond Test Library requires the ELROND_WITH_LAMBDA_TYPE macro"
     #endif
 
-    #include "test/ConfigMap.hpp"
+    #include "test/ConfigMapTest.hpp"
     #include "test/RuntimeTest.hpp"
     #include "test/ExternalModuleTest.hpp"
     #include "test/ChannelManagerTest.hpp"
     #include "test/TransportTest.hpp"
     #include "test/InputDriverTest.hpp"
     #include "test/GpioTest.hpp"
-    #include "test/DebugOut.hpp"
+    #include "test/DebugOutTest.hpp"
 
 #endif

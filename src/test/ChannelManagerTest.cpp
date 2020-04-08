@@ -51,7 +51,7 @@ void ChannelManagerTest::rxTrigger(const elrond::sizeT ch, const elrond::word da
 
 void ChannelManagerTest::onRxReceive(const elrond::sizeT ch, OnReceiveHandleT handle)
 {
-    ChannelManagerTest::RxChTestP rxCh(new RxChannelTest(handle));
+    ChannelManagerTest::RxChannelTestP rxCh(new RxChannelTest(handle));
     this->addRxListener(ch, (RxChannel*) rxCh.get());
     this->rxChTestInsts.push_back(std::move(rxCh));
 }

@@ -19,7 +19,7 @@
                     };
 
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
-                    using RxChTestP = std::unique_ptr<RxChannelTest>;
+                    using RxChannelTestP = std::unique_ptr<RxChannelTest>;
 
                 protected:
 
@@ -28,7 +28,7 @@
                     std::unique_ptr<elrond::byte[]> txBuffer;
                     std::unique_ptr<RxChCollectionP[]> rxChannels;
 
-                    std::vector<RxChTestP> rxChTestInsts;
+                    std::vector<RxChannelTestP> rxChTestInsts;
 
                     void rxTrigger(const elrond::sizeT ch, const elrond::word data) override;
                     elrond::byte *getTxBuffer() const override;

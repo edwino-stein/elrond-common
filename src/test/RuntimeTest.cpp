@@ -1,20 +1,17 @@
 #include "test/RuntimeTest.hpp"
 
-#include <string>
-
 using elrond::test::RuntimeTest;
+
 using elrond::interface::Runtime;
 using elrond::interface::Module;
-using ConfigMapInterface = elrond::interface::ConfigMap;
+using elrond::interface::ConfigMap;
 using elrond::interface::DebugOut;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputDriverModule;
 using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
 
-ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr;
-
-const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMapInterface &cfg, LoopControl &lc) const
+const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMap &cfg, LoopControl &lc) const
 {
     inst.onInit(cfg, lc);
     return *this;
@@ -66,15 +63,11 @@ const DebugOut& RuntimeTest::dout() const
 }
 
 void RuntimeTest::onError(const char *error)
-{
-    throw std::string("Error: ") + error;
-}
+{ throw std::string("Error: ") + error; }
 
 #ifdef ELROND_WITH_STR_TYPE
-    void RuntimeTest::onError(elrond::String error)
-    {
-        throw std::string("Error: ") + error;
-    }
+void RuntimeTest::onError(elrond::String error)
+{ throw std::string("Error: ") + error; }
 #endif
 
 RuntimeTest& RuntimeTest::set(BaseGpioModule& gpio)
@@ -102,6 +95,4 @@ RuntimeTest& RuntimeTest::set(DebugOut &dout)
 }
 
 void RuntimeTest::setAppInstance(elrond::interface::Runtime* app)
-{
-    ELROND_MOD_APP_VAR = app;
-}
+{ ELROND_MOD_APP_VAR = app; }

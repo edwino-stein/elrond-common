@@ -1,11 +1,11 @@
 #include "elrond-test.hpp"
 #include "elrond-catch.hpp"
 
-using elrond::test::ConfigMap;
+using elrond::test::ConfigMapTest;
 
-TEST_CASE("ConfigMap for Elrond Test Library", "[app][config]" )
+TEST_CASE("ConfigMapTest for Elrond Test Library", "[app][config]" )
 {
-    ConfigMap cfg;
+    ConfigMapTest cfg;
     cfg.set("i", 123)
        .set("d", 123.456)
        .set("b", true)

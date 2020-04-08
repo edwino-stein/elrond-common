@@ -8,7 +8,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::InputDriverTest;
 using elrond::test::GpioTest;
 using elrond::test::DebugOut;
-using elrond::test::ConfigMap;
+using elrond::test::ConfigMapTest;
 
 using elrond::module::Example;
 using elrond::LoopControl;
@@ -37,7 +37,7 @@ TEST_CASE("Runtime application for Elrond Test Library")
     appt.set(dout);
 
     Example inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("loop", true)
        .set("thread", false)
@@ -98,7 +98,7 @@ TEST_CASE("External module Test")
             CHECK_N_COUNT(inst.authorEmail == "elrond@rivendell.com");
             CHECK_N_COUNT(inst.version == ELROND_API_VERSION_STR);
 
-            ConfigMap cfg;
+            ConfigMapTest cfg;
             LoopControl lc;
             int loops = 0;
 

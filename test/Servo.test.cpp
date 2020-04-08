@@ -5,8 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
 
 using elrond::module::Servo;
 using elrond::gpio::BaseGpioPin;
@@ -35,7 +35,7 @@ TEST_CASE("Servo module params test (no channel)")
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -52,7 +52,7 @@ TEST_CASE("Servo module params test (no pin)")
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0);
 
@@ -71,7 +71,7 @@ TEST_CASE("Servo module params test (invalid gpio)")
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0);
@@ -93,7 +93,7 @@ TEST_CASE("Servo module params test (invalid channel manager)")
         .set(gpio);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -131,7 +131,7 @@ TEST_CASE("Servo module (normal)")
     chm.init();
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -181,7 +181,7 @@ TEST_CASE("Servo module (inverted)")
     chm.init();
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)

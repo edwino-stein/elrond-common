@@ -5,8 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
 
 using elrond::module::DigitalLed;
 using elrond::gpio::BaseGpioPin;
@@ -35,7 +35,7 @@ TEST_CASE("Digital LED module params test (no channel)")
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -52,7 +52,7 @@ TEST_CASE("Digital LED module params test (no pin)")
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0);
 
@@ -71,7 +71,7 @@ TEST_CASE("Digital LED module params test (invalid gpio)")
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0);
@@ -93,7 +93,7 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
         .set(gpio);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -132,7 +132,7 @@ TEST_CASE("Digital LED module (normal)")
     chm.init();
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -183,7 +183,7 @@ TEST_CASE("Digital LED module (inverted)")
     chm.init();
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)

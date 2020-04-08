@@ -5,8 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::InputDriverTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
 
 using elrond::module::InputToChannel;
 using elrond::LoopControl;
@@ -33,7 +33,7 @@ TEST_CASE("Input to Channel module params test (no channel)")
     appt.set(dout);
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -50,7 +50,7 @@ TEST_CASE("Input to Channel module params test (no input)")
     appt.set(dout);
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0);
 
@@ -69,7 +69,7 @@ TEST_CASE("Input to Channel module params test (invalid channel manager)")
     appt.set(dout);
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("chm", 123)
@@ -93,7 +93,7 @@ TEST_CASE("Input to Channel module params test (invalid input driver)")
         .set(chm);
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("chm", 0)
@@ -130,7 +130,7 @@ TEST_CASE("Input to Channel module (normal)")
     );
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("input", 0);
@@ -177,7 +177,7 @@ TEST_CASE("Input to Channel module (inverted)")
     );
 
     InputToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("input", 0)

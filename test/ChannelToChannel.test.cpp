@@ -4,8 +4,8 @@
 using elrond::test::RuntimeTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
 using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
 using elrond::LoopControl;
 
 using elrond::module::ChannelToChannel;
@@ -33,7 +33,7 @@ TEST_CASE("Channel to Channel module params test (no txCh)")
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -51,7 +51,7 @@ TEST_CASE("Channel to Channel module params test (no txChm)")
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0);
 
@@ -71,7 +71,7 @@ TEST_CASE("Channel to Channel module params test (no rxCh)")
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0);
@@ -92,7 +92,7 @@ TEST_CASE("Channel to Channel module params test (no rxChm)")
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0)
@@ -114,7 +114,7 @@ TEST_CASE("Channel to Channel module params test (invalid channel manager)")
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0)
@@ -149,7 +149,7 @@ TEST_CASE("Channel to Channel module (normal)")
     );
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 1)
        .set("txChm", 0)
@@ -196,7 +196,7 @@ TEST_CASE("Channel to Channel module (inverted)")
     );
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 1)
        .set("txChm", 0)

@@ -11,7 +11,7 @@
         #error "The Elrond Test Library requires the ELROND_WITH_LAMBDA_TYPE macro"
     #endif
 
-    #include "test/ConfigMap.hpp"
+    #include "test/ConfigMapTest.hpp"
     #include "test/RuntimeTest.hpp"
     #include "test/ExternalModuleTest.hpp"
     #include "test/ChannelManagerTest.hpp"

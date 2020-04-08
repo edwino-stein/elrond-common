@@ -7,7 +7,7 @@ using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::InputDriverTest;
 using elrond::test::GpioTest;
-using elrond::test::DebugOut;
+using elrond::test::DebugOutTest;
 using elrond::test::ConfigMapTest;
 
 using elrond::module::Example;
@@ -30,7 +30,7 @@ TEST_CASE("Example module metadata check")
 
 TEST_CASE("Runtime application for Elrond Test Library")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -66,7 +66,7 @@ TEST_CASE("External module Test")
 {
     EXPECT_ASSERTS(11);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     InputDriverTest input;

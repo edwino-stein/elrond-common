@@ -5,8 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::DebugOut;
 using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 
 using elrond::module::Servo;
 using elrond::gpio::BaseGpioPin;
@@ -28,7 +28,7 @@ TEST_CASE("Servo module metadata check")
 
 TEST_CASE("Servo module params test (no channel)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
@@ -45,7 +45,7 @@ TEST_CASE("Servo module params test (no channel)")
 
 TEST_CASE("Servo module params test (no pin)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
@@ -64,7 +64,7 @@ TEST_CASE("Servo module params test (no pin)")
 
 TEST_CASE("Servo module params test (invalid gpio)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
@@ -84,7 +84,7 @@ TEST_CASE("Servo module params test (invalid gpio)")
 
 TEST_CASE("Servo module params test (invalid channel manager)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
@@ -109,7 +109,7 @@ TEST_CASE("Servo module (normal)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK_N_COUNT(pin.getType() == elrond::GpioType::SERVO);
@@ -159,7 +159,7 @@ TEST_CASE("Servo module (inverted)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK_N_COUNT(pin.getType() == elrond::GpioType::SERVO);

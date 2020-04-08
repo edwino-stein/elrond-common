@@ -1,11 +1,11 @@
-#include "test/DebugOut.hpp"
+#include "test/DebugOutTest.hpp"
 
-using elrond::test::DebugOut;
-using DebugOutInterface = elrond::interface::DebugOut;
+using elrond::test::DebugOutTest;
+using elrond::interface::DebugOut;
 
-DebugOut::DebugOut(DebugOutHandleT handle): handle(handle) {}
+DebugOutTest::DebugOutTest(DebugOutHandleT handle): handle(handle) {}
 
-const DebugOutInterface& DebugOut::put(const char c[]) const
+const DebugOut& DebugOutTest::put(const char c[]) const
 {
     std::ostringstream oss;
     oss << c;
@@ -13,7 +13,7 @@ const DebugOutInterface& DebugOut::put(const char c[]) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(char c) const
+const DebugOut& DebugOutTest::put(char c) const
 {
     std::ostringstream oss;
     oss << c;
@@ -21,7 +21,7 @@ const DebugOutInterface& DebugOut::put(char c) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(unsigned char c) const
+const DebugOut& DebugOutTest::put(unsigned char c) const
 {
     std::ostringstream oss;
     oss << c;
@@ -29,7 +29,7 @@ const DebugOutInterface& DebugOut::put(unsigned char c) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(int i) const
+const DebugOut& DebugOutTest::put(int i) const
 {
     std::ostringstream oss;
     oss << i;
@@ -37,7 +37,7 @@ const DebugOutInterface& DebugOut::put(int i) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(unsigned int i) const
+const DebugOut& DebugOutTest::put(unsigned int i) const
 {
     std::ostringstream oss;
     oss << i;
@@ -45,7 +45,7 @@ const DebugOutInterface& DebugOut::put(unsigned int i) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(long l) const
+const DebugOut& DebugOutTest::put(long l) const
 {
     std::ostringstream oss;
     oss << l;
@@ -53,7 +53,7 @@ const DebugOutInterface& DebugOut::put(long l) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(unsigned long l) const
+const DebugOut& DebugOutTest::put(unsigned long l) const
 {
     std::ostringstream oss;
     oss << l;
@@ -61,7 +61,7 @@ const DebugOutInterface& DebugOut::put(unsigned long l) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::put(double d) const
+const DebugOut& DebugOutTest::put(double d) const
 {
     std::ostringstream oss;
     oss << d;
@@ -69,7 +69,7 @@ const DebugOutInterface& DebugOut::put(double d) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(const char c[]) const
+const DebugOut& DebugOutTest::putLn(const char c[]) const
 {
     std::ostringstream oss;
     oss << c << std::endl;
@@ -77,7 +77,7 @@ const DebugOutInterface& DebugOut::putLn(const char c[]) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(char c) const
+const DebugOut& DebugOutTest::putLn(char c) const
 {
     std::ostringstream oss;
     oss << c << std::endl;
@@ -85,7 +85,7 @@ const DebugOutInterface& DebugOut::putLn(char c) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(unsigned char c) const
+const DebugOut& DebugOutTest::putLn(unsigned char c) const
 {
     std::ostringstream oss;
     oss << c << std::endl;
@@ -93,7 +93,7 @@ const DebugOutInterface& DebugOut::putLn(unsigned char c) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(int i) const
+const DebugOut& DebugOutTest::putLn(int i) const
 {
     std::ostringstream oss;
     oss << i << std::endl;
@@ -101,7 +101,7 @@ const DebugOutInterface& DebugOut::putLn(int i) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(unsigned int i) const
+const DebugOut& DebugOutTest::putLn(unsigned int i) const
 {
     std::ostringstream oss;
     oss << i << std::endl;
@@ -109,7 +109,7 @@ const DebugOutInterface& DebugOut::putLn(unsigned int i) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(long l) const
+const DebugOut& DebugOutTest::putLn(long l) const
 {
     std::ostringstream oss;
     oss << l << std::endl;
@@ -117,7 +117,7 @@ const DebugOutInterface& DebugOut::putLn(long l) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(unsigned long l) const
+const DebugOut& DebugOutTest::putLn(unsigned long l) const
 {
     std::ostringstream oss;
     oss << l << std::endl;
@@ -125,7 +125,7 @@ const DebugOutInterface& DebugOut::putLn(unsigned long l) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn(double d) const
+const DebugOut& DebugOutTest::putLn(double d) const
 {
     std::ostringstream oss;
     oss << d << std::endl;
@@ -133,7 +133,7 @@ const DebugOutInterface& DebugOut::putLn(double d) const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::putLn() const
+const DebugOut& DebugOutTest::putLn() const
 {
     std::ostringstream oss;
     oss << std::endl;
@@ -141,11 +141,11 @@ const DebugOutInterface& DebugOut::putLn() const
     return *this;
 }
 
-const DebugOutInterface& DebugOut::flush() const { return *this; }
+const DebugOut& DebugOutTest::flush() const { return *this; }
 
 #ifdef ELROND_WITH_STR_TYPE
 
-    const DebugOutInterface& DebugOut::put(elrond::String str) const
+    const DebugOut& DebugOutTest::put(elrond::String str) const
     {
         std::ostringstream oss;
         oss << str;
@@ -153,7 +153,7 @@ const DebugOutInterface& DebugOut::flush() const { return *this; }
         return *this;
     }
 
-    const DebugOutInterface& DebugOut::putLn(elrond::String str) const
+    const DebugOut& DebugOutTest::putLn(elrond::String str) const
     {
         std::ostringstream oss;
         oss << str << std::endl;

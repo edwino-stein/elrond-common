@@ -4,8 +4,8 @@
 using elrond::test::RuntimeTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::DebugOut;
 using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 using elrond::LoopControl;
 
 using elrond::module::ChannelToChannel;
@@ -26,7 +26,7 @@ TEST_CASE("Channel to Channel module metadata check")
 TEST_CASE("Channel to Channel module params test (no txCh)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -44,7 +44,7 @@ TEST_CASE("Channel to Channel module params test (no txCh)")
 TEST_CASE("Channel to Channel module params test (no txChm)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -64,7 +64,7 @@ TEST_CASE("Channel to Channel module params test (no txChm)")
 TEST_CASE("Channel to Channel module params test (no rxCh)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -85,7 +85,7 @@ TEST_CASE("Channel to Channel module params test (no rxCh)")
 TEST_CASE("Channel to Channel module params test (no rxChm)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -107,7 +107,7 @@ TEST_CASE("Channel to Channel module params test (no rxChm)")
 TEST_CASE("Channel to Channel module params test (invalid channel manager)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -131,7 +131,7 @@ TEST_CASE("Channel to Channel module (normal)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     RuntimeTest appt;
@@ -178,7 +178,7 @@ TEST_CASE("Channel to Channel module (inverted)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     RuntimeTest appt;

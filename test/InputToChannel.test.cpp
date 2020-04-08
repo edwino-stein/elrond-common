@@ -5,8 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::InputDriverTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::DebugOut;
 using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 
 using elrond::module::InputToChannel;
 using elrond::LoopControl;
@@ -26,7 +26,7 @@ TEST_CASE("Input to Channel module metadata check")
 
 TEST_CASE("Input to Channel module params test (no channel)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -43,7 +43,7 @@ TEST_CASE("Input to Channel module params test (no channel)")
 
 TEST_CASE("Input to Channel module params test (no input)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -62,7 +62,7 @@ TEST_CASE("Input to Channel module params test (no input)")
 
 TEST_CASE("Input to Channel module params test (invalid channel manager)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
@@ -83,7 +83,7 @@ TEST_CASE("Input to Channel module params test (invalid channel manager)")
 
 TEST_CASE("Input to Channel module params test (invalid input driver)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 1);
     RuntimeTest appt;
@@ -110,7 +110,7 @@ TEST_CASE("Input to Channel module (normal)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
     TransportTest transport;
     ChannelManagerTest chm(transport, 1);
@@ -157,7 +157,7 @@ TEST_CASE("Input to Channel module (inverted)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
     TransportTest transport;
     ChannelManagerTest chm(transport, 1);

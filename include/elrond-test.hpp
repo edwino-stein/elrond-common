@@ -18,6 +18,6 @@
     #include "test/TransportTest.hpp"
     #include "test/InputDriverTest.hpp"
     #include "test/GpioTest.hpp"
-    #include "test/DebugOut.hpp"
+    #include "test/DebugOutTest.hpp"
 
 #endif

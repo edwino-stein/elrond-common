@@ -6,6 +6,9 @@
 /*  ****************************************************************************
     *************************** elrond implementation **************************
     ****************************************************************************/
+#ifndef ELROND_WITH_INLINE_FUNC
+    ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr;
+#endif
 
 namespace elrond {
 

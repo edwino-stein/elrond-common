@@ -189,7 +189,7 @@
 
     #else
         #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS
-        #define ELROND_DEFINE_INTER_MOD(C, P, A, E) // C, P, A, E, V
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E) // C, P, A, E
     #endif
 
 #endif

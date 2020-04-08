@@ -2,6 +2,7 @@
 #define _ELROND_TEST_CHANNEL_MANAGER_HPP
 
     #include "elrond.hpp"
+    #include "test/RxChannelTest.hpp"
 
     #include <vector>
     #include <memory>
@@ -13,18 +14,9 @@
 
                 private:
 
-                    struct RxChCollection {
-                        std::vector<elrond::channel::RxChannel*> channels;
-                    };
-
+                    using RxChCollection = std::vector<elrond::channel::RxChannel*>;
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
-
-                    class RxChannelTest : public elrond::channel::RxChannel {
-                        public:
-                            RxChannelTest(elrond::channel::OnReceiveHandleT handle);
-                    };
-
-                    using RxChTestP = std::unique_ptr<RxChannelTest>;
+                    using RxChannelTestP = std::unique_ptr<RxChannelTest>;
 
                 protected:
 
@@ -33,7 +25,7 @@
                     std::unique_ptr<elrond::byte[]> txBuffer;
                     std::unique_ptr<RxChCollectionP[]> rxChannels;
 
-                    std::vector<RxChTestP> rxChTestInsts;
+                    std::vector<RxChannelTestP> rxChTestInsts;
 
                     void rxTrigger(const elrond::sizeT ch, const elrond::word data) override;
                     elrond::byte *getTxBuffer() const override;
@@ -49,6 +41,8 @@
 
                     void txTrigger(const elrond::sizeT ch, const elrond::word data) override;
                     void addRxListener(const elrond::sizeT ch, elrond::channel::RxChannel *rx) override;
+                    void addRxListener(const elrond::sizeT ch, elrond::test::RxChannelTest &rx);
+
                     elrond::sizeT getTotalTx() const override;
                     elrond::sizeT getTotalRx() const override;
 

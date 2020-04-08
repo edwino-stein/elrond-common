@@ -2,6 +2,7 @@
 #define _ELROND_TEST_CHANNEL_MANAGER_HPP
 
     #include "elrond.hpp"
+    #include "test/RxChannelTest.hpp"
 
     #include <vector>
     #include <memory>
@@ -18,12 +19,6 @@
                     };
 
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
-
-                    class RxChannelTest : public elrond::channel::RxChannel {
-                        public:
-                            RxChannelTest(elrond::channel::OnReceiveHandleT handle);
-                    };
-
                     using RxChTestP = std::unique_ptr<RxChannelTest>;
 
                 protected:
@@ -49,6 +44,8 @@
 
                     void txTrigger(const elrond::sizeT ch, const elrond::word data) override;
                     void addRxListener(const elrond::sizeT ch, elrond::channel::RxChannel *rx) override;
+                    void addRxListener(const elrond::sizeT ch, elrond::test::RxChannelTest &rx);
+
                     elrond::sizeT getTotalTx() const override;
                     elrond::sizeT getTotalRx() const override;
 

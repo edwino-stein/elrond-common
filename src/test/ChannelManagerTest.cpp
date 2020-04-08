@@ -1,6 +1,7 @@
 #include "test/ChannelManagerTest.hpp"
 
 using elrond::test::ChannelManagerTest;
+using elrond::test::RxChannelTest;
 using elrond::channel::BaseChannelManager;
 using elrond::module::BaseTransportModule;
 using elrond::channel::RxChannel;
@@ -35,6 +36,9 @@ void ChannelManagerTest::addRxListener(const elrond::sizeT ch, RxChannel *rx)
     this->rxChannels[ch]->channels.push_back(rx);
 }
 
+void ChannelManagerTest::addRxListener(const elrond::sizeT ch, RxChannelTest &rx)
+{ this->addRxListener(ch, (RxChannel*) &rx); }
+
 void ChannelManagerTest::rxTrigger(const elrond::sizeT ch, const elrond::word data)
 {
     if(ch >= this->chs) return;
@@ -50,11 +54,6 @@ void ChannelManagerTest::onRxReceive(const elrond::sizeT ch, OnReceiveHandleT ha
     ChannelManagerTest::RxChTestP rxCh(new RxChannelTest(handle));
     this->addRxListener(ch, (RxChannel*) rxCh.get());
     this->rxChTestInsts.push_back(std::move(rxCh));
-}
-
-ChannelManagerTest::RxChannelTest::RxChannelTest(OnReceiveHandleT handle)
-{
-    this->handle = handle;
 }
 
 elrond::byte *ChannelManagerTest::getTxBuffer() const{ return this->txBuffer.get(); }

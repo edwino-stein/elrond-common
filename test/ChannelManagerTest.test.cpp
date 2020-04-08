@@ -2,8 +2,24 @@
 #include "elrond-catch.hpp"
 
 using elrond::test::ChannelManagerTest;
+using elrond::test::RxChannelTest;
 using elrond::test::TransportTest;
 using elrond::test::RuntimeTest;
+
+TEST_CASE("Elrond RxChannelTest")
+{
+    EXPECT_ASSERTS(1);
+    RuntimeTest::setAppInstance(nullptr);
+
+    RxChannelTest rxCh(
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        { CHECK_N_COUNT(data == HIGH_VALUE); }
+    );
+
+    rxCh.trigger(HIGH_VALUE);
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
+}
 
 TEST_CASE("Elrond Protocol")
 {

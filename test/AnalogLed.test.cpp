@@ -128,8 +128,6 @@ TEST_CASE("Analog LED module (normal)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     AnalogLed inst;
     ConfigMapTest cfg;
 
@@ -177,8 +175,6 @@ TEST_CASE("Analog LED module (inverted)")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    chm.init();
 
     AnalogLed inst;
     ConfigMapTest cfg;

@@ -51,6 +51,7 @@
         namespace interface {
             class Runtime;
             class Module;
+            class ChannelManager;
             class ConfigMap;
             class DebugOut;
         }

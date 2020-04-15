@@ -10,17 +10,16 @@ using elrond::channel::OnReceiveHandleT;
 ChannelManagerTest::ChannelManagerTest(
     BaseTransportModule& transport,
     const elrond::sizeT chs,
-    const bool autoSync,
-    const bool autoInit
+    const bool autoSync
 ):
-BaseChannelManager(transport),
-chs(chs),
-autoSync(autoSync),
-txBuffer(new elrond::byte[ELROND_PROTOCOL_CALC_BUFFER(chs)]),
-rxChannels(new RxChCollectionP[chs])
+    BaseChannelManager(transport),
+    chs(chs),
+    autoSync(autoSync),
+    txBuffer(new elrond::byte[ELROND_PROTOCOL_CALC_BUFFER(chs)]),
+    rxChannels(new RxChCollectionP[chs])
 {
     for(elrond::sizeT i = 0; i < chs; ++i) this->rxChannels[i] = nullptr;
-    if(autoInit) this->init();
+    this->init();
 }
 
 void ChannelManagerTest::txTrigger(const elrond::sizeT ch, const elrond::word data)
@@ -57,6 +56,6 @@ void ChannelManagerTest::onRxReceive(const elrond::sizeT ch, OnReceiveHandleT ha
     this->rxChTestInsts.push_back(std::move(rxCh));
 }
 
-elrond::byte *ChannelManagerTest::getTxBuffer() const{ return this->txBuffer.get(); }
-elrond::sizeT ChannelManagerTest::getTotalTx() const {return this->chs; }
-elrond::sizeT ChannelManagerTest::getTotalRx() const {return this->chs; }
+elrond::byte *ChannelManagerTest::getTxBuffer() const { return this->txBuffer.get(); }
+elrond::sizeT ChannelManagerTest::getTotalTx() const { return this->chs; }
+elrond::sizeT ChannelManagerTest::getTotalRx() const { return this->chs; }

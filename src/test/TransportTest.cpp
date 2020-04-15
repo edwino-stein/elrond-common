@@ -2,7 +2,7 @@
 
 using elrond::test::TransportTest;
 using elrond::module::BaseTransportModule;
-using elrond::channel::BaseChannelManager;
+using elrond::interface::ChannelManager;
 
 TransportTest::TransportTest(onActionT onSend, onActionT onReceive)
 {
@@ -28,21 +28,13 @@ TransportTest::TransportTest(onActionT onSend, onActionT onReceive)
 }
 
 void TransportTest::send(elrond::byte data[], const elrond::sizeT length)
-{
-    this->onSend(data, length, *this);
-}
+{ this->onSend(data, length, *this); }
 
 void TransportTest::receive(elrond::byte data[], const elrond::sizeT length)
-{
-    this->onReceive(data, length, *this);
-}
+{ this->onReceive(data, length, *this); }
 
 void TransportTest::notifyChm(elrond::byte data[], const elrond::sizeT length) const
-{
-    if(this->cm != nullptr) this->cm->onReceive(data, length);
-}
+{ if(this->cm != nullptr) this->cm->onReceive(data, length); }
 
-void TransportTest::setChannelManager(BaseChannelManager* cm)
-{
-    this->cm = cm;
-}
+void TransportTest::setChannelManager(ChannelManager* cm)
+{ this->cm = cm; }

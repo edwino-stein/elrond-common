@@ -52,6 +52,7 @@
             class Runtime;
             class Module;
             class ChannelManager;
+            class Channel;
             class ConfigMap;
             class DebugOut;
         }

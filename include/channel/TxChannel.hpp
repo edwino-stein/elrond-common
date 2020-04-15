@@ -2,17 +2,26 @@
 #define _ELROND_TX_CHANNEL_HPP
 
     #include "types.hpp"
+    #include "interface/Channel.hpp"
 
     namespace elrond {
         namespace channel {
-            class TxChannel {
+
+            class TxChannel : public elrond::interface::Channel {
 
                 protected:
-                    elrond::sizeT chId = 0;
-                    elrond::channel::BaseChannelManager *chm = nullptr;
+
+                    elrond::interface::ChannelManager* chm = nullptr;
 
                 public:
-                    void init(const elrond::sizeT chId, const sizeT chm);
+
+                    TxChannel();
+
+                    #ifdef ELROND_WITH_DESTRUCTORS
+                        virtual ~TxChannel();
+                    #endif
+
+                    void init(const elrond::sizeT ch, const sizeT chm);
                     void trigger(const elrond::word data);
             };
         }

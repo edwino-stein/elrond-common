@@ -2,36 +2,43 @@
 #define _ELROND_BASE_CHANNEL_MANAGER_HPP
 
     #include "types.hpp"
+    #include "interface/ChannelManager.hpp"
     #include "elrond_protocol_helper.hpp"
 
     namespace elrond {
         namespace channel {
 
-            class BaseChannelManager {
+            class BaseChannelManager: public elrond::interface::ChannelManager {
 
                 protected:
-                    elrond::module::BaseTransportModule &transport;
+
+                    elrond::module::BaseTransportModule& transport;
                     bool hasTxUpdate = false;
 
-                    virtual void rxTrigger(const elrond::sizeT ch, const elrond::word data)=0;
-                    virtual elrond::byte *getTxBuffer() const =0;
+                    virtual elrond::byte* getTxBuffer() const =0;
+                    virtual void rxTrigger(const elrond::sizeT ch,
+                                           const elrond::word data)=0;
+
+                    virtual void init();
 
                 public:
 
-                    BaseChannelManager(elrond::module::BaseTransportModule &transport);
+                    BaseChannelManager(elrond::module::BaseTransportModule& transport);
 
-                    virtual void init();
-                    virtual void txTrigger(const elrond::sizeT ch, elrond::word data);
+                    #ifdef ELROND_WITH_DESTRUCTORS
+                        virtual ~BaseChannelManager();
+                    #endif
+
                     virtual bool txSync(const bool force = false);
 
-                    virtual void onReceive(elrond::byte data[], const elrond::sizeT length);
-                    virtual void addRxListener(const elrond::sizeT ch, elrond::channel::RxChannel *rx)=0;
+                    virtual void txTrigger(const elrond::sizeT ch,
+                                           const elrond::word data) override;
 
-                    virtual elrond::sizeT getTotalTx() const =0;
-                    virtual elrond::sizeT getTotalRx() const =0;
+                    virtual void onReceive(elrond::byte data[],
+                                           const elrond::sizeT length) override;
 
-                    virtual elrond::sizeT getRxBufferSize() const;
-                    virtual elrond::sizeT getTxBufferSize() const;
+                    virtual elrond::sizeT getRxBufferSize() const override;
+                    virtual elrond::sizeT getTxBufferSize() const override;
 
                     #ifdef ELROND_WITH_LINKED_NODES
                         BaseChannelManager *_nextNode = nullptr;

@@ -22,6 +22,8 @@
     #include "interface/Module.hpp"
     #include "interface/ConfigMap.hpp"
     #include "interface/DebugOut.hpp"
+    #include "interface/ChannelManager.hpp"
+    #include "interface/Channel.hpp"
 
     // Base modules
     #include "module/BaseModule.hpp"

@@ -64,7 +64,6 @@ TEST_CASE("Channel Manager for Elrond Test Library")
     RuntimeTest::setAppInstance(nullptr);
     TransportTest selfTrans;
     ChannelManagerTest chm(selfTrans, 3);
-    chm.init();
 
     chm.onRxReceive(
         0,

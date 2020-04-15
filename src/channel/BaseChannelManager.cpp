@@ -2,7 +2,6 @@
 #include "module/BaseTransportModule.hpp"
 #include "channel/RxChannel.hpp"
 #include "channel/TxChannel.hpp"
-#include "runtime/bitwise.hpp"
 
 using elrond::channel::BaseChannelManager;
 using elrond::module::BaseTransportModule;
@@ -13,11 +12,12 @@ using elrond::channel::RxChannel;
     ************ elrond::channel::BaseChannelManager Implementation ************
     ****************************************************************************/
 
-BaseChannelManager::BaseChannelManager(BaseTransportModule &transport):
-transport(transport)
-{
-    this->transport.setChannelManager(this);
-}
+BaseChannelManager::BaseChannelManager(BaseTransportModule& transport): transport(transport)
+{ this->transport.setChannelManager(this); }
+
+#ifdef ELROND_WITH_DESTRUCTORS
+    BaseChannelManager::~BaseChannelManager(){}
+#endif
 
 void BaseChannelManager::init()
 {
@@ -91,11 +91,7 @@ void BaseChannelManager::onReceive(elrond::byte data[], const elrond::sizeT leng
 }
 
 elrond::sizeT BaseChannelManager::getRxBufferSize() const
-{
-    return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalRx());
-}
+{ return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalRx()); }
 
 elrond::sizeT BaseChannelManager::getTxBufferSize() const
-{
-    return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalTx());
-}
+{ return ELROND_PROTOCOL_CALC_BUFFER(this->getTotalTx()); }

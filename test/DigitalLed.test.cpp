@@ -129,8 +129,6 @@ TEST_CASE("Digital LED module (normal)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     DigitalLed inst;
     ConfigMapTest cfg;
 
@@ -179,8 +177,6 @@ TEST_CASE("Digital LED module (inverted)")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    chm.init();
 
     DigitalLed inst;
     ConfigMapTest cfg;

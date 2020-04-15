@@ -6,7 +6,7 @@ using elrond::module::Loopback;
 using elrond::interface::Module;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
-using elrond::channel::BaseChannelManager;
+using elrond::interface::ChannelManager;
 using elrond::LoopControl;
 
 /*  ****************************************************************************
@@ -32,10 +32,8 @@ void Loopback::send(elrond::byte data[], const elrond::sizeT length)
     this->cm->onReceive(rxBuffer, bufferLen);
 }
 
-void Loopback::setChannelManager(BaseChannelManager* cm)
-{
-    if(this->cm == nullptr) this->cm = cm;
-}
+void Loopback::setChannelManager(ChannelManager* cm)
+{ if(this->cm == nullptr) this->cm = cm; }
 
 ELROND_DEFINE_INTER_MOD(
     elrond::Loopback,

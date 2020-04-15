@@ -8,7 +8,7 @@ using elrond::interface::ConfigMap;
 using elrond::interface::DebugOut;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputDriverModule;
-using elrond::channel::BaseChannelManager;
+using elrond::interface::ChannelManager;
 using elrond::LoopControl;
 
 const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMap &cfg, LoopControl &lc) const
@@ -50,7 +50,7 @@ BaseInputDriverModule& RuntimeTest::getInputService(const elrond::sizeT id) cons
     return *(this->input);
 }
 
-BaseChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
+ChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
 {
     if(this->chmgr == nullptr) throw "Undefined Chmgr service";
     return *(this->chmgr);
@@ -76,19 +76,19 @@ RuntimeTest& RuntimeTest::set(BaseGpioModule& gpio)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(BaseInputDriverModule &input)
+RuntimeTest& RuntimeTest::set(BaseInputDriverModule& input)
 {
     this->input = &input;
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(BaseChannelManager &chmgr)
+RuntimeTest& RuntimeTest::set(ChannelManager& chmgr)
 {
     this->chmgr = &chmgr;
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(DebugOut &dout)
+RuntimeTest& RuntimeTest::set(DebugOut& dout)
 {
     this->debugOut = &dout;
     return *this;

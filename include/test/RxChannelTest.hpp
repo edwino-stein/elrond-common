@@ -1,5 +1,5 @@
 #if !defined  _ELROND_TEST_RX_CHANNEL_HPP
-#define _ELROND_TEST_CHANNEL_MANAGER_HPP
+#define _ELROND_TEST_RX_CHANNEL_HPP
 
     #include "elrond.hpp"
 

@@ -128,8 +128,6 @@ TEST_CASE("Servo module (normal)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     Servo inst;
     ConfigMapTest cfg;
 
@@ -177,8 +175,6 @@ TEST_CASE("Servo module (inverted)")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    chm.init();
 
     Servo inst;
     ConfigMapTest cfg;

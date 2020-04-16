@@ -19,9 +19,9 @@ libelrond-headeronly:
 	@$(MAKE) --no-print-directory -f $(HO_MAKEFILE) all
 
 test: libelrond-static libelrond-headeronly
-	@rm -f $(BUILD_DIR)/test/$(notdir $(basename $(t)))
-	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) run t="$(t)" l="$(EXT_STATIC_LIB) $(COMMON_STATIC_LIB)" a="$a"
+	@rm -f @rm -f $(BUILD_DIR)/test/$(notdir $(basename $(t)))
+	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) run t="$(t)" l="$(EXT_STATIC_LIB) $(COMMON_STATIC_LIB)" ld="pthread dl" a="$a"
 
 test-all: libelrond-static libelrond-headeronly
 	@rm -f $(BUILD_DIR)/test/all.test
-	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) all l="$(EXT_STATIC_LIB) $(COMMON_STATIC_LIB)" a="$a"
+	@$(MAKE) --no-print-directory -f $(TEST_MAKEFILE) all l="$(EXT_STATIC_LIB) $(COMMON_STATIC_LIB)" ld="pthread dl" a="$a"

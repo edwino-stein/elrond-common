@@ -9,6 +9,7 @@ SRC_TEST_DIR = $(SRC_DIR)/test
 INCLUDE_DIR = include
 BUILD_DIR = build
 DIST_DIR = dist
+TEST_DIR = test
 
 # Library names
 COMMON_NAME_LIB = lib$(PROJECT_NAME)
@@ -65,5 +66,8 @@ ifeq ($(TARGET_OS), Linux)
 	# Elrond libraries setup
     COMMON_STATIC_LIB = $(BUILD_DIR)/$(COMMON_NAME_LIB).$(STATIC_LIB_EXT)
     EXT_STATIC_LIB = $(BUILD_DIR)/$(EXT_NAME_LIB).$(STATIC_LIB_EXT)
+
+	# Find files of all test cases
+    ALL_TEST_SRC = $(shell find $(TEST_DIR) -type f \( -name "*.test.cpp" \))
 
 endif

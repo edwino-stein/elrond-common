@@ -1,10 +1,7 @@
 #if !defined  _ELROND_TEST_DEBUG_OUT_HPP
 #define _ELROND_TEST_DEBUG_OUT_HPP
 
-    #include "elrond.hpp"
-    #include "interface/DebugOut.hpp"
-
-    #include <sstream>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

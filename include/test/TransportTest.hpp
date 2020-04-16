@@ -1,9 +1,7 @@
 #if !defined  _ELROND_TEST_TRANSPORT_HPP
 #define _ELROND_TEST_TRANSPORT_HPP
 
-    #include "elrond.hpp"
-
-    #include <functional>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

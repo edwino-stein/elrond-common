@@ -1,11 +1,7 @@
 #if !defined  _ELROND_TEST_INPUT_DRIVER_HPP
 #define _ELROND_TEST_INPUT_DRIVER_HPP
 
-    #include "elrond.hpp"
-
-    #include <map>
-    #include <vector>
-    #include <memory>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

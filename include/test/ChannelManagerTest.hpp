@@ -1,12 +1,8 @@
 #if !defined  _ELROND_TEST_CHANNEL_MANAGER_HPP
 #define _ELROND_TEST_CHANNEL_MANAGER_HPP
 
-    #include "elrond.hpp"
-    #include "elrond_ext.hpp"
+    #include "elrond_test_types.hpp"
     #include "test/RxChannelTest.hpp"
-
-    #include <vector>
-    #include <memory>
 
     namespace elrond {
         namespace test {

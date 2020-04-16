@@ -18,7 +18,7 @@ TEST_NAME_LIB = lib$(PROJECT_NAME)-test
 # Main headers
 ELROND_HPP = include/elrond.hpp
 ELROND_EXT_HPP = include/elrond_ext.hpp
-ELROND_TEST_HPP = include/elrond-test.hpp
+ELROND_TEST_HPP = include/elrond_test.hpp
 
 # Util
 TEST_MAKEFILE = Test.mk

@@ -1,5 +1,5 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;

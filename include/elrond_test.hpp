@@ -1,16 +1,6 @@
 #if !defined  _ELROND_TEST_HPP
     #define _ELROND_TEST_HPP
 
-    #include "elrond.hpp"
-
-    #ifndef GENERIC_STD_PLATFORM
-        #error "The Elrond Test Library requires the GENERIC_STD_PLATFORM macro"
-    #endif
-
-    #ifndef ELROND_WITH_LAMBDA_TYPE
-        #error "The Elrond Test Library requires the ELROND_WITH_LAMBDA_TYPE macro"
-    #endif
-
     #include "test/ConfigMapTest.hpp"
     #include "test/RuntimeTest.hpp"
     #include "test/ExternalModuleTest.hpp"

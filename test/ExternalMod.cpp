@@ -9,10 +9,10 @@ class ExternalMod : public elrond::module::BaseModule {
 
     public:
         virtual ~ExternalMod();
-        virtual void onInit(elrond::interface::ConfigMap& cfg, elrond::LoopControl& lc) override;
-        virtual void onStart() override;
-        virtual void loop() override;
-        virtual void onStop() override;
+        void onInit(elrond::interface::ConfigMap& cfg, elrond::LoopControl& lc) override;
+        void onStart() override;
+        void loop() override;
+        void onStop() override;
 };
 
 ExternalMod::~ExternalMod(){}

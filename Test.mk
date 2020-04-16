@@ -50,7 +50,7 @@ $(BUILD_DIR)/RuntimeTest.test: RuntimeTest.test.cpp $(LIB_CATCH_OBJ) $(EXTERNAL_
 
 $(LIB_CATCH_OBJ): catch.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -DCATCH_CONFIG_MAIN $< -o $@
 
 $(EXTERNAL_MOD): ExternalMod.cpp
 	@mkdir -p $(@D)

@@ -17,11 +17,16 @@
 #if !defined  _ELROND_HPP
     #define _ELROND_HPP
 
+    // Runtime functions
+    #include "runtime/bitwise.hpp"
+    #include "runtime/time.hpp"
+    #include "runtime/math.ipp"
+
     // Interfaces
-    #include "interface/Runtime.hpp"
-    #include "interface/Module.hpp"
     #include "interface/ConfigMap.hpp"
     #include "interface/DebugOut.hpp"
+    #include "interface/Runtime.hpp"
+    #include "interface/Module.hpp"
     #include "interface/ChannelManager.hpp"
     #include "interface/Channel.hpp"
 
@@ -31,21 +36,11 @@
     #include "module/BaseGpioModule.hpp"
     #include "module/BaseInputDriverModule.hpp"
 
-    // Modules
-    #include "module/Example.hpp"
-    #include "module/Loopback.hpp"
-    #include "module/InputToChannel.hpp"
-    #include "module/ChannelToChannel.hpp"
-    #include "module/DigitalLed.hpp"
-    #include "module/AnalogLed.hpp"
-    #include "module/Servo.hpp"
-
     // Gpio
     #include "gpio/BaseGpioPin.hpp"
     #include "gpio/GenericGpioPin.ipp"
 
     // Channel
-    #include "channel/BaseChannelManager.hpp"
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"
 

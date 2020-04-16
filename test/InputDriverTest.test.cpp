@@ -1,5 +1,5 @@
-#include "elrond-catch.hpp"
 #include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::InputDriverTest;
 using elrond::test::RuntimeTest;

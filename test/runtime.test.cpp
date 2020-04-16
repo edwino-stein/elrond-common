@@ -1,5 +1,5 @@
-#include "elrond-catch.hpp"
 #include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 TEST_CASE("Bitwise functions for Elrond Test Library")
 {

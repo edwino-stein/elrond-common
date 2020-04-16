@@ -71,7 +71,7 @@ vpath %.$(HPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$(IPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$($(CPP_SRC_EXT)) $(SRC_DIR)
 
-.PHONY: all $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT) $(PROJECT_NAME)_test.$(HPP_SRC_EXT)
+.PHONY: all clean $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT) $(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 .DEFAULT_GOAL := all
 
 ################################## BUILD RULES #################################
@@ -138,3 +138,6 @@ $(DIST_DIR)/%.$(IPP_SRC_EXT): $(SRC_DIR)/%.$(CPP_SRC_EXT)
 	@cp $< $@
 	@eval "$(REMOVE_INCLUDES) $@ && $(REMOVE_COMMENTS) $@ && $(REMOVE_EMPTY_LINES) $@"
 	$(info $< > $@)
+
+clean:
+	rm -rf $(DIST_DIR)

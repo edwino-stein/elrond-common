@@ -50,6 +50,20 @@ HEADER_EXT_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_EXT_FILES_META) $(BASE_
 # Define EXL dist files
 HEADERS_EXT_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_EXT_FILES))
 
+################################### ETL DEFS ###################################
+
+# Find ETL base files names
+BASE_HEADER_TEST_FILES = $(shell cat $(ELROND_TEST_HPP) | grep -Po '\#include\s*"\K[^"]*')
+
+# ETL file options
+HEADER_TEST_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_test_types)
+
+# Define ETL files
+HEADER_TEST_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_TEST_FILES_META) $(BASE_HEADER_TEST_FILES))
+
+# Define ETL dist files
+HEADERS_TEST_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_TEST_FILES))
+
 ################################## UTIL DEFS ###################################
 
 VPATH = src: $(INCLUDE_DIR) $(SRC_DIR)
@@ -57,12 +71,12 @@ vpath %.$(HPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$(IPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$($(CPP_SRC_EXT)) $(SRC_DIR)
 
-.PHONY: all $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
+.PHONY: all $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT) $(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 .DEFAULT_GOAL := all
 
 ################################## BUILD RULES #################################
 
-all: $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
+all: $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT) $(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 
 # Header only ECL builder
 $(PROJECT_NAME).$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME).$(HPP_SRC_EXT)
@@ -81,6 +95,17 @@ $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
 	@eval "$(LICENSE_TXT) > $@"
 	@eval "echo '#ifndef _ELROND_EXTENDED_HPP\n#define _ELROND_EXTENDED_HPP'" >> $@
 	@eval "echo '#include <elrond.hpp>'" >> $@
+	@eval "cat $^ >> $@"
+	@eval "echo '#endif'" >> $@
+	$(info $^ > $@)
+
+# Header only ETL builder
+$(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT)
+$(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(HEADERS_TEST_DIST)
+	@mkdir -p $(@D)
+	@eval "$(LICENSE_TXT) > $@"
+	@eval "echo '#ifndef _ELROND_TEST_HPP\n#define _ELROND_TEST_HPP'" >> $@
+	@eval "echo '#include <elrond_ext.hpp>'" >> $@
 	@eval "cat $^ >> $@"
 	@eval "echo '#endif'" >> $@
 	$(info $^ > $@)

@@ -9,6 +9,7 @@ MACROS += $(m)
 # Elrond COMMON library setup
 COMMON_SHARED_LIB = $(BUILD_DIR)/$(COMMON_NAME_LIB).$(DYNAMIC_LIB_EXT)
 COMMON_STATIC_LIB = $(BUILD_DIR)/$(COMMON_NAME_LIB).$(STATIC_LIB_EXT)
+EXT_STATIC_LIB = $(BUILD_DIR)/$(EXT_NAME_LIB).$(STATIC_LIB_EXT)
 TEST_STATIC_LIB = $(BUILD_DIR)/$(TEST_NAME_LIB).$(STATIC_LIB_EXT)
 
 # Define object files
@@ -18,12 +19,16 @@ OBJS := $(addsuffix .$(OBJ_EXT), $(OBJS_FILES))
 # Set PIC objects
 OBJS_PIC := $(addsuffix .pic.$(OBJ_EXT), $(OBJS_FILES))
 
+# Set ext objects
+OBJ_EXT_FILES = $(subst $(SRC_DIR)/,$(BUILD_DIR)/,$(SRC_EXT_FILES))
+OBJS_EXT := $(addsuffix .$(OBJ_EXT), $(OBJ_EXT_FILES))
+
 # Set test objects
 OBJ_TEST_FILES = $(subst $(SRC_DIR)/,$(BUILD_DIR)/,$(SRC_TEST_FILES))
 OBJS_TEST := $(addsuffix .$(OBJ_EXT), $(OBJ_TEST_FILES))
 
 # Define dependencies files
-DEPS = $(OBJS:.$(OBJ_EXT)=.$(DEP_EXT)) $(OBJS_PIC:.$(OBJ_EXT)=.$(DEP_EXT)) $(OBJS_TEST:.$(OBJ_EXT)=.$(DEP_EXT))
+DEPS = $(OBJS:.$(OBJ_EXT)=.$(DEP_EXT)) $(OBJS_PIC:.$(OBJ_EXT)=.$(DEP_EXT)) $($(OBJS_EXT:.$(OBJ_EXT)=.$(DEP_EXT))) $(OBJS_TEST:.$(OBJ_EXT)=.$(DEP_EXT))
 
 # Add includes and macros to compiler options
 CXXFLAGS += $(addprefix -I, $(INCLUDES))
@@ -43,6 +48,10 @@ $(BUILD_DIR)/%.cpp.pic.$(OBJ_EXT): $(SRC_DIR)/%.cpp
 
 # Static library builder
 $(COMMON_STATIC_LIB): $(OBJS)
+	@mkdir -p $(@D)
+	$(AR) $(ARFLAGS) $@ $?
+
+$(EXT_STATIC_LIB): $(OBJS_EXT) $(OBJS_TEST)
 	@mkdir -p $(@D)
 	$(AR) $(ARFLAGS) $@ $?
 

@@ -17,7 +17,7 @@
 #if !defined  _ELROND_PLATFORM_HPP
     #define _ELROND_PLATFORM_HPP
 
-    #include "version.hpp"
+    #include "elrond_version.hpp"
 
     #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 

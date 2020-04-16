@@ -1,10 +1,7 @@
 #if !defined  _ELROND_TEST_CONFIG_MAP_HPP
 #define _ELROND_TEST_CONFIG_MAP_HPP
 
-    #include "elrond.hpp"
-    #include <map>
-    #include <memory>
-    #include <string>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

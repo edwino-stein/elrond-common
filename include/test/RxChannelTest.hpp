@@ -1,8 +1,7 @@
 #if !defined  _ELROND_TEST_RX_CHANNEL_HPP
 #define _ELROND_TEST_RX_CHANNEL_HPP
 
-    #include "elrond.hpp"
-    #include "elrond_ext.hpp"
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

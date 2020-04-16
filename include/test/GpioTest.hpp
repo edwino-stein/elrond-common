@@ -1,11 +1,7 @@
 #if !defined  _ELROND_TEST_GPIO_HPP
 #define _ELROND_TEST_GPIO_HPP
 
-    #include "elrond.hpp"
-
-    #include <vector>
-    #include <memory>
-    #include <map>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

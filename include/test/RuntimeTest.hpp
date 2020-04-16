@@ -1,10 +1,7 @@
 #if !defined  _ELROND_TEST_RUNTIME_HPP
 #define _ELROND_TEST_RUNTIME_HPP
 
-    #include "elrond.hpp"
-
-    #include <functional>
-    #include <vector>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {

@@ -1,7 +1,7 @@
 #if !defined  _ELROND_RX_CHANNEL_HPP
 #define _ELROND_RX_CHANNEL_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
     #include "interface/Channel.hpp"
 
     namespace elrond {

@@ -1,7 +1,7 @@
 #if !defined  _ELROND_INPUT_CALLBACK_HPP
 #define _ELROND_INPUT_CALLBACK_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
         namespace input {

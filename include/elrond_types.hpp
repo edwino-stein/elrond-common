@@ -1,7 +1,7 @@
 #if !defined  _ELROND_COMMON_TYPES_HPP
 #define _ELROND_COMMON_TYPES_HPP
 
-    #include "platform.hpp"
+    #include "elrond_platform.hpp"
 
     namespace elrond {
 
@@ -63,18 +63,12 @@
             class BaseTransportModule;
             class BaseGpioModule;
             class BaseInputDriverModule;
-            class Example;
-            class Loopback;
-            class InputToChannel;
-            class ChannelToChannel;
-            class DigitalLed;
-            class AnalogLed;
-            class Servo;
         }
 
         // Others
         class TaskContext;
 
+        // GPIO
         namespace gpio {
             class BaseGpioPin;
             using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
@@ -86,6 +80,7 @@
             using PwmPin = GenericGpioPin<ELROND_GPIO_PWM_TYPE, elrond::GpioType::PWM>;
         }
 
+        // Channel
         namespace channel {
             using OnReceiveHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
             class BaseChannelManager;
@@ -93,6 +88,7 @@
             class RxChannel;
         }
 
+        // Input
         namespace input {
             class InputCallback;
             using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
@@ -106,16 +102,6 @@
         #ifdef ELROND_WITH_STR_TYPE
             void error(elrond::String error);
         #endif
-
-        //Internal modules
-
-        using Example = elrond::module::Example;
-        using Loopback = elrond::module::Loopback;
-        using InputToChannel = elrond::module::InputToChannel;
-        using ChannelToChannel = elrond::module::ChannelToChannel;
-        using DigitalLed = elrond::module::DigitalLed;
-        using AnalogLed = elrond::module::AnalogLed;
-        using Servo = elrond::module::Servo;
 
         #ifndef ELROND_TASK_CONTEXT
             #define ELRONND_TASK_CONTEXT

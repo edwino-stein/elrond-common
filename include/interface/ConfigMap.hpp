@@ -1,7 +1,7 @@
 #if !defined  _ELROND_INTERFACE_CONFIG_MAP_HPP
 #define _ELROND_INTERFACE_CONFIG_MAP_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
         namespace interface {

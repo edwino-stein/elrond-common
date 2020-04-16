@@ -1,63 +1,115 @@
 # General settings
 include Config.mk
 
-HEADER_FILES = $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/, version platform types))\
-			   $(shell find $(INCLUDE_DIR)/runtime -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(shell find $(INCLUDE_DIR)/interface -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/module/, BaseModule\
-			   BaseGpioModule BaseInputDriverModule BaseTransportModule))\
-			   $(shell find $(INCLUDE_DIR)/channel -type f -name "*.$(HPP_SRC_EXT)")\
-			   $(addsuffix .$(HPP_SRC_EXT), $(addprefix $(INCLUDE_DIR)/gpio/, BaseGpioPin GenericGpioPin))\
-			   $(shell find $(INCLUDE_DIR)/input -type f -name "*.$(HPP_SRC_EXT)")
+# License text
+LICENSE_TXT := head -15 $(ELROND_HPP)
 
-IPP_FILES = $(shell find $(INCLUDE_DIR) -type f -name "*.$(IPP_SRC_EXT)")
+# SED utils
+REMOVE_COMMENTS_SCRIPT = util/remccoms3.sed
+REMOVE_COMMENTS := ./$(REMOVE_COMMENTS_SCRIPT) -i
+REMOVE_INCLUDES = sed -i '/^\s*\#include\s*\".*\"/d'
+REMOVE_EMPTY_LINES = sed -i '/^[[:space:]]*$$/d'
 
-SRC_FILES = $(addsuffix .$(CPP_SRC_EXT), $(addprefix $(SRC_DIR)/, elrond))\
-			$(shell find $(SRC_DIR)/runtime -type f -name "*.$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/module -type f -name "Base*.$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/channel -type f -name "Rx*.$(CPP_SRC_EXT)" -or -name "Tx*$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/gpio -type f -name "*.$(CPP_SRC_EXT)")\
-			$(shell find $(SRC_DIR)/input -type f -name "*.$(CPP_SRC_EXT)")
+################################### ECL DEFS ###################################
 
+# Define ECL base files names
+BASE_HEADER_FILES = $(shell cat $(ELROND_HPP) | grep -Po '\#include\s*"\K[^"]*')
+
+# ECL file options
+HEADER_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_version elrond_platform elrond_types)
+SRC_FILES_META = $(addsuffix .$(CPP_SRC_EXT), elrond)
+SRC_EXCLUDE = interface/% gpio/GenericGpioPin.%
+
+# Define ECL .hpp files
+HEADER_FILES := $(HEADER_FILES_META) $(BASE_HEADER_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT))
+HEADER_FILES := $(addprefix $(INCLUDE_DIR)/, $(HEADER_FILES))
+
+# Define ECL .ipp files
+IPP_FILES := $(addprefix $(INCLUDE_DIR)/, $(filter %.$(IPP_SRC_EXT),$(BASE_HEADER_FILES)))
+
+# Define ECL .cpp files
+SRC_FILES := $(filter-out $(SRC_EXCLUDE), $(BASE_HEADER_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT)))
+SRC_FILES := $(addprefix $(SRC_DIR)/, $(SRC_FILES_META) $(SRC_FILES:.$(HPP_SRC_EXT)=.$(CPP_SRC_EXT)))
+
+# Define ECL dist files
 HEADERS_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_FILES))
 HEADERS_DIST += $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(addsuffix .$(HPP_SRC_EXT), $(IPP_FILES)))
-SRC_DIST = $(subst $(SRC_DIR)/,$(DIST_DIR)/,$(subst .$(CPP_SRC_EXT),.$(IPP_SRC_EXT),$(SRC_FILES)))
+SRC_DIST = $(subst $(SRC_DIR)/,$(DIST_DIR)/,$(SRC_FILES:.$(CPP_SRC_EXT)=.$(IPP_SRC_EXT)))
+
+################################### EXL DEFS ###################################
+
+# Find EXL base files names
+BASE_HEADER_EXT_FILES = $(shell cat $(ELROND_EXT_HPP) | grep -Po '\#include\s*"\K[^"]*')
+
+# EXL file options
+HEADER_EXT_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_ext_types elrond_protocol_helper)
+
+# Define EXL files
+HEADER_EXT_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_EXT_FILES_META) $(BASE_HEADER_EXT_FILES))
+
+# Define EXL dist files
+HEADERS_EXT_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_EXT_FILES))
+
+################################## UTIL DEFS ###################################
 
 VPATH = src: $(INCLUDE_DIR) $(SRC_DIR)
 vpath %.$(HPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$(IPP_SRC_EXT) $(INCLUDE_DIR)
 vpath %.$($(CPP_SRC_EXT)) $(SRC_DIR)
 
-all: $(PROJECT_NAME).$(HPP_SRC_EXT)
+.PHONY: all $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
+.DEFAULT_GOAL := all
 
+################################## BUILD RULES #################################
+
+all: $(PROJECT_NAME).$(HPP_SRC_EXT) $(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
+
+# Header only ECL builder
 $(PROJECT_NAME).$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME).$(HPP_SRC_EXT)
 $(DIST_DIR)/$(PROJECT_NAME).$(HPP_SRC_EXT): $(HEADERS_DIST) $(SRC_DIST)
 	@mkdir -p $(@D)
-	eval "echo '#ifndef _ELROND_HPP\n#define _ELROND_HPP'" > $@
-	eval "cat $^ >> $@"
-	eval "echo '#endif'" >> $@
+	@eval "$(LICENSE_TXT) > $@"
+	@eval "echo '#ifndef _ELROND_HPP\n#define _ELROND_HPP'" >> $@
+	@eval "cat $^ >> $@"
+	@eval "echo '#endif'" >> $@
+	$(info $^ > $@)
 
-$(DIST_DIR)/platform.$(HPP_SRC_EXT): $(INCLUDE_DIR)/platform.$(HPP_SRC_EXT)
+# Header only EXL builder
+$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
+$(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
 	@mkdir -p $(@D)
-	cp $^ $@
-	eval "sed -i '/^\s*#include\s*\".*\"/d' $@"
-	eval "sed -i '/^[[:space:]]*$$/d' $@"
-	eval "sed -i 's/^\s*\/\/\s*#define\s*ELROND_WITH_INLINE_FUNC/    #define ELROND_WITH_INLINE_FUNC/g' $@"
+	@eval "$(LICENSE_TXT) > $@"
+	@eval "echo '#ifndef _ELROND_EXTENDED_HPP\n#define _ELROND_EXTENDED_HPP'" >> $@
+	@eval "echo '#include <elrond.hpp>'" >> $@
+	@eval "cat $^ >> $@"
+	@eval "echo '#endif'" >> $@
+	$(info $^ > $@)
 
+# Specific platform.hpp parser
+$(DIST_DIR)/elrond_platform.$(HPP_SRC_EXT): $(INCLUDE_DIR)/elrond_platform.$(HPP_SRC_EXT)
+	@mkdir -p $(@D)
+	@cp $< $@
+	eval "sed -i 's/^\s*\/\/\s*#define\s*ELROND_WITH_INLINE_FUNC/    #define ELROND_WITH_INLINE_FUNC/g' $@"
+	@eval "$(REMOVE_INCLUDES) $@ && $(REMOVE_COMMENTS) $@ && $(REMOVE_EMPTY_LINES) $@"
+	$(info $< > $@)
+
+# Generic .hpp parser
 $(DIST_DIR)/%.$(HPP_SRC_EXT): $(INCLUDE_DIR)/%.$(HPP_SRC_EXT)
 	@mkdir -p $(@D)
-	cp $^ $@
-	eval "sed -i '/^\s*#include\s*\".*\"/d' $@"
-	eval "sed -i '/^[[:space:]]*$$/d' $@"
+	@cp $< $@
+	@eval "$(REMOVE_INCLUDES) $@ && $(REMOVE_COMMENTS) $@ && $(REMOVE_EMPTY_LINES) $@"
+	$(info $< > $@)
 
+# Generic .ipp parser
 $(DIST_DIR)/%.$(IPP_SRC_EXT).$(HPP_SRC_EXT): $(INCLUDE_DIR)/%.$(IPP_SRC_EXT)
 	@mkdir -p $(@D)
-	cp $^ $@
-	eval "sed -i '/^\s*#include\s*\".*\"/d' $@"
-	eval "sed -i '/^[[:space:]]*$$/d' $@"
+	@cp $< $@
+	@eval "$(REMOVE_INCLUDES) $@ && $(REMOVE_COMMENTS) $@ && $(REMOVE_EMPTY_LINES) $@"
+	$(info $< > $@)
 
+# Generic .cpp to .ipp parser
 $(DIST_DIR)/%.$(IPP_SRC_EXT): $(SRC_DIR)/%.$(CPP_SRC_EXT)
 	@mkdir -p $(@D)
-	cp $^ $@
-	eval "sed -i '/^\s*#include\s*\".*\"/d' $@"
-	eval "sed -i '/^[[:space:]]*$$/d' $@"
+	@cp $< $@
+	@eval "$(REMOVE_INCLUDES) $@ && $(REMOVE_COMMENTS) $@ && $(REMOVE_EMPTY_LINES) $@"
+	$(info $< > $@)

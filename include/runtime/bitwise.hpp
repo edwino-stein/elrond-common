@@ -1,7 +1,7 @@
 #if !defined  _ELROND_BITWISE_HPP
 #define _ELROND_BITWISE_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
 

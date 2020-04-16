@@ -1,6 +1,7 @@
 #if !defined  _ELROND_LOOPBACK_MODULE_HPP
     #define _ELROND_LOOPBACK_MODULE_HPP
 
+    #include "elrond_ext_types.hpp"
     #include "module/BaseTransportModule.hpp"
 
     namespace elrond {

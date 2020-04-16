@@ -2,6 +2,7 @@
 #define _ELROND_TEST_CHANNEL_MANAGER_HPP
 
     #include "elrond.hpp"
+    #include "elrond_ext.hpp"
     #include "test/RxChannelTest.hpp"
 
     #include <vector>

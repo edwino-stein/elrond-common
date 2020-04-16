@@ -2,6 +2,7 @@
 #define _ELROND_TEST_RX_CHANNEL_HPP
 
     #include "elrond.hpp"
+    #include "elrond_ext.hpp"
 
     namespace elrond {
         namespace test {

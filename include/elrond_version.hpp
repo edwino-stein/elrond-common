@@ -18,7 +18,7 @@
     #define _ELROND_VERSION_HPP
 
     #define ELROND_API_MAJOR 0
-    #define ELROND_API_MINOR 3
+    #define ELROND_API_MINOR 4
     #define ELROND_API_PATCH 0
     #define ELROND_API_DEV_STAGE 0
 

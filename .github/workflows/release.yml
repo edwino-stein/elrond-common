@@ -26,18 +26,9 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            First prerelease
+            Second prerelease
           draft: true
           prerelease: true
-      - name: Upload Release Asset libelrond.so
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libelrond.so
-          asset_name: libelrond.so
-          asset_content_type: application/x-sharedlib
       - name: Upload Release Asset libelrond.a
         uses: actions/upload-release-asset@v1.0.1
         env:
@@ -47,14 +38,14 @@ jobs:
           asset_path: ./build/libelrond.a
           asset_name: libelrond.a
           asset_content_type: application/x-archive
-      - name: Upload Release Asset libelrond-test.a
+      - name: Upload Release Asset libelrond_ext.a
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libelrond-test.a
-          asset_name: libelrond-test.a
+          asset_path: ./build/libelrond_ext.a
+          asset_name: libelrond_ext.a
           asset_content_type: application/x-archive
       - name: Upload Release Asset elrond.hpp
         uses: actions/upload-release-asset@v1.0.1
@@ -64,4 +55,22 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/elrond.hpp
           asset_name: elrond.hpp
+          asset_content_type: text/x-c++hdr
+      - name: Upload Release Asset elrond_ext.hpp
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/elrond_ext.hpp
+          asset_name: elrond_ext.hpp
+          asset_content_type: text/x-c++hdr
+      - name: Upload Release Asset elrond_test.hpp
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/elrond_test.hpp
+          asset_name: elrond_test.hpp
           asset_content_type: text/x-c++hdr

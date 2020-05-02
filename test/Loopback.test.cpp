@@ -1,9 +1,8 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::DebugOut;
 
 using elrond::module::Loopback;
 

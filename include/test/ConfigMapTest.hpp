@@ -1,15 +1,12 @@
 #if !defined  _ELROND_TEST_CONFIG_MAP_HPP
 #define _ELROND_TEST_CONFIG_MAP_HPP
 
-    #include "elrond.hpp"
-    #include <map>
-    #include <memory>
-    #include <string>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {
 
-            class ConfigMap : public elrond::interface::ConfigMap {
+            class ConfigMapTest : public elrond::interface::ConfigMap {
 
                 private:
 
@@ -37,7 +34,7 @@
                 protected:
 
                     DataValueMap data;
-                    ConfigMap& set(std::string key, DataValueP value);
+                    ConfigMapTest& set(std::string key, DataValueP value);
 
                 public:
 
@@ -57,12 +54,12 @@
                     bool isString(const char* key) const override;
                     bool isNull(const char* key) const override;
 
-                    ConfigMap& set(std::string key, const char c[]);
-                    ConfigMap& set(std::string key, std::string const& str);
-                    ConfigMap& set(std::string key, char c);
-                    ConfigMap& set(std::string key, int i);
-                    ConfigMap& set(std::string key, double d);
-                    ConfigMap& set(std::string key, bool b);
+                    ConfigMapTest& set(std::string key, const char c[]);
+                    ConfigMapTest& set(std::string key, std::string const& str);
+                    ConfigMapTest& set(std::string key, char c);
+                    ConfigMapTest& set(std::string key, int i);
+                    ConfigMapTest& set(std::string key, double d);
+                    ConfigMapTest& set(std::string key, bool b);
             };
         }
     }

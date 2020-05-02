@@ -1,12 +1,12 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
-using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 
 using elrond::module::DigitalLed;
 using elrond::gpio::BaseGpioPin;
@@ -28,14 +28,14 @@ TEST_CASE("Digital LED module metadata check")
 
 TEST_CASE("Digital LED module params test (no channel)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -45,14 +45,14 @@ TEST_CASE("Digital LED module params test (no channel)")
 
 TEST_CASE("Digital LED module params test (no pin)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0);
 
@@ -64,14 +64,14 @@ TEST_CASE("Digital LED module params test (no pin)")
 
 TEST_CASE("Digital LED module params test (invalid gpio)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0);
@@ -84,7 +84,7 @@ TEST_CASE("Digital LED module params test (invalid gpio)")
 
 TEST_CASE("Digital LED module params test (invalid channel manager)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
@@ -93,7 +93,7 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
         .set(gpio);
 
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -109,7 +109,7 @@ TEST_CASE("Digital LED module (normal)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data)
         {
@@ -129,10 +129,8 @@ TEST_CASE("Digital LED module (normal)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -160,7 +158,7 @@ TEST_CASE("Digital LED module (inverted)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data)
         {
@@ -180,10 +178,8 @@ TEST_CASE("Digital LED module (inverted)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     DigitalLed inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)

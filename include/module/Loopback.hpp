@@ -1,6 +1,7 @@
 #if !defined  _ELROND_LOOPBACK_MODULE_HPP
     #define _ELROND_LOOPBACK_MODULE_HPP
 
+    #include "elrond_ext_types.hpp"
     #include "module/BaseTransportModule.hpp"
 
     namespace elrond {
@@ -9,7 +10,7 @@
             class Loopback : public elrond::module::BaseTransportModule {
 
                 protected:
-                    elrond::channel::BaseChannelManager *cm = nullptr;
+                    elrond::interface::ChannelManager* cm = nullptr;
 
                 public:
 
@@ -18,7 +19,7 @@
                     #endif
 
                     void send(elrond::byte data[], const elrond::sizeT length) override;
-                    void setChannelManager(elrond::channel::BaseChannelManager* cm) override;
+                    void setChannelManager(elrond::interface::ChannelManager* cm) override;
 
                     ELROND_DEFINE_INTER_MOD_DEF_FUNCS;
             };

@@ -1,9 +1,7 @@
 #if !defined  _ELROND_TEST_TRANSPORT_HPP
 #define _ELROND_TEST_TRANSPORT_HPP
 
-    #include "elrond.hpp"
-
-    #include <functional>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {
@@ -15,7 +13,7 @@
 
                 protected:
 
-                    elrond::channel::BaseChannelManager *cm = nullptr;
+                    elrond::interface::ChannelManager* cm = nullptr;
                     onActionT onSend;
                     onActionT onReceive;
 
@@ -27,7 +25,7 @@
                     void receive(elrond::byte data[], const elrond::sizeT length);
                     void notifyChm(elrond::byte data[], const elrond::sizeT length) const;
 
-                    void setChannelManager(elrond::channel::BaseChannelManager* cm) override;
+                    void setChannelManager(elrond::interface::ChannelManager* cm) override;
             };
         }
     }

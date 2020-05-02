@@ -1,11 +1,11 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
-using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 using elrond::LoopControl;
 
 using elrond::module::ChannelToChannel;
@@ -26,14 +26,14 @@ TEST_CASE("Channel to Channel module metadata check")
 TEST_CASE("Channel to Channel module params test (no txCh)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -44,14 +44,14 @@ TEST_CASE("Channel to Channel module params test (no txCh)")
 TEST_CASE("Channel to Channel module params test (no txChm)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0);
 
@@ -64,14 +64,14 @@ TEST_CASE("Channel to Channel module params test (no txChm)")
 TEST_CASE("Channel to Channel module params test (no rxCh)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0);
@@ -85,14 +85,14 @@ TEST_CASE("Channel to Channel module params test (no rxCh)")
 TEST_CASE("Channel to Channel module params test (no rxChm)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0)
@@ -107,14 +107,14 @@ TEST_CASE("Channel to Channel module params test (no rxChm)")
 TEST_CASE("Channel to Channel module params test (invalid channel manager)")
 {
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 0)
        .set("txChm", 0)
@@ -131,7 +131,7 @@ TEST_CASE("Channel to Channel module (normal)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     RuntimeTest appt;
@@ -149,7 +149,7 @@ TEST_CASE("Channel to Channel module (normal)")
     );
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 1)
        .set("txChm", 0)
@@ -178,7 +178,7 @@ TEST_CASE("Channel to Channel module (inverted)")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     RuntimeTest appt;
@@ -196,7 +196,7 @@ TEST_CASE("Channel to Channel module (inverted)")
     );
 
     ChannelToChannel inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("txCh", 1)
        .set("txChm", 0)

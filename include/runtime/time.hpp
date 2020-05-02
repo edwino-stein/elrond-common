@@ -1,7 +1,7 @@
 #if !defined  _ELROND_TIME_HPP
 #define _ELROND_TIME_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
 

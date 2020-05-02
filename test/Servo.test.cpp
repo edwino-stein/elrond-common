@@ -1,12 +1,12 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
 using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::ConfigMap;
-using elrond::test::DebugOut;
+using elrond::test::ConfigMapTest;
+using elrond::test::DebugOutTest;
 
 using elrond::module::Servo;
 using elrond::gpio::BaseGpioPin;
@@ -28,14 +28,14 @@ TEST_CASE("Servo module metadata check")
 
 TEST_CASE("Servo module params test (no channel)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     CHECK_THROWS([&appt, &inst, &cfg](){
         LoopControl lc;
@@ -45,14 +45,14 @@ TEST_CASE("Servo module params test (no channel)")
 
 TEST_CASE("Servo module params test (no pin)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0);
 
@@ -64,14 +64,14 @@ TEST_CASE("Servo module params test (no pin)")
 
 TEST_CASE("Servo module params test (invalid gpio)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0);
@@ -84,7 +84,7 @@ TEST_CASE("Servo module params test (invalid gpio)")
 
 TEST_CASE("Servo module params test (invalid channel manager)")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
     RuntimeTest appt;
     RuntimeTest::setAppInstance(&appt);
@@ -93,7 +93,7 @@ TEST_CASE("Servo module params test (invalid channel manager)")
         .set(gpio);
 
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -109,7 +109,7 @@ TEST_CASE("Servo module (normal)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK_N_COUNT(pin.getType() == elrond::GpioType::SERVO);
@@ -128,10 +128,8 @@ TEST_CASE("Servo module (normal)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)
@@ -159,7 +157,7 @@ TEST_CASE("Servo module (inverted)")
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, const elrond::word data){
             CHECK_N_COUNT(pin.getType() == elrond::GpioType::SERVO);
@@ -178,10 +176,8 @@ TEST_CASE("Servo module (inverted)")
         .set(gpio)
         .set(chm);
 
-    chm.init();
-
     Servo inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("pin", 0)

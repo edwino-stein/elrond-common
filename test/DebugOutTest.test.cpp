@@ -1,13 +1,13 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
-using elrond::test::DebugOut;
+using elrond::test::DebugOutTest;
 
-TEST_CASE("DebugOut for Elrond Test Library (int)", "[debug]" )
+TEST_CASE("DebugOutTest for Elrond Test Library (int)", "[debug]" )
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout(
+    DebugOutTest dout(
         [](std::ostringstream& oss)
         {
             CHECK_N_COUNT(oss.str() == "123");
@@ -20,11 +20,11 @@ TEST_CASE("DebugOut for Elrond Test Library (int)", "[debug]" )
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("DebugOut for Elrond Test Library (double)", "[debug]" )
+TEST_CASE("DebugOutTest for Elrond Test Library (double)", "[debug]" )
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout(
+    DebugOutTest dout(
         [](std::ostringstream& oss)
         {
             CHECK_N_COUNT(oss.str() == "123.456");
@@ -36,11 +36,11 @@ TEST_CASE("DebugOut for Elrond Test Library (double)", "[debug]" )
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("DebugOut for Elrond Test Library (string)", "[debug]" )
+TEST_CASE("DebugOutTest for Elrond Test Library (string)", "[debug]" )
 {
     EXPECT_ASSERTS(2);
 
-    DebugOut dout(
+    DebugOutTest dout(
         [](std::ostringstream& oss)
         {
             CHECK_N_COUNT(oss.str() == "hello world");
@@ -55,11 +55,11 @@ TEST_CASE("DebugOut for Elrond Test Library (string)", "[debug]" )
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("DebugOut for Elrond Test Library (char)", "[debug]" )
+TEST_CASE("DebugOutTest for Elrond Test Library (char)", "[debug]" )
 {
     EXPECT_ASSERTS(1);
 
-    DebugOut dout(
+    DebugOutTest dout(
         [](std::ostringstream& oss)
         {
             CHECK_N_COUNT(oss.str() == "c");

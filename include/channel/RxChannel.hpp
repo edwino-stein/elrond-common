@@ -1,24 +1,29 @@
 #if !defined  _ELROND_RX_CHANNEL_HPP
 #define _ELROND_RX_CHANNEL_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
+    #include "interface/Channel.hpp"
 
     namespace elrond {
         namespace channel {
-            class RxChannel {
+
+            class RxChannel : public elrond::interface::Channel {
 
                 protected:
-                    elrond::word _data;
-                    elrond::channel::OnReceiveHandleT handle;
+
+                    elrond::channel::OnReceiveHandleT handle = nullptr;
                     elrond::TaskContext* ctx = nullptr;
 
                 public:
 
-                    elrond::word const& data;
                     RxChannel();
 
+                    #ifdef ELROND_WITH_DESTRUCTORS
+                        virtual ~RxChannel();
+                    #endif
+
                     void init(
-                        const elrond::sizeT chId,
+                        const elrond::sizeT ch,
                         const elrond::sizeT chm,
                         elrond::channel::OnReceiveHandleT handle,
                         elrond::TaskContext* const ctx = nullptr

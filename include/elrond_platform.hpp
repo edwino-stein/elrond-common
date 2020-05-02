@@ -17,7 +17,7 @@
 #if !defined  _ELROND_PLATFORM_HPP
     #define _ELROND_PLATFORM_HPP
 
-    #include "version.hpp"
+    #include "elrond_version.hpp"
 
     #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 
@@ -189,7 +189,7 @@
 
     #else
         #define ELROND_DEFINE_INTER_MOD_DEF_FUNCS
-        #define ELROND_DEFINE_INTER_MOD(C, P, A, E) // C, P, A, E, V
+        #define ELROND_DEFINE_INTER_MOD(C, P, A, E) // C, P, A, E
     #endif
 
 #endif

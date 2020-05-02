@@ -1,7 +1,7 @@
 #if !defined  _ELROND_BASE_GPIO_PIN_HPP
 #define _ELROND_BASE_GPIO_PIN_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
         namespace gpio {

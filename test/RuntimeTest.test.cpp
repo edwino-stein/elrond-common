@@ -1,5 +1,5 @@
-#include "elrond-test.hpp"
-#include "elrond-catch.hpp"
+#include "elrond_test.hpp"
+#include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
 using elrond::test::ExternalModuleTest;
@@ -7,8 +7,8 @@ using elrond::test::TransportTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::InputDriverTest;
 using elrond::test::GpioTest;
-using elrond::test::DebugOut;
-using elrond::test::ConfigMap;
+using elrond::test::DebugOutTest;
+using elrond::test::ConfigMapTest;
 
 using elrond::module::Example;
 using elrond::LoopControl;
@@ -30,14 +30,14 @@ TEST_CASE("Example module metadata check")
 
 TEST_CASE("Runtime application for Elrond Test Library")
 {
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
 
     RuntimeTest::setAppInstance(&appt);
     appt.set(dout);
 
     Example inst;
-    ConfigMap cfg;
+    ConfigMapTest cfg;
 
     cfg.set("loop", true)
        .set("thread", false)
@@ -66,7 +66,7 @@ TEST_CASE("External module Test")
 {
     EXPECT_ASSERTS(11);
 
-    DebugOut dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     TransportTest transport;
     ChannelManagerTest chm(transport, 2);
     InputDriverTest input;
@@ -98,7 +98,7 @@ TEST_CASE("External module Test")
             CHECK_N_COUNT(inst.authorEmail == "elrond@rivendell.com");
             CHECK_N_COUNT(inst.version == ELROND_API_VERSION_STR);
 
-            ConfigMap cfg;
+            ConfigMapTest cfg;
             LoopControl lc;
             int loops = 0;
 

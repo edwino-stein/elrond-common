@@ -1,6 +1,7 @@
 #if !defined  _ELROND_SERVO_MODULE_HPP
     #define _ELROND_SERVO_MODULE_HPP
 
+    #include "elrond_ext_types.hpp"
     #include "module/BaseModule.hpp"
     #include "channel/RxChannel.hpp"
     #include "gpio/BaseGpioPin.hpp"

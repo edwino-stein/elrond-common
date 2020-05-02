@@ -1,6 +1,7 @@
 #if !defined  _ELROND_CHANNEL_TO_CHANNEL_MODULE_HPP
     #define _ELROND_CHANNEL_TO_CHANNEL_MODULE_HPP
 
+    #include "elrond_ext_types.hpp"
     #include "module/BaseModule.hpp"
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"

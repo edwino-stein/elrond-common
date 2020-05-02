@@ -1,7 +1,7 @@
 #if !defined  _ELROND_INTERFACE_DEBUG_OUT_HPP
 #define _ELROND_INTERFACE_DEBUG_OUT_HPP
 
-    #include "types.hpp"
+    #include "elrond_types.hpp"
 
     namespace elrond {
         namespace interface {

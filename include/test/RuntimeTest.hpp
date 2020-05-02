@@ -1,10 +1,7 @@
 #if !defined  _ELROND_TEST_RUNTIME_HPP
 #define _ELROND_TEST_RUNTIME_HPP
 
-    #include "elrond.hpp"
-
-    #include <functional>
-    #include <vector>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {
@@ -15,7 +12,7 @@
 
                     elrond::module::BaseGpioModule* gpio = nullptr;
                     elrond::module::BaseInputDriverModule* input = nullptr;
-                    elrond::channel::BaseChannelManager* chmgr = nullptr;
+                    elrond::interface::ChannelManager* chmgr = nullptr;
                     elrond::interface::DebugOut* debugOut = nullptr;
 
                 public:
@@ -34,7 +31,7 @@
 
                     elrond::module::BaseGpioModule &getGpioService() const override;
                     elrond::module::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
-                    elrond::channel::BaseChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
+                    elrond::interface::ChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
                     const elrond::interface::DebugOut &dout() const override;
 
                     void onError(const char *error) override;
@@ -44,9 +41,9 @@
                     #endif
 
                     RuntimeTest& set(elrond::module::BaseGpioModule& gpio);
-                    RuntimeTest& set(elrond::module::BaseInputDriverModule &input);
-                    RuntimeTest& set(elrond::channel::BaseChannelManager &chmgr);
-                    RuntimeTest& set(elrond::interface::DebugOut &dout);
+                    RuntimeTest& set(elrond::module::BaseInputDriverModule& input);
+                    RuntimeTest& set(elrond::interface::ChannelManager& chmgr);
+                    RuntimeTest& set(elrond::interface::DebugOut& dout);
 
                     static void setAppInstance(elrond::interface::Runtime* app);
             };

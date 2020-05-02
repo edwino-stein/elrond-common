@@ -1,15 +1,12 @@
 #if !defined  _ELROND_TEST_DEBUG_OUT_HPP
 #define _ELROND_TEST_DEBUG_OUT_HPP
 
-    #include "elrond.hpp"
-    #include "interface/DebugOut.hpp"
-
-    #include <sstream>
+    #include "elrond_test_types.hpp"
 
     namespace elrond {
         namespace test {
 
-            class DebugOut : public elrond::interface::DebugOut {
+            class DebugOutTest : public elrond::interface::DebugOut {
 
                 private:
                     using DebugOutHandleT = ELROND_LAMBDA_FUNC(void, std::ostringstream&);
@@ -19,7 +16,7 @@
 
                 public:
 
-                    DebugOut(DebugOutHandleT handle);
+                    DebugOutTest(DebugOutHandleT handle);
 
                     const elrond::interface::DebugOut& put(const char c[]) const override;
                     const elrond::interface::DebugOut& put(char c) const override;

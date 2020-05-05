@@ -15,6 +15,17 @@ project(
 # Enable C++11 standard
 set(CMAKE_CXX_STANDARD 11)
 
+# Define warning level
+if(MSVC)
+    set(WARNING_LEVEL /W3 /WX)
+else()
+    # TODO: add -pedantic flag?
+    set(WARNING_LEVEL -Wall)
+endif()
+
 # Includes
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# Define main source directory
+add_subdirectory(src)
 

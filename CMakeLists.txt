@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
+enable_testing()
 
 ################################################################################
 #                           Project General settings                           #
@@ -29,3 +30,5 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # Define main source directory
 add_subdirectory(src)
 
+# Define tests source directory
+add_subdirectory(test)

@@ -4,6 +4,7 @@
     #include "test/ConfigMapTest.hpp"
     #include "test/RuntimeTest.hpp"
     #include "test/ExternalModuleTest.hpp"
+    #include "test/RxChannelTest.hpp"
     #include "test/ChannelManagerTest.hpp"
     #include "test/TransportTest.hpp"
     #include "test/InputDriverTest.hpp"

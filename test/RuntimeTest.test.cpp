@@ -89,7 +89,7 @@ TEST_CASE("External module Test")
     REQUIRE_NOTHROW(
         [&appt, &input]()
         {
-            ExternalModuleTest inst("build/test/external-module.so", appt);
+            ExternalModuleTest inst("./external_module.so", appt);
 
             CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
             CHECK_N_COUNT(inst.className == "ExternalMod");

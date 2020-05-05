@@ -1,11 +1,29 @@
 # General settings
-include Config.mk
+# include Config.mk
+
+# Main settings
+PROJECT_NAME = elrond
+SRC_DIR = src
+SRC_TEST_DIR = $(SRC_DIR)/test
+INCLUDE_DIR = include
+DIST_DIR = dist
+
+# Main headers
+ELROND_HPP = include/elrond.hpp
+ELROND_EXT_HPP = include/elrond_ext.hpp
+ELROND_TEST_HPP = include/elrond_test.hpp
+
+# File extensions
+CPP_SRC_EXT = cpp
+HPP_SRC_EXT = hpp
+IPP_SRC_EXT = ipp
+
 
 # License text
 LICENSE_TXT := head -15 $(ELROND_HPP)
 
 # SED utils
-REMOVE_COMMENTS_SCRIPT = util/remccoms3.sed
+REMOVE_COMMENTS_SCRIPT = tools/remccoms3.sed
 REMOVE_COMMENTS := ./$(REMOVE_COMMENTS_SCRIPT) -i
 REMOVE_INCLUDES = sed -i '/^\s*\#include\s*\".*\"/d'
 REMOVE_EMPTY_LINES = sed -i '/^[[:space:]]*$$/d'

@@ -11,10 +11,13 @@ jobs:
             matrix:
                 os: [ubuntu-latest, ubuntu-18.04, ubuntu-16.04]
         steps:
-            - uses: actions/checkout@v1
-            - name: Running CMake...
+            - name: Checkout code
+              uses: actions/checkout@v1
+            - name: Build the header only libraries
+              run: make -f Headeronly.mk all
+            - name: Run CMake
               run: mkdir build && cd build && cmake -G "Unix Makefiles" ..
-            - name: Building...
-              run: cd build && make all
-            - name: Testing...
+            - name: Build everything
+              run: cd build && make all -j4
+            - name: Run tests
               run: cd build && make test

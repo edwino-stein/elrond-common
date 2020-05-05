@@ -24,11 +24,22 @@ set_property(TARGET external_module PROPERTY PREFIX "")
 target_compile_options(external_module PRIVATE ${WARNING_LEVEL})
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+
     # On Linux, the external_module must be linked with PIC common library
     target_link_libraries(
         external_module
         PUBLIC -Wl,--whole-archive ${PROJECT_NAME}.pic -Wl,--no-whole-archive
     )
+
+    # Build other external_module using only the header only library
+    add_library(external_module_who SHARED ${TEST_EXTERNAL_FILE})
+    set_property(TARGET external_module_who PROPERTY PREFIX "")
+    target_compile_options(external_module_who PRIVATE ${WARNING_LEVEL})
+    set_property(
+        TARGET external_module_who
+        PROPERTY INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/dist
+    )
+
 else()
     # On others platforms, just use the non-PIC common library
     target_link_libraries(external_module ${PROJECT_NAME})

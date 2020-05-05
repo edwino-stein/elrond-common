@@ -22,6 +22,7 @@
 
     namespace elrond {
         namespace test {
+
             class ConfigMapTest;
             class RuntimeTest;
             class RxChannelTest;
@@ -31,7 +32,14 @@
             class GpioTest;
             class DebugOutTest;
             class ExternalModuleTest;
+
+            template<typename B, typename T>
+            inline bool baseOf(const T*) { return std::is_base_of<B, T>::value; }
+
+            template<class T, typename B>
+            inline bool instanceOf(B const* o) { return dynamic_cast<T const*>(o) != nullptr; }
         }
+
     }
 
 #endif

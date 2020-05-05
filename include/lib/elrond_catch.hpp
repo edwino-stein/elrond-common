@@ -1,7 +1,7 @@
 #if !defined  _ELROND_CATCH_HPP
     #define _ELROND_CATCH_HPP
 
-    #include "lib/catch.hpp"
+    #include "./catch.hpp"
 
     #define EXPECT_ASSERTS(T) static unsigned int __counter_asserts__ = 0;\
                               static unsigned int __expected_asserts__ = T
@@ -10,8 +10,5 @@
     #define CHECK_N_COUNT(...) ASSERT_N_COUNT(CHECK(__VA_ARGS__))
     #define REQUIRE_N_COUNT(...) ASSERT_N_COUNT(REQUIRE(__VA_ARGS__))
     #define REQUIRE_ALL_DONE(M) SECTION(M){ REQUIRE(__counter_asserts__ == __expected_asserts__); }
-
-    template<typename B, typename T>
-    inline bool instanceof(const T*) { return std::is_base_of<B, T>::value; }
 
 #endif

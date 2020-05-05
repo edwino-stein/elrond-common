@@ -1,5 +1,4 @@
 # General settings
-# include Config.mk
 
 # Main settings
 PROJECT_NAME = elrond
@@ -17,7 +16,6 @@ ELROND_TEST_HPP = include/elrond_test.hpp
 CPP_SRC_EXT = cpp
 HPP_SRC_EXT = hpp
 IPP_SRC_EXT = ipp
-
 
 # License text
 LICENSE_TXT := head -15 $(ELROND_HPP)

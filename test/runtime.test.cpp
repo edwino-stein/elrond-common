@@ -1,7 +1,7 @@
 #include "elrond_test.hpp"
 #include "lib/elrond_catch.hpp"
 
-TEST_CASE("Bitwise functions for Elrond Test Library")
+TEST_CASE("Bitwise functions")
 {
     CHECK(elrond::highByte(0xABCD) == 0xAB);
     CHECK(elrond::highByte(0xCD) == 0x00);
@@ -14,7 +14,7 @@ TEST_CASE("Bitwise functions for Elrond Test Library")
     CHECK(elrond::makeDWord(0x1234, 0xABCD) == 0x1234ABCD);
 }
 
-TEST_CASE("Math functions for Elrond Test Library")
+TEST_CASE("Math functions")
 {
     CHECK(elrond::abs(-1) == 1);
     CHECK(elrond::abs(1) == 1);
@@ -41,7 +41,7 @@ TEST_CASE("Math functions for Elrond Test Library")
     CHECK(f == "hello");
 }
 
-TEST_CASE("Time functions for Elrond Test Library")
+TEST_CASE("Time functions")
 {
     auto nowMs = elrond::millis();
     elrond::delay(100);
@@ -50,4 +50,16 @@ TEST_CASE("Time functions for Elrond Test Library")
     auto nowUs = elrond::micros();
     elrond::delayMicroseconds(100);
     CHECK(elrond::micros() >= nowUs + 100);
+}
+
+TEST_CASE("Object type check functions")
+{
+    elrond::Example inst;
+    elrond::module::BaseModule *pointer = &inst;
+
+    CHECK(elrond::test::instanceOf<elrond::Example>(pointer));
+    CHECK_FALSE(elrond::test::instanceOf<elrond::Loopback>(pointer));
+
+    CHECK(elrond::test::baseOf<elrond::module::BaseModule>(&inst));
+    CHECK_FALSE(elrond::test::baseOf<elrond::module::BaseTransportModule>(&inst));
 }

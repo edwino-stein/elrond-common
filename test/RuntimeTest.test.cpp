@@ -89,7 +89,7 @@ TEST_CASE("External module Test")
     REQUIRE_NOTHROW(
         [&appt, &input]()
         {
-            ExternalModuleTest inst("build/test/external-module.so", appt);
+            ExternalModuleTest inst("./external_module.so", appt);
 
             CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
             CHECK_N_COUNT(inst.className == "ExternalMod");
@@ -124,3 +124,68 @@ TEST_CASE("External module Test")
 
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
+
+#ifdef LINUX_PLATFORM
+TEST_CASE("External module Test with header only library")
+{
+    EXPECT_ASSERTS(11);
+
+    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    TransportTest transport;
+    ChannelManagerTest chm(transport, 2);
+    InputDriverTest input;
+    GpioTest gpio(
+        [&gpio](BaseGpioPin& pin, elrond::word data){
+            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(data == HIGH_VALUE);
+            gpio.write((DOutPin&) pin, data);
+        }
+    );
+
+    RuntimeTest appt;
+
+    RuntimeTest::setAppInstance(&appt);
+    appt.set(dout)
+        .set(chm)
+        .set(input)
+        .set(gpio);
+
+    REQUIRE_NOTHROW(
+        [&appt, &input]()
+        {
+            ExternalModuleTest inst("./external_module_who.so", appt);
+
+            CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
+            CHECK_N_COUNT(inst.className == "ExternalMod");
+            CHECK_N_COUNT(inst.prettyName == "External Module Test");
+            CHECK_N_COUNT(inst.authorName == "Elrond Half-elven");
+            CHECK_N_COUNT(inst.authorEmail == "elrond@rivendell.com");
+            CHECK_N_COUNT(inst.version == ELROND_API_VERSION_STR);
+
+            ConfigMapTest cfg;
+            LoopControl lc;
+            int loops = 0;
+
+            appt.init(inst.getInstance(), cfg, lc);
+
+            CHECK_N_COUNT(lc.enable == true);
+            CHECK_N_COUNT(lc.ownThread == false);
+            CHECK_N_COUNT(lc.interval == 1000);
+
+            appt.start(
+               inst.getInstance(),
+               lc,
+               [&loops, &input]()
+               {
+                   if(loops++ >= 1) return false;
+                   input.trigger(0, HIGH_VALUE);
+                   return true;
+               }
+            );
+
+        }()
+    );
+
+    REQUIRE_ALL_DONE("Check if all tests are done");
+}
+#endif

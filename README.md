@@ -41,7 +41,6 @@ The **Elrond Common Library** is currently compatible with these platforms:
 
  - `build/libelrond.a`: Static library that contains elrond's common classes to runtime environment and test environment on linux platform;
  - `build/libelrond_ext.a`: Static library that contains elrond's extended classes to runtime environment and test environment on linux platform;
- - ~~`build/libelrond.so`: Dynamic library to linux runtime platform~~ (temporally removed);
  - `dist/elrond.hpp`: Header only library with common classes and basic code to external modules implementation. No library linkage required;
  - `dist/elrond_ext.hpp`: Extended library that contains elrond's extended classes headers. Must be combined with `elrond_test.hpp` and linked with `libelrond_ext.a` to testing and validating external modules;
  - `dist/elrond_test.hpp`: Test library that contains `elrond::test` classes headers. Must be linked with `libelrond_ext.a`;

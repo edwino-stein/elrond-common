@@ -155,7 +155,13 @@
     #define ELROND_MOD_AUTHOR_EMAIL_FUNC_N __elrond_info_author_email__
     #define ELROND_MOD_VERSION_FUNC_N __elrond_info_version__
 
-    #define ELROND_DEFINE_MODULE(C) ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr;\
+    #ifdef ELROND_WITH_INLINE_FUNC
+        #define ELROND_MOD_APP_VAR_INIT ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR = nullptr
+    #else
+        #define ELROND_MOD_APP_VAR_INIT
+    #endif
+
+    #define ELROND_DEFINE_MODULE(C) ELROND_MOD_APP_VAR_INIT;\
                                     extern  "C" {void ELROND_MOD_SET_APP_FUNC_N (ELROND_MOD_INFO_APP_P a)\
                                                 { ELROND_MOD_APP_VAR = a; }\
                                                 ELROND_MOD_INFO_MOD_P ELROND_MOD_NEW_INST_FUNC_N ()\

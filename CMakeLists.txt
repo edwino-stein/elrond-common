@@ -2,13 +2,25 @@ cmake_minimum_required(VERSION 3.10)
 enable_testing()
 
 ################################################################################
+#                 Load version from include/elrond_version.hpp                 #
+################################################################################
+
+file(READ "include/elrond_version.hpp" ELROND_VERSION)
+string(REGEX MATCHALL "ELROND_API_(MAJOR|MINOR|PATCH)[ \t]*([0-9]*)" ELROND_VERSION ${ELROND_VERSION})
+foreach(v ${ELROND_VERSION})
+    string(REGEX MATCH "[0-9]+" vn ${v})
+    string(REGEX MATCH "(MAJOR|MINOR|PATCH)" v ${v})
+    set(ELROND_${v} ${vn})
+endforeach()
+set(ELROND_VERSION ${ELROND_MAJOR}.${ELROND_MINOR}.${ELROND_PATCH})
+
+################################################################################
 #                           Project General settings                           #
 ################################################################################
 
-set(PROJECT_NAME elrond)
 project(
-    ${PROJECT_NAME}
-    VERSION 0.4.0
+    elrond
+    VERSION ${ELROND_VERSION}
     DESCRIPTION "Elrond Common Library"
     LANGUAGES CXX
 )

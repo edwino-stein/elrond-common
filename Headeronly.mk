@@ -106,7 +106,7 @@ $(DIST_DIR)/$(PROJECT_NAME).$(HPP_SRC_EXT): $(HEADERS_DIST) $(SRC_DIST)
 
 # Header only EXL builder
 $(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
-$(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
+$(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST) $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 	@mkdir -p $(@D)
 	@eval "$(LICENSE_TXT) > $@"
 	@eval "echo '#ifndef _ELROND_EXTENDED_HPP\n#define _ELROND_EXTENDED_HPP'" >> $@
@@ -119,9 +119,7 @@ $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
 $(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(HEADERS_TEST_DIST)
 	@mkdir -p $(@D)
-	@eval "$(LICENSE_TXT) > $@"
 	@eval "echo '#ifndef _ELROND_TEST_HPP\n#define _ELROND_TEST_HPP'" >> $@
-	@eval "echo '#include <elrond_ext.hpp>'" >> $@
 	@eval "cat $^ >> $@"
 	@eval "echo '#endif'" >> $@
 	$(info $^ > $@)

@@ -18,12 +18,11 @@ prettyName(_prettyName), authorName(_authorName), authorEmail(_authorEmail), ver
 
 ExternalModuleTest::~ExternalModuleTest()
 {
-    if(this->delInstance != nullptr)
-        if(this->inst != nullptr) this->delInstance(this->inst);
-    else
-        delete this->inst;
-
-    this->inst = nullptr;
+    if(this->inst != nullptr){
+        if(this->delInstance != nullptr) this->delInstance(this->inst);
+        else delete this->inst;   
+        this->inst = nullptr;
+    }
 }
 
 Module& ExternalModuleTest::getInstance() const

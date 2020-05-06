@@ -89,7 +89,7 @@ TEST_CASE("External module Test")
     REQUIRE_NOTHROW(
         [&appt, &input]()
         {
-            ExternalModuleTest inst("./external_module.so", appt);
+            ExternalModuleTest inst("external_module", appt);
 
             CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
             CHECK_N_COUNT(inst.className == "ExternalMod");
@@ -153,7 +153,7 @@ TEST_CASE("External module Test with header only library")
     REQUIRE_NOTHROW(
         [&appt, &input]()
         {
-            ExternalModuleTest inst("./external_module_who.so", appt);
+            ExternalModuleTest inst("external_module_who", appt);
 
             CHECK_N_COUNT(inst.apiVer == ELROND_API_VERSION);
             CHECK_N_COUNT(inst.className == "ExternalMod");

@@ -7,6 +7,7 @@
 
         // Modules
         namespace module {
+            class BaseExternalModuleHandle;
             class Example;
             class Loopback;
             class InputToChannel;

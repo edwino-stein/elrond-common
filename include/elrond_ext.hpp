@@ -21,6 +21,7 @@
     #include "channel/BaseChannelManager.hpp"
 
     // Modules
+    #include "module/BaseExternalModuleHandle.hpp"
     #include "module/Example.hpp"
     #include "module/Loopback.hpp"
     #include "module/InputToChannel.hpp"

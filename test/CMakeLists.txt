@@ -1,9 +1,4 @@
 ################################################################################
-#                            Tests General settings                            #
-################################################################################
-set(TEST_CASES_DL dl m)
-
-################################################################################
 #                                  Test files                                  #
 ################################################################################
 
@@ -49,7 +44,7 @@ endif()
 #                               Test build rules                               #
 ################################################################################
 
-# Static catch library
+# Catch2 object library
 add_library(catch OBJECT ${TEST_CATCH_FILE})
 target_compile_definitions(catch PRIVATE CATCH_CONFIG_MAIN)
 
@@ -57,7 +52,7 @@ target_compile_definitions(catch PRIVATE CATCH_CONFIG_MAIN)
 foreach(T ${SRC_TEST_CASES_FILES})
     get_filename_component(TEST_TARGET ${T} NAME_WE)
     add_executable(${TEST_TARGET}.test ${T} $<TARGET_OBJECTS:catch>)
-    target_link_libraries(${TEST_TARGET}.test ${PROJECT_NAME}_ext ${TEST_CASES_DL})
+    target_link_libraries(${TEST_TARGET}.test ${PROJECT_NAME}_ext)
     target_compile_options(${TEST_TARGET}.test PRIVATE ${WARNING_LEVEL})
     add_test(${TEST_TARGET}.test ${TEST_TARGET}.test -s)
 endforeach()

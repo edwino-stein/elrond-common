@@ -31,6 +31,20 @@ get_src_from_header("${ELROND_TEST_HPP}" "${PROJECT_SOURCE_DIR}/src" "cpp" SRC_T
 file(GLOB_RECURSE SRC_COMMON_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 list(REMOVE_ITEM SRC_COMMON_FILES ${SRC_EXT_FILES} ${SRC_TEST_FILES})
 
+
+################################################################################
+#                              Dependency settings                             #
+################################################################################
+
+find_package(Threads REQUIRED)
+set(THREAD_LIBRARY Threads::Threads)
+
+if(UNIX)
+    set(EXT_DLINK_LIBS ${CMAKE_DL_LIBS} ${THREAD_LIBRARY})
+else()
+    set(EXT_DLINK_LIBS ${THREAD_LIBRARY})
+endif()
+
 ################################################################################
 #                            Libraries build rules                             #
 ################################################################################
@@ -41,7 +55,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE ${WARNING_LEVEL})
 
 # Extended static library
 add_library(${PROJECT_NAME}_ext STATIC ${SRC_EXT_FILES} ${SRC_TEST_FILES})
-target_link_libraries(${PROJECT_NAME}_ext PUBLIC ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}_ext PUBLIC ${PROJECT_NAME} ${EXT_DLINK_LIBS})
 target_compile_options(${PROJECT_NAME}_ext PRIVATE ${WARNING_LEVEL})
 
 # Linux PIC libraries rules
@@ -55,7 +69,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
     # Extended static library with PIC objects
     add_library(${PROJECT_NAME}_ext.pic STATIC ${SRC_EXT_FILES})
     set_property(TARGET ${PROJECT_NAME}_ext.pic PROPERTY POSITION_INDEPENDENT_CODE ON)
-    target_link_libraries(${PROJECT_NAME}_ext.pic PUBLIC ${PROJECT_NAME}.pic)
+    target_link_libraries(${PROJECT_NAME}_ext.pic PUBLIC ${PROJECT_NAME}.pic ${EXT_DLINK_LIBS})
     target_compile_options(${PROJECT_NAME}_ext.pic PRIVATE ${WARNING_LEVEL})
 
 endif()

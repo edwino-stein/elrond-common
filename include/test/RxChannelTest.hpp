@@ -9,7 +9,13 @@
             class RxChannelTest : public elrond::channel::RxChannel {
 
                 public:
-                    RxChannelTest(elrond::channel::OnReceiveHandleT handle);
+
+                    RxChannelTest(const elrond::sizeT ch,
+                                  elrond::channel::OnReceiveHandleT handle,
+                                  elrond::channel::BaseChannelManager& chm);
+
+                    RxChannelTest(const elrond::sizeT ch,
+                                  elrond::channel::OnReceiveHandleT handle);
             };
         }
     }

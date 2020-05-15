@@ -27,7 +27,7 @@
         //Enums
         enum class ModuleType {
             GENERIC,
-            TRANSPORT,
+            DATA_LINK,
             GPIO,
             INPUT
         };
@@ -60,7 +60,7 @@
         // Modules
         namespace module {
             class BaseModule;
-            class BaseTransportModule;
+            class BaseDataLinkModule;
             class BaseGpioModule;
             class BaseInputDriverModule;
         }

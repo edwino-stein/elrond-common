@@ -12,8 +12,10 @@
 
                     elrond::module::BaseGpioModule* gpio = nullptr;
                     elrond::module::BaseInputDriverModule* input = nullptr;
-                    elrond::interface::ChannelManager* chmgr = nullptr;
+                    elrond::channel::BaseChannelManager* chmgr = nullptr;
                     elrond::interface::DebugOut* debugOut = nullptr;
+
+                    bool autoSync = true;
 
                 public:
 
@@ -42,8 +44,10 @@
 
                     RuntimeTest& set(elrond::module::BaseGpioModule& gpio);
                     RuntimeTest& set(elrond::module::BaseInputDriverModule& input);
-                    RuntimeTest& set(elrond::interface::ChannelManager& chmgr);
                     RuntimeTest& set(elrond::interface::DebugOut& dout);
+
+                    RuntimeTest& set(elrond::channel::BaseChannelManager& chmgr,
+                                     const bool autoSync = true);
 
                     static void setAppInstance(elrond::interface::Runtime* app);
             };

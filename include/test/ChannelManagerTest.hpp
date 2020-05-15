@@ -2,7 +2,6 @@
 #define _ELROND_TEST_CHANNEL_MANAGER_HPP
 
     #include "elrond_test_types.hpp"
-    #include "test/RxChannelTest.hpp"
 
     namespace elrond {
         namespace test {
@@ -13,42 +12,31 @@
 
                     using RxChCollection = std::vector<elrond::channel::RxChannel*>;
                     using RxChCollectionP = std::unique_ptr<RxChCollection>;
-                    using RxChannelTestP = std::unique_ptr<RxChannelTest>;
 
                 protected:
 
                     const elrond::sizeT chs;
-                    const bool autoSync;
                     std::unique_ptr<elrond::byte[]> txBuffer;
                     std::unique_ptr<RxChCollectionP[]> rxChannels;
 
-                    std::vector<RxChannelTestP> rxChTestInsts;
 
                     void rxTrigger(const elrond::sizeT ch,
                                    const elrond::word data) override;
 
-                    elrond::byte *getTxBuffer() const override;
+
+                    elrond::channel::BufferWrapper getTxBuffer() const override;
 
                 public:
 
-                    ChannelManagerTest(elrond::module::BaseTransportModule& transport,
-                                       const elrond::sizeT chs,
-                                       const bool autoSync = true);
+                    ChannelManagerTest(elrond::module::BaseDataLinkModule& dataLink,
+                                       const elrond::sizeT chs);
 
-                    void txTrigger(const elrond::sizeT ch,
-                                   const elrond::word data) override;
-
-                    void addRxListener(const elrond::sizeT ch,
-                                       elrond::channel::RxChannel *rx) override;
-
-                    void addRxListener(const elrond::sizeT ch,
-                                       elrond::test::RxChannelTest &rx);
+                    void txTrigger(elrond::channel::TxChannel* const tx) override;
+                    void addRxListener(elrond::channel::RxChannel* const rx) override;
+                    void addRxListener(elrond::test::RxChannelTest &rx);
 
                     elrond::sizeT getTotalTx() const override;
                     elrond::sizeT getTotalRx() const override;
-
-                    void onRxReceive(const elrond::sizeT ch,
-                                     elrond::channel::OnReceiveHandleT handle);
             };
         }
     }

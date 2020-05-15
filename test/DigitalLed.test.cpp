@@ -3,8 +3,9 @@
 
 using elrond::test::RuntimeTest;
 using elrond::test::GpioTest;
-using elrond::test::TransportTest;
+using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
+using elrond::test::TxChannelTest;
 using elrond::test::ConfigMapTest;
 using elrond::test::DebugOutTest;
 
@@ -14,9 +15,8 @@ using elrond::gpio::DOutPin;
 using elrond::LoopControl;
 
 #ifdef ELROND_WITH_MODULES_INFO
-TEST_CASE("Digital LED module metadata check")
+TEST_CASE("[elrond::module::DigitalLed] Module metadata test")
 {
-    RuntimeTest::setAppInstance(nullptr);
     CHECK(DigitalLed::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(DigitalLed::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::DigitalLed"));
     CHECK(DigitalLed::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Digital LED"));
@@ -26,13 +26,13 @@ TEST_CASE("Digital LED module metadata check")
 }
 #endif
 
-TEST_CASE("Digital LED module params test (no channel)")
+TEST_CASE("[elrond::module::DigitalLed] Channel parameter missing test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
-
     appt.set(dout);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -43,13 +43,13 @@ TEST_CASE("Digital LED module params test (no channel)")
     }());
 }
 
-TEST_CASE("Digital LED module params test (no pin)")
+TEST_CASE("[elrond::module::DigitalLed] Pin parameter missing test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
-
     appt.set(dout);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -62,13 +62,13 @@ TEST_CASE("Digital LED module params test (no pin)")
     }());
 }
 
-TEST_CASE("Digital LED module params test (invalid gpio)")
+TEST_CASE("[elrond::module::DigitalLed] Invalid gpio test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
-
     appt.set(dout);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -82,15 +82,16 @@ TEST_CASE("Digital LED module params test (invalid gpio)")
     }());
 }
 
-TEST_CASE("Digital LED module params test (invalid channel manager)")
+TEST_CASE("[elrond::module::DigitalLed] Invalid channel manager test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout)
         .set(gpio);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -105,7 +106,7 @@ TEST_CASE("Digital LED module params test (invalid channel manager)")
     }());
 }
 
-TEST_CASE("Digital LED module (normal)")
+TEST_CASE("[elrond::module::DigitalLed] Normal test")
 {
     EXPECT_ASSERTS(2);
 
@@ -119,15 +120,15 @@ TEST_CASE("Digital LED module (normal)")
         }
     );
 
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
-
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout)
         .set(gpio)
         .set(chm);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -136,17 +137,18 @@ TEST_CASE("Digital LED module (normal)")
        .set("pin", 0)
        .set("chm", 0);
 
-    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+    TxChannelTest tx(0, chm);
+
+    CHECK_NOTHROW([&appt, &inst, &cfg, &tx](){
         LoopControl lc;
         int loops = 0;
         appt.init(inst, cfg, lc)
             .start(
                 inst,
                 lc,
-                [&loops, &chm](){
-                    if(loops++ >= 1) return false;
-                    chm.txTrigger(0, HIGH_VALUE);
-                    return true;
+                [&loops, &tx](){
+                    if(loops == 0) tx.trigger(HIGH_VALUE);
+                    return loops++ < 1;
                 }
             );
     }());
@@ -154,7 +156,7 @@ TEST_CASE("Digital LED module (normal)")
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("Digital LED module (inverted)")
+TEST_CASE("[elrond::module::DigitalLed] With inverted parameter test")
 {
     EXPECT_ASSERTS(2);
 
@@ -168,15 +170,15 @@ TEST_CASE("Digital LED module (inverted)")
         }
     );
 
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
-
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
-    RuntimeTest::setAppInstance(&appt);
 
     appt.set(dout)
         .set(gpio)
         .set(chm);
+
+    RuntimeTest::setAppInstance(&appt);
 
     DigitalLed inst;
     ConfigMapTest cfg;
@@ -186,17 +188,18 @@ TEST_CASE("Digital LED module (inverted)")
        .set("chm", 0)
        .set("inverted", true);
 
-    CHECK_NOTHROW([&appt, &inst, &cfg, &chm](){
+    TxChannelTest tx(0, chm);
+
+    CHECK_NOTHROW([&appt, &inst, &cfg, &tx](){
         LoopControl lc;
         int loops = 0;
         appt.init(inst, cfg, lc)
             .start(
                 inst,
                 lc,
-                [&loops, &chm](){
-                    if(loops++ >= 1) return false;
-                    chm.txTrigger(0, HIGH_VALUE);
-                    return true;
+                [&loops, &tx](){
+                    if(loops == 0) tx.trigger(HIGH_VALUE);
+                    return loops++ < 1;
                 }
             );
     }());

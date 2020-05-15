@@ -27,7 +27,7 @@
         //Enums
         enum class ModuleType {
             GENERIC,
-            TRANSPORT,
+            DATA_LINK,
             GPIO,
             INPUT
         };
@@ -60,7 +60,7 @@
         // Modules
         namespace module {
             class BaseModule;
-            class BaseTransportModule;
+            class BaseDataLinkModule;
             class BaseGpioModule;
             class BaseInputDriverModule;
         }
@@ -83,6 +83,7 @@
         // Channel
         namespace channel {
             using OnReceiveHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
+            using OnChmReceiveHandleT = ELROND_LAMBDA_FUNC(elrond::sizeT, elrond::byte*, const elrond::sizeT, elrond::TaskContext* const);
             class BaseChannelManager;
             class TxChannel;
             class RxChannel;

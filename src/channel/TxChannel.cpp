@@ -24,8 +24,10 @@ namespace elrond {
 
         ELROND_INLINE_FUNC void TxChannel::trigger(const elrond::word data)
         {
+            if(this->data == data) return;
             if(this->chm == nullptr) return;
-            this->chm->txTrigger(this->ch, data);
+            this->_data = data;
+            this->chm->txTrigger(this);
         }
     }
 }

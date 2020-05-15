@@ -1,6 +1,5 @@
 #include "module/Loopback.hpp"
-#include "interface/ConfigMap.hpp"
-#include "channel/BaseChannelManager.hpp"
+#include "channel/BufferWrapper.hpp"
 
 using elrond::module::Loopback;
 using elrond::interface::Module;
@@ -8,6 +7,7 @@ using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::interface::ChannelManager;
 using elrond::LoopControl;
+using elrond::channel::BufferWrapper;
 
 /*  ****************************************************************************
     ****************** elrond::module::Loopback Implementation *****************
@@ -17,23 +17,26 @@ using elrond::LoopControl;
     Loopback::~Loopback(){}
 #endif
 
-void Loopback::send(elrond::byte data[], const elrond::sizeT length)
+bool Loopback::send(elrond::byte data[], const elrond::sizeT length)
 {
-    if(this->cm == nullptr) return;
+    BufferWrapper txBuffer(data, length);
 
-    const elrond::sizeT bufferLen = this->cm->getRxBufferSize();
-    elrond::byte rxBuffer[bufferLen];
+    this->receive(
+        [](
+            elrond::byte rxBuf[],
+            const elrond::sizeT rxLen, elrond::TaskContext* const ctx
+        )
+        {
+            BufferWrapper* const txb = (BufferWrapper* const) ctx;
+            if(rxLen != txb->length) return (elrond::sizeT) 0;
+            for(elrond::sizeT i = 0; i < rxLen; ++i) rxBuf[i] = txb->data[i];
+            return rxLen;
+        },
+        &txBuffer
+    );
 
-    for(elrond::sizeT i = 0; i < bufferLen; ++i){
-        if(i >= length) break;
-        rxBuffer[i] = data[i];
-    }
-
-    this->cm->onReceive(rxBuffer, bufferLen);
+    return true;
 }
-
-void Loopback::setChannelManager(ChannelManager* cm)
-{ if(this->cm == nullptr) this->cm = cm; }
 
 ELROND_DEFINE_INTER_MOD(
     elrond::Loopback,

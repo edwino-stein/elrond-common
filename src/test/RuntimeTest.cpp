@@ -9,6 +9,7 @@ using elrond::interface::DebugOut;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputDriverModule;
 using elrond::interface::ChannelManager;
+using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
 
 const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMap &cfg, LoopControl &lc) const
@@ -26,11 +27,14 @@ const RuntimeTest& RuntimeTest::start(Module& inst, LoopControl& lc, std::functi
     const auto interval = lc.interval;
 
     while(loopContinue()){
+
         if(enable){
             if(timeout >= elrond::millis()) continue;
             inst.loop();
             timeout = elrond::millis() + interval;
         }
+
+        if(this->chmgr != nullptr && this->autoSync) this->chmgr->txSync(true);
     }
 
     inst.onStop();
@@ -53,7 +57,7 @@ BaseInputDriverModule& RuntimeTest::getInputService(const elrond::sizeT id) cons
 ChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
 {
     if(this->chmgr == nullptr) throw "Undefined Chmgr service";
-    return *(this->chmgr);
+    return *((ChannelManager*) this->chmgr);
 }
 
 const DebugOut& RuntimeTest::dout() const
@@ -82,9 +86,10 @@ RuntimeTest& RuntimeTest::set(BaseInputDriverModule& input)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(ChannelManager& chmgr)
+RuntimeTest& RuntimeTest::set(BaseChannelManager& chmgr, const bool autoSync)
 {
     this->chmgr = &chmgr;
+    this->autoSync = autoSync;
     return *this;
 }
 

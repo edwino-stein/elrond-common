@@ -30,10 +30,6 @@
                     );
 
                     void trigger(const elrond::word data);
-
-                    #ifdef ELROND_WITH_LINKED_NODES
-                        RxChannel *_nextNode = nullptr;
-                    #endif
             };
         }
     }

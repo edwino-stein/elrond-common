@@ -3,8 +3,9 @@
 
 using elrond::test::RuntimeTest;
 using elrond::test::InputDriverTest;
-using elrond::test::TransportTest;
+using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
+using elrond::test::RxChannelTest;
 using elrond::test::ConfigMapTest;
 using elrond::test::DebugOutTest;
 
@@ -12,9 +13,8 @@ using elrond::module::InputToChannel;
 using elrond::LoopControl;
 
 #ifdef ELROND_WITH_MODULES_INFO
-TEST_CASE("Input to Channel module metadata check")
+TEST_CASE("[elrond::module::InputToChannel] Module metadata test")
 {
-    RuntimeTest::setAppInstance(nullptr);
     CHECK(InputToChannel::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(InputToChannel::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::InputToChannel"));
     CHECK(InputToChannel::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Input to Channel"));
@@ -24,13 +24,13 @@ TEST_CASE("Input to Channel module metadata check")
 }
 #endif
 
-TEST_CASE("Input to Channel module params test (no channel)")
+TEST_CASE("[elrond::module::InputToChannel] Channel parameter missing test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
+    appt.set(dout);
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -41,13 +41,13 @@ TEST_CASE("Input to Channel module params test (no channel)")
     }());
 }
 
-TEST_CASE("Input to Channel module params test (no input)")
+TEST_CASE("[elrond::module::InputToChannel] Input parameter missing test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
+    appt.set(dout);
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -60,13 +60,13 @@ TEST_CASE("Input to Channel module params test (no input)")
     }());
 }
 
-TEST_CASE("Input to Channel module params test (invalid channel manager)")
+TEST_CASE("[elrond::module::InputToChannel] Invalid channel manager test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
+    appt.set(dout);
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -81,16 +81,17 @@ TEST_CASE("Input to Channel module params test (invalid channel manager)")
     }());
 }
 
-TEST_CASE("Input to Channel module params test (invalid input driver)")
+TEST_CASE("[elrond::module::InputToChannel] Invalid input driver test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(&appt);
     appt.set(dout)
         .set(chm);
+
+    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -106,34 +107,34 @@ TEST_CASE("Input to Channel module params test (invalid input driver)")
     }());
 }
 
-TEST_CASE("Input to Channel module (normal)")
+TEST_CASE("[elrond::module::InputToChannel] Normal test")
 {
     EXPECT_ASSERTS(1);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(&appt);
     appt.set(dout)
         .set(input)
         .set(chm);
 
-    chm.onRxReceive(
-        0,
-        [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == HIGH_VALUE);
-        }
-    );
+    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
 
     cfg.set("channel", 0)
        .set("input", 0);
+
+    RxChannelTest rx(
+        0,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        { CHECK_N_COUNT(data == HIGH_VALUE); },
+        chm
+    );
 
     CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
         LoopControl lc;
@@ -143,9 +144,8 @@ TEST_CASE("Input to Channel module (normal)")
                inst,
                lc,
                [&loops, &input](){
-                   if(loops++ >= 1) return false;
-                   input.trigger(0, HIGH_VALUE);
-                   return true;
+                   if(loops == 0) input.trigger(0, HIGH_VALUE);
+                   return loops++ < 1;
                }
             );
     }());
@@ -153,28 +153,21 @@ TEST_CASE("Input to Channel module (normal)")
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("Input to Channel module (inverted)")
+TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
 {
     EXPECT_ASSERTS(1);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputDriverTest input;
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 1);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
-    appt.set(input);
-    appt.set(chm);
+    appt.set(dout)
+        .set(input)
+        .set(chm);
 
-    chm.onRxReceive(
-        0,
-        [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == HIGH_VALUE);
-        }
-    );
+    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -183,6 +176,13 @@ TEST_CASE("Input to Channel module (inverted)")
        .set("input", 0)
        .set("inverted", true);
 
+    RxChannelTest rx(
+        0,
+        [](const elrond::word data, elrond::TaskContext* const ctx)
+        { CHECK_N_COUNT(data == HIGH_VALUE); },
+        chm
+    );
+
     CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
         LoopControl lc;
         int loops = 0;
@@ -191,9 +191,8 @@ TEST_CASE("Input to Channel module (inverted)")
                inst,
                lc,
                [&loops, &input](){
-                   if(loops++ >= 1) return false;
-                   input.trigger(0, LOW_VALUE);
-                   return true;
+                   if(loops == 0) input.trigger(0, LOW_VALUE);
+                   return loops++ < 1;
                }
             );
     }());

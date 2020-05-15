@@ -26,8 +26,9 @@
             class ConfigMapTest;
             class RuntimeTest;
             class RxChannelTest;
+            class TxChannelTest;
             class ChannelManagerTest;
-            class TransportTest;
+            class DataLinkTest;
             class InputDriverTest;
             class GpioTest;
             class DebugOutTest;

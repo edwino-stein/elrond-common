@@ -61,5 +61,5 @@ TEST_CASE("Object type check functions")
     CHECK_FALSE(elrond::test::instanceOf<elrond::Loopback>(pointer));
 
     CHECK(elrond::test::baseOf<elrond::module::BaseModule>(&inst));
-    CHECK_FALSE(elrond::test::baseOf<elrond::module::BaseTransportModule>(&inst));
+    CHECK_FALSE(elrond::test::baseOf<elrond::module::BaseDataLinkModule>(&inst));
 }

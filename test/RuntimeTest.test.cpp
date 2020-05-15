@@ -3,7 +3,7 @@
 
 using elrond::test::RuntimeTest;
 using elrond::test::ExternalModuleTest;
-using elrond::test::TransportTest;
+using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::InputDriverTest;
 using elrond::test::GpioTest;
@@ -16,9 +16,8 @@ using elrond::gpio::BaseGpioPin;
 using elrond::gpio::DOutPin;
 
 #ifdef ELROND_WITH_MODULES_INFO
-TEST_CASE("Example module metadata check")
+TEST_CASE("[elrond::module::Example] Module metadata test")
 {
-    RuntimeTest::setAppInstance(nullptr);
     CHECK(Example::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(Example::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::Example"));
     CHECK(Example::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Example"));
@@ -28,13 +27,13 @@ TEST_CASE("Example module metadata check")
 }
 #endif
 
-TEST_CASE("Runtime application for Elrond Test Library")
+TEST_CASE("[elrond::module::Example] Normal test")
 {
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
+    appt.set(dout);
 
     RuntimeTest::setAppInstance(&appt);
-    appt.set(dout);
 
     Example inst;
     ConfigMapTest cfg;
@@ -44,7 +43,6 @@ TEST_CASE("Runtime application for Elrond Test Library")
        .set("interval", 1000);
 
     CHECK_NOTHROW([&appt, &inst, &cfg](){
-
         LoopControl lc;
         int loops = 0;
 
@@ -62,13 +60,13 @@ TEST_CASE("Runtime application for Elrond Test Library")
     }());
 }
 
-TEST_CASE("External module Test")
+TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
 {
     EXPECT_ASSERTS(11);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 2);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 2);
     InputDriverTest input;
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, elrond::word data){
@@ -80,11 +78,12 @@ TEST_CASE("External module Test")
 
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(&appt);
     appt.set(dout)
         .set(chm)
         .set(input)
         .set(gpio);
+
+    RuntimeTest::setAppInstance(&appt);
 
     REQUIRE_NOTHROW(
         [&appt, &input]()
@@ -113,9 +112,8 @@ TEST_CASE("External module Test")
                lc,
                [&loops, &input]()
                {
-                   if(loops++ >= 1) return false;
-                   input.trigger(0, HIGH_VALUE);
-                   return true;
+                   if(loops == 0) input.trigger(0, HIGH_VALUE);
+                   return loops++ < 1;
                }
             );
 
@@ -126,13 +124,13 @@ TEST_CASE("External module Test")
 }
 
 #ifdef LINUX_PLATFORM
-TEST_CASE("External module Test with header only library")
+TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" test")
 {
     EXPECT_ASSERTS(11);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    TransportTest transport;
-    ChannelManagerTest chm(transport, 2);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 2);
     InputDriverTest input;
     GpioTest gpio(
         [&gpio](BaseGpioPin& pin, elrond::word data){
@@ -144,11 +142,12 @@ TEST_CASE("External module Test with header only library")
 
     RuntimeTest appt;
 
-    RuntimeTest::setAppInstance(&appt);
     appt.set(dout)
         .set(chm)
         .set(input)
         .set(gpio);
+
+    RuntimeTest::setAppInstance(&appt);
 
     REQUIRE_NOTHROW(
         [&appt, &input]()
@@ -177,9 +176,8 @@ TEST_CASE("External module Test with header only library")
                lc,
                [&loops, &input]()
                {
-                   if(loops++ >= 1) return false;
-                   input.trigger(0, HIGH_VALUE);
-                   return true;
+                   if(loops == 0) input.trigger(0, HIGH_VALUE);
+                   return loops++ < 1;
                }
             );
 

@@ -32,7 +32,7 @@
 
     // Base modules
     #include "module/BaseModule.hpp"
-    #include "module/BaseTransportModule.hpp"
+    #include "module/BaseDataLinkModule.hpp"
     #include "module/BaseGpioModule.hpp"
     #include "module/BaseInputDriverModule.hpp"
 

@@ -18,6 +18,7 @@
     #define _ELROND_EXTENDED_HPP
 
     // Channel
+    #include "channel/BufferWrapper.hpp"
     #include "channel/BaseChannelManager.hpp"
 
     // Modules

@@ -19,6 +19,7 @@
 
         // Channel
         namespace channel {
+            class BufferWrapper;
             class BaseChannelManager;
         }
 

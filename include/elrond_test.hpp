@@ -5,6 +5,7 @@
     #include "test/RuntimeTest.hpp"
     #include "test/ExternalModuleTest.hpp"
     #include "test/RxChannelTest.hpp"
+    #include "test/TxChannelTest.hpp"
     #include "test/ChannelManagerTest.hpp"
     #include "test/DataLinkTest.hpp"
     #include "test/InputDriverTest.hpp"

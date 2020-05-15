@@ -83,6 +83,7 @@
         // Channel
         namespace channel {
             using OnReceiveHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
+            using OnChmReceiveHandleT = ELROND_LAMBDA_FUNC(elrond::sizeT, elrond::byte*, const elrond::sizeT, elrond::TaskContext* const);
             class BaseChannelManager;
             class TxChannel;
             class RxChannel;

@@ -23,10 +23,10 @@ namespace elrond {
         ){
             if(this->handle != nullptr) return;
             elrond::interface::ChannelManager& cm = elrond::app().getChannelManager(chm);
-            cm.addRxListener(ch, this);
             this->_ch = ch;
             this->handle = handle;
             this->ctx = ctx;
+            cm.addRxListener(this);
         }
 
         ELROND_INLINE_FUNC void RxChannel::trigger(const elrond::word data)

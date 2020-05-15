@@ -2,8 +2,8 @@
 #define _ELROND_BASE_CHANNEL_MANAGER_HPP
 
     #include "elrond_ext_types.hpp"
-    #include "interface/ChannelManager.hpp"
     #include "elrond_protocol_helper.hpp"
+    #include "channel/BufferWrapper.hpp"
 
     namespace elrond {
         namespace channel {
@@ -12,37 +12,35 @@
 
                 protected:
 
-                    elrond::module::BaseTransportModule& transport;
                     bool hasTxUpdate = false;
+                    elrond::module::BaseDataLinkModule& dataLink;
 
-                    virtual elrond::byte* getTxBuffer() const =0;
+                    virtual void init();
                     virtual void rxTrigger(const elrond::sizeT ch,
                                            const elrond::word data)=0;
 
-                    virtual void init();
+                    virtual elrond::channel::BufferWrapper getTxBuffer() const =0;
 
                 public:
 
-                    BaseChannelManager(elrond::module::BaseTransportModule& transport);
+                    BaseChannelManager(elrond::module::BaseDataLinkModule& dataLink);
 
                     #ifdef ELROND_WITH_DESTRUCTORS
                         virtual ~BaseChannelManager();
                     #endif
 
-                    virtual bool txSync(const bool force = false);
+                    virtual void txTrigger(elrond::channel::TxChannel* const tx) override;
 
-                    virtual void txTrigger(const elrond::sizeT ch,
-                                           const elrond::word data) override;
+                    virtual void tryReceive(elrond::channel::OnChmReceiveHandleT handle,
+                                            elrond::TaskContext* const ctx) override;
 
-                    virtual void onReceive(elrond::byte data[],
-                                           const elrond::sizeT length) override;
+                    virtual bool txSync(const bool tryForce = false);
 
-                    virtual elrond::sizeT getRxBufferSize() const override;
-                    virtual elrond::sizeT getTxBufferSize() const override;
+                    virtual elrond::sizeT getTotalTx() const =0;
+                    virtual elrond::sizeT getTotalRx() const =0;
 
-                    #ifdef ELROND_WITH_LINKED_NODES
-                        BaseChannelManager *_nextNode = nullptr;
-                    #endif
+                    elrond::sizeT getRxBufferSize() const;
+                    elrond::sizeT getTxBufferSize() const;
             };
         }
     }

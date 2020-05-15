@@ -3,13 +3,14 @@
 
 using elrond::test::RuntimeTest;
 using elrond::test::ChannelManagerTest;
+using elrond::test::RxChannelTest;
+using elrond::test::TxChannelTest;
 
 using elrond::module::Loopback;
 
 #ifdef ELROND_WITH_MODULES_INFO
-TEST_CASE("Loopback module metadata check")
+TEST_CASE("[elrond::module::Loopback] Module metadata test")
 {
-    RuntimeTest::setAppInstance(nullptr);
     CHECK(Loopback::ELROND_MOD_API_VER_FUNC_N() == ELROND_API_VERSION);
     CHECK(Loopback::ELROND_MOD_MAIN_CLASS_FUNC_N() == elrond::String("elrond::Loopback"));
     CHECK(Loopback::ELROND_MOD_PRETTY_NAME_FUNC_N() == elrond::String("Loopback Transport"));
@@ -19,41 +20,42 @@ TEST_CASE("Loopback module metadata check")
 }
 #endif
 
-TEST_CASE("Loopback module")
+TEST_CASE("[elrond::module::Loopback] Normal test")
 {
     EXPECT_ASSERTS(3);
 
-    RuntimeTest::setAppInstance(nullptr);
-    Loopback transport;
-    ChannelManagerTest chm(transport, 3, false);
+    Loopback inst;
+    ChannelManagerTest chm(inst, 3);
 
-    chm.onRxReceive(
+    RxChannelTest rx0(
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 123);
-        }
+        { CHECK_N_COUNT(data == 123); },
+        chm
     );
 
-    chm.onRxReceive(
+    RxChannelTest rx1(
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 0xAB00);
-        }
+        { CHECK_N_COUNT(data == 0xAB00); },
+        chm
     );
 
-    chm.onRxReceive(
+    RxChannelTest rx2(
         2,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 0x00CD);
-        }
+        { CHECK_N_COUNT(data == 0x00CD); },
+        chm
     );
 
-    chm.txTrigger(0, 123);
-    chm.txTrigger(1, 0xAB00);
-    chm.txTrigger(2, 0x00CD);
+    TxChannelTest tx0(0, chm);
+    TxChannelTest tx1(1, chm);
+    TxChannelTest tx2(2, chm);
+
+    tx0.trigger(123);
+    tx1.trigger(0xAB00);
+    tx2.trigger(0x00CD);
+
     chm.txSync();
 
     REQUIRE_ALL_DONE("Check if all tests are done");

@@ -3,15 +3,16 @@
 
 using elrond::test::ChannelManagerTest;
 using elrond::test::RxChannelTest;
-using elrond::test::TransportTest;
+using elrond::test::TxChannelTest;
+using elrond::test::DataLinkTest;
 using elrond::test::RuntimeTest;
 
-TEST_CASE("Elrond RxChannelTest")
+TEST_CASE("[elrond::test::RxChannelTest] Direct trigger test")
 {
     EXPECT_ASSERTS(1);
-    RuntimeTest::setAppInstance(nullptr);
 
     RxChannelTest rxCh(
+        0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         { CHECK_N_COUNT(data == HIGH_VALUE); }
     );
@@ -21,77 +22,80 @@ TEST_CASE("Elrond RxChannelTest")
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("Elrond Protocol")
+TEST_CASE("[elrond::test::DataLinkTest] Elrond Protocol tests")
 {
-    EXPECT_ASSERTS(13);
+    EXPECT_ASSERTS(2*13);
 
-    RuntimeTest::setAppInstance(nullptr);
-    TransportTest selfTrans(
-        [](elrond::byte data[], const elrond::sizeT length, TransportTest &me)
-        {
-            CHECK_N_COUNT(length == ELROND_PROTOCOL_HEADER_SIZE + 2*ELROND_PROTOCOL_BYTES_PER_CHANNEL);
-            CHECK_N_COUNT(data[0] == ELROND_PROTOCOL_HEAD_BYTE_ACTION);
-            CHECK_N_COUNT(data[1] == 0);
-            CHECK_N_COUNT(data[2] == 0);
-            CHECK_N_COUNT(data[3] == 0);
-            CHECK_N_COUNT(data[4] == 0);
-            CHECK_N_COUNT(data[5] == 2);
+    auto dlCallback = [](elrond::byte data[], const elrond::sizeT length)
+    {
+        CHECK_N_COUNT(length == ELROND_PROTOCOL_HEADER_SIZE + 2*ELROND_PROTOCOL_BYTES_PER_CHANNEL);
+        CHECK_N_COUNT(data[0] == ELROND_PROTOCOL_HEAD_BYTE_ACTION);
+        CHECK_N_COUNT(data[1] == 0);
+        CHECK_N_COUNT(data[2] == 0);
+        CHECK_N_COUNT(data[3] == 0);
+        CHECK_N_COUNT(data[4] == 0);
+        CHECK_N_COUNT(data[5] == 2);
 
-            CHECK_N_COUNT(data[6] == 0);
-            CHECK_N_COUNT(data[7] == elrond::highByte(123));
-            CHECK_N_COUNT(data[8] == elrond::lowByte(123));
+        CHECK_N_COUNT(data[6] == 0);
+        CHECK_N_COUNT(data[7] == elrond::highByte(123));
+        CHECK_N_COUNT(data[8] == elrond::lowByte(123));
 
-            CHECK_N_COUNT(data[9] == 1);
-            CHECK_N_COUNT(data[10] == elrond::highByte(0xABCD));
-            CHECK_N_COUNT(data[11] == elrond::lowByte(0xABCD));
+        CHECK_N_COUNT(data[9] == 1);
+        CHECK_N_COUNT(data[10] == elrond::highByte(0xABCD));
+        CHECK_N_COUNT(data[11] == elrond::lowByte(0xABCD));
 
-            me.receive(data, length);
-        }
-    );
-    ChannelManagerTest chm(selfTrans, 2, false);
+        return true;
+    };
 
-    chm.txTrigger(0, 123);
-    chm.txTrigger(1, 0xABCD);
+    DataLinkTest dataLink(dlCallback, dlCallback);
+    ChannelManagerTest chm(dataLink, 2);
+
+    TxChannelTest tx0(0, chm);
+    TxChannelTest tx1(1, chm);
+
+    tx0.trigger(123);
+    tx1.trigger(0xABCD);
     chm.txSync();
 
     REQUIRE_ALL_DONE("Check if all tests are done");
 }
 
-TEST_CASE("Channel Manager for Elrond Test Library")
+TEST_CASE("[elrond::test::ChannelManagerTest] Normal RX and TX channels tests")
 {
     EXPECT_ASSERTS(3);
 
-    RuntimeTest::setAppInstance(nullptr);
-    TransportTest selfTrans;
-    ChannelManagerTest chm(selfTrans, 3);
+    DataLinkTest dataLink;
+    ChannelManagerTest chm(dataLink, 3);
 
-    chm.onRxReceive(
+    RxChannelTest rx0(
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 123);
-        }
+        { CHECK_N_COUNT(data == 123); },
+        chm
     );
 
-    chm.onRxReceive(
+    RxChannelTest rx1(
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 0xAB00);
-        }
+        { CHECK_N_COUNT(data == 0xAB00); },
+        chm
     );
 
-    chm.onRxReceive(
+    RxChannelTest rx2(
         2,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        {
-            CHECK_N_COUNT(data == 0x00CD);
-        }
+        { CHECK_N_COUNT(data == 0x00CD); },
+        chm
     );
 
-    chm.txTrigger(0, 123);
-    chm.txTrigger(1, 0xAB00);
-    chm.txTrigger(2, 0x00CD);
+    TxChannelTest tx0(0, chm);
+    TxChannelTest tx1(1, chm);
+    TxChannelTest tx2(2, chm);
+
+    tx0.trigger(123);
+    tx1.trigger(0xAB00);
+    tx2.trigger(0x00CD);
+    chm.txSync();
 
     REQUIRE_ALL_DONE("Check if all tests are done");
 }

@@ -27,7 +27,7 @@
             class RuntimeTest;
             class RxChannelTest;
             class ChannelManagerTest;
-            class TransportTest;
+            class DataLinkTest;
             class InputDriverTest;
             class GpioTest;
             class DebugOutTest;

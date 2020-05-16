@@ -30,8 +30,6 @@ TEST_CASE("[elrond::module::InputToChannel] Channel parameter missing test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     InputToChannel inst;
     ConfigMapTest cfg;
 
@@ -46,8 +44,6 @@ TEST_CASE("[elrond::module::InputToChannel] Input parameter missing test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -65,8 +61,6 @@ TEST_CASE("[elrond::module::InputToChannel] Invalid channel manager test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -90,8 +84,6 @@ TEST_CASE("[elrond::module::InputToChannel] Invalid input driver test")
 
     appt.set(dout)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -120,8 +112,6 @@ TEST_CASE("[elrond::module::InputToChannel] Normal test")
     appt.set(dout)
         .set(input)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -166,8 +156,6 @@ TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
     appt.set(dout)
         .set(input)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     InputToChannel inst;
     ConfigMapTest cfg;

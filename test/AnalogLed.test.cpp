@@ -32,8 +32,6 @@ TEST_CASE("[elrond::module::AnalogLed] Channel parameter missing test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     AnalogLed inst;
     ConfigMapTest cfg;
 
@@ -48,8 +46,6 @@ TEST_CASE("[elrond::module::AnalogLed] Pin parameter missing test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -67,8 +63,6 @@ TEST_CASE("[elrond::module::AnalogLed] Invalid gpio test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -90,8 +84,6 @@ TEST_CASE("[elrond::module::AnalogLed] Invalid channel manager test")
 
     appt.set(dout)
         .set(gpio);
-
-    RuntimeTest::setAppInstance(&appt);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -127,8 +119,6 @@ TEST_CASE("[elrond::module::AnalogLed] Normal test")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -177,8 +167,6 @@ TEST_CASE("[elrond::module::AnalogLed] With inverted parameter test")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     AnalogLed inst;
     ConfigMapTest cfg;

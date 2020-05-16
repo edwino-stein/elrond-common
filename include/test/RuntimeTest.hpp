@@ -19,6 +19,9 @@
 
                 public:
 
+                    RuntimeTest(const bool defaultApp = true);
+                    virtual ~RuntimeTest();
+
                     const RuntimeTest& init(
                         elrond::interface::Module& inst,
                         elrond::interface::ConfigMap &cfg,
@@ -49,6 +52,7 @@
                     RuntimeTest& set(elrond::channel::BaseChannelManager& chmgr,
                                      const bool autoSync = true);
 
+                    static void setAppInstance(elrond::interface::Runtime& app);
                     static void setAppInstance(elrond::interface::Runtime* app);
             };
         }

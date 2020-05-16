@@ -8,7 +8,6 @@ TEST_CASE("Input Driver for Elrond Test Library")
 {
     EXPECT_ASSERTS(3);
 
-    RuntimeTest::setAppInstance(nullptr);
     InputDriverTest input;
 
     input.addInputListener(

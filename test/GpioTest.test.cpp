@@ -11,8 +11,6 @@ using elrond::gpio::AInPin;
 
 TEST_CASE("GPIO for Elrond Test Library")
 {
-    RuntimeTest::setAppInstance(nullptr);
-
     GpioTest gpio;
 
     auto dop = gpio.attachDOut(0);

@@ -12,6 +12,12 @@ using elrond::interface::ChannelManager;
 using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
 
+RuntimeTest::RuntimeTest(const bool defaultApp)
+{ if(defaultApp) RuntimeTest::setAppInstance(this); }
+
+RuntimeTest::~RuntimeTest()
+{ if(ELROND_MOD_APP_VAR == this) RuntimeTest::setAppInstance(nullptr); }
+
 const RuntimeTest& RuntimeTest::init(Module& inst, ConfigMap &cfg, LoopControl &lc) const
 {
     inst.onInit(cfg, lc);
@@ -98,6 +104,9 @@ RuntimeTest& RuntimeTest::set(DebugOut& dout)
     this->debugOut = &dout;
     return *this;
 }
+
+void RuntimeTest::setAppInstance(elrond::interface::Runtime& app)
+{ ELROND_MOD_APP_VAR = &app; }
 
 void RuntimeTest::setAppInstance(elrond::interface::Runtime* app)
 { ELROND_MOD_APP_VAR = app; }

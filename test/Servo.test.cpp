@@ -32,8 +32,6 @@ TEST_CASE("[elrond::module::Servo] Channel parameter missing test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     Servo inst;
     ConfigMapTest cfg;
 
@@ -48,8 +46,6 @@ TEST_CASE("[elrond::module::Servo] Pin parameter missing test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     Servo inst;
     ConfigMapTest cfg;
@@ -67,8 +63,6 @@ TEST_CASE("[elrond::module::Servo] Invalid gpio test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     Servo inst;
     ConfigMapTest cfg;
@@ -90,8 +84,6 @@ TEST_CASE("[elrond::module::Servo] Invalid channel manager test")
 
     appt.set(dout)
         .set(gpio);
-
-    RuntimeTest::setAppInstance(&appt);
 
     Servo inst;
     ConfigMapTest cfg;
@@ -125,8 +117,6 @@ TEST_CASE("[elrond::module::Servo] Normal test")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     Servo inst;
     ConfigMapTest cfg;
@@ -173,8 +163,6 @@ TEST_CASE("[elrond::module::Servo] With inverted parameter test")
     appt.set(dout)
         .set(gpio)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     Servo inst;
     ConfigMapTest cfg;

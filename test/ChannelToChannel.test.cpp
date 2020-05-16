@@ -30,8 +30,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] TxCh parameter missing test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -46,8 +44,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] TxChm parameter missing test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;
@@ -65,8 +61,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] RxCh parameter missing test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;
@@ -86,8 +80,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] RxChm parameter missing test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -106,8 +98,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] Invalid channel manager test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
     appt.set(dout);
-
-    RuntimeTest::setAppInstance(&appt);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;
@@ -134,8 +124,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] Normal test")
 
     appt.set(dout)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;
@@ -183,8 +171,6 @@ TEST_CASE("[elrond::module::ChannelToChannel] With inverted parameter test")
 
     appt.set(dout)
         .set(chm);
-
-    RuntimeTest::setAppInstance(&appt);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;

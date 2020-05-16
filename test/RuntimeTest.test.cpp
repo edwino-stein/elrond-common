@@ -33,8 +33,6 @@ TEST_CASE("[elrond::module::Example] Normal test")
     RuntimeTest appt;
     appt.set(dout);
 
-    RuntimeTest::setAppInstance(&appt);
-
     Example inst;
     ConfigMapTest cfg;
 
@@ -82,8 +80,6 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
         .set(chm)
         .set(input)
         .set(gpio);
-
-    RuntimeTest::setAppInstance(&appt);
 
     REQUIRE_NOTHROW(
         [&appt, &input]()
@@ -146,8 +142,6 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
         .set(chm)
         .set(input)
         .set(gpio);
-
-    RuntimeTest::setAppInstance(&appt);
 
     REQUIRE_NOTHROW(
         [&appt, &input]()

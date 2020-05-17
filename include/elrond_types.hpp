@@ -71,13 +71,11 @@
         // GPIO
         namespace gpio {
             class BaseGpioPin;
-            using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
-            using WriteHandleT = ELROND_LAMBDA_FUNC(void, elrond::gpio::BaseGpioPin&, const elrond::word);
-            template <class T, elrond::GpioType G> class GenericGpioPin;
-            using DOutPin = GenericGpioPin<ELROND_GPIO_DIO_TYPE, elrond::GpioType::DOUT>;
-            using AInPin = GenericGpioPin<ELROND_GPIO_AIO_TYPE, elrond::GpioType::AIN>;
-            using ServoPin = GenericGpioPin<ELROND_GPIO_SERVO_TYPE, elrond::GpioType::SERVO>;
-            using PwmPin = GenericGpioPin<ELROND_GPIO_PWM_TYPE, elrond::GpioType::PWM>;
+            template <elrond::GpioType G> class GpioPin;
+            using DOutPin = GpioPin<elrond::GpioType::DOUT>;
+            using AInPin = GpioPin<elrond::GpioType::AIN>;
+            using ServoPin = GpioPin<elrond::GpioType::SERVO>;
+            using PwmPin = GpioPin<elrond::GpioType::PWM>;
         }
 
         // Channel

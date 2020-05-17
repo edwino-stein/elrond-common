@@ -34,7 +34,7 @@ BASE_HEADER_FILES = $(shell cat $(ELROND_HPP) | grep -Po '\#include\s*"\K[^"]*')
 # ECL file options
 HEADER_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_version elrond_platform elrond_types)
 SRC_FILES_META = $(addsuffix .$(CPP_SRC_EXT), elrond)
-SRC_EXCLUDE = interface/% gpio/GenericGpioPin.%
+SRC_EXCLUDE = interface/% gpio/GpioPin.%
 
 # Define ECL .hpp files
 HEADER_FILES := $(HEADER_FILES_META) $(BASE_HEADER_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT))

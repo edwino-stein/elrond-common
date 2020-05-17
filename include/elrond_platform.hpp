@@ -96,11 +96,6 @@
     #define ELROND_SIZE_TYPE std::size_t
     #define ELROND_TIME_TYPE uintmax_t
 
-    #define ELROND_GPIO_DIO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
-
     #ifdef ELROND_WITH_STR_TYPE
         #define ELROND_STR_TYPE std::string
         #define ELROND_STR(S) ELROND_STR_TYPE(S)

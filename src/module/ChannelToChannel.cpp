@@ -35,10 +35,15 @@ void ChannelToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
 
     this->txCh.init(txCh, txChm);
 
-    this->rxCh.init(rxCh, rxChm, [](const elrond::word data, elrond::TaskContext* const ctx){
-        ChannelToChannel* const me = (ChannelToChannel*) ctx;
-        me->txCh.trigger(me->inverted ? HIGH_VALUE - data : data);
-    }, this);
+    this->rxCh.init(
+        rxCh,
+        rxChm,
+        [](const elrond::word data, elrond::TaskContext* const ctx){
+            ChannelToChannel* const me = (ChannelToChannel*) ctx;
+            me->txCh.trigger(me->inverted ? elrond::high - data : data);
+        },
+        this
+    );
 }
 
 ELROND_DEFINE_INTER_MOD(

@@ -11,7 +11,7 @@
                 protected:
 
                     elrond::sizeT _ch = 0;
-                    elrond::word _data = LOW_VALUE;
+                    elrond::word _data = elrond::low;
 
                 public:
 

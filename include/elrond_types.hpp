@@ -49,6 +49,10 @@
             elrond::timeT interval = 0;
         };
 
+        // Constants
+        constexpr word high = ELROND_HIGH_VALUE;
+        constexpr word low = ELROND_LOW_VALUE;
+
         // Interfaces
         namespace interface {
             class Runtime;

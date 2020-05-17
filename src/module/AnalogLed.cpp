@@ -17,7 +17,7 @@ using elrond::LoopControl;
     AnalogLed::~AnalogLed(){}
 #endif
 
-void AnalogLed::onInit(ConfigMap &cfg, LoopControl& lc)
+void AnalogLed::onInit(ConfigMap& cfg, LoopControl& lc)
 {
     if(!cfg.isInt("channel")) elrond::error("Invalid or missing key \"channel\".");
     const int ch = cfg.asInt("channel");
@@ -38,7 +38,7 @@ void AnalogLed::onInit(ConfigMap &cfg, LoopControl& lc)
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
             AnalogLed* const me = (AnalogLed*) ctx;
-            me->pin.write(me->inverted ? HIGH_VALUE - data : data);
+            me->pin.write(me->inverted ? elrond::high - data : data);
         },
         this
     );

@@ -41,7 +41,7 @@ void InputToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
             InputToChannel* const me = (InputToChannel*) ctx;
-            me->txCh.trigger(me->inverted ? HIGH_VALUE - data : data);
+            me->txCh.trigger(me->inverted ? elrond::high - data : data);
         },
         this
     );

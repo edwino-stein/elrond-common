@@ -12,7 +12,6 @@ using elrond::LoopControl;
 
 using elrond::module::AnalogLed;
 using elrond::gpio::BaseGpioPin;
-using elrond::gpio::PwmPin;
 
 #ifdef ELROND_WITH_MODULES_INFO
 TEST_CASE("[elrond::module::AnalogLed] Module metadata test")
@@ -100,16 +99,18 @@ TEST_CASE("[elrond::module::AnalogLed] Invalid channel manager test")
 
 TEST_CASE("[elrond::module::AnalogLed] Normal test")
 {
-    EXPECT_ASSERTS(2);
+    EXPECT_ASSERTS(3);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
 
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, elrond::word data){
-            CHECK_N_COUNT(pin.getType() == elrond::GpioType::PWM);
-            CHECK_N_COUNT(data == HIGH_VALUE);
-            gpio.write((PwmPin&) pin, data);
-        }
+        [](BaseGpioPin& pin)
+        {
+            CHECK_N_COUNT(pin.type() == elrond::GpioType::PWM);
+            CHECK_N_COUNT(pin.pin() == 0);
+        },
+        [](BaseGpioPin& pin, const elrond::word data)
+        { CHECK_N_COUNT(data == elrond::high); }
     );
 
     DataLinkTest dataLink;
@@ -137,7 +138,7 @@ TEST_CASE("[elrond::module::AnalogLed] Normal test")
                 inst,
                 lc,
                 [&loops, &tx](){
-                    if(loops == 0) tx.trigger(HIGH_VALUE);
+                    if(loops == 0) tx.trigger(elrond::high);
                     return loops++ < 1;
                 }
             );
@@ -148,16 +149,18 @@ TEST_CASE("[elrond::module::AnalogLed] Normal test")
 
 TEST_CASE("[elrond::module::AnalogLed] With inverted parameter test")
 {
-    EXPECT_ASSERTS(2);
+    EXPECT_ASSERTS(3);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
 
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, elrond::word data){
-            CHECK_N_COUNT(pin.getType() == elrond::GpioType::PWM);
-            CHECK_N_COUNT(data == LOW_VALUE);
-            gpio.write((PwmPin&) pin, data);
-        }
+        [](BaseGpioPin& pin)
+        {
+            CHECK_N_COUNT(pin.type() == elrond::GpioType::PWM);
+            CHECK_N_COUNT(pin.pin() == 0);
+        },
+        [](BaseGpioPin& pin, const elrond::word data)
+        { CHECK_N_COUNT(data == elrond::low); }
     );
 
     DataLinkTest dataLink;
@@ -186,7 +189,7 @@ TEST_CASE("[elrond::module::AnalogLed] With inverted parameter test")
                 inst,
                 lc,
                 [&loops, &tx](){
-                    if(loops == 0) tx.trigger(HIGH_VALUE);
+                    if(loops == 0) tx.trigger(elrond::high);
                     return loops++ < 1;
                 }
             );

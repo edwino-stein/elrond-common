@@ -13,7 +13,6 @@ using elrond::test::ConfigMapTest;
 using elrond::module::Example;
 using elrond::LoopControl;
 using elrond::gpio::BaseGpioPin;
-using elrond::gpio::DOutPin;
 
 #ifdef ELROND_WITH_MODULES_INFO
 TEST_CASE("[elrond::module::Example] Module metadata test")
@@ -60,18 +59,21 @@ TEST_CASE("[elrond::module::Example] Normal test")
 
 TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
 {
-    EXPECT_ASSERTS(11);
+    EXPECT_ASSERTS(12);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
     InputDriverTest input;
+
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, elrond::word data){
-            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
-            CHECK_N_COUNT(data == HIGH_VALUE);
-            gpio.write((DOutPin&) pin, data);
-        }
+        [](BaseGpioPin& pin)
+        {
+            CHECK_N_COUNT(pin.type() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(pin.pin() == 0);
+        },
+        [](BaseGpioPin& pin, const elrond::word data)
+        { CHECK_N_COUNT(data == elrond::high); }
     );
 
     RuntimeTest appt;
@@ -108,7 +110,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
                lc,
                [&loops, &input]()
                {
-                   if(loops == 0) input.trigger(0, HIGH_VALUE);
+                   if(loops == 0) input.trigger(0, elrond::high);
                    return loops++ < 1;
                }
             );
@@ -122,18 +124,20 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
 #ifdef LINUX_PLATFORM
 TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" test")
 {
-    EXPECT_ASSERTS(11);
+    EXPECT_ASSERTS(12);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
     InputDriverTest input;
     GpioTest gpio(
-        [&gpio](BaseGpioPin& pin, elrond::word data){
-            CHECK_N_COUNT(pin.getType() == elrond::GpioType::DOUT);
-            CHECK_N_COUNT(data == HIGH_VALUE);
-            gpio.write((DOutPin&) pin, data);
-        }
+        [](BaseGpioPin& pin)
+        {
+            CHECK_N_COUNT(pin.type() == elrond::GpioType::DOUT);
+            CHECK_N_COUNT(pin.pin() == 0);
+        },
+        [](BaseGpioPin& pin, const elrond::word data)
+        { CHECK_N_COUNT(data == elrond::high); }
     );
 
     RuntimeTest appt;
@@ -170,7 +174,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
                lc,
                [&loops, &input]()
                {
-                   if(loops == 0) input.trigger(0, HIGH_VALUE);
+                   if(loops == 0) input.trigger(0, elrond::high);
                    return loops++ < 1;
                }
             );

@@ -20,20 +20,20 @@ TEST_CASE("Input Driver for Elrond Test Library")
     input.addInputListener(
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx){
-            CHECK_N_COUNT(data == HIGH_VALUE);
+            CHECK_N_COUNT(data == elrond::high);
         }
     );
 
     input.addInputListener(
         2,
         [](const elrond::word data, elrond::TaskContext* const ctx){
-            CHECK_N_COUNT(data == LOW_VALUE);
+            CHECK_N_COUNT(data == elrond::low);
         }
     );
 
     input.trigger(0, 123);
-    input.trigger(1, HIGH_VALUE);
-    input.trigger(2, LOW_VALUE);
+    input.trigger(1, elrond::high);
+    input.trigger(2, elrond::low);
 
     REQUIRE_ALL_DONE("Check if all tests are done");
 }

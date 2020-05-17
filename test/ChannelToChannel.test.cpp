@@ -136,7 +136,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] Normal test")
     RxChannelTest rx(
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        { CHECK_N_COUNT(data == HIGH_VALUE); },
+        { CHECK_N_COUNT(data == elrond::high); },
         chm
     );
 
@@ -150,7 +150,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] Normal test")
                 inst,
                 lc,
                 [&loops, &tx](){
-                    if(loops == 0) tx.trigger(HIGH_VALUE);
+                    if(loops == 0) tx.trigger(elrond::high);
                     return loops++ <= 1;
                 }
             );
@@ -184,7 +184,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] With inverted parameter test")
     RxChannelTest rx(
         1,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        { CHECK_N_COUNT(data == HIGH_VALUE - 123); },
+        { CHECK_N_COUNT(data == elrond::high - 123); },
         chm
     );
 

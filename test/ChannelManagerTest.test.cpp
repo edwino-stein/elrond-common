@@ -14,10 +14,10 @@ TEST_CASE("[elrond::test::RxChannelTest] Direct trigger test")
     RxChannelTest rxCh(
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
-        { CHECK_N_COUNT(data == HIGH_VALUE); }
+        { CHECK_N_COUNT(data == elrond::high); }
     );
 
-    rxCh.trigger(HIGH_VALUE);
+    rxCh.trigger(elrond::high);
 
     REQUIRE_ALL_DONE("Check if all tests are done");
 }

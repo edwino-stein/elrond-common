@@ -34,7 +34,7 @@
                         std::function<bool()> loopContinue
                     ) const;
 
-                    elrond::module::BaseGpioModule &getGpioService() const override;
+                    elrond::module::BaseGpioModule &getGpio() const override;
                     elrond::module::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
                     elrond::interface::ChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
                     const elrond::interface::DebugOut &dout() const override;

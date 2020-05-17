@@ -10,6 +10,7 @@
     #include "test/DataLinkTest.hpp"
     #include "test/InputDriverTest.hpp"
     #include "test/GpioTest.hpp"
+    #include "test/GpioPinTest.ipp"
     #include "test/DebugOutTest.hpp"
 
 #endif

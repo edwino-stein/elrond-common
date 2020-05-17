@@ -75,10 +75,13 @@ BASE_HEADER_TEST_FILES = $(shell cat $(ELROND_TEST_HPP) | grep -Po '\#include\s*
 HEADER_TEST_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_test_types)
 
 # Define ETL files
-HEADER_TEST_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_TEST_FILES_META) $(BASE_HEADER_TEST_FILES))
+HEADER_TEST_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_TEST_FILES_META) $(BASE_HEADER_TEST_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT)))
+
+# Define ETL .ipp files
+IPP_TEST_FILES := $(addprefix $(INCLUDE_DIR)/, $(filter %.$(IPP_SRC_EXT),$(BASE_HEADER_TEST_FILES)))
 
 # Define ETL dist files
-HEADERS_TEST_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_TEST_FILES))
+HEADERS_TEST_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_TEST_FILES) $(addsuffix .$(HPP_SRC_EXT), $(IPP_TEST_FILES)))
 
 ################################## UTIL DEFS ###################################
 

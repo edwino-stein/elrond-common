@@ -35,6 +35,8 @@
         enum class GpioType {
             UNKNOWN,
             DOUT,
+            DIN_PD,
+            DIN_PU,
             AIN,
             PWM,
             SERVO
@@ -73,6 +75,8 @@
             class BaseGpioPin;
             template <elrond::GpioType G> class GpioPin;
             using DOutPin = GpioPin<elrond::GpioType::DOUT>;
+            using DInPDPin = GpioPin<elrond::GpioType::DIN_PD>;
+            using DInPUPin = GpioPin<elrond::GpioType::DIN_PU>;
             using AInPin = GpioPin<elrond::GpioType::AIN>;
             using ServoPin = GpioPin<elrond::GpioType::SERVO>;
             using PwmPin = GpioPin<elrond::GpioType::PWM>;

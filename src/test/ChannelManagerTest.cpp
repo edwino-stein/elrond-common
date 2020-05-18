@@ -29,12 +29,12 @@ void ChannelManagerTest::txTrigger(TxChannel* const tx)
 
 void ChannelManagerTest::addRxListener(RxChannel* const rx)
 {
-    if(rx->ch >= this->chs) return;
+    if(rx->ch() >= this->chs) return;
 
-    if(this->rxChannels[rx->ch] == nullptr)
-        this->rxChannels[rx->ch] = RxChCollectionP(new RxChCollection());
+    if(this->rxChannels[rx->ch()] == nullptr)
+        this->rxChannels[rx->ch()] = RxChCollectionP(new RxChCollection());
 
-    this->rxChannels[rx->ch]->push_back(rx);
+    this->rxChannels[rx->ch()]->push_back(rx);
 }
 
 void ChannelManagerTest::addRxListener(RxChannelTest &rx)

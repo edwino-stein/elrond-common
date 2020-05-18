@@ -16,6 +16,13 @@
 
                     RxChannelTest(const elrond::sizeT ch,
                                   elrond::channel::OnReceiveHandleT handle);
+
+                    void init(
+                      const elrond::uInt8 ch,
+                      const elrond::sizeT chm,
+                      elrond::channel::OnReceiveHandleT handle,
+                      elrond::TaskContext* const ctx
+                    ) = delete;
             };
         }
     }

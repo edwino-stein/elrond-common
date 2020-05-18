@@ -12,6 +12,8 @@
 
                     TxChannelTest(const elrond::sizeT ch,
                                   elrond::channel::BaseChannelManager& chm);
+
+                    void init(const elrond::uInt8 ch, const sizeT chm) = delete;
             };
         }
     }

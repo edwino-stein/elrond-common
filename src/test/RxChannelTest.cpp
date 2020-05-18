@@ -9,9 +9,7 @@ RxChannelTest::RxChannelTest(
     const elrond::sizeT ch,
     OnReceiveHandleT handle,
     BaseChannelManager& chm
-):
-    RxChannel()
-{
+){
     this->_ch = ch;
     this->handle = handle;
     chm.addRxListener((RxChannel*) this);
@@ -20,9 +18,7 @@ RxChannelTest::RxChannelTest(
 RxChannelTest::RxChannelTest(
     const elrond::sizeT ch,
     OnReceiveHandleT handle
-):
-    RxChannel()
-{
+){
     this->_ch = ch;
     this->handle = handle;
 }

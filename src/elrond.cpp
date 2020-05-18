@@ -3,7 +3,6 @@
 #include "interface/ConfigMap.hpp"
 #include "interface/DebugOut.hpp"
 #include "interface/ChannelManager.hpp"
-#include "interface/Channel.hpp"
 
 /*  ****************************************************************************
     *************************** elrond implementation **************************
@@ -35,13 +34,9 @@ namespace elrond {
     ****************************************************************************/
 namespace elrond {
     namespace interface {
-
         #ifdef ELROND_WITH_DESTRUCTORS
             ELROND_INLINE_FUNC Module::~Module(){}
             ELROND_INLINE_FUNC ChannelManager::~ChannelManager(){}
-            ELROND_INLINE_FUNC Channel::~Channel(){}
         #endif
-
-        ELROND_INLINE_FUNC Channel::Channel() : ch(_ch), data(_data) {}
     }
 }

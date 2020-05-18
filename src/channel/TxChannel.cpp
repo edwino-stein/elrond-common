@@ -9,13 +9,7 @@
 namespace elrond {
     namespace channel {
 
-        ELROND_INLINE_FUNC TxChannel::TxChannel() : Channel() {}
-
-        #ifdef ELROND_WITH_DESTRUCTORS
-            ELROND_INLINE_FUNC TxChannel::~TxChannel(){}
-        #endif
-
-        ELROND_INLINE_FUNC void TxChannel::init(const elrond::sizeT ch, const sizeT chm)
+        ELROND_INLINE_FUNC void TxChannel::init(const elrond::uInt8 ch, const sizeT chm)
         {
             if(this->chm != nullptr) return;
             this->chm = &(elrond::app().getChannelManager(chm));
@@ -24,8 +18,7 @@ namespace elrond {
 
         ELROND_INLINE_FUNC void TxChannel::trigger(const elrond::word data)
         {
-            if(this->data == data) return;
-            if(this->chm == nullptr) return;
+            if(this->_data == data || this->chm == nullptr) return;
             this->_data = data;
             this->chm->txTrigger(this);
         }

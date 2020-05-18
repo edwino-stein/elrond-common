@@ -28,7 +28,6 @@
     #include "interface/Runtime.hpp"
     #include "interface/Module.hpp"
     #include "interface/ChannelManager.hpp"
-    #include "interface/Channel.hpp"
 
     // Base modules
     #include "module/BaseModule.hpp"
@@ -41,6 +40,7 @@
     #include "gpio/GpioPin.ipp"
 
     // Channel
+    #include "channel/BaseChannel.hpp"
     #include "channel/TxChannel.hpp"
     #include "channel/RxChannel.hpp"
 

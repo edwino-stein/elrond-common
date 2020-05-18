@@ -47,8 +47,8 @@ void BaseChannelManager::init()
 
 void BaseChannelManager::txTrigger(TxChannel* const tx)
 {
-    const elrond::sizeT ch = tx->ch;
-    const elrond::word data = tx->data;
+    const elrond::sizeT ch = tx->ch();
+    const elrond::word data = tx->data();
 
     if(ch >= this->getTotalTx()) return;
 

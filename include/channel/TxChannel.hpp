@@ -2,12 +2,12 @@
 #define _ELROND_TX_CHANNEL_HPP
 
     #include "elrond_types.hpp"
-    #include "interface/Channel.hpp"
+    #include "channel/BaseChannel.hpp"
 
     namespace elrond {
         namespace channel {
 
-            class TxChannel : public elrond::interface::Channel {
+            class TxChannel : public elrond::channel::BaseChannel {
 
                 protected:
 
@@ -15,13 +15,7 @@
 
                 public:
 
-                    TxChannel();
-
-                    #ifdef ELROND_WITH_DESTRUCTORS
-                        virtual ~TxChannel();
-                    #endif
-
-                    void init(const elrond::sizeT ch, const sizeT chm);
+                    void init(const elrond::uInt8 ch, const sizeT chm);
                     void trigger(const elrond::word data);
             };
         }

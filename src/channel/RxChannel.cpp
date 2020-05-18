@@ -9,14 +9,8 @@
 namespace elrond {
     namespace channel {
 
-        ELROND_INLINE_FUNC RxChannel::RxChannel() : Channel(){}
-
-        #ifdef ELROND_WITH_DESTRUCTORS
-            ELROND_INLINE_FUNC RxChannel::~RxChannel(){}
-        #endif
-
         ELROND_INLINE_FUNC void RxChannel::init(
-            const elrond::sizeT ch,
+            const elrond::uInt8 ch,
             const elrond::sizeT chm,
             OnReceiveHandleT handle,
             TaskContext* const ctx
@@ -31,8 +25,7 @@ namespace elrond {
 
         ELROND_INLINE_FUNC void RxChannel::trigger(const elrond::word data)
         {
-            if(this->handle == nullptr) return;
-            if(this->_data == data) return;
+            if(this->handle == nullptr || this->_data == data) return;
             this->_data = data;
             this->handle(data, this->ctx);
         }

@@ -2,12 +2,12 @@
 #define _ELROND_RX_CHANNEL_HPP
 
     #include "elrond_types.hpp"
-    #include "interface/Channel.hpp"
+    #include "channel/BaseChannel.hpp"
 
     namespace elrond {
         namespace channel {
 
-            class RxChannel : public elrond::interface::Channel {
+            class RxChannel : public elrond::channel::BaseChannel {
 
                 protected:
 
@@ -16,14 +16,8 @@
 
                 public:
 
-                    RxChannel();
-
-                    #ifdef ELROND_WITH_DESTRUCTORS
-                        virtual ~RxChannel();
-                    #endif
-
                     void init(
-                        const elrond::sizeT ch,
+                        const elrond::uInt8 ch,
                         const elrond::sizeT chm,
                         elrond::channel::OnReceiveHandleT handle,
                         elrond::TaskContext* const ctx = nullptr

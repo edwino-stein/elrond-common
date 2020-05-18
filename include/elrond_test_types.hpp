@@ -31,8 +31,17 @@
             class DataLinkTest;
             class InputDriverTest;
             class GpioTest;
+            template <elrond::GpioType G> class GpioPinTest;
             class DebugOutTest;
             class ExternalModuleTest;
+
+            // GPIO types
+            using DOutPinTest = GpioPinTest<elrond::GpioType::DOUT>;
+            using DInPDPinTest = GpioPinTest<elrond::GpioType::DIN_PD>;
+            using DInPUPinTest = GpioPinTest<elrond::GpioType::DIN_PU>;
+            using AInPinTest = GpioPinTest<elrond::GpioType::AIN>;
+            using ServoPinTest = GpioPinTest<elrond::GpioType::SERVO>;
+            using PwmPinTest = GpioPinTest<elrond::GpioType::PWM>;
 
             template<typename B, typename T>
             inline bool baseOf(const T*) { return std::is_base_of<B, T>::value; }

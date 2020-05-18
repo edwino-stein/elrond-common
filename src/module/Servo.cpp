@@ -37,7 +37,7 @@ void ServoModule::onInit(ConfigMap& cfg, LoopControl& lc)
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
             ServoModule* const me = (ServoModule *) ctx;
-            me->pin.write(me->inverted ? HIGH_VALUE - data : data);
+            me->pin.write(me->inverted ? elrond::high - data : data);
         },
         this
     );

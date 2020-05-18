@@ -35,6 +35,8 @@
         enum class GpioType {
             UNKNOWN,
             DOUT,
+            DIN_PD,
+            DIN_PU,
             AIN,
             PWM,
             SERVO
@@ -46,6 +48,10 @@
             bool ownThread = false;
             elrond::timeT interval = 0;
         };
+
+        // Constants
+        constexpr word high = ELROND_HIGH_VALUE;
+        constexpr word low = ELROND_LOW_VALUE;
 
         // Interfaces
         namespace interface {
@@ -71,13 +77,13 @@
         // GPIO
         namespace gpio {
             class BaseGpioPin;
-            using ReadHandleT = ELROND_LAMBDA_FUNC(elrond::word, elrond::gpio::BaseGpioPin&);
-            using WriteHandleT = ELROND_LAMBDA_FUNC(void, elrond::gpio::BaseGpioPin&, const elrond::word);
-            template <class T, elrond::GpioType G> class GenericGpioPin;
-            using DOutPin = GenericGpioPin<ELROND_GPIO_DIO_TYPE, elrond::GpioType::DOUT>;
-            using AInPin = GenericGpioPin<ELROND_GPIO_AIO_TYPE, elrond::GpioType::AIN>;
-            using ServoPin = GenericGpioPin<ELROND_GPIO_SERVO_TYPE, elrond::GpioType::SERVO>;
-            using PwmPin = GenericGpioPin<ELROND_GPIO_PWM_TYPE, elrond::GpioType::PWM>;
+            template <elrond::GpioType G> class GpioPin;
+            using DOutPin = GpioPin<elrond::GpioType::DOUT>;
+            using DInPDPin = GpioPin<elrond::GpioType::DIN_PD>;
+            using DInPUPin = GpioPin<elrond::GpioType::DIN_PU>;
+            using AInPin = GpioPin<elrond::GpioType::AIN>;
+            using ServoPin = GpioPin<elrond::GpioType::SERVO>;
+            using PwmPin = GpioPin<elrond::GpioType::PWM>;
         }
 
         // Channel

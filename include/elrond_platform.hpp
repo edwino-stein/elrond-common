@@ -64,7 +64,6 @@
     #define ELROND_WITH_STR_TYPE
     #define ELROND_WITH_LAMBDA_TYPE
     // #define ELROND_WITH_INLINE_FUNC
-    // #define ELROND_WITH_LINKED_NODES
 
     // Includes
     #include <iostream>
@@ -82,8 +81,8 @@
     #endif
 
     // Constants
-    #define HIGH_VALUE 0xFFFF
-    #define LOW_VALUE 0x0
+    #define ELROND_HIGH_VALUE   0xFFFF
+    #define ELROND_LOW_VALUE    0x0
 
     // Typedefs
     #define ELROND_INT8_TYPE int8_t
@@ -95,11 +94,6 @@
 
     #define ELROND_SIZE_TYPE std::size_t
     #define ELROND_TIME_TYPE uintmax_t
-
-    #define ELROND_GPIO_DIO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_AIO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_SERVO_TYPE ELROND_UINT16_TYPE
-    #define ELROND_GPIO_PWM_TYPE ELROND_UINT16_TYPE
 
     #ifdef ELROND_WITH_STR_TYPE
         #define ELROND_STR_TYPE std::string

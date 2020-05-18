@@ -21,9 +21,9 @@ TEST_CASE("Math functions")
     CHECK(elrond::abs(0) == 0);
     CHECK(elrond::mod(123.456) == Approx(0.456));
 
-    CHECK(elrond::map(0, 0, 100, LOW_VALUE, HIGH_VALUE) == LOW_VALUE);
-    CHECK(elrond::map(100, 0, 100, LOW_VALUE, HIGH_VALUE) == HIGH_VALUE);
-    CHECK(elrond::map(50, 0, 100, LOW_VALUE, HIGH_VALUE) == (elrond::int32) (HIGH_VALUE * 0.5));
+    CHECK(elrond::map(0, 0, 100, elrond::low, elrond::high) == elrond::low);
+    CHECK(elrond::map(100, 0, 100, elrond::low, elrond::high) == elrond::high);
+    CHECK(elrond::map(50, 0, 100, elrond::low, elrond::high) == (elrond::int32) (elrond::high * 0.5));
 
     int a = 10, b = 20;
     elrond::swap<int>(a, b);

@@ -10,7 +10,7 @@
 
                 public:
 
-                    virtual elrond::module::BaseGpioModule& getGpioService() const =0;
+                    virtual elrond::module::BaseGpioModule& getGpio() const =0;
                     virtual elrond::module::BaseInputDriverModule& getInputService(const elrond::sizeT id = 0) const =0;
                     virtual elrond::interface::ChannelManager& getChannelManager(const elrond::sizeT id = 0) const =0;
                     virtual const elrond::interface::DebugOut& dout() const =0;

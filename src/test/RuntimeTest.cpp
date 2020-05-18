@@ -48,7 +48,7 @@ const RuntimeTest& RuntimeTest::start(Module& inst, LoopControl& lc, std::functi
     return *this;
 }
 
-BaseGpioModule& RuntimeTest::getGpioService() const
+BaseGpioModule& RuntimeTest::getGpio() const
 {
     if(this->gpio == nullptr) throw "Undefined Gpio service";
     return *(this->gpio);

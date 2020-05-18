@@ -15,7 +15,11 @@
                     #endif
 
                     virtual elrond::ModuleType getType() const override;
+
                     virtual void attach(elrond::gpio::BaseGpioPin& pin)=0;
+                    virtual elrond::word read(elrond::gpio::BaseGpioPin& pin)=0;
+                    virtual void write(elrond::gpio::BaseGpioPin& pin,
+                                       const elrond::word data)=0;
             };
         }
     }

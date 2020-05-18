@@ -2,129 +2,82 @@
 
 using elrond::test::GpioTest;
 using elrond::gpio::BaseGpioPin;
-using elrond::gpio::DOutPin;
-using elrond::gpio::AInPin;
-using elrond::gpio::ServoPin;
-using elrond::gpio::PwmPin;
-using elrond::gpio::WriteHandleT;
-using elrond::gpio::ReadHandleT;
 
-GpioTest::GpioTest(WriteHandleT onWrite, ReadHandleT onRead)
+GpioTest::GpioTest(OnAttachT onAttach, OnWriteT onWrite)
 {
-    GpioTest &me = *this;
+    if(onAttach != nullptr) this->onAttach = onAttach;
+    if(onWrite != nullptr) this->onWrite = onWrite;
+}
 
-    if(onWrite == nullptr){
-        this->onWrite = [&me](BaseGpioPin& pin, const elrond::word data)
-        {
-            switch (pin.getType()) {
-                case elrond::GpioType::DOUT: me.write((DOutPin&) pin, data); break;
-                case elrond::GpioType::PWM: me.write((PwmPin&) pin, data); break;
-                case elrond::GpioType::SERVO: me.write((ServoPin&) pin, data); break;
-                default: return;
-            }
-        };
-    }
-    else {
-        this->onWrite = onWrite;
-    }
 
-    if(onRead == nullptr){
-        this->onRead = [&me](BaseGpioPin& pin)
-        {
-            switch (pin.getType()) {
-                case elrond::GpioType::DOUT: return me.read((DOutPin&) pin); break;
-                case elrond::GpioType::PWM: return me.read((PwmPin&) pin); break;
-                case elrond::GpioType::SERVO: return me.read((ServoPin&) pin); break;
-                case elrond::GpioType::AIN: return me.read((AInPin&) pin); break;
-                default: return (elrond::word) 0;
-            }
-        };
+void GpioTest::attach(BaseGpioPin& pin)
+{
+    auto it = this->pinHeader.find(pin.pin());
+    if(it != this->pinHeader.end()) return;
+    this->pinHeader[pin.pin()] = 0;
+    if(this->onAttach != nullptr) this->onAttach(pin);
+}
 
-    }
-    else {
-        this->onRead = onRead;
+elrond::word GpioTest::read(BaseGpioPin& pin)
+{
+    auto it = this->pinHeader.find(pin.pin());
+    const elrond::word data = it != this->pinHeader.end() ? it->second : 0;
+
+    switch (pin.type()) {
+        case elrond::GpioType::DOUT:
+        case elrond::GpioType::DIN_PD:
+            return data > 0 ? elrond::high : elrond::low;
+        break;
+
+        case elrond::GpioType::DIN_PU:
+            return data > 0 ? elrond::low : elrond::high;
+        break;
+
+        case elrond::GpioType::AIN:
+        case elrond::GpioType::PWM:
+        case elrond::GpioType::SERVO:
+        default:
+            return data;
+        break;
     }
 }
 
-void GpioTest::attach(BaseGpioPin &pin)
+void GpioTest::write(BaseGpioPin& pin, const elrond::word data)
 {
-    if(pin.getType() == elrond::GpioType::UNKNOWN) throw "Invalid GPIO pin type";
-    pin.setWriteHandle(this->onWrite);
-    pin.setReadHandle(this->onRead);
+    auto it = this->pinHeader.find(pin.pin());
+    if(it == this->pinHeader.end()) return;
+
+    switch (pin.type()) {
+        case elrond::GpioType::DOUT:
+            it->second = data > 0 ? elrond::high : elrond::low;
+        break;
+
+        case elrond::GpioType::PWM:
+        case elrond::GpioType::SERVO:
+            it->second = data;
+        break;
+
+        default:
+            return;
+    }
+
+    if(this->onWrite != nullptr) this->onWrite(pin, it->second);
 }
 
-DOutPin& GpioTest::attachDOut(int pin)
+bool GpioTest::simulateInput(BaseGpioPin& pin, const elrond::word data)
 {
-    GpioTest::BaseGpioPinP bp(new GpioTest::TestDOutPin(pin));
-    DOutPin& p = *((DOutPin*) bp.get());
-    this->attach(p);
-    this->testPinInsts.push_back(std::move(bp));
-    return p;
-}
+    switch (pin.type()) {
 
-AInPin& GpioTest::attachAIn(int pin)
-{
-    GpioTest::BaseGpioPinP bp(new GpioTest::TestAInPin(pin));
-    AInPin& p = *((AInPin*) bp.get());
-    this->attach(p);
-    this->testPinInsts.push_back(std::move(bp));
-    return p;
-}
+        case elrond::GpioType::DOUT:
+        case elrond::GpioType::PWM:
+        case elrond::GpioType::SERVO:
+            return false;
+        break;
 
-PwmPin& GpioTest::attachPwm(int pin)
-{
-    GpioTest::BaseGpioPinP bp(new GpioTest::TestPwmPin(pin));
-    PwmPin& p = *((PwmPin*) bp.get());
-    this->attach(p);
-    this->testPinInsts.push_back(std::move(bp));
-    return p;
+        default:
+            auto it = this->pinHeader.find(pin.pin());
+            if(it == this->pinHeader.end()) return false;
+            it->second = data;
+            return true;
+    }
 }
-
-ServoPin& GpioTest::attachServo(int pin)
-{
-    GpioTest::BaseGpioPinP bp(new GpioTest::TestServoPin(pin));
-    ServoPin& p = *((ServoPin*) bp.get());
-    this->attach(p);
-    this->testPinInsts.push_back(std::move(bp));
-    return p;
-}
-
-void GpioTest::write(DOutPin& pin, const elrond::word data) const {
-    pin.value = data > 0 ? HIGH_VALUE : LOW_VALUE;
-}
-
-void GpioTest::write(PwmPin& pin, const elrond::word data) const {
-    pin.value = data;
-}
-
-void GpioTest::write(ServoPin& pin, const elrond::word data) const {
-    pin.value = elrond::map(
-        data,
-        LOW_VALUE,
-        HIGH_VALUE,
-        0,
-        180
-    );
-}
-
-elrond::word GpioTest::read(DOutPin& pin) const { return pin.value; }
-elrond::word GpioTest::read(PwmPin& pin) const { return pin.value; }
-elrond::word GpioTest::read(ServoPin& pin) const { return pin.value; }
-elrond::word GpioTest::read(AInPin& pin) const
-{
-    auto it = this->testAinValues.find(pin.getNumber());
-    if(it != this->testAinValues.end()) pin.value = it->second;
-    return pin.value;
-}
-
-void GpioTest::simulateAin(const int pin, const elrond::word data)
-{
-    auto it = this->testAinValues.find(pin);
-    if(it != this->testAinValues.end()) this->testAinValues.erase(it);
-    this->testAinValues[pin] = data;
-}
-
-GpioTest::TestDOutPin::TestDOutPin(int pin) { this->pin = pin; }
-GpioTest::TestPwmPin::TestPwmPin(int pin) { this->pin = pin; }
-GpioTest::TestServoPin::TestServoPin(int pin) { this->pin = pin; }
-GpioTest::TestAInPin::TestAInPin(int pin) { this->pin = pin; }

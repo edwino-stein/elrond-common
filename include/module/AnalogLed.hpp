@@ -4,8 +4,7 @@
     #include "elrond_ext_types.hpp"
     #include "module/BaseModule.hpp"
     #include "channel/RxChannel.hpp"
-    #include "gpio/BaseGpioPin.hpp"
-    #include "gpio/GenericGpioPin.hpp"
+    #include "gpio/GpioPin.hpp"
 
     namespace elrond {
         namespace module {

@@ -38,7 +38,7 @@
 
     // Gpio
     #include "gpio/BaseGpioPin.hpp"
-    #include "gpio/GenericGpioPin.ipp"
+    #include "gpio/GpioPin.ipp"
 
     // Channel
     #include "channel/TxChannel.hpp"

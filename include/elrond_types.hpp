@@ -67,7 +67,7 @@
             class BaseModule;
             class BaseDataLinkModule;
             class BaseGpioModule;
-            class BaseInputDriverModule;
+            class BaseInputModule;
         }
 
         // Others

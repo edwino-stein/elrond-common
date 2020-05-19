@@ -33,7 +33,7 @@
     #include "module/BaseModule.hpp"
     #include "module/BaseDataLinkModule.hpp"
     #include "module/BaseGpioModule.hpp"
-    #include "module/BaseInputDriverModule.hpp"
+    #include "module/BaseInputModule.hpp"
 
     // Gpio
     #include "gpio/BaseGpioPin.hpp"

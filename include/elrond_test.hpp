@@ -8,7 +8,7 @@
     #include "test/TxChannelTest.hpp"
     #include "test/ChannelManagerTest.hpp"
     #include "test/DataLinkTest.hpp"
-    #include "test/InputDriverTest.hpp"
+    #include "test/InputTest.hpp"
     #include "test/InputListenerTest.hpp"
     #include "test/InputTriggerTest.hpp"
     #include "test/GpioTest.hpp"

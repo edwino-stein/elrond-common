@@ -31,6 +31,7 @@
             class DataLinkTest;
             class InputDriverTest;
             class InputListenerTest;
+            class InputTriggerTest;
             class GpioTest;
             template <elrond::GpioType G> class GpioPinTest;
             class DebugOutTest;

@@ -11,7 +11,7 @@
                 protected:
 
                     elrond::module::BaseGpioModule* gpio = nullptr;
-                    elrond::module::BaseInputDriverModule* input = nullptr;
+                    elrond::module::BaseInputModule* input = nullptr;
                     elrond::channel::BaseChannelManager* chmgr = nullptr;
                     elrond::interface::DebugOut* debugOut = nullptr;
 
@@ -35,7 +35,7 @@
                     ) const;
 
                     elrond::module::BaseGpioModule &getGpio() const override;
-                    elrond::module::BaseInputDriverModule &getInputService(const elrond::sizeT id = 0) const override;
+                    elrond::module::BaseInputModule &getInput(const elrond::sizeT id = 0) const override;
                     elrond::interface::ChannelManager &getChannelManager(const elrond::sizeT id = 0) const override;
                     const elrond::interface::DebugOut &dout() const override;
 
@@ -46,7 +46,7 @@
                     #endif
 
                     RuntimeTest& set(elrond::module::BaseGpioModule& gpio);
-                    RuntimeTest& set(elrond::module::BaseInputDriverModule& input);
+                    RuntimeTest& set(elrond::module::BaseInputModule& input);
                     RuntimeTest& set(elrond::interface::DebugOut& dout);
 
                     RuntimeTest& set(elrond::channel::BaseChannelManager& chmgr,

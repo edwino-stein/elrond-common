@@ -4,7 +4,7 @@
     #include "elrond_ext_types.hpp"
     #include "module/BaseModule.hpp"
     #include "channel/TxChannel.hpp"
-    #include "input/InputCallback.hpp"
+    #include "input/InputListener.hpp"
 
     namespace elrond {
         namespace module {
@@ -14,7 +14,7 @@
                 protected:
                     bool inverted = false;
                     elrond::channel::TxChannel txCh;
-                    elrond::input::InputCallback inKey;
+                    elrond::input::InputListener listener;
 
                 public:
 

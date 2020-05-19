@@ -5,7 +5,7 @@ class ExternalMod : public elrond::module::BaseModule {
         elrond::channel::RxChannel rx;
         elrond::channel::TxChannel tx;
         elrond::gpio::DOutPin pin;
-        elrond::input::InputCallback input;
+        elrond::input::InputListener input;
 
     public:
         virtual ~ExternalMod();

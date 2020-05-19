@@ -6,7 +6,7 @@ using elrond::module::InputToChannel;
 using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::TxChannel;
-using elrond::input::InputCallback;
+using elrond::input::InputListener;
 using elrond::LoopControl;
 
 /*  ****************************************************************************
@@ -28,16 +28,16 @@ void InputToChannel::onInit(ConfigMap& cfg, LoopControl& lc)
     int chm = 0;
     if(cfg.isInt("chm")) chm = cfg.asInt("chm");
 
-    int inServ = 0;
-    if(cfg.isInt("ins")) inServ = cfg.asInt("ins");
+    int inMod = 0;
+    if(cfg.isInt("inMod")) inMod = cfg.asInt("inMod");
 
     if(cfg.isBool("inverted")) this->inverted = cfg.asBool("inverted");
 
     this->txCh.init(ch, chm);
 
-    this->inKey.init(
+    this->listener.init(
         input,
-        inServ,
+        inMod,
         [](const elrond::word data, elrond::TaskContext* const ctx)
         {
             InputToChannel* const me = (InputToChannel*) ctx;

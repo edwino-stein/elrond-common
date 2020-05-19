@@ -19,6 +19,7 @@
     #include <memory>
     #include <map>
     #include <sstream>
+    #include <algorithm>
 
     namespace elrond {
         namespace test {
@@ -29,7 +30,9 @@
             class TxChannelTest;
             class ChannelManagerTest;
             class DataLinkTest;
-            class InputDriverTest;
+            class InputTest;
+            class InputListenerTest;
+            class InputTriggerTest;
             class GpioTest;
             template <elrond::GpioType G> class GpioPinTest;
             class DebugOutTest;

@@ -30,6 +30,7 @@
             class ChannelManagerTest;
             class DataLinkTest;
             class InputDriverTest;
+            class InputListenerTest;
             class GpioTest;
             template <elrond::GpioType G> class GpioPinTest;
             class DebugOutTest;

@@ -9,6 +9,7 @@
     #include "test/ChannelManagerTest.hpp"
     #include "test/DataLinkTest.hpp"
     #include "test/InputDriverTest.hpp"
+    #include "test/InputListenerTest.hpp"
     #include "test/GpioTest.hpp"
     #include "test/GpioPinTest.ipp"
     #include "test/DebugOutTest.hpp"

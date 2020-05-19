@@ -45,6 +45,6 @@
     #include "channel/RxChannel.hpp"
 
     // Input
-    #include "input/InputCallback.hpp"
+    #include "input/InputListener.hpp"
 
 #endif

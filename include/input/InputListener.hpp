@@ -1,25 +1,22 @@
-#if !defined  _ELROND_INPUT_CALLBACK_HPP
-#define _ELROND_INPUT_CALLBACK_HPP
+#if !defined  _ELROND_INPUT_LISTENER_HPP
+#define _ELROND_INPUT_LISTENER_HPP
 
     #include "elrond_types.hpp"
 
     namespace elrond {
         namespace input {
 
-            class InputCallback {
+            class InputListener {
 
                 protected:
-
-                    elrond::input::OnInputHandleT handle;
+                    elrond::input::OnInputHandleT handle = nullptr;
                     elrond::TaskContext* ctx = nullptr;
 
                 public:
 
-                    InputCallback();
-
                     void init(
                         const elrond::sizeT key,
-                        const elrond::sizeT inService,
+                        const elrond::sizeT inputMod,
                         elrond::input::OnInputHandleT handle,
                         elrond::TaskContext* const ctx = nullptr
                     );

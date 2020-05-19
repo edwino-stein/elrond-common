@@ -96,7 +96,7 @@
 
         // Input
         namespace input {
-            class InputCallback;
+            class InputListener;
             using OnInputHandleT = ELROND_LAMBDA_FUNC(void, const elrond::word, elrond::TaskContext* const);
         }
 

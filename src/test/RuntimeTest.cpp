@@ -7,7 +7,7 @@ using elrond::interface::Module;
 using elrond::interface::ConfigMap;
 using elrond::interface::DebugOut;
 using elrond::module::BaseGpioModule;
-using elrond::module::BaseInputDriverModule;
+using elrond::module::BaseInputModule;
 using elrond::interface::ChannelManager;
 using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
@@ -50,25 +50,25 @@ const RuntimeTest& RuntimeTest::start(Module& inst, LoopControl& lc, std::functi
 
 BaseGpioModule& RuntimeTest::getGpio() const
 {
-    if(this->gpio == nullptr) throw "Undefined Gpio service";
+    if(this->gpio == nullptr) throw "Undefined Gpio module";
     return *(this->gpio);
 }
 
-BaseInputDriverModule& RuntimeTest::getInputService(const elrond::sizeT id) const
+BaseInputModule& RuntimeTest::getInput(const elrond::sizeT id) const
 {
-    if(this->input == nullptr) throw "Undefined Input service";
+    if(this->input == nullptr) throw "Undefined Input module";
     return *(this->input);
 }
 
 ChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
 {
-    if(this->chmgr == nullptr) throw "Undefined Chmgr service";
+    if(this->chmgr == nullptr) throw "Undefined Channel Manager";
     return *((ChannelManager*) this->chmgr);
 }
 
 const DebugOut& RuntimeTest::dout() const
 {
-    if(this->debugOut == nullptr) throw "Undefined Debug service";
+    if(this->debugOut == nullptr) throw "Undefined Debug";
     return *(this->debugOut);
 }
 
@@ -86,7 +86,7 @@ RuntimeTest& RuntimeTest::set(BaseGpioModule& gpio)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(BaseInputDriverModule& input)
+RuntimeTest& RuntimeTest::set(BaseInputModule& input)
 {
     this->input = &input;
     return *this;

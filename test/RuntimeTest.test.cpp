@@ -5,7 +5,8 @@ using elrond::test::RuntimeTest;
 using elrond::test::ExternalModuleTest;
 using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
-using elrond::test::InputDriverTest;
+using elrond::test::InputTest;
+using elrond::test::InputTriggerTest;
 using elrond::test::GpioTest;
 using elrond::test::DebugOutTest;
 using elrond::test::ConfigMapTest;
@@ -64,7 +65,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
-    InputDriverTest input;
+    InputTest input;
 
     GpioTest gpio(
         [](BaseGpioPin& pin)
@@ -83,8 +84,10 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
         .set(input)
         .set(gpio);
 
+    InputTriggerTest key(0, input);
+
     REQUIRE_NOTHROW(
-        [&appt, &input]()
+        [&appt, &key]()
         {
             ExternalModuleTest inst("external_module", appt);
 
@@ -108,9 +111,9 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
             appt.start(
                inst.getInstance(),
                lc,
-               [&loops, &input]()
+               [&loops, &key]()
                {
-                   if(loops == 0) input.trigger(0, elrond::high);
+                   if(loops == 0) key.trigger(elrond::high);
                    return loops++ < 1;
                }
             );
@@ -129,7 +132,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
-    InputDriverTest input;
+    InputTest input;
     GpioTest gpio(
         [](BaseGpioPin& pin)
         {
@@ -147,8 +150,10 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
         .set(input)
         .set(gpio);
 
+    InputTriggerTest key(0, input);
+
     REQUIRE_NOTHROW(
-        [&appt, &input]()
+        [&appt, &key]()
         {
             ExternalModuleTest inst("external_module_who", appt);
 
@@ -172,9 +177,9 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
             appt.start(
                inst.getInstance(),
                lc,
-               [&loops, &input]()
+               [&loops, &key]()
                {
-                   if(loops == 0) input.trigger(0, elrond::high);
+                   if(loops == 0) key.trigger(elrond::high);
                    return loops++ < 1;
                }
             );

@@ -2,7 +2,8 @@
 #include "lib/elrond_catch.hpp"
 
 using elrond::test::RuntimeTest;
-using elrond::test::InputDriverTest;
+using elrond::test::InputTest;
+using elrond::test::InputTriggerTest;
 using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::RxChannelTest;
@@ -104,7 +105,7 @@ TEST_CASE("[elrond::module::InputToChannel] Normal test")
     EXPECT_ASSERTS(1);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    InputDriverTest input;
+    InputTest input;
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
@@ -119,6 +120,8 @@ TEST_CASE("[elrond::module::InputToChannel] Normal test")
     cfg.set("channel", 0)
        .set("input", 0);
 
+    InputTriggerTest key(0, input);
+
     RxChannelTest rx(
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
@@ -126,15 +129,15 @@ TEST_CASE("[elrond::module::InputToChannel] Normal test")
         chm
     );
 
-    CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &key](){
         LoopControl lc;
         int loops = 0;
         appt.init(inst, cfg, lc)
             .start(
                inst,
                lc,
-               [&loops, &input](){
-                   if(loops == 0) input.trigger(0, elrond::high);
+               [&loops, &key](){
+                   if(loops == 0) key.trigger(elrond::high);
                    return loops++ < 1;
                }
             );
@@ -148,7 +151,7 @@ TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
     EXPECT_ASSERTS(1);
 
     DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-    InputDriverTest input;
+    InputTest input;
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
@@ -164,6 +167,8 @@ TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
        .set("input", 0)
        .set("inverted", true);
 
+    InputTriggerTest key(0, input);
+
     RxChannelTest rx(
         0,
         [](const elrond::word data, elrond::TaskContext* const ctx)
@@ -171,15 +176,15 @@ TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
         chm
     );
 
-    CHECK_NOTHROW([&appt, &inst, &cfg, &input](){
+    CHECK_NOTHROW([&appt, &inst, &cfg, &key](){
         LoopControl lc;
         int loops = 0;
         appt.init(inst, cfg, lc)
             .start(
                inst,
                lc,
-               [&loops, &input](){
-                   if(loops == 0) input.trigger(0, elrond::low);
+               [&loops, &key](){
+                   if(loops == 0) key.trigger(elrond::low);
                    return loops++ < 1;
                }
             );

@@ -13,6 +13,6 @@
     #include "test/InputTriggerTest.hpp"
     #include "test/GpioTest.hpp"
     #include "test/GpioPinTest.ipp"
-    #include "test/DebugOutTest.hpp"
+    #include "test/ConsoleTest.hpp"
 
 #endif

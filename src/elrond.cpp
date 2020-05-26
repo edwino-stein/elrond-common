@@ -1,7 +1,7 @@
 #include "interface/Runtime.hpp"
 #include "interface/Module.hpp"
 #include "interface/ConfigMap.hpp"
-#include "interface/DebugOut.hpp"
+#include "interface/Console.hpp"
 #include "interface/ChannelManager.hpp"
 
 /*  ****************************************************************************
@@ -16,8 +16,8 @@ namespace elrond {
     ELROND_INLINE_FUNC interface::Runtime& app()
     { return *(ELROND_MOD_APP_VAR); }
 
-    ELROND_INLINE_FUNC const interface::DebugOut& dout()
-    { return elrond::app().dout(); }
+    ELROND_INLINE_FUNC const interface::Console& info()
+    { return elrond::app().getInfoConsole(); }
 
     ELROND_INLINE_FUNC void error(const char* error)
     { app().onError(error); }

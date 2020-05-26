@@ -24,7 +24,7 @@
 
     // Interfaces
     #include "interface/ConfigMap.hpp"
-    #include "interface/DebugOut.hpp"
+    #include "interface/Console.hpp"
     #include "interface/Runtime.hpp"
     #include "interface/Module.hpp"
     #include "interface/ChannelManager.hpp"

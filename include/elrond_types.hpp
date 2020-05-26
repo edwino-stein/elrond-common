@@ -107,6 +107,7 @@
 
         // Console
         const interface::Console& info();
+        const interface::Console& endl(const interface::Console& c);
 
         void error(const char* error);
         #ifdef ELROND_WITH_STR_TYPE

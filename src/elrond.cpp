@@ -19,6 +19,9 @@ namespace elrond {
     ELROND_INLINE_FUNC const interface::Console& info()
     { return elrond::app().getInfoConsole(); }
 
+    ELROND_INLINE_FUNC const interface::Console& endl(const interface::Console& c)
+    { return c.endl(); }
+
     ELROND_INLINE_FUNC void error(const char* error)
     { app().onError(error); }
 

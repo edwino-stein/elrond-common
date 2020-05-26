@@ -1,10 +1,6 @@
 #include "module/AnalogLed.hpp"
-#include "interface/Runtime.hpp"
-#include "interface/DebugOut.hpp"
-#include "interface/ConfigMap.hpp"
 
 using elrond::module::AnalogLed;
-using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 using elrond::LoopControl;

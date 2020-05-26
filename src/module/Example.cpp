@@ -1,11 +1,7 @@
 #include "module/Example.hpp"
-#include "interface/Runtime.hpp"
-#include "interface/ConfigMap.hpp"
-#include "interface/DebugOut.hpp"
 
 using elrond::module::Example;
 using elrond::interface::Module;
-using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::LoopControl;
 
@@ -19,7 +15,7 @@ using elrond::LoopControl;
 
 void Example::onInit(ConfigMap& cfg, LoopControl& lc)
 {
-    elrond::dout().putLn("Example::onInit");
+    elrond::info() << "Example::onInit" << elrond::endl;
 
     lc.interval = 100;
     if(cfg.isBool("loop")) lc.enable = cfg.asBool("loop");
@@ -27,17 +23,9 @@ void Example::onInit(ConfigMap& cfg, LoopControl& lc)
     if(cfg.isInt("interval")) lc.interval = cfg.asInt("interval");
 }
 
-void Example::onStart() {
-    elrond::dout().putLn("Example::onStart");
-}
-
-void Example::loop() {
-    elrond::dout().putLn("Example::loop");
-}
-
-void Example::onStop() {
-    elrond::dout().putLn("Example::onStop");
-}
+void Example::onStart() { elrond::info() << "Example::onStart" << elrond::endl; }
+void Example::loop() { elrond::info() << "Example::loop" << elrond::endl; }
+void Example::onStop() { elrond::info() << "Example::onStop" << elrond::endl; }
 
 ELROND_DEFINE_INTER_MOD(
     elrond::Example,

@@ -1,9 +1,6 @@
 #include "module/Servo.hpp"
-#include "interface/Runtime.hpp"
-#include "interface/ConfigMap.hpp"
 
 using ServoModule = elrond::module::Servo;
-using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 using elrond::LoopControl;

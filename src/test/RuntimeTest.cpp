@@ -5,7 +5,7 @@ using elrond::test::RuntimeTest;
 using elrond::interface::Runtime;
 using elrond::interface::Module;
 using elrond::interface::ConfigMap;
-using elrond::interface::DebugOut;
+using elrond::interface::Console;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputModule;
 using elrond::interface::ChannelManager;
@@ -66,10 +66,10 @@ ChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
     return *((ChannelManager*) this->chmgr);
 }
 
-const DebugOut& RuntimeTest::dout() const
+const Console& RuntimeTest::getInfoConsole() const
 {
-    if(this->debugOut == nullptr) throw "Undefined Debug";
-    return *(this->debugOut);
+    if(this->console == nullptr) throw "Undefined Console";
+    return *(this->console);
 }
 
 void RuntimeTest::onError(const char *error)
@@ -99,9 +99,9 @@ RuntimeTest& RuntimeTest::set(BaseChannelManager& chmgr, const bool autoSync)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(DebugOut& dout)
+RuntimeTest& RuntimeTest::set(Console& console)
 {
-    this->debugOut = &dout;
+    this->console = &console;
     return *this;
 }
 

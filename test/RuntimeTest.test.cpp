@@ -8,7 +8,7 @@ using elrond::test::ChannelManagerTest;
 using elrond::test::InputTest;
 using elrond::test::InputTriggerTest;
 using elrond::test::GpioTest;
-using elrond::test::DebugOutTest;
+using elrond::test::ConsoleTest;
 using elrond::test::ConfigMapTest;
 
 using elrond::module::Example;
@@ -29,9 +29,10 @@ TEST_CASE("[elrond::module::Example] Module metadata test")
 
 TEST_CASE("[elrond::module::Example] Normal test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    ConsoleTest console([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
+
+    appt.set(console);
 
     Example inst;
     ConfigMapTest cfg;
@@ -51,10 +52,10 @@ TEST_CASE("[elrond::module::Example] Normal test")
         CHECK(lc.interval == 1000);
 
         appt.start(
-               inst,
-               lc,
-               [&loops](){ return loops++ < 1; }
-            );
+           inst,
+           lc,
+           [&loops](){ return loops++ < 1; }
+        );
     }());
 }
 
@@ -62,7 +63,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
 {
     EXPECT_ASSERTS(12);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    ConsoleTest console([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
     InputTest input;
@@ -79,7 +80,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module\" test")
 
     RuntimeTest appt;
 
-    appt.set(dout)
+    appt.set(console)
         .set(chm)
         .set(input)
         .set(gpio);
@@ -129,7 +130,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
 {
     EXPECT_ASSERTS(12);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
+    ConsoleTest console([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
     InputTest input;
@@ -145,7 +146,7 @@ TEST_CASE("[elrond::test::ExternalModuleTest] Loading \"external_module_who\" te
 
     RuntimeTest appt;
 
-    appt.set(dout)
+    appt.set(console)
         .set(chm)
         .set(input)
         .set(gpio);

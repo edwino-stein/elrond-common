@@ -35,7 +35,7 @@
             class InputTriggerTest;
             class GpioTest;
             template <elrond::GpioType G> class GpioPinTest;
-            class DebugOutTest;
+            class ConsoleTest;
             class ExternalModuleTest;
 
             // GPIO types

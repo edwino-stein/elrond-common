@@ -8,7 +8,6 @@ using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::RxChannelTest;
 using elrond::test::ConfigMapTest;
-using elrond::test::DebugOutTest;
 
 using elrond::module::InputToChannel;
 using elrond::LoopControl;
@@ -27,10 +26,7 @@ TEST_CASE("[elrond::module::InputToChannel] Module metadata test")
 
 TEST_CASE("[elrond::module::InputToChannel] Channel parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     InputToChannel inst;
     ConfigMapTest cfg;
 
@@ -42,10 +38,7 @@ TEST_CASE("[elrond::module::InputToChannel] Channel parameter missing test")
 
 TEST_CASE("[elrond::module::InputToChannel] Input parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     InputToChannel inst;
     ConfigMapTest cfg;
 
@@ -59,10 +52,7 @@ TEST_CASE("[elrond::module::InputToChannel] Input parameter missing test")
 
 TEST_CASE("[elrond::module::InputToChannel] Invalid channel manager test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     InputToChannel inst;
     ConfigMapTest cfg;
 
@@ -78,13 +68,11 @@ TEST_CASE("[elrond::module::InputToChannel] Invalid channel manager test")
 
 TEST_CASE("[elrond::module::InputToChannel] Invalid input driver test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(chm);
+    appt.set(chm);
 
     InputToChannel inst;
     ConfigMapTest cfg;
@@ -104,14 +92,12 @@ TEST_CASE("[elrond::module::InputToChannel] Normal test")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputTest input;
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(input)
+    appt.set(input)
         .set(chm);
 
     InputToChannel inst;
@@ -150,14 +136,12 @@ TEST_CASE("[elrond::module::InputToChannel] With inverted parameter test")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     InputTest input;
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(input)
+    appt.set(input)
         .set(chm);
 
     InputToChannel inst;

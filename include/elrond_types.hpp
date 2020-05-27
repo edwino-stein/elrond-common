@@ -59,7 +59,7 @@
             class Module;
             class ChannelManager;
             class ConfigMap;
-            class DebugOut;
+            class Console;
         }
 
         // Modules
@@ -72,6 +72,7 @@
 
         // Others
         class TaskContext;
+        using ConsoleCallbackT = ELROND_LAMBDA_FUNC(const interface::Console&, const interface::Console&);
 
         // GPIO
         namespace gpio {
@@ -103,7 +104,11 @@
         // Singleton instance of runtime application
         extern ELROND_MOD_INFO_APP_P ELROND_MOD_APP_VAR_N;
         interface::Runtime& app();
-        const interface::DebugOut& dout();
+
+        // Console
+        const interface::Console& info();
+        const interface::Console& endl(const interface::Console& c);
+
         void error(const char* error);
         #ifdef ELROND_WITH_STR_TYPE
             void error(elrond::String error);

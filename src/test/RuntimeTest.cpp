@@ -5,15 +5,21 @@ using elrond::test::RuntimeTest;
 using elrond::interface::Runtime;
 using elrond::interface::Module;
 using elrond::interface::ConfigMap;
-using elrond::interface::DebugOut;
+using elrond::interface::Console;
+using elrond::test::ConsoleTest;
 using elrond::module::BaseGpioModule;
 using elrond::module::BaseInputModule;
 using elrond::interface::ChannelManager;
 using elrond::channel::BaseChannelManager;
 using elrond::LoopControl;
 
+ConsoleTest RuntimeTest::builtInConsole;
+
 RuntimeTest::RuntimeTest(const bool defaultApp)
-{ if(defaultApp) RuntimeTest::setAppInstance(this); }
+{
+    if(defaultApp) RuntimeTest::setAppInstance(this);
+    this->set(RuntimeTest::getBuiltInConsole());
+}
 
 RuntimeTest::~RuntimeTest()
 { if(ELROND_MOD_APP_VAR == this) RuntimeTest::setAppInstance(nullptr); }
@@ -66,10 +72,10 @@ ChannelManager& RuntimeTest::getChannelManager(const elrond::sizeT id) const
     return *((ChannelManager*) this->chmgr);
 }
 
-const DebugOut& RuntimeTest::dout() const
+const Console& RuntimeTest::getInfoConsole() const
 {
-    if(this->debugOut == nullptr) throw "Undefined Debug";
-    return *(this->debugOut);
+    if(this->console == nullptr) throw "Undefined Console";
+    return *(this->console);
 }
 
 void RuntimeTest::onError(const char *error)
@@ -99,14 +105,12 @@ RuntimeTest& RuntimeTest::set(BaseChannelManager& chmgr, const bool autoSync)
     return *this;
 }
 
-RuntimeTest& RuntimeTest::set(DebugOut& dout)
+RuntimeTest& RuntimeTest::set(Console& console)
 {
-    this->debugOut = &dout;
+    this->console = &console;
     return *this;
 }
 
-void RuntimeTest::setAppInstance(elrond::interface::Runtime& app)
-{ ELROND_MOD_APP_VAR = &app; }
-
-void RuntimeTest::setAppInstance(elrond::interface::Runtime* app)
-{ ELROND_MOD_APP_VAR = app; }
+void RuntimeTest::setAppInstance(Runtime& app) { ELROND_MOD_APP_VAR = &app; }
+void RuntimeTest::setAppInstance(Runtime* app) { ELROND_MOD_APP_VAR = app; }
+ConsoleTest& RuntimeTest::getBuiltInConsole() { return RuntimeTest::builtInConsole; }

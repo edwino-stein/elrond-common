@@ -1,10 +1,6 @@
 #include "module/DigitalLed.hpp"
-#include "interface/Runtime.hpp"
-#include "interface/DebugOut.hpp"
-#include "interface/ConfigMap.hpp"
 
 using elrond::module::DigitalLed;
-using elrond::interface::Runtime;
 using elrond::interface::ConfigMap;
 using elrond::channel::RxChannel;
 using elrond::LoopControl;

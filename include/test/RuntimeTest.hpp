@@ -2,6 +2,7 @@
 #define _ELROND_TEST_RUNTIME_HPP
 
     #include "elrond_test_types.hpp"
+    #include "test/ConsoleTest.hpp"
 
     namespace elrond {
         namespace test {
@@ -16,6 +17,8 @@
                     elrond::interface::Console* console = nullptr;
 
                     bool autoSync = true;
+
+                    static ConsoleTest builtInConsole;
 
                 public:
 
@@ -54,6 +57,7 @@
 
                     static void setAppInstance(elrond::interface::Runtime& app);
                     static void setAppInstance(elrond::interface::Runtime* app);
+                    static ConsoleTest& getBuiltInConsole();
             };
         }
     }

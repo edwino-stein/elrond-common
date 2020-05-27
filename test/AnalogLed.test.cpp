@@ -7,7 +7,6 @@ using elrond::test::DataLinkTest;
 using elrond::test::ChannelManagerTest;
 using elrond::test::TxChannelTest;
 using elrond::test::ConfigMapTest;
-using elrond::test::DebugOutTest;
 using elrond::LoopControl;
 
 using elrond::module::AnalogLed;
@@ -27,10 +26,7 @@ TEST_CASE("[elrond::module::AnalogLed] Module metadata test")
 
 TEST_CASE("[elrond::module::AnalogLed] Channel parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     AnalogLed inst;
     ConfigMapTest cfg;
 
@@ -42,10 +38,7 @@ TEST_CASE("[elrond::module::AnalogLed] Channel parameter missing test")
 
 TEST_CASE("[elrond::module::AnalogLed] Pin parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     AnalogLed inst;
     ConfigMapTest cfg;
 
@@ -59,9 +52,7 @@ TEST_CASE("[elrond::module::AnalogLed] Pin parameter missing test")
 
 TEST_CASE("[elrond::module::AnalogLed] Invalid gpio test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -77,12 +68,10 @@ TEST_CASE("[elrond::module::AnalogLed] Invalid gpio test")
 
 TEST_CASE("[elrond::module::AnalogLed] Invalid channel manager test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     GpioTest gpio;
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(gpio);
+    appt.set(gpio);
 
     AnalogLed inst;
     ConfigMapTest cfg;
@@ -101,8 +90,6 @@ TEST_CASE("[elrond::module::AnalogLed] Normal test")
 {
     EXPECT_ASSERTS(3);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-
     GpioTest gpio(
         [](BaseGpioPin& pin)
         {
@@ -117,8 +104,7 @@ TEST_CASE("[elrond::module::AnalogLed] Normal test")
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(gpio)
+    appt.set(gpio)
         .set(chm);
 
     AnalogLed inst;
@@ -151,8 +137,6 @@ TEST_CASE("[elrond::module::AnalogLed] With inverted parameter test")
 {
     EXPECT_ASSERTS(3);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
-
     GpioTest gpio(
         [](BaseGpioPin& pin)
         {
@@ -167,8 +151,7 @@ TEST_CASE("[elrond::module::AnalogLed] With inverted parameter test")
     ChannelManagerTest chm(dataLink, 1);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(gpio)
+    appt.set(gpio)
         .set(chm);
 
     AnalogLed inst;

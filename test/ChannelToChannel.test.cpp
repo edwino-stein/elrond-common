@@ -7,7 +7,6 @@ using elrond::test::TxChannelTest;
 using elrond::test::RxChannelTest;
 using elrond::test::DataLinkTest;
 using elrond::test::ConfigMapTest;
-using elrond::test::DebugOutTest;
 using elrond::LoopControl;
 
 using elrond::module::ChannelToChannel;
@@ -26,10 +25,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] Module metadata test")
 
 TEST_CASE("[elrond::module::ChannelToChannel] TxCh parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -41,10 +37,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] TxCh parameter missing test")
 
 TEST_CASE("[elrond::module::ChannelToChannel] TxChm parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -58,10 +51,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] TxChm parameter missing test")
 
 TEST_CASE("[elrond::module::ChannelToChannel] RxCh parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -76,10 +66,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] RxCh parameter missing test")
 
 TEST_CASE("[elrond::module::ChannelToChannel] RxChm parameter missing test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -95,10 +82,7 @@ TEST_CASE("[elrond::module::ChannelToChannel] RxChm parameter missing test")
 
 TEST_CASE("[elrond::module::ChannelToChannel] Invalid channel manager test")
 {
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     RuntimeTest appt;
-    appt.set(dout);
-
     ChannelToChannel inst;
     ConfigMapTest cfg;
 
@@ -117,13 +101,11 @@ TEST_CASE("[elrond::module::ChannelToChannel] Normal test")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 3);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(chm);
+    appt.set(chm);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;
@@ -164,13 +146,11 @@ TEST_CASE("[elrond::module::ChannelToChannel] With inverted parameter test")
 {
     EXPECT_ASSERTS(1);
 
-    DebugOutTest dout([](std::ostringstream& oss){ UNSCOPED_INFO(oss.str()); });
     DataLinkTest dataLink;
     ChannelManagerTest chm(dataLink, 2);
     RuntimeTest appt;
 
-    appt.set(dout)
-        .set(chm);
+    appt.set(chm);
 
     ChannelToChannel inst;
     ConfigMapTest cfg;

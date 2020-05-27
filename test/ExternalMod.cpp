@@ -19,7 +19,7 @@ ExternalMod::~ExternalMod(){}
 
 void ExternalMod::onInit(elrond::interface::ConfigMap& cfg, elrond::LoopControl& lc)
 {
-    elrond::dout().putLn("External::onInit");
+    elrond::info() << "External::onInit" << elrond::endl;
 
     lc.enable = true;
     lc.interval = 1000;
@@ -44,13 +44,13 @@ void ExternalMod::onInit(elrond::interface::ConfigMap& cfg, elrond::LoopControl&
 }
 
 void ExternalMod::onStart()
-{ elrond::dout().putLn("External::onStart"); }
+{ elrond::info() << "External::onStart" << elrond::endl; }
 
 void ExternalMod::loop()
-{ elrond::dout().putLn("External::loop"); }
+{ elrond::info() << "External::loop" << elrond::endl; }
 
 void ExternalMod::onStop()
-{ elrond::dout().putLn("External::onStop"); }
+{ elrond::info() << "External::onStop" << elrond::endl; }
 
 ELROND_DEFINE_MODULE(ExternalMod)
 ELROND_DEFINE_MODULE_PRETTY_NAME("External Module Test")

@@ -2,7 +2,6 @@
     #define ELROND_COMMON_INTERFACE_MODULE_HPP
 
     #include "elrond_common_types.hpp"
-    #include "elrond_platform.hpp"
 
     namespace elrond
     {

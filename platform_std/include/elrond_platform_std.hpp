@@ -40,6 +40,8 @@
         #define ELROND_INLINE inline
     #endif
 
+    #include "elrond_version.hpp"
+
     #include <iostream>
     #include <cmath>
     #include <chrono>

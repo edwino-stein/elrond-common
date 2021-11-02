@@ -32,6 +32,13 @@
         // Lambda procedure
         template <class...As>
         using procedure = std::function<void(As...)>;
+
+        // Platform specific classes
+        namespace platform
+        {
+            class Object;
+            class ModuleObject;
+        }
     }
 
 #endif

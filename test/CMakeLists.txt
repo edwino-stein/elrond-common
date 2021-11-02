@@ -1,58 +1,39 @@
-################################################################################
-#                                  Test files                                  #
-################################################################################
+cmake_minimum_required(VERSION 3.17)
 
-# Define core files
-set(TEST_CATCH_FILE ${PROJECT_SOURCE_DIR}/test/catch.cpp)
-set(TEST_EXTERNAL_FILE ${PROJECT_SOURCE_DIR}/test/ExternalMod.cpp)
+project(
+    elrond_tests
+    DESCRIPTION "Elrond tests"
+    LANGUAGES CXX
+)
 
-# Define test cases souce files
-file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/test/*.test.cpp")
+Include(FetchContent)
 
-################################################################################
-#                          External module build rule                          #
-################################################################################
+# Install Catch2 dependency
+FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v2.13.1)
+FetchContent_MakeAvailable(Catch2)
 
-# External module test example
-add_library(external_module SHARED ${TEST_EXTERNAL_FILE})
-set_property(TARGET external_module PROPERTY PREFIX "")
-target_compile_options(external_module PRIVATE ${WARNING_LEVEL})
+# Build an object with Catch2 entrypoint
+add_library(catch2 OBJECT "${PROJECT_SOURCE_DIR}/catch2.cpp")
+target_include_directories(catch2 PRIVATE ${PROJECT_SOURCE_DIR})
+target_link_libraries(catch2 PRIVATE Catch2::Catch2)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
-
-    # On Linux, the external_module must be linked with PIC common library
-    target_link_libraries(
-        external_module
-        PUBLIC -Wl,--whole-archive ${PROJECT_NAME}.pic -Wl,--no-whole-archive
-    )
-
-    # Build other external_module using only the header only library
-    add_library(external_module_who SHARED ${TEST_EXTERNAL_FILE})
-    set_property(TARGET external_module_who PROPERTY PREFIX "")
-    target_compile_options(external_module_who PRIVATE ${WARNING_LEVEL})
-    set_property(
-        TARGET external_module_who
-        PROPERTY INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/dist
-    )
-
-else()
-    # On others platforms, just use the non-PIC common library
-    target_link_libraries(external_module ${PROJECT_NAME})
-endif()
-
-################################################################################
-#                               Test build rules                               #
-################################################################################
-
-# Catch2 object library
-add_library(catch OBJECT ${TEST_CATCH_FILE})
-target_compile_definitions(catch PRIVATE CATCH_CONFIG_MAIN)
-
-# Test cases definitions
+# Search for test cases
+file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/*.test.cpp")
 foreach(T ${SRC_TEST_CASES_FILES})
-    get_filename_component(TEST_TARGET ${T} NAME_WE)
-    add_executable(${TEST_TARGET}.test ${T} $<TARGET_OBJECTS:catch>)
-    target_link_libraries(${TEST_TARGET}.test ${PROJECT_NAME}_ext)
-    target_compile_options(${TEST_TARGET}.test PRIVATE ${WARNING_LEVEL})
+    get_filename_component(TEST_NAME ${T} NAME_WE)
+
+    get_filename_component(FILE_DIR ${T} DIRECTORY)
+    string(REPLACE "${PROJECT_SOURCE_DIR}/" "" FILE_DIR ${FILE_DIR})
+    string(REPLACE "/" ";" TEST_PREFIX ${FILE_DIR})
+    list(APPEND TEST_PREFIX ${TEST_NAME})
+
+    string(REPLACE ";" "_" TEST_TARGET "${TEST_PREFIX}")
+    add_executable(${TEST_TARGET}.test ${T} $<TARGET_OBJECTS:catch2>)
+    target_link_libraries(${TEST_TARGET}.test PRIVATE Catch2::Catch2)
+    target_include_directories(${TEST_TARGET}.test PRIVATE ${PROJECT_SOURCE_DIR})
+    target_link_libraries(${TEST_TARGET}.test PRIVATE elrond)
     add_test(${TEST_TARGET}.test ${TEST_TARGET}.test -s)
 endforeach()

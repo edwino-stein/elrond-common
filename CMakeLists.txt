@@ -14,6 +14,8 @@ set(CMAKE_CXX_STANDARD 11)
 add_subdirectory(common)
 add_subdirectory(platform_std)
 add_subdirectory(runtime)
+add_subdirectory(mock)
+add_subdirectory(test)
 
 #Define header only library
 add_library(${PROJECT_NAME} INTERFACE)

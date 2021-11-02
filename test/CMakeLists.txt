@@ -12,7 +12,7 @@ Include(FetchContent)
 FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG        v2.13.1)
+    GIT_TAG        v2.13.7)
 FetchContent_MakeAvailable(Catch2)
 
 # Build an object with Catch2 entrypoint
@@ -34,6 +34,6 @@ foreach(T ${SRC_TEST_CASES_FILES})
     add_executable(${TEST_TARGET}.test ${T} $<TARGET_OBJECTS:catch2>)
     target_link_libraries(${TEST_TARGET}.test PRIVATE Catch2::Catch2)
     target_include_directories(${TEST_TARGET}.test PRIVATE ${PROJECT_SOURCE_DIR})
-    target_link_libraries(${TEST_TARGET}.test PRIVATE elrond)
+    target_link_libraries(${TEST_TARGET}.test PRIVATE elrond_mock)
     add_test(${TEST_TARGET}.test ${TEST_TARGET}.test -s)
 endforeach()

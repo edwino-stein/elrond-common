@@ -2,12 +2,13 @@
     #define ELROND_COMMON_INTERFACE_MODULE_HPP
 
     #include "elrond_common_types.hpp"
+    #include "elrond_platform.hpp"
 
     namespace elrond
     {
         namespace interface
         {
-            class Module
+            class Module : public elrond::platform::ModuleObject
             {
                 public:
                     #ifndef ELROND_DISABLE_DESTRUCTORS

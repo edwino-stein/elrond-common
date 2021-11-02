@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 
 project(
     elrond_common
-    DESCRIPTION "Elrond base definitions and code"
+    DESCRIPTION "Elrond common definitions and code"
     LANGUAGES CXX
 )
 

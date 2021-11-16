@@ -5,6 +5,7 @@
 
     #include "interface/Module.hpp"
     #include "interface/Context.hpp"
+    #include "interface/Stream.hpp"
 
     #include "module/Abstract.hpp"
     #include "module/BaseGeneric.hpp"

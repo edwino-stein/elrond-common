@@ -10,6 +10,7 @@
         {
             class Module;
             class Context;
+            class Stream;
         }
 
         namespace module
@@ -18,6 +19,9 @@
             template<elrond::ModuleType M> class Base;
             class BaseGeneric;
         }
+
+        // Handles
+        using StreamH = elrond::procedure<elrond::interface::Stream&>;
     }
 
 #endif

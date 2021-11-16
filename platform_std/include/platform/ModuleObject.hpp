@@ -9,8 +9,15 @@
         {
             class ModuleObject
             {
+                private:
+                    const elrond::platform::RuntimeCtx* ___ctx___ = nullptr;
+
                 public:
                     virtual ~ModuleObject() = ELROND_DEFAULT_DESTRUCTOR;
+
+                    void __init__(const elrond::platform::RuntimeCtx * const ctx);
+
+                    const elrond::interface::Context& __ctx__() const;
             };
         }
     }

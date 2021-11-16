@@ -4,5 +4,6 @@
     #include "elrond_platform_types.hpp"
 
     #include "platform/ModuleObject.hpp"
+    #include "platform/RuntimeCtx.hpp"
 
 #endif

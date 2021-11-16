@@ -37,6 +37,7 @@
         namespace platform
         {
             class ModuleObject;
+            class RuntimeCtx;
         }
     }
 

@@ -3,5 +3,7 @@
 
     #include "platform/ModuleObject.ipp"
 
+    #include "static/context.ipp"
+
     #include "elrond_common.ipp"
 #endif

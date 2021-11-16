@@ -36,7 +36,6 @@
         // Platform specific classes
         namespace platform
         {
-            class Object;
             class ModuleObject;
         }
     }

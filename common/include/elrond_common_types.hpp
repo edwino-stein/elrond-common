@@ -13,8 +13,9 @@
 
         namespace module
         {
-            class AbstractModule;
-            class BaseGenericModule;
+            class Abstract;
+            template<elrond::ModuleType M> class Base;
+            class BaseGeneric;
         }
     }
 

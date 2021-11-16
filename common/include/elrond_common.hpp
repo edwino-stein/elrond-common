@@ -5,8 +5,8 @@
 
     #include "interface/Module.hpp"
 
-    #include "module/AbstractModule.hpp"
-    #include "module/BaseGenericModule.hpp"
+    #include "module/Abstract.hpp"
+    #include "module/BaseGeneric.hpp"
 
-    #include "static/bitwise.hpp"
+
 #endif

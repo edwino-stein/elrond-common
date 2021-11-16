@@ -1,5 +1,5 @@
-#ifndef ELROND_COMMON_MODULE_ABSTRACT_MODULE_HPP
-    #define ELROND_COMMON_MODULE_ABSTRACT_MODULE_HPP
+#ifndef ELROND_COMMON_MODULE_ABSTRACT_HPP
+    #define ELROND_COMMON_MODULE_ABSTRACT_HPP
 
     #include "interface/Module.hpp"
 
@@ -7,12 +7,10 @@
     {
         namespace module
         {
-            class AbstractModule : public elrond::interface::Module
+            class Abstract :  public elrond::interface::Module
             {
                 public:
-                    #ifndef ELROND_DISABLE_DESTRUCTORS
-                        virtual ~AbstractModule();
-                    #endif
+                    virtual ~Abstract() = ELROND_DEFAULT_DESTRUCTOR;
 
                     virtual void setup() override;
                     virtual void start() override;

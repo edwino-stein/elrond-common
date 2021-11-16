@@ -7,14 +7,10 @@
     {
         namespace module
         {
-            class HelloWorld : public elrond::module::BaseGenericModule
-            {
+            class HelloWorld : public elrond::module::BaseGeneric
+            { 
                 public:
-
-                    #ifndef ELROND_DISABLE_DESTRUCTORS
-                        virtual ~HelloWorld();
-                    #endif
-
+                    virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
                     void setup() override;
                     void start() override;
                     void loop() override;

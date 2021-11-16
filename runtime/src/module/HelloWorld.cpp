@@ -2,10 +2,6 @@
 
 using elrond::module::HelloWorld;
 
-#ifndef ELROND_DISABLE_DESTRUCTORS
-    HelloWorld::~HelloWorld(){}
-#endif
-
 void HelloWorld::setup()
 {
     std::cout << "HelloWorld::setup" << "\n"; 

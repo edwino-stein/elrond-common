@@ -1,15 +1,16 @@
 #include <elrond_mock.hpp>
 
 using elrond::module::HelloWorld;
+using elrond::mock::RuntimeCtx;
 
 int main()
 {
-    HelloWorld inst;
+    auto ctx = RuntimeCtx::create<HelloWorld>("teste");
 
-    inst.setup();
-    inst.start();
-    inst.loop();
-    inst.stop();
+    ctx.callSetup()
+        .callStart()
+        .callLoop(2)
+        .callStop();
 
     return 0;
 }

@@ -10,6 +10,7 @@
         {
             class Module;
             class Context;
+            class Console;
             class Stream;
         }
 

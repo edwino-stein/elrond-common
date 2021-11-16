@@ -11,6 +11,7 @@
             {
                 public:
                     virtual ~Context() = ELROND_DEFAULT_DESTRUCTOR;
+                    virtual elrond::interface::Console const& console() const =0;
             };
         }
     }

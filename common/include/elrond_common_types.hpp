@@ -1,7 +1,7 @@
 #ifndef ELROND_COMMON_TYPES_HPP
     #define ELROND_COMMON_TYPES_HPP
 
-    #include "elrond_platform.hpp"
+    #include "elrond_platform_types.hpp"
     #include "enum/ModuleType.hpp"
 
     namespace elrond

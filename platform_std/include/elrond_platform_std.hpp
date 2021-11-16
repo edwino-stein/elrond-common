@@ -32,7 +32,13 @@
 
     #define ELROND_STD_PLATFORM
 
-    //#define ELROND_DISABLE_DESTRUCTORS
+    // #define ELROND_DISABLE_DESTRUCTORS
+
+    #ifdef ELROND_DISABLE_DESTRUCTORS
+        #define ELROND_DEFAULT_DESTRUCTOR delete
+    #else
+        #define ELROND_DEFAULT_DESTRUCTOR default
+    #endif
 
     #ifdef ELROND_DISABLE_INLINE
         #define ELROND_INLINE
@@ -49,5 +55,6 @@
     #include <cstdint>
     #include <string>
     #include <functional>
+    #include <exception>
 
 #endif

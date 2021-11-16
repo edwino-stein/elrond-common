@@ -7,7 +7,6 @@
     {
         namespace platform
         {
-            ELROND_INLINE ModuleObject::~ModuleObject(){}
         }
     }
 

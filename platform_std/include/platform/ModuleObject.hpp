@@ -11,7 +11,7 @@
             class ModuleObject : public elrond::platform::Object
             {
                 public:
-                    virtual ~ModuleObject();
+                    virtual ~ModuleObject() = ELROND_DEFAULT_DESTRUCTOR;
             };
         }
     }

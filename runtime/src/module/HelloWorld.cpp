@@ -4,20 +4,20 @@ using elrond::module::HelloWorld;
 
 void HelloWorld::setup()
 {
-    std::cout << "HelloWorld::setup" << "\n"; 
+    elrond::ctx(this).console().info("HelloWorld::setup\n");
 }
 
 void HelloWorld::start()
 {
-    std::cout << "HelloWorld::start" << "\n"; 
+    elrond::ctx(this).console().info("HelloWorld::start\n");
 }
 
 void HelloWorld::loop()
 {
-    std::cout << "HelloWorld::loop" << "\n"; 
+    elrond::ctx(this).console().info("HelloWorld::loop\n");
 }
 
 void HelloWorld::stop()
 {
-    std::cout << "HelloWorld::stop" << "\n"; 
+    elrond::ctx(this).console().info("HelloWorld::stop\n");
 }

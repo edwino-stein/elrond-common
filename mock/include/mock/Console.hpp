@@ -13,10 +13,14 @@
 
                     elrond::procedure<elrond::StreamH> printInfoH;
                     void printInfo(const elrond::StreamH& handle) const override;
+
+                    static std::unique_ptr<elrond::interface::Console> nullSingleton;
                     
                 public:
                     Console();
                     Console(const elrond::procedure<elrond::StreamH>& printInfoH);
+
+                    static elrond::interface::Console& null();
             };
         }
     }

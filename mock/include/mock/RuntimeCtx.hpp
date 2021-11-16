@@ -15,12 +15,18 @@
                     elrond::string name;
                     std::unique_ptr<elrond::interface::Module> inst;
 
+                    elrond::interface::Console* consoleInst;
+
                     RuntimeCtx(elrond::string name, elrond::interface::Module* const inst);
 
                 public:
 
+                    elrond::interface::Console const& console() const override;
+
                     elrond::interface::Context const&
                     ofInstance(const elrond::platform::ModuleObject& inst) const override;
+
+                    RuntimeCtx& console(elrond::interface::Console& console);
 
                     RuntimeCtx& callSetup();
                     RuntimeCtx& callStart();

@@ -3,5 +3,7 @@
 
     #include "elrond_mock_types.hpp"
     #include "mock/RuntimeCtx.ipp"
+    #include "mock/Console.hpp"
+    #include "mock/StringStream.hpp"
 
 #endif

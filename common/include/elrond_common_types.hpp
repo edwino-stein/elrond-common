@@ -9,6 +9,7 @@
         namespace interface
         {
             class Module;
+            class Context;
         }
 
         namespace module

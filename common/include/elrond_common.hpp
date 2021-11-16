@@ -4,9 +4,11 @@
     #include "elrond_common_types.hpp"
 
     #include "interface/Module.hpp"
+    #include "interface/Context.hpp"
 
     #include "module/Abstract.hpp"
     #include "module/BaseGeneric.hpp"
 
+    #include "static/context.hpp"
 
 #endif

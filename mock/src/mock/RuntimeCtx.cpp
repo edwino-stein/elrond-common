@@ -17,11 +17,11 @@ using PlatfomCtx = elrond::platform::RuntimeCtx;
 
 RuntimeCtx::RuntimeCtx(elrond::string name, Module* const inst)
 :
-    name(name),
-    inst(inst),
-    consoleInst(nullptr)
+    _name(name),
+    _instance(inst),
+    _console(nullptr)
 {
-    this->inst->__init__(this);
+    this->_instance->__init__(this);
     this->console(elrond::mock::Console::null());
 }
 
@@ -29,7 +29,7 @@ RuntimeCtx::RuntimeCtx(elrond::string name, Module* const inst)
 
 Context const& RuntimeCtx::ofInstance(const ModuleObject& inst) const
 {
-    if(this->inst.get() == &inst) return *this;
+    if(this->_instance.get() == &inst) return *this;
     throw std::runtime_error("Invalid module context");
 }
 
@@ -37,15 +37,27 @@ Context const& RuntimeCtx::ofInstance(const ModuleObject& inst) const
 
 Console const& RuntimeCtx::console() const
 {
-    return *(this->consoleInst);
+    return *(this->_console);
 }
 
 /* *********************************** Setters ******************************** */
 
 RuntimeCtx& RuntimeCtx::console(elrond::interface::Console& console)
 {
-    this->consoleInst = &console;
+    this->_console = &console;
     return *this;
+}
+
+/* *********************************** Getters ******************************** */
+
+elrond::string RuntimeCtx::name() const
+{
+    return this->_name;
+}
+
+elrond::interface::Module& RuntimeCtx::instance() const
+{
+    return *(this->_instance);
 }
 
 /* *********************************** Others ********************************* */
@@ -56,13 +68,13 @@ RuntimeCtx& RuntimeCtx::console(elrond::interface::Console& console)
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    this->inst->setup();
+    this->instance().setup();
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStart()
 {
-    this->inst->start();
+    this->instance().start();
     return *this;
 }
 
@@ -79,12 +91,12 @@ RuntimeCtx& RuntimeCtx::callLoop(const elrond::sizeT times)
 
 RuntimeCtx& RuntimeCtx::callLoop(elrond::function<bool> predic)
 {
-    while (predic()) this->inst->loop();
+    while (predic()) this->instance().loop();
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStop()
 {
-    this->inst->stop();
+    this->instance().stop();
     return *this;
 }

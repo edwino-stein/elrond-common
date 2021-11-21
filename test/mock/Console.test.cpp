@@ -138,3 +138,88 @@ SCENARIO("Test a mocked console instance for info outputs", "[mock][Console]")
         }
     }
 }
+
+SCENARIO("Test a mocked console instance for error outputs", "[mock][Console]")
+{
+    GIVEN("A Console and StringStram instance setted to handle error outputs")
+    {
+        StringStream ss;
+        Console console(
+            [](const elrond::StreamH&) {},
+            [&ss](const elrond::StreamH& h) { h(ss); }
+        );
+
+        WHEN("Calls error method passing a literal string")
+        {
+            console.error("This is an error literal"); 
+            THEN("The StringStream must capture the same literal string")
+            {
+                CHECK(ss.getString() == "This is an error literal");
+            }
+        }
+
+        WHEN("Calls error method passing a const char* string")
+        {
+            const char* strConstChar = "This is an error const char*";
+            console.error(strConstChar);
+            THEN("The StringStream must capture the same const char* string")
+            {
+                CHECK(ss.getString() == "This is an error const char*");
+            }
+        }
+
+        WHEN("Calls error method passing an elrond string")
+        {
+            elrond::string strElrondString = "This is an error elrond string";
+            console.error(strElrondString);
+            THEN("The StringStream must capture the same elrond string")
+            {
+                CHECK(ss.getString() == "This is an error elrond string");
+            }
+        }
+
+        WHEN("Calls error method passing a lambda function")
+        {
+            elrond::string str = "Error Messagem";
+            console.error(
+                [&str](Stream& s)
+                {
+                    s << "Error" << ':' << str << '\n';
+                    s << "Code:" << 5 << '\n';
+                }
+            );
+
+            THEN("The StringStream must capture everything as string")
+            {
+                CHECK(
+                    ss.getString() ==
+                    "Error:Error Messagem\nCode:5\n"
+                );
+            }
+        }
+    }
+
+    GIVEN("A Console instance with default error handling function")
+    {
+        Console console;
+
+        WHEN("Calls error method passing a string")
+        {
+            try
+            {
+                console.error("This is an error");
+                THEN("Must throw an excption with string captured")
+                {
+                    FAIL();
+                }
+            }
+            catch (const std::runtime_error& e)
+            {
+                THEN("Must throw an excption with string captured")
+                {
+                    CHECK(std::string(e.what()) == "This is an error");
+                }
+            }
+        }
+    }
+}

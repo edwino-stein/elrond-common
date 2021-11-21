@@ -12,6 +12,11 @@ void BaseConsole::info(const elrond::StreamH& handle) const
     this->printInfo(handle);
 }
 
+void BaseConsole::error(const elrond::StreamH& handle) const
+{
+    this->throwError(handle);
+}
+
 //
 // Char and strings
 //
@@ -33,6 +38,16 @@ void BaseConsole::info(const char c[]) const
 void BaseConsole::info(elrond::string str) const
 {
     this->printInfo([&str](Stream& s) { s << str; });
+}
+
+void BaseConsole::error(const char c[]) const
+{
+    this->throwError([&c](Stream& s) { s << c; });
+}
+
+void BaseConsole::error(elrond::string str) const
+{
+    this->throwError([&str](Stream& s) { s << str; });
 }
 
 //

@@ -11,6 +11,7 @@
             { 
                 protected:
                     virtual void printInfo(const elrond::StreamH& handle) const =0;
+                    virtual void throwError(const elrond::StreamH& handle) const =0;
     
                 public:
 
@@ -20,6 +21,7 @@
                     // Stream handle
                     //
                     void info(const elrond::StreamH& handle) const override;
+                    void error(const elrond::StreamH& handle) const override;
 
                     //
                     // Char and strings
@@ -28,6 +30,8 @@
                     void info(const unsigned char c) const override;
                     void info(const char c[]) const override;
                     void info(elrond::string str) const override;
+                    void error(const char c[]) const override;
+                    void error(elrond::string str) const override;
 
                     //
                     // Numeric

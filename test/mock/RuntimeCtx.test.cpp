@@ -6,8 +6,10 @@
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::module::BaseGeneric;
+using elrond::mock::Console;
+using elrond::mock::StringStream;
 
-SCENARIO("Test a mocked runtime context with a simple module instance", "[mock][RuntimeCtx]")
+SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
 {
     class TestModule : public BaseGeneric
     {
@@ -33,10 +35,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance", "[mock][
 
         WHEN("Module instance requires your context")
         {
-            auto* context = &(elrond::ctx(ctx.instance()));    
+            auto& context = elrond::ctx(ctx.instance());    
             THEN("Must be the same context instance")
             {
-                REQUIRE(context == &ctx);
+                REQUIRE(&context == &ctx);
             }
         }
 
@@ -148,6 +150,81 @@ SCENARIO("Test a mocked runtime context with a simple module instance", "[mock][
             {
                 REQUIRE(instance.called == "stop");
                 REQUIRE(instance.loops == 0);
+            }
+        }
+    }
+}
+
+SCENARIO("Test a mocked runtime context with a simple module instance for console operations", "[mock][RuntimeCtx]")
+{
+    class TestConsoleModule : public BaseGeneric
+    {
+        public:
+            bool error = false;
+            void setup()
+            {
+                auto& console = elrond::ctx(this).console();
+                if(this->error) console.error("Error message");
+                else console.info("Info message");
+            }
+    };
+
+    GIVEN("A generic module instance")
+    {
+        auto ctx = RuntimeCtx::create<TestConsoleModule>("test");
+        REQUIRE(ctx.name() == "test");
+        REQUIRE(instanceof<Module>(ctx.instance()));
+        REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
+
+        WHEN("Calls console getter")
+        {
+            auto& console = ctx.console();
+            THEN("Must be the default null console instance")
+            {
+                CHECK(&console == &(Console::null()));
+            }
+        }
+
+        WHEN("Set a custom console instance")
+        {
+            StringStream info;
+            StringStream error;
+            Console console(
+                [&info](elrond::StreamH h){ h(info); },
+                [&error](elrond::StreamH h){ h(error); }
+            );
+
+            ctx.console(console);
+            THEN("The context console instance must not be the null instance")
+            {
+                CHECK(&(ctx.console()) != &(Console::null()));
+            }
+
+            WHEN("The module instance calls console info method")
+            {
+                auto& instance = reinterpret_cast<TestConsoleModule&>(ctx.instance());
+                REQUIRE((!instance.error));
+
+                ctx.callSetup();
+                THEN("The info StringStream must capture the string")
+                {
+                    CHECK(info.getString() == "Info message");
+                    CHECK(error.getString() == "");
+                }
+            }
+
+            WHEN("The module instance calls console error method")
+            {
+                auto& instance = reinterpret_cast<TestConsoleModule&>(ctx.instance());
+                instance.error = true;
+                REQUIRE((instance.error));
+
+                ctx.callSetup();
+                THEN("The info StringStream must capture the string")
+                {
+                    CHECK(info.getString() == "");
+                    CHECK(error.getString() == "Error message");
+                }
             }
         }
     }

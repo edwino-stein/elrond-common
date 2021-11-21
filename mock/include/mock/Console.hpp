@@ -9,16 +9,24 @@
         {
             class Console : public elrond::runtime::BaseConsole
             {
+                public:
+                    using CallbackStream = elrond::procedure<elrond::StreamH>;
+
                 protected:
 
-                    elrond::procedure<elrond::StreamH> printInfoH;
+                    CallbackStream printInfoH;
+                    CallbackStream throwErrorH;
+
                     void printInfo(const elrond::StreamH& handle) const override;
+                    void throwError(const elrond::StreamH& handle) const override;
 
                     static std::unique_ptr<elrond::interface::Console> nullSingleton;
-                    
+                    static void defaultThrowError(elrond::StreamH handle);
+    
                 public:
                     Console();
-                    Console(const elrond::procedure<elrond::StreamH>& printInfoH);
+                    Console(const CallbackStream& printInfoH);
+                    Console(const CallbackStream& printInfoH, const CallbackStream throwErrorH);
 
                     static elrond::interface::Console& null();
             };

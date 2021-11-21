@@ -16,6 +16,7 @@
                     // Stream handle
                     //
                     virtual void info(const elrond::StreamH& handle) const =0;
+                    virtual void error(const elrond::StreamH& handle) const =0;
 
                     //
                     // Char and strings
@@ -24,6 +25,8 @@
                     virtual void info(const unsigned char c) const =0;
                     virtual void info(const char c[]) const =0;
                     virtual void info(elrond::string str) const =0;
+                    virtual void error(const char c[]) const =0;
+                    virtual void error(elrond::string str) const =0;
 
                     //
                     // Numeric

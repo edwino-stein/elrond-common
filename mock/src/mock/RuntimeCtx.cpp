@@ -1,11 +1,13 @@
 #include "mock/RuntimeCtx.hpp"
 #include "mock/Console.hpp"
+#include "mock/Parameters.hpp"
 
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::interface::Context;
 using elrond::platform::ModuleObject;
 using elrond::interface::Console;
+using elrond::mock::Parameters;
 
 using PlatfomCtx = elrond::platform::RuntimeCtx;
 
@@ -68,7 +70,13 @@ elrond::interface::Module& RuntimeCtx::instance() const
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    this->instance().setup();
+    Parameters params;
+    return this->callSetup(params);
+}
+
+RuntimeCtx& RuntimeCtx::callSetup(const elrond::Parameters& params)
+{
+    this->instance().setup(params);
     return *this;
 }
 

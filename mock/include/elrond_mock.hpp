@@ -5,5 +5,6 @@
     #include "mock/RuntimeCtx.ipp"
     #include "mock/Console.hpp"
     #include "mock/StringStream.hpp"
+    #include "mock/Parameters.hpp"
 
 #endif

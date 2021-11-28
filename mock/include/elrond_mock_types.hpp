@@ -20,6 +20,7 @@
             class RuntimeCtx;
             class Console;
             class StringStream;
+            class Parameters;
         }
     }
 

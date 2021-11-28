@@ -12,7 +12,7 @@
                 public:
                     virtual ~Abstract() = ELROND_DEFAULT_DESTRUCTOR;
 
-                    virtual void setup() override;
+                    virtual void setup(const elrond::Parameters&) override;
                     virtual void start() override;
                     virtual void loop() override;
                     virtual void stop() override;

@@ -12,6 +12,7 @@
             class Context;
             class Console;
             class Stream;
+            class Parameters;
         }
 
         namespace module
@@ -23,6 +24,10 @@
 
         // Handles
         using StreamH = elrond::procedure<elrond::interface::Stream&>;
+        
+        // Type alies
+        using Stream = elrond::interface::Stream;
+        using Parameters = elrond::interface::Parameters;
     }
 
 #endif

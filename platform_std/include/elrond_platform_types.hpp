@@ -36,8 +36,19 @@
         // Platform specific classes
         namespace platform
         {
+            struct ModuleInfo
+            {
+                const std::string name;
+                const std::string author;
+                const std::string email;
+                const std::string version;
+            };
+
             class ModuleObject;
             class RuntimeCtx;
+            class FactoryInterface;
+            class BaseFactory;
+            template <class M> class Factory;
         }
     }
 

@@ -30,8 +30,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
     GIVEN("A generic module instance")
     {
         auto ctx = RuntimeCtx::create<TestModule>("test");
+
         REQUIRE(ctx.name() == "test");
-        REQUIRE(instanceof<Module>(ctx.instance()));
+        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
+        REQUIRE(isInstanceOf<TestModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         WHEN("Module instance requires your context")
@@ -174,7 +176,8 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     {
         auto ctx = RuntimeCtx::create<TestConsoleModule>("test");
         REQUIRE(ctx.name() == "test");
-        REQUIRE(instanceof<Module>(ctx.instance()));
+        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
+        REQUIRE(isInstanceOf<TestConsoleModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         WHEN("Calls console getter")
@@ -249,7 +252,8 @@ SCENARIO("Test a mocked runtime context with a simple module instance with param
     {
         auto ctx = RuntimeCtx::create<TestParamsModule>("test");
         REQUIRE(ctx.name() == "test");
-        REQUIRE(instanceof<Module>(ctx.instance()));
+        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
+        REQUIRE(isInstanceOf<TestParamsModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         WHEN("Calls the setup method without parameters")

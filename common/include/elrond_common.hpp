@@ -13,5 +13,6 @@
     #include "module/BaseGeneric.hpp"
 
     #include "static/context.hpp"
+    #include "static/bitwise.hpp"
 
 #endif

@@ -8,6 +8,13 @@ project(
     LANGUAGES CXX
 )
 
+if(NOT DEV_STAGE)
+    set(DEV_STAGE Release)
+endif()
+
+set(elrond_DEV_STAGE Alpha)
+set(elrond_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+
 set(CMAKE_CXX_STANDARD 11)
 
 # Add subprojects

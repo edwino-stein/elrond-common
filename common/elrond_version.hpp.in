@@ -17,9 +17,19 @@
 #ifndef ELROND_BASE_VERSION_HPP
     #define ELROND_BASE_VERSION_HPP
 
-    #define ELROND_API_MAJOR @elrond_VERSION_MAJOR@
-    #define ELROND_API_MINOR @elrond_VERSION_MINOR@
-    #define ELROND_API_PATCH @elrond_VERSION_PATCH@
-    #define ELROND_DEV_STAGE alpha
+    #define ELROND_DEV_STAGE_Release    0x00
+    #define ELROND_DEV_STAGE_Beta       0x01
+    #define ELROND_DEV_STAGE_Alpha      0x02
+    
+    #define ELROND_BUILD_Debug          0xF0
+    #define ELROND_BUILD_Release        0x00
+
+    #define _ELROND_MACRO_VALUE(K, V) K##V
+
+    #define ELROND_API_MAJOR            @elrond_VERSION_MAJOR@
+    #define ELROND_API_MINOR            @elrond_VERSION_MINOR@
+    #define ELROND_API_PATCH            @elrond_VERSION_PATCH@
+    #define ELROND_API_DEV_STAGE        _ELROND_MACRO_VALUE(ELROND_DEV_STAGE_, @elrond_DEV_STAGE@)
+    #define ELROND_BUILD_TYPE           _ELROND_MACRO_VALUE(ELROND_BUILD_, @elrond_BUILD_TYPE@)
 
 #endif

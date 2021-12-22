@@ -2,11 +2,7 @@
     #define ELROND_MOCK_TYPES_HPP
 
     #include <elrond.hpp>
-
-    #ifndef ELROND_STD_PLATFORM
-        #error "Mock project is only compatible with STD platforms"
-    #endif
-
+    #include <elrond_platform_runtime.hpp>
     #include <elrond_runtime.hpp>
     
     #include <sstream>

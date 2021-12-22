@@ -20,6 +20,7 @@ set(CMAKE_CXX_STANDARD 11)
 # Add subprojects
 add_subdirectory(common)
 add_subdirectory(platform_std)
+add_subdirectory(platform_std_runtime)
 add_subdirectory(runtime)
 add_subdirectory(mock)
 add_subdirectory(test)

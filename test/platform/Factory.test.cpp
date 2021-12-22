@@ -21,7 +21,7 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
             .version = "1.0"
         };
 
-        Factory<TestModule> factory(info, "TestModule>");
+        Factory<TestModule> factory(info, elrond::platform::demangle<TestModule>());
 
         WHEN("Call the apiVersion getter method")
         {

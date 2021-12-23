@@ -26,15 +26,13 @@ jobs:
 
         strategy:
             matrix:
-                os: [ubuntu-latest, ubuntu-18.04, ubuntu-16.04]
+                os: [ubuntu-latest, ubuntu-18.04]
         steps:
             - name: Checkout code
-              uses: actions/checkout@v1
-            - name: Build the header only libraries
-              run: make -f Headeronly.mk all
+              uses: actions/checkout@v2
             - name: Run CMake
-              run: mkdir build && cd build && cmake -G "Unix Makefiles" ..
+              run: cmake -H. -B./build -G "Unix Makefiles"
             - name: Build everything
-              run: cd build && make all -j4
+              run: cmake --build ./build --target all -j 6 --
             - name: Run tests
-              run: cd build && make test
+              run: ctest -j6 -T test --output-on-failure --test-dir ./build

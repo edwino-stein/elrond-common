@@ -31,8 +31,8 @@ class ExternalModule : public BaseGeneric
 
 ELROND_DEFINE_DEFAULT_MODULE (
     ExternalModule,
-    .name    = "External Test Module",
-    .author  = "Edwino Stein",
-    .email   = "edwino.stein@gmail.com",
-    .version = "1.0.0"
+    "External Test Module",
+    "Edwino Stein",
+    "edwino.stein@gmail.com",
+    "1.0.0"
 )

@@ -15,10 +15,10 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
     GIVEN("A generic module instance factory")
     {
         ModuleInfo info = {
-            .name = "Test Module",
-            .author = "Edwino Stein",
-            .email = "edwino.stein@gmail.com",
-            .version = "1.0"
+            "Test Module",
+            "Edwino Stein",
+            "edwino.stein@gmail.com",
+            "1.0"
         };
 
         Factory<TestModule> factory(info, elrond::platform::demangle<TestModule>());

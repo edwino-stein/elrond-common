@@ -13,10 +13,10 @@ SCENARIO("Test the module instance factory adapters", "[platform][FactoryAdapter
     GIVEN("A internal factory adapter to generic module")
     {
         ModuleInfo info = {
-            .name = "Test Module",
-            .author = "Edwino Stein",
-            .email = "edwino.stein@gmail.com",
-            .version = "1.0"
+            "Test Module",
+            "Edwino Stein",
+            "edwino.stein@gmail.com",
+            "1.0"
         };
 
         InternalFactoryAdapter<TestModule> adapter(info);

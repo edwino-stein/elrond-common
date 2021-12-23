@@ -8,8 +8,8 @@ project(
     LANGUAGES CXX
 )
 
-if(NOT DEV_STAGE)
-    set(DEV_STAGE Release)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 set(elrond_DEV_STAGE Alpha)

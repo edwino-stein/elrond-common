@@ -24,6 +24,7 @@ target_link_libraries(catch2 PRIVATE Catch2::Catch2)
 file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/catch2.cpp")
 list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/dlobject.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")
 
 foreach(T ${SRC_TEST_CASES_FILES})
 
@@ -70,3 +71,9 @@ endforeach()
 # Add a DL object for tests
 add_library(dlobject SHARED "${PROJECT_SOURCE_DIR}/dlobject.cpp")
 set_property(TARGET dlobject PROPERTY PREFIX "")
+
+# Add a external module for tests
+add_library(ExternalModule SHARED "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")
+set_property(TARGET ExternalModule PROPERTY PREFIX "")
+target_link_libraries(ExternalModule PUBLIC elrond)
+target_compile_definitions(ExternalModule PUBLIC ELROND_ENABLE_EXTERNAL_API_SETUP)

@@ -74,6 +74,8 @@
 
                     template <class T>
                     static RuntimeCtx create(elrond::string name, elrond::platform::ModuleInfo& info);
+
+                    static RuntimeCtx create(elrond::string name, elrond::string path);
             };
         }
     }

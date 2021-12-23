@@ -277,6 +277,16 @@ SCENARIO("Test a mocked runtime context with a simple module instance with param
         REQUIRE(isInstanceOf<TestParamsModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
+        WHEN("Calls the factory adapter getter")
+        {
+            auto& adapter = ctx.adapter();
+            THEN("Must return the expected adapter")
+            {
+                CHECK_THAT(adapter.name(), Contains("TestParamsModule"));
+                CHECK(adapter.apiVersion() == elrond::getApiVersion());
+            }
+        }
+
         WHEN("Calls the setup method without parameters")
         {
             auto& instance = reinterpret_cast<TestParamsModule&>(ctx.instance());

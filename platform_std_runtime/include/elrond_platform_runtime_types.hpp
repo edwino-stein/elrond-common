@@ -15,6 +15,7 @@
             class ModuleInstance;
             class BaseFactoryAdapter;
             template<class M> class InternalFactoryAdapter;
+            class ExternalFactoryAdapter;
             class DlHandle;
 
             using ModuleInstanceH = std::unique_ptr<elrond::interface::Module,

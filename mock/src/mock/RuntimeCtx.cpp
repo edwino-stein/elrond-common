@@ -11,6 +11,7 @@ using elrond::interface::Console;
 using elrond::mock::Parameters;
 using elrond::platform::BaseFactoryAdapter;
 using elrond::platform::FactoryAdapterP;
+using elrond::platform::ExternalFactoryAdapter;
 using elrond::platform::ModuleInfo;
 
 using PlatfomCtx = elrond::platform::RuntimeCtx;
@@ -118,4 +119,11 @@ RuntimeCtx& RuntimeCtx::callStop()
 {
     this->instance().stop();
     return *this;
+}
+
+/* *********************************** Static ********************************* */
+
+RuntimeCtx RuntimeCtx::create(elrond::string name, elrond::string path)
+{
+    return RuntimeCtx(name, std::make_shared<ExternalFactoryAdapter>(path));
 }

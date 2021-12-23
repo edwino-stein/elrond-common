@@ -3,5 +3,6 @@
 
     #include "platform/ModuleInstance.hpp"
     #include "platform/InternalFactoryAdapter.ipp"
+    #include "platform/ExternalFactoryAdapter.hpp"
 
 #endif

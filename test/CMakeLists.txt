@@ -23,6 +23,7 @@ target_link_libraries(catch2 PRIVATE Catch2::Catch2)
 # Search for test cases and exclude catch2 src file
 file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/*.cpp")
 list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/catch2.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/dlobject.cpp")
 
 foreach(T ${SRC_TEST_CASES_FILES})
 
@@ -65,3 +66,7 @@ foreach(T ${SRC_TEST_CASES_FILES})
     target_link_libraries(${TEST_TARGET} PRIVATE elrond_mock)
         
 endforeach()
+
+# Add a DL object for tests
+add_library(dlobject SHARED "${PROJECT_SOURCE_DIR}/dlobject.cpp")
+set_property(TARGET dlobject PROPERTY PREFIX "")

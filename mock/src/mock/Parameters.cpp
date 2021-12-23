@@ -15,6 +15,8 @@ struct Parameters::ValueType : public ValueBase
     const T value;
     ValueType(const T value) : value(value) {}
 
+    virtual ~ValueType() = default;
+
     static bool isTypeOf(ValueBase::Ptr obj)
     {
         auto p = dynamic_cast<ValueType<T>*>(obj.get());
@@ -26,6 +28,7 @@ struct Parameters::ValueType : public ValueBase
 
 struct Parameters::Null : public Parameters::ValueBase
 {
+    virtual ~Null() = default;
     int asInt() const override { return 0; }
     long asLong() const override { return 0; }
     bool asBool() const override { return false; }
@@ -39,6 +42,7 @@ struct Parameters::Null : public Parameters::ValueBase
 struct Parameters::Int : public Parameters::ValueType<int>
 {
     Int(const int i) : ValueType(i) {}
+    virtual ~Int() = default;
     int asInt() const override { return this->value; }
     long asLong() const override { return static_cast<long>(this->value); }
     bool asBool() const override { return this->value != 0; }
@@ -60,6 +64,7 @@ struct Parameters::Int : public Parameters::ValueType<int>
 struct Parameters::Long : public Parameters::ValueType<long>
 {
     Long(const long l) : ValueType(l) {}
+    virtual ~Long() = default;
     int asInt() const override { return static_cast<long>(this->value); }
     long asLong() const override { return this->value; }
     bool asBool() const override { return this->value != 0; }
@@ -85,6 +90,7 @@ struct Parameters::Long : public Parameters::ValueType<long>
 struct Parameters::Bool : public Parameters::ValueType<bool>
 {
     Bool(const bool b) : ValueType(b) {}
+    virtual ~Bool() = default;
     int asInt() const override { return this->value ? 1 : 0; }
     long asLong() const override { return this->value ? 1 : 0; }
     bool asBool() const override { return this->value; }
@@ -102,6 +108,7 @@ struct Parameters::Bool : public Parameters::ValueType<bool>
 struct Parameters::Char : public Parameters::ValueType<char>
 {
     Char(const char c) : ValueType(c) {}
+    virtual ~Char() = default;
     int asInt() const override { return static_cast<int>(this->value); }
     long asLong() const override { return static_cast<long>(this->value); }
     
@@ -128,6 +135,7 @@ struct Parameters::Char : public Parameters::ValueType<char>
 struct Parameters::Double : public Parameters::ValueType<double>
 {
     Double(const double d) : ValueType(d) {}
+    virtual ~Double() = default;
     int asInt() const override { return static_cast<int>(this->value); }
     long asLong() const override { return static_cast<long>(this->value); }
     bool asBool() const override { return this->value != 0; }
@@ -145,7 +153,7 @@ struct Parameters::Double : public Parameters::ValueType<double>
 struct Parameters::String : public Parameters::ValueType<elrond::string>
 {
     String(const elrond::string s) : ValueType(s) {}
-
+    virtual ~String() = default;
     int asInt() const override
     {
         try { return std::stoi(this->value); }

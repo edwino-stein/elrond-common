@@ -52,7 +52,7 @@ SCENARIO("Test a mocked parameters with a set of values", "[mock][Console]")
             THEN("Must resturns the expected values as eath type")
             {
                 CHECK(param.asInt("long") == -1);
-                CHECK(param.asLong("long") == 0xFFFFFFFFFFFFFFFF);
+                CHECK(param.asLong("long") == static_cast<long>(0xFFFFFFFFFFFFFFFF));
                 CHECK(param.asBool("long"));
                 CHECK(param.asChar("long") == static_cast<char>(0xFFFFFFFFFFFFFFFF));
                 CHECK(param.asDouble("long") == -1.0);

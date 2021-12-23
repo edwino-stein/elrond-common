@@ -17,6 +17,12 @@ set(elrond_BUILD_TYPE ${CMAKE_BUILD_TYPE})
 
 set(CMAKE_CXX_STANDARD 11)
 
+if(MSVC)
+    string(REGEX REPLACE "/W[1-3]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
+endif()
+
 # Add subprojects
 add_subdirectory(common)
 add_subdirectory(platform_std)

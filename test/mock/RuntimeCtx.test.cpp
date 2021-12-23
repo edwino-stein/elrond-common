@@ -149,7 +149,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
             THEN("Must be called the loop method many times until something happens")
             {
                 REQUIRE((instance.called == "loop" || instance.called == "none"));
-                REQUIRE(instance.loops == times);
+                REQUIRE(instance.loops == static_cast<elrond::sizeT>(times));
             }
         }
 

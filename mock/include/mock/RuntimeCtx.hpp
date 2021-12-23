@@ -15,18 +15,20 @@
                     //
                     // Module instance Handle properties
                     //
-                    elrond::string _name;
-                    std::unique_ptr<elrond::interface::Module> _instance;
+                    elrond::platform::FactoryAdapterP _adapter;
+                    elrond::platform::ModuleInstanceP _instance;
 
                     //
                     // Internal properties
                     //
                     elrond::interface::Console* _console;
+                    
+                    static const elrond::platform::ModuleInfo mockedModuleInfo;
 
                     //
                     // Constructor
                     //
-                    RuntimeCtx(elrond::string name, elrond::interface::Module* const inst);
+                    RuntimeCtx(elrond::string name, elrond::platform::FactoryAdapterP adapter);
 
                 public:
 
@@ -51,6 +53,7 @@
                     //
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
+                    elrond::platform::BaseFactoryAdapter& adapter() const;
 
                     //
                     // Others methods
@@ -68,6 +71,9 @@
                     //
                     template <class T>
                     static RuntimeCtx create(elrond::string name);
+
+                    template <class T>
+                    static RuntimeCtx create(elrond::string name, elrond::platform::ModuleInfo& info);
             };
         }
     }

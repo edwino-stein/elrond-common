@@ -11,6 +11,17 @@
     {
         namespace platform
         {
+
+            class ModuleInstance;
+            class BaseFactoryAdapter;
+            template<class M> class InternalFactoryAdapter;
+
+            using ModuleInstanceH = std::unique_ptr<elrond::interface::Module,
+                                                    elrond::procedure<elrond::interface::Module*>>;
+                                
+            using ModuleInstanceP = std::shared_ptr<ModuleInstance>;
+            using FactoryAdapterP = std::shared_ptr<BaseFactoryAdapter>;
+
             std::string demangle(const std::type_info& info);
 
             template <class T>

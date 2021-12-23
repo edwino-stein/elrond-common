@@ -1,4 +1,5 @@
 #include "mock/RuntimeCtx.hpp"
+
 #include "mock/Console.hpp"
 #include "mock/Parameters.hpp"
 
@@ -8,6 +9,9 @@ using elrond::interface::Context;
 using elrond::platform::ModuleObject;
 using elrond::interface::Console;
 using elrond::mock::Parameters;
+using elrond::platform::BaseFactoryAdapter;
+using elrond::platform::FactoryAdapterP;
+using elrond::platform::ModuleInfo;
 
 using PlatfomCtx = elrond::platform::RuntimeCtx;
 
@@ -15,15 +19,17 @@ using PlatfomCtx = elrond::platform::RuntimeCtx;
     ***************** elrond::mock::RuntimeCtx Implementation ******************
     ****************************************************************************/
 
+const ModuleInfo RuntimeCtx::mockedModuleInfo;
+
 /* ******************************* Constructors ******************************* */
 
-RuntimeCtx::RuntimeCtx(elrond::string name, Module* const inst)
+RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
 :
-    _name(name),
-    _instance(inst),
+    _adapter(adapter),
+    _instance(_adapter->create(name)),
     _console(nullptr)
 {
-    this->_instance->__init__(this);
+    this->instance().__init__(this);
     this->console(elrond::mock::Console::null());
 }
 
@@ -31,7 +37,7 @@ RuntimeCtx::RuntimeCtx(elrond::string name, Module* const inst)
 
 Context const& RuntimeCtx::ofInstance(const ModuleObject& inst) const
 {
-    if(this->_instance.get() == &inst) return *this;
+    if(&(this->instance()) == &inst) return *this;
     throw std::runtime_error("Invalid module context");
 }
 
@@ -54,12 +60,17 @@ RuntimeCtx& RuntimeCtx::console(elrond::interface::Console& console)
 
 elrond::string RuntimeCtx::name() const
 {
-    return this->_name;
+    return this->_instance->name();
 }
 
 elrond::interface::Module& RuntimeCtx::instance() const
 {
-    return *(this->_instance);
+    return this->_instance->instance();
+}
+
+BaseFactoryAdapter& RuntimeCtx::adapter() const
+{
+    return *(this->_adapter);
 }
 
 /* *********************************** Others ********************************* */

@@ -9,6 +9,7 @@ using elrond::module::BaseGeneric;
 using elrond::mock::Console;
 using elrond::mock::StringStream;
 using elrond::mock::Parameters;
+using Catch::Matchers::Contains;
 
 SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
 {
@@ -35,6 +36,16 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(isInstanceOf<TestModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
+
+        WHEN("Calls the factory adapter getter")
+        {
+            auto& adapter = ctx.adapter();
+            THEN("Must return the expected adapter")
+            {
+                CHECK_THAT(adapter.name(), Contains("TestModule"));
+                CHECK(adapter.apiVersion() == elrond::getApiVersion());
+            }
+        }
 
         WHEN("Module instance requires your context")
         {
@@ -179,6 +190,16 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(isInstanceOf<TestConsoleModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
+        
+        WHEN("Calls the factory adapter getter")
+        {
+            auto& adapter = ctx.adapter();
+            THEN("Must return the expected adapter")
+            {
+                CHECK_THAT(adapter.name(), Contains("TestConsoleModule"));
+                CHECK(adapter.apiVersion() == elrond::getApiVersion());
+            }
+        }
 
         WHEN("Calls console getter")
         {
@@ -289,3 +310,68 @@ SCENARIO("Test a mocked runtime context with a simple module instance with param
     }
 }
 
+SCENARIO("Test a mocked runtime context with a simple external module", "[mock][RuntimeCtx]")
+{
+    GIVEN("A generic external module instance")
+    {
+        auto ctx = RuntimeCtx::create("test", "ExternalModule");
+
+        REQUIRE(ctx.name() == "test");
+        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
+        REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
+
+        StringStream info;
+        Console console([&info](elrond::StreamH h){ h(info); });
+        ctx.console(console);
+
+        WHEN("Calls the factory adapter getter")
+        {
+            auto& adapter = ctx.adapter();
+            THEN("Must return the expected adapter")
+            {
+                CHECK_THAT(adapter.name(), Contains("ExternalModule"));
+                CHECK(adapter.apiVersion() == elrond::getApiVersion());
+                CHECK(adapter.infoName() == "External Test Module");
+                CHECK(adapter.infoAuthor() == "Edwino Stein");
+                CHECK(adapter.infoEmail() == "edwino.stein@gmail.com");
+                CHECK(adapter.infoVersion() == "1.0.0");
+            }
+        }
+
+        WHEN("Calls the setup method without parameters")
+        {
+            ctx.callSetup();
+            THEN("Must be called the setup method")
+            {
+                CHECK(info.getString() == "setup");
+            }
+        }
+
+        AND_WHEN("Calls the start method")
+        {
+            ctx.callStart();
+            THEN("Must be called the start method")
+            {
+                CHECK(info.getString() == "start");
+            }
+        }
+
+        AND_WHEN("Calls the loop method")
+        {
+            ctx.callLoop();
+            THEN("Must be called the loop method")
+            {
+                CHECK(info.getString() == "loop");
+            }
+        }
+
+        AND_WHEN("Calls the stop method")
+        {
+            ctx.callStop();
+            THEN("Must be called the stop method")
+            {
+                CHECK(info.getString() == "stop");
+            }
+        }
+    }
+}

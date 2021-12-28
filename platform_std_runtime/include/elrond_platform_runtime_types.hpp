@@ -28,6 +28,10 @@
 
             template <class T>
             inline std::string demangle() { return demangle(typeid(T)); }
+
+            bool isAbsolutePath(const std::string& path);
+            std::string fileExtension(const std::string& path);
+            std::string normilizePath(const std::string& path);
         }
     }
 

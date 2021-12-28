@@ -1,4 +1,4 @@
-# Elrond Common Library
+# Elrond Common Library (outdated/working in progress)
 
 <p align="right" >
  <a href="https://github.com/edwino-stein/elrond-common/releases">

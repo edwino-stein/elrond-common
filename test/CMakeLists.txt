@@ -1,58 +1,79 @@
-################################################################################
-#                                  Test files                                  #
-################################################################################
+cmake_minimum_required(VERSION 3.17)
 
-# Define core files
-set(TEST_CATCH_FILE ${PROJECT_SOURCE_DIR}/test/catch.cpp)
-set(TEST_EXTERNAL_FILE ${PROJECT_SOURCE_DIR}/test/ExternalMod.cpp)
+project(
+    elrond_tests
+    DESCRIPTION "Elrond tests"
+    LANGUAGES CXX
+)
 
-# Define test cases souce files
-file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/test/*.test.cpp")
+Include(FetchContent)
 
-################################################################################
-#                          External module build rule                          #
-################################################################################
+# Install Catch2 dependency
+FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v2.13.7)
+FetchContent_MakeAvailable(Catch2)
 
-# External module test example
-add_library(external_module SHARED ${TEST_EXTERNAL_FILE})
-set_property(TARGET external_module PROPERTY PREFIX "")
-target_compile_options(external_module PRIVATE ${WARNING_LEVEL})
+# Build an object with Catch2 entrypoint
+add_library(catch2 OBJECT "${PROJECT_SOURCE_DIR}/catch2.cpp")
+target_include_directories(catch2 PRIVATE ${PROJECT_SOURCE_DIR})
+target_link_libraries(catch2 PRIVATE Catch2::Catch2)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+# Search for test cases and exclude catch2 src file
+file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/*.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/catch2.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/dlobject.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")
 
-    # On Linux, the external_module must be linked with PIC common library
-    target_link_libraries(
-        external_module
-        PUBLIC -Wl,--whole-archive ${PROJECT_NAME}.pic -Wl,--no-whole-archive
-    )
-
-    # Build other external_module using only the header only library
-    add_library(external_module_who SHARED ${TEST_EXTERNAL_FILE})
-    set_property(TARGET external_module_who PROPERTY PREFIX "")
-    target_compile_options(external_module_who PRIVATE ${WARNING_LEVEL})
-    set_property(
-        TARGET external_module_who
-        PROPERTY INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/dist
-    )
-
-else()
-    # On others platforms, just use the non-PIC common library
-    target_link_libraries(external_module ${PROJECT_NAME})
-endif()
-
-################################################################################
-#                               Test build rules                               #
-################################################################################
-
-# Catch2 object library
-add_library(catch OBJECT ${TEST_CATCH_FILE})
-target_compile_definitions(catch PRIVATE CATCH_CONFIG_MAIN)
-
-# Test cases definitions
 foreach(T ${SRC_TEST_CASES_FILES})
-    get_filename_component(TEST_TARGET ${T} NAME_WE)
-    add_executable(${TEST_TARGET}.test ${T} $<TARGET_OBJECTS:catch>)
-    target_link_libraries(${TEST_TARGET}.test ${PROJECT_NAME}_ext)
-    target_compile_options(${TEST_TARGET}.test PRIVATE ${WARNING_LEVEL})
-    add_test(${TEST_TARGET}.test ${TEST_TARGET}.test -s)
+
+    # Get file name and absolute path
+    get_filename_component(TEST_NAME ${T} NAME_WE)
+    get_filename_component(FILE_DIR ${T} DIRECTORY)
+
+    # If the path matches with project dir, the test is on root of test
+    if(${FILE_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
+        # Just set the target name with file name
+        set(TEST_TARGET ${TEST_NAME})
+    else()
+        # Remove the absolute path to projeto from directory
+        string(REPLACE "${PROJECT_SOURCE_DIR}/" "" FILE_DIR ${FILE_DIR})
+        
+        # Replace all path bars to underscores
+        string(REPLACE "/" ";" TEST_PREFIX ${FILE_DIR})
+        list(APPEND TEST_PREFIX ${TEST_NAME})
+        string(REPLACE ";" "_" TEST_TARGET "${TEST_PREFIX}")
+    endif()
+
+    get_filename_component(FILE_EXT ${T} EXT)
+    if(${FILE_EXT} STREQUAL ".test.cpp")
+        # If the file name has ".test" extension, is an automated test
+        set(TEST_TARGET "${TEST_TARGET}.test")
+
+        # Setup automated tests dependencies
+        add_executable(${TEST_TARGET} ${T} $<TARGET_OBJECTS:catch2>)
+        target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2)
+
+        # Add to CTEST
+        add_test(${TEST_TARGET} ${TEST_TARGET} -s)
+    else()
+        # else, is just a manual test
+        add_executable(${TEST_TARGET} ${T})
+    endif()
+    
+    # Set the incluce directory and add libraries
+    target_include_directories(${TEST_TARGET} PRIVATE ${PROJECT_SOURCE_DIR})
+    target_link_libraries(${TEST_TARGET} PRIVATE elrond_mock)
+        
 endforeach()
+
+# Add a DL object for tests
+add_library(dlobject SHARED "${PROJECT_SOURCE_DIR}/dlobject.cpp")
+set_property(TARGET dlobject PROPERTY PREFIX "")
+
+# Add a external module for tests
+add_library(ExternalModule SHARED "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")
+set_property(TARGET ExternalModule PROPERTY PREFIX "")
+target_link_libraries(ExternalModule PUBLIC elrond)
+target_compile_definitions(ExternalModule PUBLIC ELROND_ENABLE_EXTERNAL_ABI_SETUP)

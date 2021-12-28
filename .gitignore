@@ -2,6 +2,8 @@
 
 build/
 dist/
+.vscode/
+*.code-workspace
 
 ### C++ ###
 # Prerequisites

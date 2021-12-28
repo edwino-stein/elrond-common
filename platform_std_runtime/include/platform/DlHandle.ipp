@@ -11,7 +11,7 @@
             std::function<R(Args...)>
             DlHandle::getFunction(const std::string& name) const
             {
-                return this->getFunctionPtr<R(*)(Args...)>(name);
+                return this->getFunctionPtr<R(ELROND_ABI_CALL *)(Args...)>(name);
             }
 
             template <class T> 

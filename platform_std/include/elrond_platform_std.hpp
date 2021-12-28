@@ -63,12 +63,15 @@
     #define ELROND_TO_STR_CONCAT(...) _ELROND_TO_STR(__VA_ARGS__)
 
     // External module API
-    #define ELROND_MOD_GET_API_VERSION_FUNC_NAME    __elrond_get_api_version__
-    #define ELROND_MOD_GET_FACTORY_FUNC_NAME        __elrond_get_module_factory__
-    #define ELROND_MOD_NUM_TYPE                     elrond::dWord
-    #define ELROND_MOD_FACTORY_TYPE                 elrond::platform::FactoryInterface*
+    #define ELROND_ABI_GET_API_VERSION_FUNC_NAME    __elrond_get_api_version__
+    #define ELROND_ABI_GET_FACTORY_FUNC_NAME        __elrond_get_module_factory__
+    #define ELROND_ABI_NUM_TYPE                     elrond::dWord
+    #define ELROND_ABI_FACTORY_TYPE                 elrond::platform::FactoryInterface*
 
-    #ifndef ELROND_ENABLE_EXTERNAL_API_SETUP
+    #define ELROND_ABI_CALL
+    #define ELROND_ABI_EXPORT
+
+    #ifndef ELROND_ENABLE_EXTERNAL_ABI_SETUP
         #define ELROND_DEFINE_MODULE(...)
         #define ELROND_DEFINE_DEFAULT_MODULE(...)
     #endif

@@ -8,10 +8,13 @@ ExternalFactoryAdapter::ExternalFactoryAdapter(const std::string& path)
     _handle(path),
     _factory(nullptr)
 {
+    constexpr const char* GetApiVerName = ELROND_TO_STR(ELROND_ABI_GET_API_VERSION_FUNC_NAME);
+    constexpr const char* GetFactoryName = ELROND_TO_STR(ELROND_ABI_GET_FACTORY_FUNC_NAME);
+
     try
     {
-        GetApiVerH getApiVer = this->_handle.getFunctionPtr<GetApiVerP>(GetApiVerName);
-        GetFactoryH getFactory = this->_handle.getFunctionPtr<GetFactoryP>(GetFactoryName);
+        auto getApiVer = this->_handle.getFunction<ELROND_ABI_NUM_TYPE>(GetApiVerName);
+        auto getFactory = this->_handle.getFunction<ELROND_ABI_FACTORY_TYPE>(GetFactoryName);
 
         const elrond::byte majorVer = elrond::lowByteHighWord(getApiVer());
         const elrond::byte buildType = elrond::BUILD_TYPE & 0xF0;

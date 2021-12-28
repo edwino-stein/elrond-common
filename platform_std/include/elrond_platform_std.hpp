@@ -11,8 +11,6 @@
             #define ELROND_WINDOWS_32_PLATFORM
         #endif
 
-        #error "Incompatible Windows Platform."
-
     #elif __APPLE__
 
         #include <TargetConditionals.h>

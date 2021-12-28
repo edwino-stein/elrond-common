@@ -71,6 +71,9 @@ endforeach()
 # Add a DL object for tests
 add_library(dlobject SHARED "${PROJECT_SOURCE_DIR}/dlobject.cpp")
 set_property(TARGET dlobject PROPERTY PREFIX "")
+if(MSVC)
+    target_compile_definitions(dlobject PUBLIC WINDOWS_DL_API)
+endif()
 
 # Add a external module for tests
 add_library(ExternalModule SHARED "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")

@@ -2,7 +2,7 @@
     #define ELROND_PLATFORM_STD_EXTERNAL_IPP
 
     #ifndef ELROND_ENABLE_EXTERNAL_ABI_SETUP
-        #error "This header must be used with ELROND_ENABLE_EXTERNAL_API_SETUP macro"
+        #error "This header must be used with ELROND_ENABLE_EXTERNAL_ABI_SETUP macro"
     #endif
 
     #include "elrond_common_types.hpp"

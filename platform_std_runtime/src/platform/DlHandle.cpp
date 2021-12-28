@@ -2,6 +2,8 @@
 
 #ifdef ELROND_WINDOWS_PLATFORM
     #define DL_WIN_API
+    #define WIN32_LEAN_AND_MEAN
+    #include <Windows.h>
 #else
     #define DL_UNIX_API
     #include <dlfcn.h>
@@ -24,22 +26,52 @@ DlHandle::~DlHandle()
 
     void* DlHandle::dlOpen(const std::string& path)
     {
-        throw std::runtime_error("Windows DL not implemented");
+        HINSTANCE handle = LoadLibrary(DlHandle::parseObjectPath(path).c_str());
+        if (handle == nullptr) throw std::runtime_error(DlHandle::dlError());
+        return handle;
     }
 
     void DlHandle::dlClose(void* handle)
     {
-        throw std::runtime_error("Windows DL not implemented");
+        bool result = FreeLibrary(reinterpret_cast<HMODULE>(handle));
+        if(!result) throw std::runtime_error(DlHandle::dlError());
     }
 
     void* DlHandle::dlSym(void* handle, const std::string& symbol)
     {
-        throw std::runtime_error("Windows DL not implemented");
+        auto s = GetProcAddress(reinterpret_cast<HMODULE>(handle), symbol.c_str());
+        if (s == nullptr) throw std::runtime_error(DlHandle::dlError());
+        return s;
     }
 
     std::string DlHandle::dlError()
     {
-        return "";
+        // Based on stackoverflow thread:
+        // https://stackoverflow.com/questions/1387064/how-to-get-the-error-message-from-the-error-code-returned-by-getlasterror
+
+        DWORD errorMessageID = ::GetLastError();
+        LPSTR messageBuffer = nullptr;
+
+        // Ask Win32 to give us the string version of that message ID.
+        // The parameters we pass in, tell Win32 to create the buffer that holds the message for us
+        // (because we don't yet know how long the message string will be).
+        size_t size = FormatMessageA(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            errorMessageID,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPSTR) &messageBuffer,
+            0,
+            NULL
+        );
+        
+        // Copy the error message into a std::string.
+        std::string message(messageBuffer, size);
+        
+        // Free the Win32's string's buffer.
+        LocalFree(messageBuffer);
+
+        return message.substr(0, message.size() - 2);
     }
 
 #elif defined(DL_UNIX_API)

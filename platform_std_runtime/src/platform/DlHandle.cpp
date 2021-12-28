@@ -105,7 +105,7 @@ std::string DlHandle::parseObjectPath(const std::string& path)
 {
     #ifdef ELROND_WINDOWS_PLATFORM
         constexpr const char* LIB_EXT = ".dll";
-        constexpr const char* PREFFIX = "\\.";
+        constexpr const char* PREFFIX = ".\\";
     #elif defined(ELROND_APPLE_PLATFORM)
         constexpr const char* LIB_EXT = ".dylib";
         constexpr const char* PREFFIX = "./";

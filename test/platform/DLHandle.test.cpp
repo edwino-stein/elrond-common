@@ -166,7 +166,7 @@ TEST_CASE("Check static DlHandle::parseObjectPath() method", "[platform][DLHandl
 
     CHECK_THAT(
         DlHandle::parseObjectPath("c:\\dlobject"),
-        StartsWith("/dlobject") || StartsWith("\\dlobject")
+        StartsWith("/dlobject") || StartsWith("c:\\dlobject")
     );
 
     CHECK_THAT(

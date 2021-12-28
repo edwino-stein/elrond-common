@@ -18,6 +18,10 @@ std::string elrond::platform::demangle(const std::type_info& info)
 
         return (status == 0) ? res.get() : info.name() ;
 
+    #elif defined(ELROND_WINDOWS_PLATFORM)
+        const std::string name = info.name();
+        const std::size_t pos = name.find(' ');
+        return pos != std::string::npos ? name.substr(pos + 1) : name;
     #else
         return info.name();
     #endif
@@ -52,5 +56,9 @@ std::string elrond::platform::normilizePath(const std::string& path)
         }
     );
 
-    return p;
+    #ifdef ELROND_WINDOWS_PLATFORM
+        return (path.size() > 2 && path[1] == ':') ? path.substr(0, 2) + p : p;
+    #else
+        return p;
+    #endif
 }

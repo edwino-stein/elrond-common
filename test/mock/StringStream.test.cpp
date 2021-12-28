@@ -59,7 +59,8 @@ SCENARIO("Test a mocked StringStream for capture numeric outputs", "[mock][Strin
             ss << static_cast<long>(0xFFFFFFFF);
             THEN("The StringStream must captured the number as string")
             {
-                CHECK(ss.getString() == "4294967295");
+                if (sizeof(long) == 4) FAIL();
+                if (sizeof(long) == 8) CHECK(ss.getString() == "4294967295");
             }
         }
 
@@ -68,7 +69,8 @@ SCENARIO("Test a mocked StringStream for capture numeric outputs", "[mock][Strin
             ss << static_cast<long>(0xFFFFFFFFFFFFFFFF);
             THEN("The StringStream must captured the number as string")
             {
-                CHECK(ss.getString() == "-1");
+                if (sizeof(long) == 4) FAIL();
+                if (sizeof(long) == 8) CHECK(ss.getString() == "-1");
             }
         }
 
@@ -77,7 +79,8 @@ SCENARIO("Test a mocked StringStream for capture numeric outputs", "[mock][Strin
             ss << static_cast<unsigned long>(0xFFFFFFFFFFFFFFFF);
             THEN("The StringStream must captured the number as string")
             {
-                CHECK(ss.getString() == "18446744073709551615");
+                if (sizeof(unsigned long) == 4) FAIL();
+                if (sizeof(unsigned long) == 8) CHECK(ss.getString() == "18446744073709551615");
             }
         }
 
@@ -86,7 +89,8 @@ SCENARIO("Test a mocked StringStream for capture numeric outputs", "[mock][Strin
             ss << static_cast<unsigned long>(-1);
             THEN("The StringStream must captured the number as string")
             {
-                CHECK(ss.getString() == "18446744073709551615");
+                if (sizeof(unsigned long) == 4) FAIL();
+                if (sizeof(unsigned long) == 8) CHECK(ss.getString() == "18446744073709551615");
             }
         }
 

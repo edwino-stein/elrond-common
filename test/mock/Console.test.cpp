@@ -85,7 +85,8 @@ SCENARIO("Test a mocked console instance for info outputs", "[mock][Console]")
             console.info(static_cast<long>(0xFFFFFFFFFFFFFFFF));
             THEN("The StringStream must capture the long as string")
             {
-                CHECK(ss.getString() == "-1");
+                if (sizeof(long) == 4) FAIL();
+                if (sizeof(long) == 8) CHECK(ss.getString() == "-1");
             }
         }
 
@@ -94,7 +95,8 @@ SCENARIO("Test a mocked console instance for info outputs", "[mock][Console]")
             console.info(static_cast<unsigned long>(0xFFFFFFFFFFFFFFFF));
             THEN("The StringStream must capture the unsigned long as string")
             {
-                CHECK(ss.getString() == "18446744073709551615");
+                if (sizeof(unsigned long) == 4) FAIL();
+                if (sizeof(unsigned long) == 8) CHECK(ss.getString() == "18446744073709551615");
             }
         }
 

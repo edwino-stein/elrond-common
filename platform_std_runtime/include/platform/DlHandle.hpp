@@ -28,9 +28,9 @@
                     static void* dlOpen(const std::string& path);
                     static void dlClose(void* handle);
                     static void* dlSym(void* handle, const std::string& symbol);
+                    static std::string dlError();
 
                     static std::string parseObjectPath(const std::string& path);
-                    static std::string getObjectExt(const std::string& path);
             };
         }
     }

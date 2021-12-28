@@ -8,6 +8,9 @@
 #endif
 
 using elrond::platform::DlHandle;
+using elrond::platform::fileExtension;
+using elrond::platform::isAbsolutePath;
+using elrond::platform::normilizePath;
 
 DlHandle::DlHandle(const std::string& path) : handle(DlHandle::dlOpen(path))
 {}
@@ -34,6 +37,11 @@ DlHandle::~DlHandle()
         throw std::runtime_error("Windows DL not implemented");
     }
 
+    std::string DlHandle::dlError()
+    {
+        return "";
+    }
+
 #elif defined(DL_UNIX_API)
 
     void* DlHandle::dlOpen(const std::string& path)
@@ -47,20 +55,26 @@ DlHandle::~DlHandle()
         #endif
 
         void* handle = ::dlopen(DlHandle::parseObjectPath(path).c_str(), DL_MODE);
-        if(!(handle)) throw std::runtime_error(dlerror());
+        if(!(handle)) throw std::runtime_error(DlHandle::dlError());
         return handle;
     }
 
     void DlHandle::dlClose(void* handle)
     {
-        if (handle != nullptr) ::dlclose(handle);
+        if (handle == nullptr) return;
+        if (::dlclose(handle) != 0) throw std::runtime_error(DlHandle::dlError());
     }
 
     void* DlHandle::dlSym(void* handle, const std::string& symbol)
     {
         void* s = ::dlsym(handle, symbol.c_str());
-        if(s == nullptr) throw std::runtime_error(dlerror());
+        if(s == nullptr) throw std::runtime_error(DlHandle::dlError());
         return s;
+    }
+
+    std::string DlHandle::dlError()
+    {
+        return dlerror();
     }
 
 #else
@@ -80,40 +94,29 @@ DlHandle::~DlHandle()
         throw std::runtime_error("Incompatible platform");
     }
 
+    std::string DlHandle::dlError()
+    {
+        return "";
+    }
+
 #endif
 
 std::string DlHandle::parseObjectPath(const std::string& path)
 {
     #ifdef ELROND_WINDOWS_PLATFORM
-        constexpr const char* LIB_EXT = "dll";
+        constexpr const char* LIB_EXT = ".dll";
+        constexpr const char* PREFFIX = "\\.";
     #elif defined(ELROND_APPLE_PLATFORM)
-        constexpr const char* LIB_EXT = "dylib";
+        constexpr const char* LIB_EXT = ".dylib";
+        constexpr const char* PREFFIX = "./";
     #elif defined(ELROND_LINUX_PLATFORM)
-        constexpr const char* LIB_EXT = "so";
+        constexpr const char* LIB_EXT = ".so";
+        constexpr const char* PREFFIX = "./";
     #else
-        throw std::runtime("Incompatible platform")
+        throw std::runtime("Incompatible platform");
     #endif
 
-    std::string preffix = "";
-    std::string suffix = "";
-    
-    #ifdef DL_UNIX_API
-        if (path[0] != '/' && path[0] != '.')
-        {
-            preffix = "./";
-        }
-    #endif
-
-    if (DlHandle::getObjectExt(path) != LIB_EXT)
-    {
-        suffix = std::string(".") + LIB_EXT; 
-    }
-
-    return preffix + path + suffix;
-}
-
-std::string DlHandle::getObjectExt(const std::string& path)
-{
-    const std::size_t p = path.rfind('.', path.length());
-    return (p != std::string::npos) ? path.substr(p + 1, path.length() - p) : "";
+    const std::string pfx = (isAbsolutePath(path) || path[0] == '.') ? "" : PREFFIX;
+    const std::string ext = fileExtension(path) == "" ? LIB_EXT : "";
+    return normilizePath(pfx + path + ext);
 }

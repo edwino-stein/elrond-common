@@ -3,6 +3,8 @@
 
 using elrond::platform::DlHandle;
 using Catch::Matchers::Contains;
+using Catch::Matchers::StartsWith;
+using Catch::Matchers::EndsWith;
 
 SCENARIO("Test Dynamic Load Handle generic interface", "[platform][DLHandle]")
 {
@@ -98,4 +100,87 @@ TEST_CASE("Try to instantiate a instance of DlHandle with invalid object path", 
     REQUIRE_THROWS([](){
         DlHandle object("dlobject_wrong");
     }());
+}
+
+TEST_CASE("Check static DlHandle::parseObjectPath() method", "[platform][DLHandle]")
+{
+    CHECK_THAT(
+        DlHandle::parseObjectPath("dlobject"),
+        StartsWith("./dlobject") || StartsWith(".\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("./dlobject"),
+        StartsWith("./dlobject") || StartsWith(".\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("./dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("../dlobject"),
+        StartsWith("../dlobject") || StartsWith("..\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("../dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath(".\\dlobject"),
+        StartsWith("./dlobject") || StartsWith(".\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath(".\\dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("..\\dlobject"),
+        StartsWith("../dlobject") || StartsWith("..\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("..\\dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("/dlobject"),
+        StartsWith("/dlobject") || StartsWith("\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("/dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("c:\\dlobject"),
+        StartsWith("/dlobject") || StartsWith("\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("c:\\dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("\\dlobject"),
+        StartsWith("/dlobject") || StartsWith("\\dlobject")
+    );
+
+    CHECK_THAT(
+        DlHandle::parseObjectPath("\\dlobject"),
+        EndsWith(".dylib") || EndsWith(".so") || EndsWith(".dll")
+    );
 }

@@ -7,7 +7,7 @@ using Catch::Matchers::Contains;
 TEST_CASE("Check elrond::platform::demangle() function", "[platform][demangle]")
 {
     CHECK_THAT(demangle<int>(), Contains("int"));
-    CHECK_THAT(demangle<elrond::string>(), Contains("std::basic_string"));
+    CHECK_THAT(demangle<elrond::string>(), Contains("basic_string"));
     CHECK_THAT(demangle<elrond::interface::Module>(), Contains("elrond::interface::Module"));
 }
 

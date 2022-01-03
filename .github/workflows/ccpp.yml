@@ -54,3 +54,5 @@ jobs:
                 arch: ${{matrix.arch}}
             - name: Run CMake
               run: cmake -B.\build -G "NMake Makefiles" .
+            - name: Build everything
+              run: cmake --build ./build --target all --

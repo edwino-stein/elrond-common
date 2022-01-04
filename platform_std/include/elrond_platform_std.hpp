@@ -67,10 +67,8 @@
     #define ELROND_ABI_FACTORY_TYPE                 elrond::platform::FactoryInterface*
 
     #ifdef ELROND_WINDOWS_PLATFORM
-        #define ELROND_ABI_CALL                     __stdcall
         #define ELROND_ABI_EXPORT                   __declspec(dllexport)
     #else
-        #define ELROND_ABI_CALL
         #define ELROND_ABI_EXPORT
     #endif
 

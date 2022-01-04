@@ -9,29 +9,12 @@ jobs:
 
         strategy:
             matrix:
-                os: [macos-11, macos-10.15]
+                os: [macos-latest, ubuntu-latest, macos-11, ubuntu-18.04]
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
             - name: Run CMake
-              run: cmake -H. -B./build -G "Unix Makefiles"
-            - name: Build everything
-              run: cmake --build ./build --target all -j 6 --
-            - name: Run tests
-              run: ctest -j6 -T test --output-on-failure --test-dir ./build
-
-    build-and-test-linux:
-        name: Build and test on ${{matrix.os}}
-        runs-on: ${{ matrix.os }}
-
-        strategy:
-            matrix:
-                os: [ubuntu-20.04, ubuntu-18.04]
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-            - name: Run CMake
-              run: cmake -H. -B./build -G "Unix Makefiles"
+              run: cmake -B./build -G "Unix Makefiles" .
             - name: Build everything
               run: cmake --build ./build --target all -j 6 --
             - name: Run tests
@@ -43,7 +26,7 @@ jobs:
 
         strategy:
             matrix:
-                os: [windows-2022, windows-2019]
+                os: [windows-latest, windows-2022]
                 arch: [amd64, x86]
         steps:
             - name: Checkout code

@@ -3,16 +3,41 @@ name: Build and test
 on: [push]
 
 jobs:
-    build-and-test-linux:
+    build-and-test-macos:
         name: Build and test on ${{matrix.os}}
         runs-on: ${{ matrix.os }}
 
         strategy:
             matrix:
-                os: [ubuntu-latest, ubuntu-18.04, ubuntu-16.04]
+                os: [macos-latest, ubuntu-latest, macos-11, ubuntu-18.04]
         steps:
-            - uses: actions/checkout@v1
-            - name: Building everything...
-              run: make all -j4
-            - name: Building and doing all tests...
-              run: make test-all a="-s -d yes" -j4
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Run CMake
+              run: cmake -B./build -G "Unix Makefiles" .
+            - name: Build everything
+              run: cmake --build ./build --target all -j 6 --
+            - name: Run tests
+              run: ctest -j6 -T test --output-on-failure --test-dir ./build
+
+    build-and-test-windows:
+        name: Build and test on ${{matrix.os}} (${{matrix.arch}})
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                os: [windows-latest, windows-2022]
+                arch: [amd64, x86]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Start VCTools
+              uses: seanmiddleditch/gha-setup-vsdevenv@master
+              with:
+                arch: ${{matrix.arch}}
+            - name: Run CMake
+              run: cmake -B.\build -G "NMake Makefiles" .
+            - name: Build everything
+              run: cmake --build ./build --target all --
+            - name: Run tests
+              run: ctest -j6 -T test --output-on-failure --test-dir ./build

@@ -1,11 +1,27 @@
 # General settings
-include Config.mk
+
+# Main settings
+PROJECT_NAME = elrond
+SRC_DIR = src
+SRC_TEST_DIR = $(SRC_DIR)/test
+INCLUDE_DIR = include
+DIST_DIR = dist
+
+# Main headers
+ELROND_HPP = include/elrond.hpp
+ELROND_EXT_HPP = include/elrond_ext.hpp
+ELROND_TEST_HPP = include/elrond_test.hpp
+
+# File extensions
+CPP_SRC_EXT = cpp
+HPP_SRC_EXT = hpp
+IPP_SRC_EXT = ipp
 
 # License text
 LICENSE_TXT := head -15 $(ELROND_HPP)
 
 # SED utils
-REMOVE_COMMENTS_SCRIPT = util/remccoms3.sed
+REMOVE_COMMENTS_SCRIPT = tools/remccoms3.sed
 REMOVE_COMMENTS := ./$(REMOVE_COMMENTS_SCRIPT) -i
 REMOVE_INCLUDES = sed -i '/^\s*\#include\s*\".*\"/d'
 REMOVE_EMPTY_LINES = sed -i '/^[[:space:]]*$$/d'
@@ -18,7 +34,7 @@ BASE_HEADER_FILES = $(shell cat $(ELROND_HPP) | grep -Po '\#include\s*"\K[^"]*')
 # ECL file options
 HEADER_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_version elrond_platform elrond_types)
 SRC_FILES_META = $(addsuffix .$(CPP_SRC_EXT), elrond)
-SRC_EXCLUDE = interface/% gpio/GenericGpioPin.%
+SRC_EXCLUDE = interface/% gpio/GpioPin.%
 
 # Define ECL .hpp files
 HEADER_FILES := $(HEADER_FILES_META) $(BASE_HEADER_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT))
@@ -59,10 +75,13 @@ BASE_HEADER_TEST_FILES = $(shell cat $(ELROND_TEST_HPP) | grep -Po '\#include\s*
 HEADER_TEST_FILES_META = $(addsuffix .$(HPP_SRC_EXT), elrond_test_types)
 
 # Define ETL files
-HEADER_TEST_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_TEST_FILES_META) $(BASE_HEADER_TEST_FILES))
+HEADER_TEST_FILES = $(addprefix $(INCLUDE_DIR)/, $(HEADER_TEST_FILES_META) $(BASE_HEADER_TEST_FILES:.$(IPP_SRC_EXT)=.$(HPP_SRC_EXT)))
+
+# Define ETL .ipp files
+IPP_TEST_FILES := $(addprefix $(INCLUDE_DIR)/, $(filter %.$(IPP_SRC_EXT),$(BASE_HEADER_TEST_FILES)))
 
 # Define ETL dist files
-HEADERS_TEST_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_TEST_FILES))
+HEADERS_TEST_DIST = $(subst $(INCLUDE_DIR)/,$(DIST_DIR)/,$(HEADER_TEST_FILES) $(addsuffix .$(HPP_SRC_EXT), $(IPP_TEST_FILES)))
 
 ################################## UTIL DEFS ###################################
 
@@ -90,7 +109,7 @@ $(DIST_DIR)/$(PROJECT_NAME).$(HPP_SRC_EXT): $(HEADERS_DIST) $(SRC_DIST)
 
 # Header only EXL builder
 $(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT)
-$(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
+$(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST) $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 	@mkdir -p $(@D)
 	@eval "$(LICENSE_TXT) > $@"
 	@eval "echo '#ifndef _ELROND_EXTENDED_HPP\n#define _ELROND_EXTENDED_HPP'" >> $@
@@ -103,9 +122,7 @@ $(DIST_DIR)/$(PROJECT_NAME)_ext.$(HPP_SRC_EXT): $(HEADERS_EXT_DIST)
 $(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT)
 $(DIST_DIR)/$(PROJECT_NAME)_test.$(HPP_SRC_EXT): $(HEADERS_TEST_DIST)
 	@mkdir -p $(@D)
-	@eval "$(LICENSE_TXT) > $@"
 	@eval "echo '#ifndef _ELROND_TEST_HPP\n#define _ELROND_TEST_HPP'" >> $@
-	@eval "echo '#include <elrond_ext.hpp>'" >> $@
 	@eval "cat $^ >> $@"
 	@eval "echo '#endif'" >> $@
 	$(info $^ > $@)

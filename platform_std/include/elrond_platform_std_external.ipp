@@ -2,7 +2,7 @@
     #define ELROND_PLATFORM_STD_EXTERNAL_IPP
 
     #ifndef ELROND_ENABLE_EXTERNAL_ABI_SETUP
-        #error "This header must be used with ELROND_ENABLE_EXTERNAL_API_SETUP macro"
+        #error "This header must be used with ELROND_ENABLE_EXTERNAL_ABI_SETUP macro"
     #endif
 
     #include "elrond_common_types.hpp"
@@ -34,9 +34,9 @@
     elrond::platform::FactoryInterface* elrond::platform::__external_factory__ = nullptr; \
     ELROND_DEFINE_MODULE(C, __VA_ARGS__) \
     extern "C" { \
-        ELROND_ABI_EXPORT ELROND_ABI_NUM_TYPE ELROND_ABI_CALL ELROND_ABI_GET_API_VERSION_FUNC_NAME () \
+        ELROND_ABI_EXPORT ELROND_ABI_NUM_TYPE ELROND_ABI_GET_API_VERSION_FUNC_NAME () \
         { return elrond::getApiVersion(); } \
-        ELROND_ABI_EXPORT ELROND_ABI_FACTORY_TYPE ELROND_ABI_CALL ELROND_ABI_GET_FACTORY_FUNC_NAME () \
+        ELROND_ABI_EXPORT ELROND_ABI_FACTORY_TYPE ELROND_ABI_GET_FACTORY_FUNC_NAME () \
         { return elrond::platform::__external_factory__; } \
     }
 

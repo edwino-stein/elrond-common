@@ -38,8 +38,8 @@ endif()
 # Add subprojects
 add_subdirectory(common)
 add_subdirectory(platform_std)
+add_subdirectory(common_runtime)
 add_subdirectory(platform_std_runtime)
-add_subdirectory(runtime)
 add_subdirectory(mock)
 add_subdirectory(test)
 

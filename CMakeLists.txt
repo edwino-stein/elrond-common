@@ -52,12 +52,35 @@ target_link_libraries(
     platform
 )
 
+# Define interface runtime library
+add_library(${PROJECT_NAME}_runtime INTERFACE)
+target_link_libraries(
+    ${PROJECT_NAME}_runtime
+    INTERFACE
+    common_runtime
+    platform_runtime
+)
+
+add_library(${PROJECT_NAME}_runtime_src INTERFACE)
+target_link_libraries(
+    ${PROJECT_NAME}_runtime_src
+    INTERFACE
+    common_runtime_src
+    platform_runtime_src
+)
+
 # Export libraries
 export(
     TARGETS
         common
         platform
+        common_runtime
+        common_runtime_src
+        platform_runtime
+        platform_runtime_src
         ${PROJECT_NAME}
+        ${PROJECT_NAME}_runtime
+        ${PROJECT_NAME}_runtime_src
     NAMESPACE Elrond::
     FILE elrond.cmake
 )

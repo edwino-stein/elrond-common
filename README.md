@@ -39,15 +39,24 @@ The **Elrond Common Library** is currently compatible with these platforms:
  - Windows computers;
 
 
-## Library structure
+## Project structure
 
-The **ELC** is based on CMake projects, and is structure as:
- - `common`: Library code base to be shared with runtime applications and external modules, contains only interfaces and platform independent code
- - `platform_std`: Library of standard platforms code base to be shared with runtime applications and external modules, contains definitions and platform specific code to be compatible with any platform based on C++ standard libraries
- - `runtime`: Library with platform independent code to be used only on runtime applications
+### Directories and subprojects
+ - `common`: Header Only Library with code base to be shared with runtime applications and external modules, contains only interfaces and platform independent code
+ - `platform_std`: Header Only Library of standard platform code base to be shared with runtime applications and external modules, contains definitions and platform specific code to be compatible with any platform based on C++ standard libraries
+ - `common_runtime`: Library with platform independent code to be used only on runtime applications
  - `platform_std_runtime`: Library with standard  platform specific code to be used only on runtime applications
- - `mock`: Library containing code and classes to mock a runtime applications during module development and tests
- - `test`: Test project to libraries validation
+ - `mock`: Library containing code and classes to mock test senarios to modules development
+ - `test`: Test project to validation
+
+### CMake exports
+ - `Elrond::elrond`: Interface library (Header Only Library) with base classes and code
+ - `Elrond::elrond_runtime`: Interface library (headers and defines) with runtime application base classes and code
+ - `Elrond::elrond_runtime_src`: Interface library (source code files) with runtime application base classes and code
+ - `Elrond::mock`: Static library with mocking classes for development and tests
+ - `Elrond::catch2` Static library with a custom [Catch2 unit testing framework](https://github.com/catchorg/Catch2)
+
+> Use the generated file `build/elrond.cmake` to import the targets.
 
 ## Internal modules
 The **Elrond Common Library** includes some general proposes modules.

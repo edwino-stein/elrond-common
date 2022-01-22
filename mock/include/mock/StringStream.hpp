@@ -7,43 +7,13 @@
     {
         namespace mock
         {
-            class StringStream : public elrond::interface::Stream
+            class StringStream : public elrond::platform::OStream
             {
                 private:
-                    std::unique_ptr<std::ostringstream> oss;
-                    std::ostringstream& stream() const;
+                    std::ostringstream oss;
 
                 public:
                     StringStream();
-
-                    // Char and strings
-                    virtual const elrond::interface::Stream&
-                    operator<<(const char c) const override;
-
-                    virtual const elrond::interface::Stream&
-                    operator<<(const unsigned char c) const override;
-
-                    virtual const elrond::interface::Stream&
-                    operator<<(const char c[]) const override;
-    
-                    virtual const elrond::interface::Stream&
-                    operator<<(elrond::string str) const override;
-
-                    // Numeric
-                    virtual const elrond::interface::Stream&
-                    operator<<(const int i) const override;
-                    
-                    virtual const elrond::interface::Stream&
-                    operator<<(const unsigned int i) const override;
-
-                    virtual const elrond::interface::Stream&
-                    operator<<(const long l) const override;
-                    
-                    virtual const elrond::interface::Stream&
-                    operator<<(const unsigned long l) const override;
-                    
-                    virtual const elrond::interface::Stream&
-                    operator<<(const double d) const override;
 
                     virtual std::string getString() const;
                     virtual void flush();

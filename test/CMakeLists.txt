@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 
 project(
-    elrond_tests
+    test
     DESCRIPTION "Elrond tests"
     LANGUAGES CXX
 )
@@ -15,14 +15,14 @@ FetchContent_Declare(
     GIT_TAG        v2.13.7)
 FetchContent_MakeAvailable(Catch2)
 
-# Build an object with Catch2 entrypoint
-add_library(catch2 OBJECT "${PROJECT_SOURCE_DIR}/catch2.cpp")
-target_include_directories(catch2 PRIVATE ${PROJECT_SOURCE_DIR})
-target_link_libraries(catch2 PRIVATE Catch2::Catch2)
+# Build a library with Catch2 entrypoint
+add_library(catch2 STATIC "${PROJECT_SOURCE_DIR}/catch2/catch2.cpp")
+target_include_directories(catch2 PUBLIC "${PROJECT_SOURCE_DIR}/catch2")
+target_link_libraries(catch2 PUBLIC Catch2::Catch2)
 
-# Search for test cases and exclude catch2 src file
+# Search for test cases and exclude some files from source list
 file(GLOB_RECURSE SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/*.cpp")
-list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/catch2.cpp")
+list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/catch2/catch2.cpp")
 list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/dlobject.cpp")
 list(REMOVE_ITEM SRC_TEST_CASES_FILES "${PROJECT_SOURCE_DIR}/ExternalModule.cpp")
 
@@ -52,8 +52,8 @@ foreach(T ${SRC_TEST_CASES_FILES})
         set(TEST_TARGET "${TEST_TARGET}.test")
 
         # Setup automated tests dependencies
-        add_executable(${TEST_TARGET} ${T} $<TARGET_OBJECTS:catch2>)
-        target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2)
+        add_executable(${TEST_TARGET} ${T})
+        target_link_libraries(${TEST_TARGET} PRIVATE catch2 Catch2::Catch2)
 
         # Add to CTEST
         add_test(${TEST_TARGET} ${TEST_TARGET} -s)
@@ -63,8 +63,7 @@ foreach(T ${SRC_TEST_CASES_FILES})
     endif()
     
     # Set the incluce directory and add libraries
-    target_include_directories(${TEST_TARGET} PRIVATE ${PROJECT_SOURCE_DIR})
-    target_link_libraries(${TEST_TARGET} PRIVATE elrond_mock)
+    target_link_libraries(${TEST_TARGET} PRIVATE mock)
         
 endforeach()
 

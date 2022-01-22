@@ -79,6 +79,8 @@ export(
         platform_runtime
         platform_runtime_src
         mock
+        Catch2
+        catch2
         ${PROJECT_NAME}
         ${PROJECT_NAME}_runtime
         ${PROJECT_NAME}_runtime_src

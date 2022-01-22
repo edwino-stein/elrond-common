@@ -3,7 +3,7 @@
 
     #include <elrond.hpp>
     #include <elrond_platform_runtime.hpp>
-    #include <elrond_runtime.hpp>
+    #include <elrond_common_runtime.hpp>
     
     #include <sstream>
     #include <memory>

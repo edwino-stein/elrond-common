@@ -78,6 +78,7 @@ export(
         common_runtime_src
         platform_runtime
         platform_runtime_src
+        mock
         ${PROJECT_NAME}
         ${PROJECT_NAME}_runtime
         ${PROJECT_NAME}_runtime_src

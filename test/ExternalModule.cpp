@@ -10,22 +10,22 @@ class ExternalModule : public BaseGeneric
 
         void setup(const elrond::Parameters&) override
         {
-            elrond::ctx(this).console().info("setup");
+            elrond::ctx(this)->console()->info("setup");
         }
 
         void start() override
         {
-            elrond::ctx(this).console().info("start");
+            elrond::ctx(this)->console()->info("start");
         }
 
         void loop() override
         {
-            elrond::ctx(this).console().info("loop");
+            elrond::ctx(this)->console()->info("loop");
         }
 
         void stop() override
         {
-            elrond::ctx(this).console().info("stop");
+            elrond::ctx(this)->console()->info("stop");
         }
 };
 

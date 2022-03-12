@@ -57,6 +57,7 @@ add_library(${PROJECT_NAME}_runtime INTERFACE)
 target_link_libraries(
     ${PROJECT_NAME}_runtime
     INTERFACE
+    elrond
     common_runtime
     platform_runtime
 )

@@ -5,8 +5,6 @@ using elrond::mock::Console;
 using elrond::interface::Stream;
 using elrond::mock::StringStream;
 
-std::unique_ptr<elrond::interface::Console> Console::nullSingleton(new Console());
-
 Console::Console()
 :
     printInfoH([](elrond::StreamH){}),
@@ -37,9 +35,9 @@ void Console::throwError(const elrond::StreamH& handle) const
     this->throwErrorH(handle);
 }
 
-elrond::interface::Console& Console::null()
+std::shared_ptr<elrond::interface::Console> Console::null()
 {
-    return *(Console::nullSingleton);
+    return std::make_shared<Console>();
 }
 
 void Console::defaultThrowError(elrond::StreamH handle)

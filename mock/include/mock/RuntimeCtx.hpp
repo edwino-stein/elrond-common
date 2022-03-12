@@ -7,9 +7,24 @@
     {
         namespace mock
         {
-            class RuntimeCtx : public elrond::interface::Context,
-                               public elrond::platform::RuntimeCtx
+            class RuntimeCtx : public elrond::platform::RuntimeCtx
             {
+                public:
+                    class Context : public elrond::interface::Context
+                    {
+                        public:
+
+                            const RuntimeCtx& ctx;
+
+                            Context(const RuntimeCtx& ctx);
+                            virtual ~Context() = default;
+    
+                            elrond::pointer<elrond::interface::Console>
+                            console() const override;
+
+                            elrond::string name() const override;
+                    };
+
                 protected:
 
                     //
@@ -21,8 +36,8 @@
                     //
                     // Internal properties
                     //
-                    elrond::interface::Console* _console;
-                    
+                    elrond::pointer<elrond::interface::Console> _console;
+
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
                     //
@@ -33,24 +48,20 @@
                 public:
 
                     //
-                    // elrond::interface::Context methods override
-                    //
-                    elrond::interface::Console const& console() const override;
-
-                    //
                     // elrond::platform::RuntimeCtx methods override
                     //
-                    elrond::interface::Context const&
+                    elrond::pointer<elrond::interface::Context>
                     ofInstance(const elrond::platform::ModuleObject& inst) const override;
 
                     //
                     // Setters methods
                     //
-                    RuntimeCtx& console(elrond::interface::Console& console);
+                    RuntimeCtx& console(elrond::pointer<elrond::interface::Console> console);
 
                     //
                     // Getters methods
                     //
+                    elrond::pointer<elrond::interface::Console> console() const;
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
                     elrond::platform::BaseFactoryAdapter& adapter() const;

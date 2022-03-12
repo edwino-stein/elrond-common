@@ -10,7 +10,7 @@ int main()
 {
     auto ctx = RuntimeCtx::create<HelloWorld>("teste");
 
-    Console console(
+    auto console = std::make_shared<Console> (
         [](const elrond::StreamH& handle)
         {
             StringStream s;
@@ -18,6 +18,7 @@ int main()
             std::cout << s.getString() << '\n';
         }
     );
+
     ctx.console(console);
 
     ctx.callSetup()

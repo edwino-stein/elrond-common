@@ -5,8 +5,11 @@
 
     namespace elrond
     {
-        const elrond::interface::Context& ctx(const elrond::interface::Module& inst);
-        const elrond::interface::Context& ctx(const elrond::interface::Module* const inst);
+        elrond::pointer<elrond::interface::Context>
+        ctx(const elrond::interface::Module& inst);
+
+        elrond::pointer<elrond::interface::Context>
+        ctx(const elrond::interface::Module* const inst);
     }
 
 #endif

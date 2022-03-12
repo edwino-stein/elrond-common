@@ -28,7 +28,7 @@
                     Console(const CallbackStream& printInfoH);
                     Console(const CallbackStream& printInfoH, const CallbackStream throwErrorH);
 
-                    static elrond::interface::Console& null();
+                    static std::shared_ptr<elrond::interface::Console> null();
             };
         }
     }

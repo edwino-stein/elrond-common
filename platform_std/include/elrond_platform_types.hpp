@@ -33,6 +33,9 @@
         template <class...As>
         using procedure = std::function<void(As...)>;
 
+        template <class T>
+        using pointer = std::shared_ptr<T>;
+
         // Platform specific classes
         namespace platform
         {

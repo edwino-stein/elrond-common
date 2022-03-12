@@ -10,7 +10,7 @@
             class RuntimeCtx
             {
                 public:
-                    virtual elrond::interface::Context const&
+                    virtual elrond::pointer<elrond::interface::Context>
                     ofInstance(const elrond::platform::ModuleObject& inst) const =0;
             };
         }

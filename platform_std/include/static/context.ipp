@@ -9,11 +9,11 @@
 
     namespace elrond
     {
-        ELROND_INLINE const elrond::interface::Context&
+        ELROND_INLINE elrond::pointer<elrond::interface::Context>
         ctx(const elrond::interface::Module& inst)
         { return inst.__ctx__(); }
 
-        ELROND_INLINE const elrond::interface::Context&
+        ELROND_INLINE elrond::pointer<elrond::interface::Context>
         ctx(const elrond::interface::Module* const inst)
         {
             if(inst != nullptr) return inst->__ctx__();

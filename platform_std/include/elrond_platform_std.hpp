@@ -53,6 +53,7 @@
     #include <cstdint>
     #include <string>
     #include <functional>
+    #include <memory>
     #include <exception>
 
     // Util macros

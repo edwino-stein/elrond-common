@@ -57,3 +57,40 @@ TEST_CASE("Check elrond::strCmp() function", "[string]")
     CHECK(elrond::strCmp(str, "Hello World!!") > 0);
     CHECK(elrond::strCmp(str, "Hello World!!!!") < 0);
 }
+
+TEST_CASE("Check elrond::strCpy() function", "[string]")
+{
+    elrond::string str = ELROND_STR("Hello World!!!");
+
+    SECTION("Copy the string to a much larger buffer")
+    {
+        char buffer[16];
+        REQUIRE(elrond::strCpy(str, buffer, 16) == 14);
+        REQUIRE(buffer[14] == '\0');
+        REQUIRE(elrond::strCmp(str, buffer) == 0);
+    }
+
+    SECTION("Copy the string to a larger buffer")
+    {
+        char buffer[15];
+        REQUIRE(elrond::strCpy(str, buffer, 15) == 14);
+        REQUIRE(buffer[14] == '\0');
+        REQUIRE(elrond::strCmp(str, buffer) == 0);
+    }
+
+    SECTION("Copy the string to a same size buffer")
+    {
+        char buffer[14];
+        REQUIRE(elrond::strCpy(str, buffer, 14) == 13);
+        REQUIRE(buffer[13] == '\0');
+        REQUIRE(elrond::strCmp(str, buffer) > 0);
+    }
+
+    SECTION("Copy the string to a smaller buffer")
+    {
+        char buffer[13];
+        REQUIRE(elrond::strCpy(str, buffer, 13) == 12);
+        REQUIRE(buffer[12] == '\0');
+        REQUIRE(elrond::strCmp(str, buffer) > 0);
+    }
+}

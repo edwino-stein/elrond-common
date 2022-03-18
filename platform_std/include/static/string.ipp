@@ -39,6 +39,15 @@
         {
             return str1.compare(str2);
         }
+
+        ELROND_INLINE elrond::sizeT
+        strCpy(elrond::string src, char des[], const elrond::sizeT len)
+        {
+            auto l = src.copy(des, len);
+            if(l == len) l -= 1;
+            des[l] = '\0';
+            return l;
+        }
     }
 
 #endif

@@ -14,6 +14,11 @@
         {
             return str.size();
         }
+
+        ELROND_INLINE char strAt(elrond::string str, const elrond::sizeT pos)
+        {
+            return str[pos];
+        }
     }
 
 #endif

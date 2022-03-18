@@ -15,6 +15,7 @@
         {
             class RuntimeCtx;
             class Console;
+            class ConsoleAdapter;
             class StringStream;
             class Parameters;
         }

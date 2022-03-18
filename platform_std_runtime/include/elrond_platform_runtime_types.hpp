@@ -1,17 +1,18 @@
 #ifndef ELROND_PLATFORM_RUNTIME_TYPES_HPP
     #define ELROND_PLATFORM_RUNTIME_TYPES_HPP
 
-    #include "elrond.hpp"
+    #include <elrond.hpp>
 
     #ifndef ELROND_STD_PLATFORM
         #error "This project is only compatible with STD platforms"
     #endif
 
+    #include <sstream>
+
     namespace elrond
     {
         namespace platform
         {
-
             class ModuleInstance;
             class BaseFactoryAdapter;
             template<class M> class InternalFactoryAdapter;
@@ -33,6 +34,11 @@
             bool isAbsolutePath(const std::string& path);
             std::string fileExtension(const std::string& path);
             std::string normilizePath(const std::string& path);
+        }
+
+        namespace interface
+        {
+            class ConsoleAdapter;
         }
     }
 

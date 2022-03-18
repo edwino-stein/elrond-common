@@ -10,6 +10,10 @@
 
     namespace elrond
     {
+        ELROND_INLINE elrond::sizeT strLen(elrond::string str)
+        {
+            return str.size();
+        }
     }
 
 #endif

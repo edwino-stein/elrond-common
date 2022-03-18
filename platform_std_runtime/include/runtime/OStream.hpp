@@ -1,11 +1,11 @@
-#ifndef ELROND_PLATFORM_RUNTIME_STREAM_HPP
-    #define ELROND_PLATFORM_RUNTIME_STREAM_HPP
+#ifndef ELROND_PLATFORM_RUNTIME_RUNTIME_O_STREAM_HPP
+    #define ELROND_PLATFORM_RUNTIME_RUNTIME_O_STREAM_HPP
 
     #include "elrond_platform_runtime_types.hpp"
 
     namespace elrond
     {
-        namespace platform
+        namespace runtime
         {
             class OStream : public elrond::interface::Stream
             {

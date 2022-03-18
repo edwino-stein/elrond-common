@@ -4,6 +4,6 @@
     #include "platform/ModuleInstance.hpp"
     #include "platform/InternalFactoryAdapter.ipp"
     #include "platform/ExternalFactoryAdapter.hpp"
-    #include "platform/OStream.hpp"
+    #include "runtime/OStream.hpp"
 
 #endif

@@ -18,7 +18,6 @@
             template<class M> class InternalFactoryAdapter;
             class ExternalFactoryAdapter;
             class DlHandle;
-            class OStream;
 
             using ModuleInstanceH = std::unique_ptr<elrond::interface::Module,
                                                     elrond::procedure<elrond::interface::Module*>>;
@@ -39,6 +38,11 @@
         namespace interface
         {
             class ConsoleAdapter;
+        }
+
+        namespace runtime
+        {
+            class OStream;
         }
     }
 

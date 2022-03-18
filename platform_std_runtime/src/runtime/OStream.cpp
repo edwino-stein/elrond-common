@@ -1,6 +1,6 @@
-#include "platform/OStream.hpp"
+#include "runtime/OStream.hpp"
 
-using elrond::platform::OStream;
+using elrond::runtime::OStream;
 using elrond::interface::Stream;
 
 OStream::OStream(std::ostream& os) : os(&os) {}

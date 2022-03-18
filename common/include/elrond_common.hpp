@@ -14,5 +14,6 @@
 
     #include "static/context.hpp"
     #include "static/bitwise.hpp"
+    #include "static/string.hpp"
 
 #endif

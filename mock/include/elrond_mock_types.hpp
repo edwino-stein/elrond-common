@@ -4,9 +4,6 @@
     #include <elrond.hpp>
     #include <elrond_platform_runtime.hpp>
     #include <elrond_common_runtime.hpp>
-    
-    #include <sstream>
-    #include <memory>
     #include <map>
 
     namespace elrond
@@ -14,8 +11,7 @@
         namespace mock
         {
             class RuntimeCtx;
-            class Console;
-            class StringStream;
+            class ConsoleAdapter;
             class Parameters;
         }
     }

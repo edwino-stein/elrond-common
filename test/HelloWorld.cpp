@@ -2,24 +2,17 @@
 
 using elrond::module::HelloWorld;
 using elrond::mock::RuntimeCtx;
-using elrond::mock::Console;
-using elrond::mock::StringStream;
+using elrond::mock::ConsoleAdapter;
 using elrond::mock::Parameters;
 
 int main()
 {
     auto ctx = RuntimeCtx::create<HelloWorld>("teste");
-
-    auto console = std::make_shared<Console> (
-        [](const elrond::StreamH& handle)
-        {
-            StringStream s;
-            handle(s);
-            std::cout << s.getString() << '\n';
-        }
+    ConsoleAdapter consoleAdapter(
+        [](std::ostringstream& msg){ std::cout << msg.str() << std::endl; }
     );
 
-    ctx.console(console);
+    ctx.console(consoleAdapter);
 
     ctx.callSetup()
         .callStart()

@@ -1,6 +1,7 @@
 #include "mock/RuntimeCtx.hpp"
+
+#include "mock/ConsoleAdapter.hpp"
 #include "mock/Parameters.hpp"
-#include "mock/Console.hpp"
 
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
@@ -43,10 +44,9 @@ RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
 :
     _adapter(adapter),
     _instance(_adapter->create(name)),
-    _console(nullptr)
+    _consoleAdapter(&(elrond::mock::ConsoleAdapter::null()))
 {
     this->instance().__init__(this);
-    this->console(elrond::mock::Console::null());
 }
 
 /* ************** elrond::platform::RuntimeCtx base overload ****************** */
@@ -59,9 +59,9 @@ elrond::pointer<ContextInterface> RuntimeCtx::ofInstance(const ModuleObject& ins
 
 /* *********************************** Setters ******************************** */
 
-RuntimeCtx& RuntimeCtx::console(elrond::pointer<elrond::interface::Console> console)
+RuntimeCtx& RuntimeCtx::console(elrond::interface::ConsoleAdapter& consoleAdapter)
 {
-    this->_console = console;
+    this->_consoleAdapter = &consoleAdapter;
     return *this;
 }
 
@@ -69,7 +69,10 @@ RuntimeCtx& RuntimeCtx::console(elrond::pointer<elrond::interface::Console> cons
 
 elrond::pointer<Console> RuntimeCtx::console() const
 {
-    return this->_console;
+    return std::make_shared<elrond::runtime::Console>(
+        this->name(),
+        *(this->_consoleAdapter)
+    );
 }
 
 elrond::string RuntimeCtx::name() const

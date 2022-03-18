@@ -1,21 +1,24 @@
-#ifndef ELROND_COMMON_RUNTIME_RUNTIME_BASE_CONSOLE_HPP
-    #define ELROND_COMMON_RUNTIME_RUNTIME_BASE_CONSOLE_HPP
+#ifndef ELROND_PLATFORM_RUNTIME_RUNTIME_CONSOLE_HPP
+    #define ELROND_PLATFORM_RUNTIME_RUNTIME_CONSOLE_HPP
 
-    #include <elrond.hpp>
+    #include "elrond_platform_runtime_types.hpp"
+    #include "interface/ConsoleAdapter.hpp"
 
     namespace elrond
     {
         namespace runtime
         {
-            class BaseConsole : public elrond::interface::Console
+            class Console : public elrond::interface::Console
             { 
                 protected:
-                    virtual void printInfo(const elrond::StreamH& handle) const =0;
-                    virtual void throwError(const elrond::StreamH& handle) const =0;
-    
+
+                    elrond::string tag;
+                    elrond::interface::ConsoleAdapter* adapter;
+
                 public:
 
-                    virtual ~BaseConsole() = ELROND_DEFAULT_DESTRUCTOR;
+                    Console(elrond::string tag, elrond::interface::ConsoleAdapter& adapter);
+                    virtual ~Console() = ELROND_DEFAULT_DESTRUCTOR;
 
                     //
                     // Stream handle

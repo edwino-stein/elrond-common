@@ -26,7 +26,6 @@
                     };
 
                 protected:
-
                     //
                     // Module instance Handle properties
                     //
@@ -36,7 +35,7 @@
                     //
                     // Internal properties
                     //
-                    elrond::pointer<elrond::interface::Console> _console;
+                    elrond::interface::ConsoleAdapter* _consoleAdapter;
 
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
@@ -56,7 +55,7 @@
                     //
                     // Setters methods
                     //
-                    RuntimeCtx& console(elrond::pointer<elrond::interface::Console> console);
+                    RuntimeCtx& console(elrond::interface::ConsoleAdapter& consoleAdapter);
 
                     //
                     // Getters methods

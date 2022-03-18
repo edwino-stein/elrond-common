@@ -27,3 +27,18 @@ TEST_CASE("Check elrond::strAt() function", "[string]")
     CHECK(elrond::strAt(str, 12) == '!');
     CHECK(elrond::strAt(str, 13) == '!');
 }
+
+TEST_CASE("Check elrond::strEq() function", "[string]")
+{
+    elrond::string str = ELROND_STR("Hello World!!!");
+
+    CHECK(elrond::strEq(str, ELROND_STR("Hello World!!!")));
+    CHECK_FALSE(elrond::strEq(str, ELROND_STR("hello world!!!")));
+    CHECK_FALSE(elrond::strEq(str, ELROND_STR("Hello World!!")));
+    CHECK_FALSE(elrond::strEq(str, ELROND_STR("Hello World!!!!")));
+
+    CHECK(elrond::strEq(str, "Hello World!!!"));
+    CHECK_FALSE(elrond::strEq(str, "hello world!!!"));
+    CHECK_FALSE(elrond::strEq(str, "Hello World!!"));
+    CHECK_FALSE(elrond::strEq(str, "Hello World!!!!"));
+}

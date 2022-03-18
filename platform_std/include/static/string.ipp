@@ -19,6 +19,16 @@
         {
             return str[pos];
         }
+
+        ELROND_INLINE bool strEq(elrond::string str1, elrond::string str2)
+        {
+            return str1 == str2;
+        }
+
+        ELROND_INLINE bool strEq(elrond::string str1, const char*  str2)
+        {
+            return str1 == str2;
+        }
     }
 
 #endif

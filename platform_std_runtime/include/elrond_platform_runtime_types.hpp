@@ -42,6 +42,7 @@
 
         namespace runtime
         {
+            class Console;
             class OStream;
         }
     }

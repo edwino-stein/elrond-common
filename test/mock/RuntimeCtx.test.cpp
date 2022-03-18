@@ -6,8 +6,7 @@
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::module::BaseGeneric;
-using elrond::mock::Console;
-using elrond::mock::StringStream;
+using elrond::mock::ConsoleAdapter;
 using elrond::mock::Parameters;
 using Catch::Matchers::Contains;
 
@@ -44,6 +43,16 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
             {
                 CHECK_THAT(adapter.name(), Contains("TestModule"));
                 CHECK(adapter.apiVersion() == elrond::getApiVersion());
+            }
+        }
+
+        WHEN("Module instance requires your context")
+        {
+            auto context = elrond::ctx(ctx.instance());    
+            THEN("Must be the same context instance")
+            {
+                REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
+                REQUIRE(&(reinterpret_cast<RuntimeCtx::Context*>(context.get())->ctx) == &ctx);
             }
         }
 
@@ -160,7 +169,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
     }
 }
 
-SCENARIO("Test a mocked runtime context with a simple module instance for console operations", "[mock][RuntimeCtx][!mayfail]") // TODO: Remove mayfail tag in future
+SCENARIO("Test a mocked runtime context with a simple module instance for console operations", "[mock][RuntimeCtx]")
 {
     class TestConsoleModule : public BaseGeneric
     {
@@ -177,40 +186,27 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     GIVEN("A generic module instance")
     {
         auto ctx = RuntimeCtx::create<TestConsoleModule>("test");
-        REQUIRE(ctx.name() == "test");
-        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
-        REQUIRE(isInstanceOf<TestConsoleModule>(ctx.instance()));
-        REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
-        
-        WHEN("Calls the factory adapter getter")
-        {
-            auto& adapter = ctx.adapter();
-            THEN("Must return the expected adapter")
-            {
-                CHECK_THAT(adapter.name(), Contains("TestConsoleModule"));
-                CHECK(adapter.apiVersion() == elrond::getApiVersion());
-            }
-        }
 
-        WHEN("Set a custom console instance")
+        WHEN("Set a custom console adapter instance")
         {
-            StringStream info;
-            StringStream error;
-            auto console = std::make_shared<Console> (
-                [&info](elrond::StreamH h){ h(info); },
-                [&error](elrond::StreamH h){ h(error); }
+            std::ostringstream info, error;
+            ConsoleAdapter consoleAdapter(
+                [&info](std::ostringstream& msg){ info << msg.str(); },
+                [&error](std::ostringstream& msg){ error << msg.str(); }
             );
+
+            ctx.console(consoleAdapter);
 
             WHEN("The module instance calls console info method")
             {
                 auto& instance = reinterpret_cast<TestConsoleModule&>(ctx.instance());
-                REQUIRE((!instance.error));
+                REQUIRE_FALSE(instance.error);
 
                 ctx.callSetup();
-                THEN("The info StringStream must capture the string")
+                THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(info.getString() == "Info message");
-                    CHECK(error.getString() == "");
+                    CHECK(info.str() == "Info message");
+                    CHECK(error.str() == "");
                 }
             }
 
@@ -218,13 +214,13 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
             {
                 auto& instance = reinterpret_cast<TestConsoleModule&>(ctx.instance());
                 instance.error = true;
-                REQUIRE((instance.error));
+                REQUIRE(instance.error);
 
                 ctx.callSetup();
-                THEN("The info StringStream must capture the string")
+                THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(info.getString() == "");
-                    CHECK(error.getString() == "Error message");
+                    CHECK(info.str() == "");
+                    CHECK(error.str() == "Error message");
                 }
             }
         }
@@ -306,9 +302,11 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
-        StringStream info;
-        auto console = std::make_shared<Console>([&info](elrond::StreamH h){ h(info); });
-        ctx.console(console);
+        std::ostringstream info;
+        ConsoleAdapter consoleAdapter(
+            [&info](std::ostringstream& msg){ info << msg.str(); }
+        );
+        ctx.console(consoleAdapter);
 
         WHEN("Calls the factory adapter getter")
         {
@@ -324,12 +322,22 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             }
         }
 
+        WHEN("Module instance requires your context")
+        {
+            auto context = elrond::ctx(ctx.instance());    
+            THEN("Must be the same context instance")
+            {
+                REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
+                REQUIRE(&(reinterpret_cast<RuntimeCtx::Context*>(context.get())->ctx) == &ctx);
+            }
+        }
+
         WHEN("Calls the setup method without parameters")
         {
             ctx.callSetup();
             THEN("Must be called the setup method")
             {
-                CHECK(info.getString() == "setup");
+                CHECK(info.str() == "setup");
             }
         }
 
@@ -338,7 +346,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callStart();
             THEN("Must be called the start method")
             {
-                CHECK(info.getString() == "start");
+                CHECK(info.str() == "start");
             }
         }
 
@@ -347,7 +355,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callLoop();
             THEN("Must be called the loop method")
             {
-                CHECK(info.getString() == "loop");
+                CHECK(info.str() == "loop");
             }
         }
 
@@ -356,7 +364,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callStop();
             THEN("Must be called the stop method")
             {
-                CHECK(info.getString() == "stop");
+                CHECK(info.str() == "stop");
             }
         }
     }

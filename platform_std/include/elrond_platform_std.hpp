@@ -78,4 +78,6 @@
         #define ELROND_DEFINE_DEFAULT_MODULE(...)
     #endif
 
+    #define ELROND_STR(S) std::string(S)
+
 #endif

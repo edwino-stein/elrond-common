@@ -10,9 +10,11 @@
             class HelloWorld : public elrond::module::BaseGeneric
             {
                 private:
-                    elrond::string message = "Hello world";
+
+                    elrond::string message;
 
                 public:
+                    HelloWorld();
                     virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
                     void setup(const elrond::Parameters& params) override;
                     void start() override;

@@ -42,3 +42,18 @@ TEST_CASE("Check elrond::strEq() function", "[string]")
     CHECK_FALSE(elrond::strEq(str, "Hello World!!"));
     CHECK_FALSE(elrond::strEq(str, "Hello World!!!!"));
 }
+
+TEST_CASE("Check elrond::strCmp() function", "[string]")
+{
+    elrond::string str = ELROND_STR("Hello World!!!");
+
+    CHECK(elrond::strCmp(str, ELROND_STR("Hello World!!!")) == 0);
+    CHECK(elrond::strCmp(str, ELROND_STR("hello world!!!")) < 0);
+    CHECK(elrond::strCmp(str, ELROND_STR("Hello World!!")) > 0);
+    CHECK(elrond::strCmp(str, ELROND_STR("Hello World!!!!")) < 0);
+
+    CHECK(elrond::strCmp(str, "Hello World!!!") == 0);
+    CHECK(elrond::strCmp(str, "hello world!!!") < 0);
+    CHECK(elrond::strCmp(str, "Hello World!!") > 0);
+    CHECK(elrond::strCmp(str, "Hello World!!!!") < 0);
+}

@@ -1,8 +1,6 @@
 #include "runtime/Console.hpp"
 #include "runtime/OStream.hpp"
 
-#include <sstream>
-
 using elrond::runtime::Console;
 using elrond::interface::ConsoleAdapter;
 using elrond::runtime::OStream;

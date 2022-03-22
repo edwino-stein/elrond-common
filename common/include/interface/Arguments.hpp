@@ -21,6 +21,13 @@
                     virtual bool isInt(const char key[]) const =0;
                     virtual bool isInt(elrond::string key) const =0;
 
+                    //
+                    // Unsigned integer methods
+                    //
+                    virtual elrond::uInt32 asUInt(const char key[]) const =0;
+                    virtual elrond::uInt32 asUInt(elrond::string key) const =0;
+                    virtual bool isUInt(const char key[]) const =0;
+                    virtual bool isUInt(elrond::string key) const =0;
 
                     //
                     // Boolean methods

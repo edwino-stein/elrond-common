@@ -30,6 +30,7 @@ struct Arguments::Null : public Arguments::ValueBase
     virtual ~Null() = default;
 
     elrond::int32 asInt() const override { return elrond::int32(); };
+    elrond::uInt32 asUInt() const override { return elrond::uInt32(); };
     bool asBool() const override { return false; };
     double asDouble() const override { return double(); };
     elrond::string asString() const override { return std::string(); };
@@ -43,6 +44,44 @@ struct Arguments::Int : public Arguments::Value<elrond::int32>
     virtual ~Int() = default;
 
     elrond::int32 asInt() const override
+    {
+        return this->value;
+    }
+
+    elrond::uInt32 asUInt() const override 
+    {
+        return static_cast<elrond::uInt32>(this->value);
+    }
+
+    bool asBool() const override
+    {
+        return this->value != 0;
+    }
+
+    double asDouble() const override
+    {
+        return static_cast<double>(this->value);
+    }
+    
+    elrond::string asString() const override
+    {
+        return std::to_string(this->value);
+    }
+};
+
+/* *************************** Unsigned integer type ************************** */
+
+struct Arguments::UInt : public Arguments::Value<elrond::uInt32>
+{
+    UInt(const elrond::uInt32 i) : Value(i) {}
+    virtual ~UInt() = default;
+
+    elrond::int32 asInt() const override
+    {
+        return static_cast<elrond::int32>(this->value);
+    }
+
+    elrond::uInt32 asUInt() const override 
     {
         return this->value;
     }
@@ -75,6 +114,11 @@ struct Arguments::Bool : public Arguments::Value<bool>
         return this->value ? 1 : 0;
     }
 
+    elrond::uInt32 asUInt() const override 
+    {
+        return this->value ? 1 : 0;
+    }
+
     bool asBool() const override
     {
         return this->value;
@@ -103,6 +147,11 @@ struct Arguments::Double : public Arguments::Value<double>
         return static_cast<elrond::int32>(this->value);
     }
 
+    elrond::uInt32 asUInt() const override 
+    {
+        return static_cast<elrond::uInt32>(this->value);
+    }
+
     bool asBool() const override
     {
         return this->value != 0;
@@ -129,6 +178,12 @@ struct Arguments::String : public Arguments::Value<elrond::string>
     elrond::int32 asInt() const override
     {
         try { return std::stoi(this->value); }
+        catch (const std::exception&) { return 0; }
+    }
+
+    elrond::uInt32 asUInt() const override 
+    {
+        try { return std::stoul(this->value); }
         catch (const std::exception&) { return 0; }
     }
 
@@ -206,6 +261,34 @@ bool Arguments::isInt(elrond::string key) const
 Arguments& Arguments::set(const elrond::string& key, const elrond::int32 i)
 {
     this->values[key] = std::make_shared<Int>(i);
+    return *this;
+}
+
+/* ************************ Unsigned integer methods ************************* */
+
+elrond::uInt32 Arguments::asUInt(const char key[]) const
+{
+    return this->asUInt(std::string(key));
+}
+
+elrond::uInt32 Arguments::asUInt(elrond::string key) const
+{
+    return this->getValue(key)->asUInt();
+}
+
+bool Arguments::isUInt(const char key[]) const
+{
+    return this->isUInt(std::string(key));
+}
+
+bool Arguments::isUInt(elrond::string key) const
+{
+    return UInt::isTypeOf(this->getValue(key));
+}
+
+Arguments& Arguments::set(const elrond::string& key, const elrond::uInt32 i)
+{
+    this->values[key] = std::make_shared<UInt>(i);
     return *this;
 }
 

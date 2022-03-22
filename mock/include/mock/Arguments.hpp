@@ -14,6 +14,7 @@
                     template <class T> struct Value;
                     struct Null;
                     struct Int;
+                    struct UInt;
                     struct Bool;
                     struct Double;
                     struct String;
@@ -24,6 +25,7 @@
                     {
                         using Ptr = std::shared_ptr<ValueBase>;
                         virtual elrond::int32 asInt() const =0;
+                        virtual elrond::uInt32 asUInt() const =0;
                         virtual bool asBool() const =0;
                         virtual double asDouble() const =0;
                         virtual elrond::string asString() const =0;
@@ -44,6 +46,16 @@
                     bool isInt(elrond::string key) const override;
 
                     Arguments& set(const elrond::string& key, const elrond::int32 i);
+
+                    //
+                    // Unsigned integer methods
+                    //
+                    elrond::uInt32 asUInt(const char key[]) const override;
+                    elrond::uInt32 asUInt(elrond::string key) const override;
+                    bool isUInt(const char key[]) const override;
+                    bool isUInt(elrond::string key) const override;
+
+                    Arguments& set(const elrond::string& key, const elrond::uInt32 i);
 
                     //
                     // Boolean methods

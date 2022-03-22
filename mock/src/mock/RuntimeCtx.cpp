@@ -1,13 +1,13 @@
 #include "mock/RuntimeCtx.hpp"
 
 #include "mock/ConsoleAdapter.hpp"
-#include "mock/Parameters.hpp"
+#include "mock/Arguments.hpp"
 
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::platform::ModuleObject;
 using elrond::interface::Console;
-using elrond::mock::Parameters;
+using elrond::mock::Arguments;
 using elrond::platform::BaseFactoryAdapter;
 using elrond::platform::FactoryAdapterP;
 using elrond::platform::ExternalFactoryAdapter;
@@ -98,13 +98,13 @@ BaseFactoryAdapter& RuntimeCtx::adapter() const
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    Parameters params;
-    return this->callSetup(params);
+    Arguments args;
+    return this->callSetup(args);
 }
 
-RuntimeCtx& RuntimeCtx::callSetup(const elrond::Parameters& params)
+RuntimeCtx& RuntimeCtx::callSetup(const elrond::Arguments& args)
 {
-    this->instance().setup(params);
+    this->instance().setup(args);
     return *this;
 }
 

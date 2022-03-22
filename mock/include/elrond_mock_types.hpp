@@ -12,7 +12,7 @@
         {
             class RuntimeCtx;
             class ConsoleAdapter;
-            class Parameters;
+            class Arguments;
         }
     }
 

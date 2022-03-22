@@ -3,7 +3,7 @@
 using elrond::module::HelloWorld;
 using elrond::mock::RuntimeCtx;
 using elrond::mock::ConsoleAdapter;
-using elrond::mock::Parameters;
+using elrond::mock::Arguments;
 
 int main()
 {
@@ -19,10 +19,10 @@ int main()
         .callLoop(2)
         .callStop();
 
-    Parameters param;
-    param.set("message", "Test hello world");
+    Arguments args;
+    args.set("message", "Test hello world");
 
-    ctx.callSetup(param)
+    ctx.callSetup(args)
         .callStart()
         .callLoop(2)
         .callStop();

@@ -69,7 +69,7 @@
                     // Others methods
                     //
                     RuntimeCtx& callSetup();
-                    RuntimeCtx& callSetup(const elrond::Parameters& params);
+                    RuntimeCtx& callSetup(const elrond::Arguments& params);
                     RuntimeCtx& callStart();
                     RuntimeCtx& callLoop();
                     RuntimeCtx& callLoop(const elrond::sizeT times);

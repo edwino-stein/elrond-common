@@ -7,7 +7,7 @@ using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::module::BaseGeneric;
 using elrond::mock::ConsoleAdapter;
-using elrond::mock::Parameters;
+using elrond::mock::Arguments;
 using Catch::Matchers::Contains;
 
 SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
@@ -17,7 +17,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
         public:
             elrond::string called = "none";
             elrond::sizeT loops = 0;
-            void setup(const elrond::Parameters&) { this->called = "setup"; }
+            void setup(const elrond::Arguments&) { this->called = "setup"; }
             void start() { this->called = "start"; }
             void stop() { this->called = "stop"; }
             void loop()
@@ -175,7 +175,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     {
         public:
             bool error = false;
-            void setup(const elrond::Parameters&)
+            void setup(const elrond::Arguments&)
             {
                 auto console = elrond::ctx(this)->console();
                 if(this->error) console->error("Error message");
@@ -227,26 +227,26 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     }
 }
 
-SCENARIO("Test a mocked runtime context with a simple module instance with parameters", "[mock][RuntimeCtx]")
+SCENARIO("Test a mocked runtime context with a simple module instance with arguments", "[mock][RuntimeCtx]")
 {
-    class TestParamsModule : public BaseGeneric
+    class TestArgsModule : public BaseGeneric
     {
         public:
-            elrond::string param = "none";
+            elrond::string arg = "none";
             elrond::string called = "none";
-            void setup(const elrond::Parameters& params)
+            void setup(const elrond::Arguments& args)
             {
                 this->called = "setup";
-                this->param = params.asString("param");
+                this->arg = args.asString("arg");
             }
     };
 
     GIVEN("A generic module instance")
     {
-        auto ctx = RuntimeCtx::create<TestParamsModule>("test");
+        auto ctx = RuntimeCtx::create<TestArgsModule>("test");
         REQUIRE(ctx.name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
-        REQUIRE(isInstanceOf<TestParamsModule>(ctx.instance()));
+        REQUIRE(isInstanceOf<TestArgsModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         WHEN("Calls the factory adapter getter")
@@ -254,39 +254,39 @@ SCENARIO("Test a mocked runtime context with a simple module instance with param
             auto& adapter = ctx.adapter();
             THEN("Must return the expected adapter")
             {
-                CHECK_THAT(adapter.name(), Contains("TestParamsModule"));
+                CHECK_THAT(adapter.name(), Contains("TestArgsModule"));
                 CHECK(adapter.apiVersion() == elrond::getApiVersion());
             }
         }
 
-        WHEN("Calls the setup method without parameters")
+        WHEN("Calls the setup method without arguments")
         {
-            auto& instance = reinterpret_cast<TestParamsModule&>(ctx.instance());
+            auto& instance = reinterpret_cast<TestArgsModule&>(ctx.instance());
             REQUIRE(instance.called == "none");
-            REQUIRE(instance.param == "none");
+            REQUIRE(instance.arg == "none");
 
             ctx.callSetup();
             THEN("Must be called the setup method")
             {
                 CHECK(instance.called == "setup");
-                CHECK(instance.param == "");
+                CHECK(instance.arg == "");
             }
         }
 
-        WHEN("Calls the setup method with parameters")
+        WHEN("Calls the setup method with arguments")
         {
-            auto& instance = reinterpret_cast<TestParamsModule&>(ctx.instance());
+            auto& instance = reinterpret_cast<TestArgsModule&>(ctx.instance());
             REQUIRE(instance.called == "none");
-            REQUIRE(instance.param == "none");
+            REQUIRE(instance.arg == "none");
             
-            elrond::mock::Parameters params;
-            params.set("param", "Hello world!!");
-            ctx.callSetup(params);
+            elrond::mock::Arguments args;
+            args.set("arg", "Hello world!!");
+            ctx.callSetup(args);
 
             THEN("Must be called the setup method")
             {
                 CHECK(instance.called == "setup");
-                CHECK(instance.param == "Hello world!!");
+                CHECK(instance.arg == "Hello world!!");
             }
         }
     }
@@ -332,7 +332,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             }
         }
 
-        WHEN("Calls the setup method without parameters")
+        WHEN("Calls the setup method without arguments")
         {
             ctx.callSetup();
             THEN("Must be called the setup method")

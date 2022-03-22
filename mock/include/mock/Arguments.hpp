@@ -1,5 +1,5 @@
-#ifndef ELROND_MOCK_PARAMETERS_HPP
-    #define ELROND_MOCK_PARAMETERS_HPP
+#ifndef ELROND_MOCK_ARGUMENTS_HPP
+    #define ELROND_MOCK_ARGUMENTS_HPP
 
     #include "elrond_mock_types.hpp"
 
@@ -7,7 +7,7 @@
     {
         namespace mock
         {
-            class Parameters : public elrond::interface::Parameters
+            class Arguments : public elrond::interface::Arguments
             {
                 private:
 
@@ -86,13 +86,13 @@
                     //
                     // Setters
                     //
-                    Parameters& set(const elrond::string& key, const int i);
-                    Parameters& set(const elrond::string& key, const long l);
-                    Parameters& set(const elrond::string& key, const bool b);
-                    Parameters& set(const elrond::string& key, const char c);
-                    Parameters& set(const elrond::string& key, const double d);
-                    Parameters& set(const elrond::string& key, const char* s);
-                    Parameters& set(const elrond::string& key, const elrond::string& s);
+                    Arguments& set(const elrond::string& key, const int i);
+                    Arguments& set(const elrond::string& key, const long l);
+                    Arguments& set(const elrond::string& key, const bool b);
+                    Arguments& set(const elrond::string& key, const char c);
+                    Arguments& set(const elrond::string& key, const double d);
+                    Arguments& set(const elrond::string& key, const char* s);
+                    Arguments& set(const elrond::string& key, const elrond::string& s);
             };
         }
     }

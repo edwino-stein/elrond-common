@@ -1,5 +1,5 @@
-#ifndef ELROND_COMMON_INTERFACE_PARAMETERS_HPP
-    #define ELROND_COMMON_INTERFACE_PARAMETERS_HPP
+#ifndef ELROND_COMMON_INTERFACE_ARGUMENTS_HPP
+    #define ELROND_COMMON_INTERFACE_ARGUMENTS_HPP
 
     #include "elrond_common_types.hpp"
 
@@ -7,10 +7,10 @@
     {
         namespace interface
         {
-            class Parameters
+            class Arguments
             {
                 public:
-                    virtual ~Parameters() = ELROND_DEFAULT_DESTRUCTOR;
+                    virtual ~Arguments() = ELROND_DEFAULT_DESTRUCTOR;
 
                     //
                     // C string key based

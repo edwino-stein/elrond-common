@@ -4,13 +4,13 @@ using elrond::module::HelloWorld;
 
 HelloWorld::HelloWorld() : message(ELROND_STR("Hello world")) {}
 
-void HelloWorld::setup(const elrond::Parameters& param)
+void HelloWorld::setup(const elrond::Arguments& args)
 {
     elrond::ctx(this)->console()->info(ELROND_STR("HelloWorld::setup"));
 
-    if (param.isString(ELROND_STR("message")))
+    if (args.isString(ELROND_STR("message")))
     {
-        this->message = param.asString(ELROND_STR("message"));
+        this->message = args.asString(ELROND_STR("message"));
     } 
 }
 

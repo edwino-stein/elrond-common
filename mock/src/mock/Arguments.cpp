@@ -10,17 +10,16 @@ using ValueBase = elrond::mock::Arguments::ValueBase;
 /* ******************************* Base typed *************************s******* */
 
 template <class T>
-struct Arguments::ValueType : public ValueBase
+struct Arguments::Value : public ValueBase
 {
     const T value;
-    ValueType(const T value) : value(value) {}
 
-    virtual ~ValueType() = default;
+    Value(const T value) : value(value) {}
+    virtual ~Value() = default;
 
     static bool isTypeOf(ValueBase::Ptr obj)
     {
-        auto p = dynamic_cast<ValueType<T>*>(obj.get());
-        return p != nullptr;
+        return dynamic_cast<Value<T>*>(obj.get()) != nullptr;
     }
 };
 
@@ -29,56 +28,35 @@ struct Arguments::ValueType : public ValueBase
 struct Arguments::Null : public Arguments::ValueBase
 {
     virtual ~Null() = default;
-    int asInt() const override { return 0; }
-    long asLong() const override { return 0; }
-    bool asBool() const override { return false; }
-    char asChar() const override { return '\0'; }
-    double asDouble() const override { return 0.0; }
-    elrond::string asString() const override { return ""; }
+
+    elrond::int32 asInt() const override { return elrond::int32(); };
+    bool asBool() const override { return false; };
+    double asDouble() const override { return double(); };
+    elrond::string asString() const override { return std::string(); };
 };
 
-/* ******************************* Integer type ******************************* */
+/* **************************** Signed integer type *************************** */
 
-struct Arguments::Int : public Arguments::ValueType<int>
+struct Arguments::Int : public Arguments::Value<elrond::int32>
 {
-    Int(const int i) : ValueType(i) {}
+    Int(const elrond::int32 i) : Value(i) {}
     virtual ~Int() = default;
-    int asInt() const override { return this->value; }
-    long asLong() const override { return static_cast<long>(this->value); }
-    bool asBool() const override { return this->value != 0; }
-    char asChar() const override { return static_cast<char>(this->value); }
-    
+
+    elrond::int32 asInt() const override
+    {
+        return this->value;
+    }
+
+    bool asBool() const override
+    {
+        return this->value != 0;
+    }
+
     double asDouble() const override
     {
         return static_cast<double>(this->value);
     }
     
-    elrond::string asString() const override
-    {
-        return std::to_string(this->value);
-    }
-};
-
-/* ******************************** Long type ********************************* */
-
-struct Arguments::Long : public Arguments::ValueType<long>
-{
-    Long(const long l) : ValueType(l) {}
-    virtual ~Long() = default;
-    int asInt() const override { return static_cast<long>(this->value); }
-    long asLong() const override { return this->value; }
-    bool asBool() const override { return this->value != 0; }
-
-    char asChar() const override
-    {
-        return static_cast<char>(this->value);
-    }
-    
-    double asDouble() const override
-    {
-        return static_cast<double>(this->value);
-    }
-
     elrond::string asString() const override
     {
         return std::to_string(this->value);
@@ -87,61 +65,54 @@ struct Arguments::Long : public Arguments::ValueType<long>
 
 /* ******************************** Bool type ********************************* */
 
-struct Arguments::Bool : public Arguments::ValueType<bool>
+struct Arguments::Bool : public Arguments::Value<bool>
 {
-    Bool(const bool b) : ValueType(b) {}
+    Bool(const bool b) : Value(b) {}
     virtual ~Bool() = default;
-    int asInt() const override { return this->value ? 1 : 0; }
-    long asLong() const override { return this->value ? 1 : 0; }
-    bool asBool() const override { return this->value; }
-    char asChar() const override { return this->value ? 't' : 'f'; }
-    double asDouble() const override { return this->value ? 1.0 : 0.0; }
 
+    elrond::int32 asInt() const override
+    {
+        return this->value ? 1 : 0;
+    }
+
+    bool asBool() const override
+    {
+        return this->value;
+    }
+
+    double asDouble() const override
+    {
+        return this->value ? 1.0 : 0.0;
+    }
+    
     elrond::string asString() const override
     {
         return this->value ? "true" : "false";
     }
 };
 
-/* ******************************** Char type ********************************* */
+/* ******************************* Double type ******************************** */
 
-struct Arguments::Char : public Arguments::ValueType<char>
+struct Arguments::Double : public Arguments::Value<double>
 {
-    Char(const char c) : ValueType(c) {}
-    virtual ~Char() = default;
-    int asInt() const override { return static_cast<int>(this->value); }
-    long asLong() const override { return static_cast<long>(this->value); }
-    
+    Double(const double d) : Value(d) {}
+    virtual ~Double() = default;
+
+    elrond::int32 asInt() const override
+    {
+        return static_cast<elrond::int32>(this->value);
+    }
+
     bool asBool() const override
     {
-        return !(this->value == '\0' || this->value == 'f' || this->value == 'F');
+        return this->value != 0;
     }
-    
-    char asChar() const override { return this->value; }
 
     double asDouble() const override
     {
-        return static_cast<double>(this->asInt());
+        return this->value;
     }
     
-    elrond::string asString() const override
-    {
-        return std::string("") + this->value;
-    }
-};
-
-/* ******************************* Double type ******************************** */
-
-struct Arguments::Double : public Arguments::ValueType<double>
-{
-    Double(const double d) : ValueType(d) {}
-    virtual ~Double() = default;
-    int asInt() const override { return static_cast<int>(this->value); }
-    long asLong() const override { return static_cast<long>(this->value); }
-    bool asBool() const override { return this->value != 0; }
-    char asChar() const override { return static_cast<char>(this->asInt()); }
-    double asDouble() const override { return this->value; }
-
     elrond::string asString() const override
     {
         return std::to_string(this->value);
@@ -150,20 +121,20 @@ struct Arguments::Double : public Arguments::ValueType<double>
 
 /* ******************************* String type ******************************** */
 
-struct Arguments::String : public Arguments::ValueType<elrond::string>
+struct Arguments::String : public Arguments::Value<elrond::string>
 {
-    String(const elrond::string s) : ValueType(s) {}
+    String(const elrond::string s) : Value(s) {}
     virtual ~String() = default;
-    int asInt() const override
+
+    elrond::int32 asInt() const override
     {
         try { return std::stoi(this->value); }
         catch (const std::exception&) { return 0; }
     }
 
-    long asLong() const override
+    bool asBool() const override
     {
-        try { return std::stol(this->value); }
-        catch (const std::exception&) { return 0; }
+        return this->asInt() != 0;
     }
 
     double asDouble() const override
@@ -171,17 +142,28 @@ struct Arguments::String : public Arguments::ValueType<elrond::string>
         try { return std::stod(this->value); }
         catch (const std::exception&) { return 0; }
     }
-
-    bool asBool() const override { return this->value != ""; }
-    char asChar() const override { return this->value[0]; }
-    elrond::string asString() const override { return this->value; }
+    
+    elrond::string asString() const override
+    {
+        return this->value;
+    }
 };
 
 /*  ****************************************************************************
     ***************** elrond::mock::Arguments Implementation *******************
     ****************************************************************************/
 
-/* ********************************* Getters ********************************* */
+/* ***************************** Others methods ****************************** */
+
+bool Arguments::exists(const char key[]) const
+{
+    return this->exists(std::string(key));
+}
+
+bool Arguments::exists(elrond::string key) const
+{
+    return this->values.find(key) != this->values.cend();
+}
 
 elrond::sizeT Arguments::total() const
 {
@@ -194,37 +176,106 @@ ValueBase::Ptr Arguments::getValue(const elrond::string& key) const
     return it != this->values.cend() ? it->second : std::make_shared<Null>();
 }
 
-//
-// C string key based
-//
-int Arguments::asInt(const char key[]) const
+void Arguments::clear()
+{
+    this->values.clear();
+}
+
+/* ************************* Signed integer methods ************************** */
+
+elrond::int32 Arguments::asInt(const char key[]) const
 {
     return this->asInt(std::string(key));
 }
 
-long Arguments::asLong(const char key[]) const
+elrond::int32 Arguments::asInt(elrond::string key) const
 {
-    return this->asLong(std::string(key));
+    return this->getValue(key)->asInt();
 }
+
+bool Arguments::isInt(const char key[]) const
+{
+    return this->isInt(std::string(key));
+}
+
+bool Arguments::isInt(elrond::string key) const
+{
+    return Int::isTypeOf(this->getValue(key));
+}
+
+Arguments& Arguments::set(const elrond::string& key, const elrond::int32 i)
+{
+    this->values[key] = std::make_shared<Int>(i);
+    return *this;
+}
+
+/* **************************** Boolean methods ****************************** */
 
 bool Arguments::asBool(const char key[]) const
 {
     return this->asBool(std::string(key));
 }
 
-char Arguments::asChar(const char key[]) const
+bool Arguments::asBool(elrond::string key) const
 {
-    return this->asChar(std::string(key));
+    return this->getValue(key)->asBool();
 }
+
+bool Arguments::isBool(const char key[]) const
+{
+    return this->isBool(std::string(key));
+}
+
+bool Arguments::isBool(elrond::string key) const
+{
+    return Bool::isTypeOf(this->getValue(key));
+}
+
+Arguments& Arguments::set(const elrond::string& key, const bool b)
+{
+    this->values[key] = std::make_shared<Bool>(b);
+    return *this;
+}
+
+/* ***************************** Double methods ****************************** */
+
 
 double Arguments::asDouble(const char key[]) const
 {
     return this->asDouble(std::string(key));
 }
 
+double Arguments::asDouble(elrond::string key) const
+{
+    return this->getValue(key)->asDouble();
+}
+
+bool Arguments::isDouble(const char key[]) const
+{
+    return this->isDouble(std::string(key));
+}
+
+bool Arguments::isDouble(elrond::string key) const
+{
+    return Double::isTypeOf(this->getValue(key));
+}
+
+Arguments& Arguments::set(const elrond::string& key, const double d)
+{
+    this->values[key] = std::make_shared<Double>(d);
+    return *this;
+}
+
+/* ***************************** String methods ****************************** */
+
 elrond::string Arguments::asString(const char key[]) const
 {
     return this->asString(std::string(key));
+}
+
+elrond::string Arguments::asString(elrond::string key) const
+{
+    return this->getValue(key)->asString();
 }
 
 elrond::sizeT Arguments::asString(
@@ -235,77 +286,12 @@ elrond::sizeT Arguments::asString(
     return this->asString(std::string(key), value, len);
 }
 
-//
-// Elrond string key based
-//
-
-int Arguments::asInt(elrond::string key) const
-{
-    return this->getValue(key)->asInt();
-}
-
-long Arguments::asLong(elrond::string key) const
-{
-    return this->getValue(key)->asLong();
-}
-
-bool Arguments::asBool(elrond::string key) const
-{
-    return this->getValue(key)->asBool();
-}
-
-char Arguments::asChar(elrond::string key) const
-{
-    return this->getValue(key)->asChar();
-}
-
-double Arguments::asDouble(elrond::string key) const
-{
-    return this->getValue(key)->asDouble();
-}
-
-elrond::string Arguments::asString(elrond::string key) const
-{
-    return this->getValue(key)->asString();
-}
-
 elrond::sizeT Arguments::asString(
     elrond::string key,
     char value[],
     const elrond::sizeT len) const
 {
-    return this->getValue(key)->asString().copy(value, len);
-}
-
-/* ******************************** Checkers ********************************* */
-
-//
-// C string key based
-//
-
-bool Arguments::isInt(const char key[]) const
-{
-    return this->isInt(std::string(key));
-}
-
-bool Arguments::isLong(const char key[]) const
-{
-    return this->isLong(std::string(key));
-}
-
-bool Arguments::isDouble(const char key[]) const
-{
-    return this->isDouble(std::string(key));
-}
-
-bool Arguments::isBool(const char key[]) const
-{
-    return this->isBool(std::string(key));
-}
-
-bool Arguments::isChar(const char key[]) const
-{
-    return this->isChar(std::string(key));
+    return elrond::strCpy(this->asString(key), value, len);
 }
 
 bool Arguments::isString(const char key[]) const
@@ -313,86 +299,14 @@ bool Arguments::isString(const char key[]) const
     return this->isString(std::string(key));
 }
 
-bool Arguments::exists(const char key[]) const
-{
-    return this->exists(std::string(key));
-}
-
-//
-// Elrond string key based
-//
-
-bool Arguments::isInt(elrond::string key) const
-{
-    return ValueType<int>::isTypeOf(this->getValue(key));
-}
-
-bool Arguments::isLong(elrond::string key) const
-{
-    return ValueType<long>::isTypeOf(this->getValue(key));
-}
-
-bool Arguments::isDouble(elrond::string key) const
-{
-    return ValueType<double>::isTypeOf(this->getValue(key));
-}
-
-bool Arguments::isBool(elrond::string key) const
-{
-    return ValueType<bool>::isTypeOf(this->getValue(key));
-}
-
-bool Arguments::isChar(elrond::string key) const
-{
-    return ValueType<char>::isTypeOf(this->getValue(key));
-}
-
 bool Arguments::isString(elrond::string key) const
 {
-    return ValueType<elrond::string>::isTypeOf(this->getValue(key));
-}
-
-bool Arguments::exists(elrond::string key) const
-{
-    return this->values.find(key) != this->values.cend();
-}
-
-/* ********************************* Setters ********************************* */
-
-Arguments& Arguments::set(const elrond::string& key, const int i)
-{
-    this->values[key] = std::make_shared<Int>(i);
-    return *this;
-}
-
-Arguments& Arguments::set(const elrond::string& key, const long l)
-{
-    this->values[key] = std::make_shared<Long>(l);
-    return *this;
-}
-
-Arguments& Arguments::set(const elrond::string& key, const bool b)
-{
-    this->values[key] = std::make_shared<Bool>(b);
-    return *this;
-}
-
-Arguments& Arguments::set(const elrond::string& key, const char c)
-{
-    this->values[key] = std::make_shared<Char>(c);
-    return *this;
-}
-
-Arguments& Arguments::set(const elrond::string& key, const double d)
-{
-    this->values[key] = std::make_shared<Double>(d);
-    return *this;
+    return String::isTypeOf(this->getValue(key));
 }
 
 Arguments& Arguments::set(const elrond::string& key, const char* s)
 {
-    this->values[key] = std::make_shared<String>(s);
-    return *this;
+    return this->set(key, std::string(s));
 }
 
 Arguments& Arguments::set(const elrond::string& key, const elrond::string& s)

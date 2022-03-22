@@ -11,12 +11,10 @@
             {
                 private:
 
-                    template <class T> struct ValueType;
+                    template <class T> struct Value;
                     struct Null;
                     struct Int;
-                    struct Long;
                     struct Bool;
-                    struct Char;
                     struct Double;
                     struct String;
 
@@ -25,74 +23,77 @@
                     struct ValueBase
                     {
                         using Ptr = std::shared_ptr<ValueBase>;
-                        virtual int asInt() const =0;
-                        virtual long asLong() const =0;
+                        virtual elrond::int32 asInt() const =0;
                         virtual bool asBool() const =0;
-                        virtual char asChar() const =0;
                         virtual double asDouble() const =0;
                         virtual elrond::string asString() const =0;
                     };
 
                 protected:
-                    std::map<const elrond::string, ValueBase::Ptr> values;
+
+                    std::map<elrond::string, ValueBase::Ptr> values;
 
                 public:
 
-                    ValueBase::Ptr getValue(const elrond::string& key) const;
-                    elrond::sizeT total() const;
+                    //
+                    // Signed integer methods
+                    //
+                    elrond::int32 asInt(const char key[]) const override;
+                    elrond::int32 asInt(elrond::string key) const override;
+                    bool isInt(const char key[]) const override;
+                    bool isInt(elrond::string key) const override;
+
+                    Arguments& set(const elrond::string& key, const elrond::int32 i);
 
                     //
-                    // C string key based
+                    // Boolean methods
                     //
-                    int asInt(const char key[]) const override;
-                    long asLong(const char key[]) const override;
                     bool asBool(const char key[]) const override;
-                    char asChar(const char key[]) const override;
+                    bool asBool(elrond::string key) const override;
+                    bool isBool(const char key[]) const override;
+                    bool isBool(elrond::string key) const override;
+
+                    Arguments& set(const elrond::string& key, const bool b);
+
+                    //
+                    // Double methods
+                    //
                     double asDouble(const char key[]) const override;
+                    double asDouble(elrond::string key) const override;
+                    bool isDouble(const char key[]) const override;
+                    bool isDouble(elrond::string key) const override;
+
+                    Arguments& set(const elrond::string& key, const double d);
+
+                    //
+                    // String methods
+                    //
                     elrond::string asString(const char key[]) const override;
+                    elrond::string asString(elrond::string key) const override;
+
                     elrond::sizeT asString( const char key[],
                                             char value[],
                                             const elrond::sizeT len) const override;
 
-                    bool isInt(const char key[]) const override;
-                    bool isLong(const char key[]) const override;
-                    bool isDouble(const char key[]) const override;
-                    bool isBool(const char key[]) const override;
-                    bool isChar(const char key[]) const override;
-                    bool isString(const char key[]) const override;
-                    bool exists(const char key[]) const override;
-
-                    //
-                    // Elrond string key based
-                    //
-                    int asInt(elrond::string key) const override;
-                    long asLong(elrond::string key) const override;
-                    bool asBool(elrond::string key) const override;
-                    char asChar(elrond::string key) const override;
-                    double asDouble(elrond::string key) const override;
-                    elrond::string asString(elrond::string key) const override;
                     elrond::sizeT asString( elrond::string key,
                                             char value[],
                                             const elrond::sizeT len) const override;
 
-                    bool isInt(elrond::string key) const override;
-                    bool isLong(elrond::string key) const override;
-                    bool isDouble(elrond::string key) const override;
-                    bool isBool(elrond::string key) const override;
-                    bool isChar(elrond::string key) const override;
+                    bool isString(const char key[]) const override;
                     bool isString(elrond::string key) const override;
-                    bool exists(elrond::string key) const override;
 
-                    //
-                    // Setters
-                    //
-                    Arguments& set(const elrond::string& key, const int i);
-                    Arguments& set(const elrond::string& key, const long l);
-                    Arguments& set(const elrond::string& key, const bool b);
-                    Arguments& set(const elrond::string& key, const char c);
-                    Arguments& set(const elrond::string& key, const double d);
                     Arguments& set(const elrond::string& key, const char* s);
                     Arguments& set(const elrond::string& key, const elrond::string& s);
+
+                    //
+                    // Others
+                    //
+                    bool exists(const char key[]) const override;
+                    bool exists(elrond::string key) const override;
+
+                    ValueBase::Ptr getValue(const elrond::string& key) const;
+                    elrond::sizeT total() const;
+                    void clear();
             };
         }
     }

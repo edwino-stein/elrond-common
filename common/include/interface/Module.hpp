@@ -13,7 +13,7 @@
                 public:
                     virtual ~Module() = ELROND_DEFAULT_DESTRUCTOR;
                     virtual elrond::ModuleType moduleType() const =0;
-                    virtual void setup(const elrond::Parameters& params) =0;
+                    virtual void setup(const elrond::Arguments& params) =0;
                     virtual void start() =0;
                     virtual void loop() =0;
                     virtual void stop() =0;

@@ -8,7 +8,7 @@ class ExternalModule : public BaseGeneric
         ExternalModule() = default;
         virtual ~ExternalModule() = ELROND_DEFAULT_DESTRUCTOR;
 
-        void setup(const elrond::Parameters&) override
+        void setup(const elrond::Arguments&) override
         {
             elrond::ctx(this)->console()->info("setup");
         }

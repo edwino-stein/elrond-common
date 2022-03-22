@@ -16,7 +16,7 @@
                 public:
                     HelloWorld();
                     virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
-                    void setup(const elrond::Parameters& params) override;
+                    void setup(const elrond::Arguments& params) override;
                     void start() override;
                     void loop() override;
                     void stop() override;

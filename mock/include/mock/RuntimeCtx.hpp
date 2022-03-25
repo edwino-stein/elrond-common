@@ -18,9 +18,12 @@
 
                             Context(const RuntimeCtx& ctx);
                             virtual ~Context() = default;
-    
+
                             elrond::pointer<elrond::interface::Console>
                             console() const override;
+
+                            elrond::pointer<elrond::interface::Arguments>
+                            arguments() const override;
 
                             elrond::string name() const override;
                     };
@@ -36,6 +39,7 @@
                     // Internal properties
                     //
                     elrond::interface::ConsoleAdapter* _consoleAdapter;
+                    elrond::mock::Arguments* _arguments;
 
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
@@ -56,11 +60,13 @@
                     // Setters methods
                     //
                     RuntimeCtx& console(elrond::interface::ConsoleAdapter& consoleAdapter);
+                    RuntimeCtx& arguments(elrond::mock::Arguments& args);
 
                     //
                     // Getters methods
                     //
                     elrond::pointer<elrond::interface::Console> console() const;
+                    elrond::pointer<elrond::interface::Arguments> arguments() const;
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
                     elrond::platform::BaseFactoryAdapter& adapter() const;
@@ -69,7 +75,6 @@
                     // Others methods
                     //
                     RuntimeCtx& callSetup();
-                    RuntimeCtx& callSetup(const elrond::Arguments& params);
                     RuntimeCtx& callStart();
                     RuntimeCtx& callLoop();
                     RuntimeCtx& callLoop(const elrond::sizeT times);

@@ -21,8 +21,9 @@ int main()
 
     Arguments args;
     args.set("message", "Test hello world");
+    ctx.arguments(args);
 
-    ctx.callSetup(args)
+    ctx.callSetup()
         .callStart()
         .callLoop(2)
         .callStop();

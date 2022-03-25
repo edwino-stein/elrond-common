@@ -10,7 +10,9 @@
             class Module
             {
                 public:
-                    virtual ~Module() = ELROND_DEFAULT_DESTRUCTOR;
+
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Module);
+
                     virtual elrond::ModuleType moduleType() const =0;
 
                     virtual void setup(elrond::ContextP ctx) =0;

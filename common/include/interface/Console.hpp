@@ -10,8 +10,9 @@
             class Console
             {
                 public:
-                    virtual ~Console() = ELROND_DEFAULT_DESTRUCTOR;
-                    
+
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Console);
+
                     //
                     // Stream handle
                     //

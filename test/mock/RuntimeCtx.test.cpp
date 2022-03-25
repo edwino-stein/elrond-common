@@ -48,7 +48,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
 
         WHEN("Module instance requires your context")
         {
-            auto context = elrond::ctx(ctx.instance());
+            auto context = ctx.ctx();
             THEN("Must be the same context instance")
             {
                 REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
@@ -322,7 +322,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 
         WHEN("Module instance requires your context")
         {
-            auto context = elrond::ctx(ctx.instance());
+            auto context = ctx.ctx();
             THEN("Must be the same context instance")
             {
                 REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));

@@ -7,7 +7,7 @@
     {
         namespace mock
         {
-            class RuntimeCtx : public elrond::platform::RuntimeCtx
+            class RuntimeCtx
             {
                 public:
                     class Context : public elrond::interface::Context
@@ -49,12 +49,6 @@
                     RuntimeCtx(elrond::string name, elrond::platform::FactoryAdapterP adapter);
 
                 public:
-
-                    //
-                    // elrond::platform::RuntimeCtx methods override
-                    //
-                    elrond::pointer<elrond::interface::Context>
-                    ofInstance(const elrond::platform::ModuleObject& inst) const override;
 
                     //
                     // Setters methods

@@ -11,7 +11,6 @@
             class Base : public elrond::module::Abstract
             {
                 public:
-                    virtual ~Base() = ELROND_DEFAULT_DESTRUCTOR;
                     elrond::ModuleType moduleType() const override;
             };
         }

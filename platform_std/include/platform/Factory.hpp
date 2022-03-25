@@ -12,7 +12,6 @@
             {
                 public:
                     Factory(const ModuleInfo& info, const std::string& name);
-                    virtual ~Factory() = default;
 
                     elrond::interface::Module* create() const override;
                     void destroy(elrond::interface::Module* inst) const override;

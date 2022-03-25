@@ -11,7 +11,7 @@
             {
                 public:
 
-                    virtual ~Arguments() = ELROND_DEFAULT_DESTRUCTOR;
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Arguments);
 
                     //
                     // Signed integer methods

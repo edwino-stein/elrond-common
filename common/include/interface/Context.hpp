@@ -10,7 +10,8 @@
             class Context
             {
                 public:
-                    virtual ~Context() = ELROND_DEFAULT_DESTRUCTOR;
+
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Context);
 
                     virtual elrond::pointer<elrond::interface::Console> console() const =0;
                     virtual elrond::pointer<elrond::interface::Arguments> arguments() const =0;

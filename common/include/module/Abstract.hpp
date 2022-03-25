@@ -10,8 +10,6 @@
             class Abstract :  public elrond::interface::Module
             {
                 public:
-                    virtual ~Abstract() = ELROND_DEFAULT_DESTRUCTOR;
-
                     virtual void setup(elrond::ContextP ctx) override;
                     virtual void start(elrond::ContextP ctx) override;
                     virtual void loop(elrond::ContextP ctx) override;

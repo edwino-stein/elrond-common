@@ -24,6 +24,8 @@
                     struct ValueBase
                     {
                         using Ptr = std::shared_ptr<ValueBase>;
+                        virtual ~ValueBase() = default;
+
                         virtual elrond::int32 asInt() const =0;
                         virtual elrond::uInt32 asUInt() const =0;
                         virtual bool asBool() const =0;

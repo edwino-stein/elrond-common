@@ -18,7 +18,6 @@
                 public:
 
                     Console(elrond::string tag, elrond::interface::ConsoleAdapter& adapter);
-                    virtual ~Console() = ELROND_DEFAULT_DESTRUCTOR;
 
                     //
                     // Stream handle

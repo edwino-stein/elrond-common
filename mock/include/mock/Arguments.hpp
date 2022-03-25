@@ -106,6 +106,8 @@
                     ValueBase::Ptr getValue(const elrond::string& key) const;
                     elrond::sizeT total() const;
                     void clear();
+
+                    static Arguments* null();
             };
         }
     }

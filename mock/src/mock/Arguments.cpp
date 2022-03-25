@@ -7,7 +7,7 @@ using ValueBase = elrond::mock::Arguments::ValueBase;
     ************** elrond::mock::Arguments Types Implementation ****************
     ****************************************************************************/
 
-/* ******************************* Base typed *************************s******* */
+/* ******************************* Base typed ******************************** */
 
 template <class T>
 struct Arguments::Value : public ValueBase
@@ -234,6 +234,12 @@ ValueBase::Ptr Arguments::getValue(const elrond::string& key) const
 void Arguments::clear()
 {
     this->values.clear();
+}
+
+Arguments* Arguments::null()
+{
+    static Arguments nullSingleton;
+    return &nullSingleton;
 }
 
 /* ************************* Signed integer methods ************************** */

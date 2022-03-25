@@ -32,10 +32,10 @@ void ConsoleAdapter::error(std::ostringstream& msg, const std::string&) const
     this->throwErrorH(msg);
 }
 
-ConsoleAdapter& ConsoleAdapter::null()
+ConsoleAdapter* ConsoleAdapter::null()
 {
     static ConsoleAdapter nullSingleton;
-    return nullSingleton;
+    return &nullSingleton;
 }
 
 void ConsoleAdapter::defaultThrowError(std::ostringstream& msg)

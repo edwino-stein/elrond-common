@@ -29,7 +29,7 @@
                     void info(std::ostringstream& msg, const std::string& tag) const override;
                     void error(std::ostringstream& msg, const std::string& tag) const override;
 
-                    static ConsoleAdapter& null();
+                    static ConsoleAdapter* null();
             };
         }
     }

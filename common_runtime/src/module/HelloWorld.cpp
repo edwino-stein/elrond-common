@@ -21,10 +21,11 @@ void HelloWorld::start(elrond::ContextP ctx)
 
 void HelloWorld::loop(elrond::ContextP ctx)
 {
-    ctx->console()->info(ELROND_STR("HelloWorld::loop"));
+    auto console = ctx->console();
     auto &me = *this;
 
-    elrond::ctx(this)->console()->info(
+    console->info(ELROND_STR("HelloWorld::loop"));
+    console->info(
         [&me](elrond::Stream& s)
         { s << ELROND_STR("Loop Message: ") << me.message; }
     );

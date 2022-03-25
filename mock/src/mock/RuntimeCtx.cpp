@@ -81,6 +81,11 @@ RuntimeCtx& RuntimeCtx::arguments(elrond::mock::Arguments& args)
 
 /* *********************************** Getters ******************************** */
 
+elrond::ContextP RuntimeCtx::ctx() const
+{
+    return std::make_shared<RuntimeCtx::Context>(*this);
+}
+
 elrond::pointer<Console> RuntimeCtx::console() const
 {
     return std::make_shared<elrond::runtime::Console>(
@@ -118,13 +123,13 @@ BaseFactoryAdapter& RuntimeCtx::adapter() const
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    this->instance().setup(*(this->arguments()));
+    this->instance().setup(this->ctx());
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStart()
 {
-    this->instance().start();
+    this->instance().start(this->ctx());
     return *this;
 }
 
@@ -141,13 +146,13 @@ RuntimeCtx& RuntimeCtx::callLoop(const elrond::sizeT times)
 
 RuntimeCtx& RuntimeCtx::callLoop(elrond::function<bool> predic)
 {
-    while (predic()) this->instance().loop();
+    while (predic()) this->instance().loop(this->ctx());
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStop()
 {
-    this->instance().stop();
+    this->instance().stop(this->ctx());
     return *this;
 }
 

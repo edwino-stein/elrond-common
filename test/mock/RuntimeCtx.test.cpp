@@ -17,10 +17,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
         public:
             elrond::string called = "none";
             elrond::sizeT loops = 0;
-            void setup(const elrond::Arguments&) { this->called = "setup"; }
-            void start() { this->called = "start"; }
-            void stop() { this->called = "stop"; }
-            void loop()
+            void setup(elrond::ContextP) { this->called = "setup"; }
+            void start(elrond::ContextP) { this->called = "start"; }
+            void stop(elrond::ContextP) { this->called = "stop"; }
+            void loop(elrond::ContextP)
             {
                 this->called = "loop";
                 this->loops++;
@@ -175,9 +175,9 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     {
         public:
             bool error = false;
-            void setup(const elrond::Arguments&)
+            void setup(elrond::ContextP ctx)
             {
-                auto console = elrond::ctx(this)->console();
+                auto console = ctx->console();
                 if(this->error) console->error("Error message");
                 else console->info("Info message");
             }
@@ -234,10 +234,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
         public:
             elrond::string arg = "none";
             elrond::string called = "none";
-            void setup(const elrond::Arguments& args)
+            void setup(elrond::ContextP ctx)
             {
                 this->called = "setup";
-                this->arg = args.asString("arg");
+                this->arg = ctx->arguments()->asString("arg");
             }
     };
 

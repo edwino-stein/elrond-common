@@ -5,8 +5,6 @@ using elrond::module::BaseGeneric;
 class ExternalModule : public BaseGeneric
 {
     public:
-        ExternalModule() = default;
-        virtual ~ExternalModule() = ELROND_DEFAULT_DESTRUCTOR;
 
         void setup(elrond::ContextP ctx) override
         {

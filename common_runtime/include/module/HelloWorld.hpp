@@ -14,8 +14,9 @@
                     elrond::string message;
 
                 public:
+
                     HelloWorld();
-                    virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
+
                     void setup(elrond::ContextP ctx) override;
                     void start(elrond::ContextP ctx) override;
                     void loop(elrond::ContextP ctx) override;

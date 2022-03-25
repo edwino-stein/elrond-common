@@ -48,7 +48,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
 
         WHEN("Module instance requires your context")
         {
-            auto context = elrond::ctx(ctx.instance());    
+            auto context = elrond::ctx(ctx.instance());
             THEN("Must be the same context instance")
             {
                 REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
@@ -249,16 +249,6 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
         REQUIRE(isInstanceOf<TestArgsModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
-        WHEN("Calls the factory adapter getter")
-        {
-            auto& adapter = ctx.adapter();
-            THEN("Must return the expected adapter")
-            {
-                CHECK_THAT(adapter.name(), Contains("TestArgsModule"));
-                CHECK(adapter.apiVersion() == elrond::getApiVersion());
-            }
-        }
-
         WHEN("Calls the setup method without arguments")
         {
             auto& instance = reinterpret_cast<TestArgsModule&>(ctx.instance());
@@ -273,20 +263,28 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
             }
         }
 
-        WHEN("Calls the setup method with arguments")
+        WHEN("Set a arguments set")
         {
-            auto& instance = reinterpret_cast<TestArgsModule&>(ctx.instance());
-            REQUIRE(instance.called == "none");
-            REQUIRE(instance.arg == "none");
-            
-            elrond::mock::Arguments args;
+            Arguments args;
             args.set("arg", "Hello world!!");
-            ctx.callSetup(args);
+            ctx.arguments(args);
 
-            THEN("Must be called the setup method")
+            REQUIRE(ctx.arguments().get() != &args);
+            REQUIRE(ctx.arguments()->asString("arg") == "Hello world!!");
+
+            WHEN("Calls the setup method")
             {
-                CHECK(instance.called == "setup");
-                CHECK(instance.arg == "Hello world!!");
+                auto& instance = reinterpret_cast<TestArgsModule&>(ctx.instance());
+                REQUIRE(instance.called == "none");
+                REQUIRE(instance.arg == "none");
+
+                ctx.callSetup();
+
+                THEN("Must be called the setup method")
+                {
+                    CHECK(instance.called == "setup");
+                    CHECK(instance.arg == "Hello world!!");
+                }
             }
         }
     }
@@ -324,7 +322,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 
         WHEN("Module instance requires your context")
         {
-            auto context = elrond::ctx(ctx.instance());    
+            auto context = elrond::ctx(ctx.instance());
             THEN("Must be the same context instance")
             {
                 REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));

@@ -8,6 +8,7 @@ using elrond::interface::Module;
 using elrond::platform::ModuleObject;
 using elrond::interface::Console;
 using elrond::mock::Arguments;
+using elrond::mock::ConsoleAdapter;
 using elrond::platform::BaseFactoryAdapter;
 using elrond::platform::FactoryAdapterP;
 using elrond::platform::ExternalFactoryAdapter;
@@ -27,6 +28,12 @@ elrond::pointer<Console> RuntimeCtx::Context::console() const
     return this->ctx.console();
 }
 
+elrond::pointer<elrond::interface::Arguments>
+RuntimeCtx::Context::arguments() const
+{
+    return this->ctx.arguments();
+}
+
 elrond::string RuntimeCtx::Context::name() const
 {
     return this->ctx.name();
@@ -44,7 +51,8 @@ RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
 :
     _adapter(adapter),
     _instance(_adapter->create(name)),
-    _consoleAdapter(&(elrond::mock::ConsoleAdapter::null()))
+    _consoleAdapter(ConsoleAdapter::null()),
+    _arguments(Arguments::null())
 {
     this->instance().__init__(this);
 }
@@ -65,6 +73,12 @@ RuntimeCtx& RuntimeCtx::console(elrond::interface::ConsoleAdapter& consoleAdapte
     return *this;
 }
 
+RuntimeCtx& RuntimeCtx::arguments(elrond::mock::Arguments& args)
+{
+    this->_arguments = &args;
+    return *this;
+}
+
 /* *********************************** Getters ******************************** */
 
 elrond::pointer<Console> RuntimeCtx::console() const
@@ -73,6 +87,12 @@ elrond::pointer<Console> RuntimeCtx::console() const
         this->name(),
         *(this->_consoleAdapter)
     );
+}
+
+elrond::pointer<elrond::interface::Arguments>
+RuntimeCtx::arguments() const
+{
+    return std::make_shared<Arguments>(*(this->_arguments));
 }
 
 elrond::string RuntimeCtx::name() const
@@ -98,13 +118,7 @@ BaseFactoryAdapter& RuntimeCtx::adapter() const
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    Arguments args;
-    return this->callSetup(args);
-}
-
-RuntimeCtx& RuntimeCtx::callSetup(const elrond::Arguments& args)
-{
-    this->instance().setup(args);
+    this->instance().setup(*(this->arguments()));
     return *this;
 }
 

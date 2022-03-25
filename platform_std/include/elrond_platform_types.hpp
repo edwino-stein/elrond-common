@@ -47,8 +47,6 @@
                 const std::string version;
             };
 
-            class ModuleObject;
-            class RuntimeCtx;
             class FactoryInterface;
             class BaseFactory;
             template <class M> class Factory;

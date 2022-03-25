@@ -16,10 +16,10 @@
                 public:
                     HelloWorld();
                     virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
-                    void setup(const elrond::Arguments& params) override;
-                    void start() override;
-                    void loop() override;
-                    void stop() override;
+                    void setup(elrond::ContextP ctx) override;
+                    void start(elrond::ContextP ctx) override;
+                    void loop(elrond::ContextP ctx) override;
+                    void stop(elrond::ContextP ctx) override;
             };
         }
     }

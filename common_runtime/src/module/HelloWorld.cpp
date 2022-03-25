@@ -4,24 +4,24 @@ using elrond::module::HelloWorld;
 
 HelloWorld::HelloWorld() : message(ELROND_STR("Hello world")) {}
 
-void HelloWorld::setup(const elrond::Arguments& args)
+void HelloWorld::setup(elrond::ContextP ctx)
 {
-    elrond::ctx(this)->console()->info(ELROND_STR("HelloWorld::setup"));
+    ctx->console()->info(ELROND_STR("HelloWorld::setup"));
 
-    if (args.isString(ELROND_STR("message")))
+    if (ctx->arguments()->isString(ELROND_STR("message")))
     {
-        this->message = args.asString(ELROND_STR("message"));
+        this->message = ctx->arguments()->asString(ELROND_STR("message"));
     } 
 }
 
-void HelloWorld::start()
+void HelloWorld::start(elrond::ContextP ctx)
 {
-    elrond::ctx(this)->console()->info(ELROND_STR("HelloWorld::start"));
+    ctx->console()->info(ELROND_STR("HelloWorld::start"));
 }
 
-void HelloWorld::loop()
+void HelloWorld::loop(elrond::ContextP ctx)
 {
-    elrond::ctx(this)->console()->info(ELROND_STR("HelloWorld::loop"));
+    ctx->console()->info(ELROND_STR("HelloWorld::loop"));
     auto &me = *this;
 
     elrond::ctx(this)->console()->info(
@@ -30,7 +30,7 @@ void HelloWorld::loop()
     );
 }
 
-void HelloWorld::stop()
+void HelloWorld::stop(elrond::ContextP ctx)
 {
-    elrond::ctx(this)->console()->info(ELROND_STR("HelloWorld::stop"));
+    ctx->console()->info(ELROND_STR("HelloWorld::stop"));
 }

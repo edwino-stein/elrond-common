@@ -15,7 +15,6 @@ struct Arguments::Value : public ValueBase
     const T value;
 
     Value(const T value) : value(value) {}
-    virtual ~Value() = default;
 
     static bool isTypeOf(ValueBase::Ptr obj)
     {
@@ -27,8 +26,6 @@ struct Arguments::Value : public ValueBase
 
 struct Arguments::Null : public Arguments::ValueBase
 {
-    virtual ~Null() = default;
-
     elrond::int32 asInt() const override { return elrond::int32(); };
     elrond::uInt32 asUInt() const override { return elrond::uInt32(); };
     bool asBool() const override { return false; };
@@ -41,7 +38,6 @@ struct Arguments::Null : public Arguments::ValueBase
 struct Arguments::Int : public Arguments::Value<elrond::int32>
 {
     Int(const elrond::int32 i) : Value(i) {}
-    virtual ~Int() = default;
 
     elrond::int32 asInt() const override
     {
@@ -74,7 +70,6 @@ struct Arguments::Int : public Arguments::Value<elrond::int32>
 struct Arguments::UInt : public Arguments::Value<elrond::uInt32>
 {
     UInt(const elrond::uInt32 i) : Value(i) {}
-    virtual ~UInt() = default;
 
     elrond::int32 asInt() const override
     {
@@ -107,7 +102,6 @@ struct Arguments::UInt : public Arguments::Value<elrond::uInt32>
 struct Arguments::Bool : public Arguments::Value<bool>
 {
     Bool(const bool b) : Value(b) {}
-    virtual ~Bool() = default;
 
     elrond::int32 asInt() const override
     {
@@ -140,7 +134,6 @@ struct Arguments::Bool : public Arguments::Value<bool>
 struct Arguments::Double : public Arguments::Value<double>
 {
     Double(const double d) : Value(d) {}
-    virtual ~Double() = default;
 
     elrond::int32 asInt() const override
     {
@@ -173,7 +166,6 @@ struct Arguments::Double : public Arguments::Value<double>
 struct Arguments::String : public Arguments::Value<elrond::string>
 {
     String(const elrond::string s) : Value(s) {}
-    virtual ~String() = default;
 
     elrond::int32 asInt() const override
     {

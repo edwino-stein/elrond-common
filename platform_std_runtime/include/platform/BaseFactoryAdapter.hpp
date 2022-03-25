@@ -14,6 +14,7 @@
                     virtual const FactoryInterface& factory() const =0;
 
                 public:
+
                     virtual ~BaseFactoryAdapter() = default;
 
                     const std::string& name() const;

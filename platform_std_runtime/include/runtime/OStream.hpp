@@ -16,7 +16,6 @@
                 public:
 
                     OStream(std::ostream& os);
-                    virtual ~OStream() = default;
 
                     // Char and strings
                     const elrond::interface::Stream&

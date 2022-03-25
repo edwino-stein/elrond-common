@@ -21,7 +21,6 @@
                 public:
 
                     InternalFactoryAdapter(const ModuleInfo& info);
-                    virtual ~InternalFactoryAdapter() = default;
             };
         }
     }

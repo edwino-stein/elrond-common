@@ -13,6 +13,7 @@
                     virtual ~Context() = ELROND_DEFAULT_DESTRUCTOR;
 
                     virtual elrond::pointer<elrond::interface::Console> console() const =0;
+                    virtual elrond::pointer<elrond::interface::Arguments> arguments() const =0;
                     virtual elrond::string name() const =0;
             };
         }

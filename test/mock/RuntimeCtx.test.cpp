@@ -244,10 +244,6 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
     GIVEN("A generic module instance")
     {
         auto ctx = RuntimeCtx::create<TestArgsModule>("test");
-        REQUIRE(ctx.name() == "test");
-        REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
-        REQUIRE(isInstanceOf<TestArgsModule>(ctx.instance()));
-        REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         WHEN("Calls the setup method without arguments")
         {
@@ -285,6 +281,72 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
                     CHECK(instance.called == "setup");
                     CHECK(instance.arg == "Hello world!!");
                 }
+            }
+        }
+    }
+}
+
+SCENARIO("Test a mocked runtime context with a simple module instance for check loop control setup", "[mock][RuntimeCtx]")
+{
+    class TestLoopCfgModule : public BaseGeneric
+    {
+        public:
+            void setup(elrond::ContextP ctx)
+            {
+                auto args = ctx->arguments();
+
+                ctx->loopEnable(
+                    args->isBool("loop") ?
+                    args->asBool("loop") : false
+                );
+
+                ctx->loopAsync(
+                    args->isBool("async") ?
+                    args->asBool("async") : false
+                );
+
+                ctx->loopInterval(
+                    args->isInt("interval") ?
+                    args->asInt("interval") : 1000
+                );
+            }
+    };
+
+    GIVEN("A generic module instance")
+    {
+        auto ctx = RuntimeCtx::create<TestLoopCfgModule>("test");
+
+        REQUIRE_FALSE(ctx.loopEnable());
+        REQUIRE_FALSE(ctx.loopAsync());
+        REQUIRE(ctx.loopInterval() == 0);
+
+        WHEN("Calls the setup method without arguments")
+        {
+            ctx.callSetup();
+
+            THEN("Must be called the setup method")
+            {
+                CHECK_FALSE(ctx.loopEnable());
+                CHECK_FALSE(ctx.loopAsync());
+                CHECK(ctx.loopInterval() == 1000);
+            }
+        }
+
+        WHEN("Setup loop control by an arguments set and call setup method")
+        {
+            Arguments args;
+            args.set("loop", true)
+                .set("async", true)
+                .set("interval", 500);
+            ctx.arguments(args);
+
+            ctx.callSetup();
+
+            THEN("Must be called the setup method")
+            {
+                CHECK(ctx.loopEnable());
+                CHECK(ctx.loopAsync());
+                CHECK(ctx.loopInterval() == 500);
             }
         }
     }

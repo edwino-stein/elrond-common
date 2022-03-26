@@ -20,7 +20,11 @@ int main()
         .callStop();
 
     Arguments args;
-    args.set("message", "Test hello world");
+    args.set("message", "Test hello world")
+        .set("loop", true)
+        .set("async", true)
+        .set("interval", 500);
+
     ctx.arguments(args);
 
     ctx.callSetup()

@@ -12,6 +12,8 @@
                 private:
 
                     elrond::string message;
+                    long interval;
+                    elrond::string mode;
 
                 public:
 

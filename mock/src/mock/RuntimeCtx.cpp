@@ -21,7 +21,7 @@ using IArguments = elrond::interface::Arguments;
     ****************************************************************************/
 
 RuntimeCtx::Context::Context(const RuntimeCtx& ctx) : ctx(ctx) {}
-    
+
 elrond::pointer<Console> RuntimeCtx::Context::console() const
 {
     return this->ctx.console();
@@ -38,6 +38,21 @@ elrond::string RuntimeCtx::Context::name() const
     return this->ctx.name();
 }
 
+void RuntimeCtx::Context::loopEnable(bool enable)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopEnable = enable;
+}
+
+void RuntimeCtx::Context::loopInterval(elrond::timeT interval)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopInterval = interval;
+}
+
+void RuntimeCtx::Context::loopAsync(bool enable)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopAsync = enable;
+}
+
 /*  ****************************************************************************
     ***************** elrond::mock::RuntimeCtx Implementation ******************
     ****************************************************************************/
@@ -51,7 +66,10 @@ RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
     _adapter(adapter),
     _instance(_adapter->create(name)),
     _consoleAdapter(ConsoleAdapter::null()),
-    _arguments(Arguments::null())
+    _arguments(Arguments::null()),
+    _loopEnable(false),
+    _loopAsync(false),
+    _loopInterval(0)
 {}
 
 /* *********************************** Setters ******************************** */
@@ -72,7 +90,7 @@ RuntimeCtx& RuntimeCtx::arguments(Arguments& args)
 
 elrond::ContextP RuntimeCtx::ctx() const
 {
-    return std::make_shared<RuntimeCtx::Context>(*this);
+    return std::make_shared<RuntimeCtx::Context>(const_cast<RuntimeCtx&>(*this));
 }
 
 elrond::pointer<Console> RuntimeCtx::console() const
@@ -101,6 +119,21 @@ Module& RuntimeCtx::instance() const
 BaseFactoryAdapter& RuntimeCtx::adapter() const
 {
     return *(this->_adapter);
+}
+
+bool RuntimeCtx::loopEnable() const
+{
+    return this->_loopEnable;
+}
+
+elrond::timeT RuntimeCtx::loopInterval() const
+{
+    return this->_loopInterval;
+}
+
+bool RuntimeCtx::loopAsync() const
+{
+    return this->_loopAsync;
 }
 
 /* *********************************** Others ********************************* */

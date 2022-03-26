@@ -12,7 +12,7 @@
                 private:
 
                     elrond::string message;
-                    elrond::sizeT interval;
+                    elrond::timeT interval;
                     elrond::string mode;
 
                 public:

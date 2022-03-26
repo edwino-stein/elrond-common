@@ -1,20 +1,57 @@
 #include "mock/RuntimeCtx.hpp"
 
-#include "mock/Console.hpp"
-#include "mock/Parameters.hpp"
+#include "mock/ConsoleAdapter.hpp"
+#include "mock/Arguments.hpp"
 
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
-using elrond::interface::Context;
-using elrond::platform::ModuleObject;
 using elrond::interface::Console;
-using elrond::mock::Parameters;
+using elrond::mock::Arguments;
+using elrond::mock::ConsoleAdapter;
 using elrond::platform::BaseFactoryAdapter;
 using elrond::platform::FactoryAdapterP;
 using elrond::platform::ExternalFactoryAdapter;
 using elrond::platform::ModuleInfo;
 
-using PlatfomCtx = elrond::platform::RuntimeCtx;
+using IConsoleAdapter = elrond::interface::ConsoleAdapter;
+using IArguments = elrond::interface::Arguments;
+
+/*  ****************************************************************************
+    ************ elrond::mock::RuntimeCtx::Context Implementation **************
+    ****************************************************************************/
+
+RuntimeCtx::Context::Context(const RuntimeCtx& ctx) : ctx(ctx) {}
+
+elrond::pointer<Console> RuntimeCtx::Context::console() const
+{
+    return this->ctx.console();
+}
+
+elrond::pointer<elrond::interface::Arguments>
+RuntimeCtx::Context::arguments() const
+{
+    return this->ctx.arguments();
+}
+
+elrond::string RuntimeCtx::Context::name() const
+{
+    return this->ctx.name();
+}
+
+void RuntimeCtx::Context::loopEnable(bool enable)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopEnable = enable;
+}
+
+void RuntimeCtx::Context::loopInterval(elrond::timeT interval)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopInterval = interval;
+}
+
+void RuntimeCtx::Context::loopAsync(bool enable)
+{
+    const_cast<RuntimeCtx&>(this->ctx)._loopAsync = enable;
+}
 
 /*  ****************************************************************************
     ***************** elrond::mock::RuntimeCtx Implementation ******************
@@ -28,43 +65,53 @@ RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
 :
     _adapter(adapter),
     _instance(_adapter->create(name)),
-    _console(nullptr)
-{
-    this->instance().__init__(this);
-    this->console(elrond::mock::Console::null());
-}
-
-/* ************** elrond::platform::RuntimeCtx base overload ****************** */
-
-Context const& RuntimeCtx::ofInstance(const ModuleObject& inst) const
-{
-    if(&(this->instance()) == &inst) return *this;
-    throw std::runtime_error("Invalid module context");
-}
-
-/* *************** elrond::interface::Context base overload ******************* */
-
-Console const& RuntimeCtx::console() const
-{
-    return *(this->_console);
-}
+    _consoleAdapter(ConsoleAdapter::null()),
+    _arguments(Arguments::null()),
+    _loopEnable(false),
+    _loopAsync(false),
+    _loopInterval(0)
+{}
 
 /* *********************************** Setters ******************************** */
 
-RuntimeCtx& RuntimeCtx::console(elrond::interface::Console& console)
+RuntimeCtx& RuntimeCtx::console(IConsoleAdapter& consoleAdapter)
 {
-    this->_console = &console;
+    this->_consoleAdapter = &consoleAdapter;
+    return *this;
+}
+
+RuntimeCtx& RuntimeCtx::arguments(Arguments& args)
+{
+    this->_arguments = &args;
     return *this;
 }
 
 /* *********************************** Getters ******************************** */
+
+elrond::ContextP RuntimeCtx::ctx() const
+{
+    return std::make_shared<RuntimeCtx::Context>(*this);
+}
+
+elrond::pointer<Console> RuntimeCtx::console() const
+{
+    return std::make_shared<elrond::runtime::Console>(
+        this->name(),
+        *(this->_consoleAdapter)
+    );
+}
+
+elrond::pointer<IArguments> RuntimeCtx::arguments() const
+{
+    return std::make_shared<Arguments>(*(this->_arguments));
+}
 
 elrond::string RuntimeCtx::name() const
 {
     return this->_instance->name();
 }
 
-elrond::interface::Module& RuntimeCtx::instance() const
+Module& RuntimeCtx::instance() const
 {
     return this->_instance->instance();
 }
@@ -72,6 +119,21 @@ elrond::interface::Module& RuntimeCtx::instance() const
 BaseFactoryAdapter& RuntimeCtx::adapter() const
 {
     return *(this->_adapter);
+}
+
+bool RuntimeCtx::loopEnable() const
+{
+    return this->_loopEnable;
+}
+
+elrond::timeT RuntimeCtx::loopInterval() const
+{
+    return this->_loopInterval;
+}
+
+bool RuntimeCtx::loopAsync() const
+{
+    return this->_loopAsync;
 }
 
 /* *********************************** Others ********************************* */
@@ -82,19 +144,13 @@ BaseFactoryAdapter& RuntimeCtx::adapter() const
 
 RuntimeCtx& RuntimeCtx::callSetup()
 {
-    Parameters params;
-    return this->callSetup(params);
-}
-
-RuntimeCtx& RuntimeCtx::callSetup(const elrond::Parameters& params)
-{
-    this->instance().setup(params);
+    this->instance().setup(this->ctx());
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStart()
 {
-    this->instance().start();
+    this->instance().start(this->ctx());
     return *this;
 }
 
@@ -111,13 +167,13 @@ RuntimeCtx& RuntimeCtx::callLoop(const elrond::sizeT times)
 
 RuntimeCtx& RuntimeCtx::callLoop(elrond::function<bool> predic)
 {
-    while (predic()) this->instance().loop();
+    while (predic()) this->instance().loop(this->ctx());
     return *this;
 }
 
 RuntimeCtx& RuntimeCtx::callStop()
 {
-    this->instance().stop();
+    this->instance().stop(this->ctx());
     return *this;
 }
 

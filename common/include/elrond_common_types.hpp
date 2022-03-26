@@ -25,7 +25,7 @@
             class Context;
             class Console;
             class Stream;
-            class Parameters;
+            class Arguments;
         }
 
         namespace module
@@ -40,7 +40,7 @@
         
         // Type alies
         using Stream = elrond::interface::Stream;
-        using Parameters = elrond::interface::Parameters;
+        using ContextP = elrond::pointer<elrond::interface::Context>;
     }
 
 #endif

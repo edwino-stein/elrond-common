@@ -10,8 +10,16 @@
             class Context
             {
                 public:
-                    virtual ~Context() = ELROND_DEFAULT_DESTRUCTOR;
-                    virtual elrond::interface::Console const& console() const =0;
+
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Context);
+
+                    virtual elrond::pointer<elrond::interface::Console> console() const =0;
+                    virtual elrond::pointer<elrond::interface::Arguments> arguments() const =0;
+                    virtual elrond::string name() const =0;
+
+                    virtual void loopEnable(bool enable) =0;
+                    virtual void loopInterval(elrond::timeT interval) =0;
+                    virtual void loopAsync(bool enable) =0;
             };
         }
     }

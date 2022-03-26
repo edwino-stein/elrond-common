@@ -7,11 +7,7 @@
     {
         namespace module
         {
-            class BaseGeneric : public elrond::module::Base<elrond::ModuleType::GENERIC>
-            {
-                public:
-                    virtual ~BaseGeneric() = ELROND_DEFAULT_DESTRUCTOR;
-            };
+            class BaseGeneric : public elrond::module::Base<elrond::ModuleType::GENERIC> {};
         }
     }
 

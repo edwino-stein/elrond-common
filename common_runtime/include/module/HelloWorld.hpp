@@ -10,14 +10,19 @@
             class HelloWorld : public elrond::module::BaseGeneric
             {
                 private:
-                    elrond::string message = "Hello world";
+
+                    elrond::string message;
+                    long interval;
+                    elrond::string mode;
 
                 public:
-                    virtual ~HelloWorld() = ELROND_DEFAULT_DESTRUCTOR;
-                    void setup(const elrond::Parameters& params) override;
-                    void start() override;
-                    void loop() override;
-                    void stop() override;
+
+                    HelloWorld();
+
+                    void setup(elrond::ContextP ctx) override;
+                    void start(elrond::ContextP ctx) override;
+                    void loop(elrond::ContextP ctx) override;
+                    void stop(elrond::ContextP ctx) override;
             };
         }
     }

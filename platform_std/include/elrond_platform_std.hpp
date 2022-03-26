@@ -31,11 +31,12 @@
     #define ELROND_STD_PLATFORM
 
     // #define ELROND_DISABLE_DESTRUCTORS
-
     #ifdef ELROND_DISABLE_DESTRUCTORS
-        #define ELROND_DEFAULT_DESTRUCTOR delete
+        #define ELROND_OPT_DFLT_DESTRUCTOR(NAME) // No default destructor
+        #define ELROND_OPT_DFLT_VDESTRUCTOR(NAME) // No default virtual destructor
     #else
-        #define ELROND_DEFAULT_DESTRUCTOR default
+        #define ELROND_OPT_DFLT_DESTRUCTOR(NAME)  ~ NAME() = default
+        #define ELROND_OPT_DFLT_VDESTRUCTOR(NAME) virtual ~ NAME() = default
     #endif
 
     #ifdef ELROND_DISABLE_INLINE
@@ -53,6 +54,7 @@
     #include <cstdint>
     #include <string>
     #include <functional>
+    #include <memory>
     #include <exception>
 
     // Util macros
@@ -76,5 +78,7 @@
         #define ELROND_DEFINE_MODULE(...)
         #define ELROND_DEFINE_DEFAULT_MODULE(...)
     #endif
+
+    #define ELROND_STR(S) std::string(S)
 
 #endif

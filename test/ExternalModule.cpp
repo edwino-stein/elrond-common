@@ -5,27 +5,25 @@ using elrond::module::BaseGeneric;
 class ExternalModule : public BaseGeneric
 {
     public:
-        ExternalModule() = default;
-        virtual ~ExternalModule() = ELROND_DEFAULT_DESTRUCTOR;
 
-        void setup(const elrond::Parameters&) override
+        void setup(elrond::ContextP ctx) override
         {
-            elrond::ctx(this).console().info("setup");
+            ctx->console()->info("setup");
         }
 
-        void start() override
+        void start(elrond::ContextP ctx) override
         {
-            elrond::ctx(this).console().info("start");
+            ctx->console()->info("start");
         }
 
-        void loop() override
+        void loop(elrond::ContextP ctx) override
         {
-            elrond::ctx(this).console().info("loop");
+            ctx->console()->info("loop");
         }
 
-        void stop() override
+        void stop(elrond::ContextP ctx) override
         {
-            elrond::ctx(this).console().info("stop");
+            ctx->console()->info("stop");
         }
 };
 

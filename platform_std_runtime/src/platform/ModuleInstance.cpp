@@ -7,7 +7,12 @@ using elrond::interface::Module;
 ModuleInstance::ModuleInstance(const elrond::string& name, const FactoryInterface& factory)
 :
     _name(name),
-    _instance(factory.create(), [&factory](Module* inst) { factory.destroy(inst); })
+    _instance(
+        factory.create(),
+        [&factory](Module* inst) {
+            factory.destroy(inst);
+        }
+    )
 {}
 
 ModuleInstance::~ModuleInstance() {}

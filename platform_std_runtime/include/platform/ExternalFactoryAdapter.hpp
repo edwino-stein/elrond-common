@@ -21,7 +21,6 @@
 
                 public:
                     ExternalFactoryAdapter(const std::string& path);
-                    virtual ~ExternalFactoryAdapter() = default;
             };
         }
     }

@@ -16,7 +16,6 @@
 
                 public:
                     BaseFactory(const ModuleInfo& info, const std::string& name);
-                    virtual ~BaseFactory() = default;
 
                     const ModuleInfo& info() const override;
                     const elrond::string& name() const override;

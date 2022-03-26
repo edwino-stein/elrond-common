@@ -10,7 +10,6 @@ project(
 # Define an interface library
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
-target_link_libraries(${PROJECT_NAME} INTERFACE elrond)
 target_compile_definitions(${PROJECT_NAME} INTERFACE ELROND_DISABLE_INLINE)
 
 # Define an interface library with source files

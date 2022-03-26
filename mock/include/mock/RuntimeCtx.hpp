@@ -7,9 +7,30 @@
     {
         namespace mock
         {
-            class RuntimeCtx : public elrond::interface::Context,
-                               public elrond::platform::RuntimeCtx
+            class RuntimeCtx
             {
+                public:
+                    class Context : public elrond::interface::Context
+                    {
+                        public:
+
+                            const RuntimeCtx& ctx;
+
+                            Context(const RuntimeCtx& ctx);
+
+                            elrond::pointer<elrond::interface::Console>
+                            console() const override;
+
+                            elrond::pointer<elrond::interface::Arguments>
+                            arguments() const override;
+
+                            elrond::string name() const override;
+
+                            void loopEnable(bool enable) override;
+                            void loopInterval(elrond::timeT interval) override;
+                            void loopAsync(bool enable) override;
+                    };
+
                 protected:
 
                     //
@@ -21,8 +42,12 @@
                     //
                     // Internal properties
                     //
-                    elrond::interface::Console* _console;
-                    
+                    elrond::interface::ConsoleAdapter* _consoleAdapter;
+                    elrond::mock::Arguments* _arguments;
+                    bool _loopEnable;
+                    bool _loopAsync;
+                    elrond::timeT _loopInterval;
+
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
                     //
@@ -33,33 +58,29 @@
                 public:
 
                     //
-                    // elrond::interface::Context methods override
-                    //
-                    elrond::interface::Console const& console() const override;
-
-                    //
-                    // elrond::platform::RuntimeCtx methods override
-                    //
-                    elrond::interface::Context const&
-                    ofInstance(const elrond::platform::ModuleObject& inst) const override;
-
-                    //
                     // Setters methods
                     //
-                    RuntimeCtx& console(elrond::interface::Console& console);
+                    RuntimeCtx& console(elrond::interface::ConsoleAdapter& consoleAdapter);
+                    RuntimeCtx& arguments(elrond::mock::Arguments& args);
 
                     //
                     // Getters methods
                     //
+                    elrond::ContextP ctx() const;
+                    elrond::pointer<elrond::interface::Console> console() const;
+                    elrond::pointer<elrond::interface::Arguments> arguments() const;
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
                     elrond::platform::BaseFactoryAdapter& adapter() const;
+
+                    bool loopEnable() const;
+                    elrond::timeT loopInterval() const;
+                    bool loopAsync() const;
 
                     //
                     // Others methods
                     //
                     RuntimeCtx& callSetup();
-                    RuntimeCtx& callSetup(const elrond::Parameters& params);
                     RuntimeCtx& callStart();
                     RuntimeCtx& callLoop();
                     RuntimeCtx& callLoop(const elrond::sizeT times);

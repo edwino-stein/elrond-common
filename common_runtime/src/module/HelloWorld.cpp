@@ -2,28 +2,66 @@
 
 using elrond::module::HelloWorld;
 
-void HelloWorld::setup(const elrond::Parameters& param)
-{
-    elrond::ctx(this).console().info("HelloWorld::setup");
-    if (param.isString("message")) this->message = param.asString("message");
-}
+HelloWorld::HelloWorld()
+:
+    message(ELROND_STR("Hello world")),
+    interval(1000),
+    mode(ELROND_STR("sync"))
+{}
 
-void HelloWorld::start()
+void HelloWorld::setup(elrond::ContextP ctx)
 {
-    elrond::ctx(this).console().info("HelloWorld::start");
-}
+    ctx->console()->info(ELROND_STR("HelloWorld::setup"));
+    auto args = ctx->arguments();
 
-void HelloWorld::loop()
-{
-    elrond::ctx(this).console().info("HelloWorld::loop");
-    auto &me = *this;
-    elrond::ctx(this).console().info(
-        [&me](elrond::Stream& s)
-        { s << "Loop Message: " << me.message; }
+    elrond::string field = ELROND_STR("message");
+    if (args->isString(field))
+    {
+        this->message = args->asString(field);
+    }
+
+    field = ELROND_STR("async");
+    if (args->isBool(field) && args->asBool(field))
+    {
+        this->mode = ELROND_STR("async");
+        ctx->loopAsync(true);
+    }
+
+    field = ELROND_STR("interval");
+    if (args->isInt(field))
+    {
+        this->interval = args->asInt(field);
+    }
+    ctx->loopInterval(this->interval);
+
+    field = ELROND_STR("loop");
+    ctx->loopEnable(
+        args->isBool(field) ? args->asBool(field) : true
     );
 }
 
-void HelloWorld::stop()
+void HelloWorld::start(elrond::ContextP ctx)
 {
-    elrond::ctx(this).console().info("HelloWorld::stop");
+    ctx->console()->info(ELROND_STR("HelloWorld::start"));
+}
+
+void HelloWorld::loop(elrond::ContextP ctx)
+{
+    auto console = ctx->console();
+    auto me = this;
+
+    console->info(ELROND_STR("HelloWorld::loop"));
+    console->info(
+        [&me](elrond::Stream& s)
+        {
+            s   << ELROND_STR("Loop Message [") 
+                << me->mode << '|' << me->interval
+                << ELROND_STR("]: ") << me->message;
+        }
+    );
+}
+
+void HelloWorld::stop(elrond::ContextP ctx)
+{
+    ctx->console()->info(ELROND_STR("HelloWorld::stop"));
 }

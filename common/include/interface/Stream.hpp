@@ -10,7 +10,8 @@
             class Stream
             {
                 public:
-                    virtual ~Stream() = ELROND_DEFAULT_DESTRUCTOR;
+
+                    ELROND_OPT_DFLT_VDESTRUCTOR(Stream);
 
                     //
                     // Char and strings

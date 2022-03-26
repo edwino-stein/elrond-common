@@ -4,7 +4,7 @@ enable_testing()
 # Define project info
 project(
     elrond
-    VERSION 0.5.1
+    VERSION 0.6.0
     DESCRIPTION "Elrond Project"
     LANGUAGES CXX
 )
@@ -57,6 +57,7 @@ add_library(${PROJECT_NAME}_runtime INTERFACE)
 target_link_libraries(
     ${PROJECT_NAME}_runtime
     INTERFACE
+    elrond
     common_runtime
     platform_runtime
 )

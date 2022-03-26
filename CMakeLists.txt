@@ -4,7 +4,7 @@ enable_testing()
 # Define project info
 project(
     elrond
-    VERSION 0.5.1
+    VERSION 0.6.0
     DESCRIPTION "Elrond Project"
     LANGUAGES CXX
 )

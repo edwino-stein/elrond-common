@@ -17,7 +17,6 @@
                             const RuntimeCtx& ctx;
 
                             Context(const RuntimeCtx& ctx);
-                            virtual ~Context() = default;
 
                             elrond::pointer<elrond::interface::Console>
                             console() const override;
@@ -26,9 +25,14 @@
                             arguments() const override;
 
                             elrond::string name() const override;
+
+                            void loopEnable(bool enable) override;
+                            void loopInterval(elrond::timeT interval) override;
+                            void loopAsync(bool enable) override;
                     };
 
                 protected:
+
                     //
                     // Module instance Handle properties
                     //
@@ -40,6 +44,9 @@
                     //
                     elrond::interface::ConsoleAdapter* _consoleAdapter;
                     elrond::mock::Arguments* _arguments;
+                    bool _loopEnable;
+                    bool _loopAsync;
+                    elrond::timeT _loopInterval;
 
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
@@ -65,6 +72,10 @@
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
                     elrond::platform::BaseFactoryAdapter& adapter() const;
+
+                    bool loopEnable() const;
+                    elrond::timeT loopInterval() const;
+                    bool loopAsync() const;
 
                     //
                     // Others methods

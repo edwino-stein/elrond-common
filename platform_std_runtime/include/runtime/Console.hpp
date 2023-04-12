@@ -9,13 +9,17 @@
         namespace runtime
         {
             class Console : public elrond::interface::Console
-            { 
+            {
                 protected:
 
-                    elrond::string tag;
-                    elrond::interface::ConsoleAdapter* adapter;
+                    elrond::interface::ConsoleAdapter& adapter;
 
                 public:
+
+                    Console(elrond::interface::ConsoleAdapter& adapter);
+
+                    elrond::platform::ConsoleStream info() const override;
+                    elrond::platform::ConsoleStream error() const override;
 
                     Console(elrond::string tag, elrond::interface::ConsoleAdapter& adapter);
 

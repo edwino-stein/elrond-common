@@ -18,8 +18,8 @@
 
                     Console(elrond::interface::ConsoleAdapter& adapter);
 
-                    elrond::platform::ConsoleStream info() const override;
-                    elrond::platform::ConsoleStream error() const override;
+                    const elrond::platform::ConsoleStream info() const override;
+                    const elrond::platform::ConsoleStream error() const override;
 
                     Console(elrond::string tag, elrond::interface::ConsoleAdapter& adapter);
 

@@ -13,8 +13,8 @@
                     
                     ELROND_OPT_DFLT_VDESTRUCTOR(Console);
 
-                    virtual elrond::platform::ConsoleStream info() const =0;
-                    virtual elrond::platform::ConsoleStream error() const =0;
+                    virtual const elrond::platform::ConsoleStream info() const =0;
+                    virtual const elrond::platform::ConsoleStream error() const =0;
 
                     //
                     // Stream handle

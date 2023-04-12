@@ -17,6 +17,11 @@
                     ConsoleStream(elrond::pointer<elrond::interface::StreamAdapter> adapter);
                     ~ConsoleStream();
 
+                    ConsoleStream(ConsoleStream&&) = default;
+                    ConsoleStream(const ConsoleStream&) = delete;
+                    ConsoleStream& operator=(const ConsoleStream&) = delete;
+                    ConsoleStream& operator=(ConsoleStream&&) = delete;
+
                     //
                     // Char and strings
                     //

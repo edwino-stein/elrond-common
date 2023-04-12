@@ -2,16 +2,17 @@
 
 using elrond::runtime::Console;
 using elrond::interface::ConsoleAdapter;
+using elrond::platform::ConsoleStream;
 
 Console::Console(elrond::string, ConsoleAdapter& adapter) : adapter(adapter) {}
 Console::Console(ConsoleAdapter& adapter) : adapter(adapter) {}
 
-elrond::platform::ConsoleStream Console::info() const
+const elrond::platform::ConsoleStream Console::info() const
 {
     return this->adapter.getInfoStreamAdapter();
 }
 
-elrond::platform::ConsoleStream Console::error() const
+const elrond::platform::ConsoleStream Console::error() const
 {
     return this->adapter.getErrorStreamAdapter();
 }
@@ -19,10 +20,10 @@ elrond::platform::ConsoleStream Console::error() const
 //
 // Stream handle
 //
-void Console::info(const elrond::StreamH& handle) const
+void Console::info(const elrond::StreamH&) const
 {}
 
-void Console::error(const elrond::StreamH& handle) const
+void Console::error(const elrond::StreamH&) const
 {}
 
 //

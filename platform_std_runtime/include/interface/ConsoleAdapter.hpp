@@ -11,9 +11,6 @@
             {
                 public:
                     virtual ~ConsoleAdapter() = default;
-                    virtual void info(std::ostringstream& msg, const std::string& tag) const =0;
-                    virtual void error(std::ostringstream& msg, const std::string& tag) const =0;
-
                     virtual elrond::pointer<elrond::interface::StreamAdapter> getInfoStreamAdapter() const =0;
                     virtual elrond::pointer<elrond::interface::StreamAdapter> getErrorStreamAdapter() const =0;
             };

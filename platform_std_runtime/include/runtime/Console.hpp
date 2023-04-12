@@ -18,16 +18,11 @@
 
                     Console(elrond::interface::ConsoleAdapter& adapter);
 
+                    //
+                    // Stream directly
+                    //
                     const elrond::platform::ConsoleStream info() const override;
                     const elrond::platform::ConsoleStream error() const override;
-
-                    Console(elrond::string tag, elrond::interface::ConsoleAdapter& adapter);
-
-                    //
-                    // Stream handle
-                    //
-                    void info(const elrond::StreamH& handle) const override;
-                    void error(const elrond::StreamH& handle) const override;
 
                     //
                     // Char and strings

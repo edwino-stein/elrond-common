@@ -13,14 +13,11 @@
                     
                     ELROND_OPT_DFLT_VDESTRUCTOR(Console);
 
+                    //
+                    // Stream directly
+                    //
                     virtual const elrond::platform::ConsoleStream info() const =0;
                     virtual const elrond::platform::ConsoleStream error() const =0;
-
-                    //
-                    // Stream handle
-                    //
-                    virtual void info(const elrond::StreamH& handle) const =0;
-                    virtual void error(const elrond::StreamH& handle) const =0;
 
                     //
                     // Char and strings

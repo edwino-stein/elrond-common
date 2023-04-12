@@ -27,9 +27,6 @@
                     elrond::pointer<elrond::interface::StreamAdapter> getInfoStreamAdapter() const override;
                     elrond::pointer<elrond::interface::StreamAdapter> getErrorStreamAdapter() const override;
 
-                    void info(std::ostringstream& msg, const std::string& tag) const override;
-                    void error(std::ostringstream& msg, const std::string& tag) const override;
-
                     static ConsoleAdapter* null();
             };
         }

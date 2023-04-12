@@ -48,17 +48,10 @@ void HelloWorld::start(elrond::ContextP ctx)
 void HelloWorld::loop(elrond::ContextP ctx)
 {
     auto console = ctx->console();
-    auto me = this;
-
     console->info(ELROND_STR("HelloWorld::loop"));
-    console->info(
-        [&me](elrond::Stream& s)
-        {
-            s   << ELROND_STR("Loop Message [") 
-                << me->mode << '|' << me->interval
-                << ELROND_STR("]: ") << me->message;
-        }
-    );
+    console->info() << ELROND_STR("Loop Message [")
+                    << this->mode << '|' << this->interval
+                    << ELROND_STR("]: ") << this->message;
 }
 
 void HelloWorld::stop(elrond::ContextP ctx)

@@ -12,9 +12,6 @@ _stream(stream), _makeStreamAdapter(StreamAdapter::makeNull) {}
 ConsoleAdapter::ConsoleAdapter(Stream& stream, MakeStreamAdapterH makeStreamAdapter):
 _stream(stream), _makeStreamAdapter(makeStreamAdapter) {}
 
-void ConsoleAdapter::info(std::ostringstream&, const std::string&) const {}
-void ConsoleAdapter::error(std::ostringstream&, const std::string&) const {}
-
 elrond::pointer<elrond::interface::StreamAdapter>
 ConsoleAdapter::makeStreamAdapter(const elrond::string& severity) const
 {

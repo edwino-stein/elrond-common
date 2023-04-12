@@ -4,27 +4,16 @@ using elrond::runtime::Console;
 using elrond::interface::ConsoleAdapter;
 using elrond::platform::ConsoleStream;
 
-Console::Console(elrond::string, ConsoleAdapter& adapter) : adapter(adapter) {}
 Console::Console(ConsoleAdapter& adapter) : adapter(adapter) {}
 
+//
+// Stream directly
+//
 const elrond::platform::ConsoleStream Console::info() const
-{
-    return this->adapter.getInfoStreamAdapter();
-}
+{ return this->adapter.getInfoStreamAdapter(); }
 
 const elrond::platform::ConsoleStream Console::error() const
-{
-    return this->adapter.getErrorStreamAdapter();
-}
-
-//
-// Stream handle
-//
-void Console::info(const elrond::StreamH&) const
-{}
-
-void Console::error(const elrond::StreamH&) const
-{}
+{ return this->adapter.getErrorStreamAdapter(); }
 
 //
 // Char and strings

@@ -4,14 +4,14 @@ using elrond::module::HelloWorld;
 using elrond::mock::RuntimeCtx;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
+using elrond::runtime::OStream;
 
 int main()
 {
     auto ctx = RuntimeCtx::create<HelloWorld>("teste");
-    ConsoleAdapter consoleAdapter(
-        [](std::ostringstream& msg){ std::cout << msg.str() << std::endl; }
-    );
 
+    OStream stream(std::cout);
+    ConsoleAdapter consoleAdapter(stream, elrond::mock::StreamAdapter::makePretty);
     ctx.console(consoleAdapter);
 
     ctx.callSetup()

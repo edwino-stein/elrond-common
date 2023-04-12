@@ -3,14 +3,18 @@
 
 using elrond::runtime::Console;
 using elrond::mock::ConsoleAdapter;
+using elrond::mock::StreamAdapter;
+using elrond::runtime::OStream;
 
-SCENARIO("Test a mocked console instance for info outputs", "[runtime][Console]")
+SCENARIO("Test a mocked console instance with default console adapter", "[runtime][Console]")
 {
-    GIVEN("A Console mocked with and ConsoleAdapter setted to handle info outputs")
+    std::ostringstream oss;
+    OStream stream(oss);
+    ConsoleAdapter adapter(stream);
+
+    GIVEN("A Console mocked to handle info outputs")
     {
-        std::ostringstream oss;
-        ConsoleAdapter adapter([&oss](std::ostringstream& msg) { oss << msg.str(); });
-        Console console("TEST", adapter);
+        Console console(adapter);
 
         WHEN("Calls info method passing a single char")
         {
@@ -118,17 +122,11 @@ SCENARIO("Test a mocked console instance for info outputs", "[runtime][Console]"
             }
         }
 
-        WHEN("Calls info method passing a lambda function")
+        WHEN("Calls info method and do concatenation directly on returned stream object")
         {
-            elrond::string str = "Hello World";
-            console.info(
-                [&str](elrond::Stream& s)
-                {
-                    s << "Message" << ':' << str << "!!!\n";
-                    s << "Integer:" << 123 << '\n';
-                    s << "Double:" << 3.14159265359 << '\n';
-                }
-            );
+            console.info()  << "Message" << ':' << "Hello World" << "!!!\n"
+                            << "Integer:" << 123 << '\n'
+                            << "Double:" << 3.14159265359 << '\n';
 
             THEN("The stream must capture everything as string")
             {
@@ -139,19 +137,10 @@ SCENARIO("Test a mocked console instance for info outputs", "[runtime][Console]"
             }
         }
     }
-}
 
-SCENARIO("Test a mocked console instance for error outputs", "[runtime][Console]")
-{
-    GIVEN("A Console mocked with and ConsoleAdapter setted to handle error outputs")
+    GIVEN("A Console mocked to handle error outputs")
     {
-        std::ostringstream oss;
-        ConsoleAdapter adapter(
-            [](std::ostringstream&) {},
-            [&oss](std::ostringstream& msg) { oss << msg.str(); }
-        );
-
-        Console console("TEST", adapter);
+        Console console(adapter);
 
         WHEN("Calls error method passing a literal string")
         {
@@ -182,16 +171,10 @@ SCENARIO("Test a mocked console instance for error outputs", "[runtime][Console]
             }
         }
 
-        WHEN("Calls error method passing a lambda function")
+        WHEN("Calls error method and do concatenation directly on returned stream object")
         {
-            elrond::string str = "Error Messagem";
-            console.error(
-                [&str](elrond::Stream& s)
-                {
-                    s << "Error" << ':' << str << '\n';
-                    s << "Code:" << 5 << '\n';
-                }
-            );
+            console.error() << "Error" << ':' << "Error Messagem" << '\n'
+                            << "Code:" << 5 << '\n';
 
             THEN("The stream must capture everything as string")
             {
@@ -199,6 +182,49 @@ SCENARIO("Test a mocked console instance for error outputs", "[runtime][Console]
                     oss.str() ==
                     "Error:Error Messagem\nCode:5\n"
                 );
+            }
+        }
+    }
+}
+
+SCENARIO("Test a mocked console instance with a custom console adapter", "[runtime][Console]")
+{
+    std::ostringstream oss;
+    OStream stream(oss);
+    ConsoleAdapter adapter(stream, StreamAdapter::makePretty);
+
+    GIVEN("A Console mocked to handle outputs")
+    {
+        Console console(adapter);
+
+        WHEN("Calls info method and do concatenation directly on returned stream object")
+        {
+            console.info() << "This is an info test message";
+
+            THEN("The stream must capture everything as string between the pre and post appened strings")
+            {
+                CHECK(oss.str() == "[INFO]\tThis is an info test message\n");
+            }
+        }
+
+        WHEN("Calls error method and do concatenation directly on returned stream object")
+        {
+            console.error() << "This is an error test message";
+
+            THEN("The stream must capture everything as string between the pre and post appened strings")
+            {
+                CHECK(oss.str() == "[ERROR]\tThis is an error test message\n");
+            }
+        }
+
+        WHEN("Calls info method and do concatenation directly on returned stream object")
+        {
+            auto& s = console.info();
+            s << "This is an info test message";
+
+            THEN("The stream must capture everything as string after pre appened, but not the post append")
+            {
+                CHECK(oss.str() == "[INFO]\tThis is an info test message");
             }
         }
     }

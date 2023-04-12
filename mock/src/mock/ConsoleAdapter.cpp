@@ -1,44 +1,39 @@
 #include "mock/ConsoleAdapter.hpp"
+#include "mock/StreamAdapter.hpp"
 
 using elrond::mock::ConsoleAdapter;
+using elrond::interface::Stream;
+using elrond::mock::StreamAdapter;
+using elrond::runtime::NullStream;
 
-ConsoleAdapter::ConsoleAdapter()
-:
-    printInfoH([](std::ostringstream&){}),
-    throwErrorH(ConsoleAdapter::defaultThrowError)
-{}
+ConsoleAdapter::ConsoleAdapter(Stream& stream):
+_stream(stream), _makeStreamAdapter(StreamAdapter::makeNull) {}
 
-ConsoleAdapter::ConsoleAdapter(const CallbackStream& printInfoH)
-:
-    printInfoH(printInfoH),
-    throwErrorH(ConsoleAdapter::defaultThrowError)
-{}
+ConsoleAdapter::ConsoleAdapter(Stream& stream, MakeStreamAdapterH makeStreamAdapter):
+_stream(stream), _makeStreamAdapter(makeStreamAdapter) {}
 
-ConsoleAdapter::ConsoleAdapter(
-    const CallbackStream& printInfoH,
-    const CallbackStream throwErrorH
-):
-    printInfoH(printInfoH),
-    throwErrorH(throwErrorH)
-{}
+void ConsoleAdapter::info(std::ostringstream&, const std::string&) const {}
+void ConsoleAdapter::error(std::ostringstream&, const std::string&) const {}
 
-void ConsoleAdapter::info(std::ostringstream& msg, const std::string&) const
+elrond::pointer<elrond::interface::StreamAdapter>
+ConsoleAdapter::makeStreamAdapter(const elrond::string& severity) const
 {
-    this->printInfoH(msg);
+    return this->_makeStreamAdapter(this->_stream, severity);
 }
 
-void ConsoleAdapter::error(std::ostringstream& msg, const std::string&) const
+elrond::pointer<elrond::interface::StreamAdapter> ConsoleAdapter::getInfoStreamAdapter() const
 {
-    this->throwErrorH(msg);
+    return this->makeStreamAdapter("INFO");
+}
+
+elrond::pointer<elrond::interface::StreamAdapter> ConsoleAdapter::getErrorStreamAdapter() const
+{
+    return this->makeStreamAdapter("ERROR");
 }
 
 ConsoleAdapter* ConsoleAdapter::null()
 {
-    static ConsoleAdapter nullSingleton;
-    return &nullSingleton;
-}
-
-void ConsoleAdapter::defaultThrowError(std::ostringstream& msg)
-{
-    throw std::runtime_error(msg.str());
+    static NullStream nullStream;
+    static ConsoleAdapter nullConsoleAdapter(nullStream);
+    return &nullConsoleAdapter;
 }

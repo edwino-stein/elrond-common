@@ -2,89 +2,243 @@
 #include "catch2.hpp"
 
 using elrond::mock::ConsoleAdapter;
+using elrond::interface::Stream;
+using elrond::runtime::OStream;
+using elrond::runtime::NullStream;
+using elrond::mock::StreamAdapter;
 
-SCENARIO("Test a mocked console adapter instance", "[mock][ConsoleAdapter]")
+SCENARIO("Test mocked console adapter instances", "[mock][ConsoleAdapter]")
 {
-    GIVEN("A ConsoleAdapter mocked to handle info and error outputs")
+    std::ostringstream oss;
+    OStream stream(oss);
+
+    GIVEN("A ConsoleAdapter mocked with default constructor")
     {
-        std::ostringstream info, error;
-        ConsoleAdapter adapter(
-            [&info](std::ostringstream& msg) { info << msg.str(); },
-            [&error](std::ostringstream& msg) { error << msg.str(); }
-        );
+        ConsoleAdapter adapter(stream);
 
-        WHEN("An info message is passed to adapter")
+        WHEN("Call info stream adapter getter")
         {
-            std::ostringstream oss;
-            oss <<  "Info message";
-            adapter.info(oss, "TEST");
+            auto infoAdapter = adapter.getInfoStreamAdapter();
 
-            THEN("The stream must captured the same string message as info")
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
             {
-                CHECK(info.str() == "Info message");
-                CHECK(error.str() == "");
+                CHECK(isInstanceOf<StreamAdapter>(infoAdapter.get()));
+            }
+
+            AND_THEN("The stream object should be the same object passed to constructor")
+            {
+                auto& s = infoAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should do nothing")
+            {
+                infoAdapter->preAppend();
+                CHECK(oss.str() == "");
+            }
+
+            AND_THEN("The post append operation should do nothing")
+            {
+                infoAdapter->preAppend();
+                CHECK(oss.str() == "");
             }
         }
 
-        WHEN("An error message is passed to adapter")
+        WHEN("Call error stream adapter getter")
         {
-            std::ostringstream oss;
-            oss <<  "Error message";
-            adapter.error(oss, "TEST");
+            auto errorAdapter = adapter.getErrorStreamAdapter();
 
-            THEN("The stream must captured the same string message as error")
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
             {
-                CHECK(info.str() == "");
-                CHECK(error.str() == "Error message");
+                CHECK(isInstanceOf<StreamAdapter>(errorAdapter.get()));
+            }
+
+            AND_THEN("The stream object should be the same object passed to constructor")
+            {
+                auto& s = errorAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should do nothing")
+            {
+                errorAdapter->preAppend();
+                CHECK(oss.str() == "");
+            }
+
+            AND_THEN("The post append operation should do nothing")
+            {
+                errorAdapter->postAppend();
+                CHECK(oss.str() == "");
             }
         }
     }
 
-    GIVEN("A ConsoleAdapter mocked with default handling functions")
+    GIVEN("A ConsoleAdapter mocked passing the mock::StreamAdapter::makePretty function to constructor")
     {
-        ConsoleAdapter adapter;
+        ConsoleAdapter adapter(stream, StreamAdapter::makePretty);
 
-        WHEN("An info message is passed to adapter")
+        WHEN("Call info stream adapter getter")
         {
-            std::ostringstream oss;
-            oss <<  "Info message";
+            auto infoAdapter = adapter.getInfoStreamAdapter();
 
-            try
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
             {
-                adapter.info(oss, "TEST");
-                THEN("The adapter does not throw an execption")
-                {
-                    SUCCEED();
-                }
+                CHECK(isInstanceOf<StreamAdapter>(infoAdapter.get()));
             }
-            catch(const std::runtime_error&)
+
+            AND_THEN("The stream object should be the same object passed to constructor")
             {
-                THEN("The adapter does not throw an execption")
-                {
-                    FAIL();
-                }
+                auto& s = infoAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should append the expected string")
+            {
+                infoAdapter->preAppend();
+                CHECK(oss.str() == "[INFO]\t");
+            }
+
+            AND_THEN("The pre append operation should append an EOL symbol")
+            {
+                infoAdapter->postAppend();
+                CHECK(oss.str() == "\n");
             }
         }
 
-        WHEN("An error message is passed to adapter")
+        WHEN("Call error stream adapter getter")
         {
-            std::ostringstream oss;
-            oss <<  "Error message";
+            auto errorAdapter = adapter.getErrorStreamAdapter();
 
-            try
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
             {
-                adapter.error(oss, "TEST");
-                THEN("Must throw an excption with string captured")
-                {
-                    FAIL();
-                }
+                CHECK(isInstanceOf<StreamAdapter>(errorAdapter.get()));
             }
-            catch (const std::runtime_error& e)
+
+            AND_THEN("The stream object should be the same object passed to constructor")
             {
-                THEN("Must throw an excption with string captured")
-                {
-                    CHECK(std::string(e.what()) == "Error message");
-                }
+                auto& s = errorAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should append the expected string")
+            {
+                errorAdapter->preAppend();
+                CHECK(oss.str() == "[ERROR]\t");
+            }
+
+            AND_THEN("The pre append operation should append an EOL symbol")
+            {
+                errorAdapter->postAppend();
+                CHECK(oss.str() == "\n");
+            }
+        }
+    }
+
+    GIVEN("A ConsoleAdapter mocked passing a custrom mock::StreamAdapter factory function to constructor")
+    {
+        ConsoleAdapter adapter(
+            stream,
+            [](Stream& stream, elrond::string tag)
+            {
+                return std::make_shared<StreamAdapter>(
+                    stream,
+                    [tag](const Stream& s) { s << "PRE-APPEND(" << tag << ")"; },
+                    [tag](const Stream& s) { s << "POST-APPEND(" << tag << ")"; }
+                );
+            }
+        );
+
+        WHEN("Call info stream adapter getter")
+        {
+            auto infoAdapter = adapter.getInfoStreamAdapter();
+
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            {
+                CHECK(isInstanceOf<StreamAdapter>(infoAdapter.get()));
+            }
+
+            AND_THEN("The stream object should be the same object passed to constructor")
+            {
+                auto& s = infoAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should append the expected string")
+            {
+                infoAdapter->preAppend();
+                CHECK(oss.str() == "PRE-APPEND(INFO)");
+            }
+
+            AND_THEN("The pre append operation should append an EOL symbol")
+            {
+                infoAdapter->postAppend();
+                CHECK(oss.str() == "POST-APPEND(INFO)");
+            }
+        }
+
+        WHEN("Call error stream adapter getter")
+        {
+            auto errorAdapter = adapter.getErrorStreamAdapter();
+
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            {
+                CHECK(isInstanceOf<StreamAdapter>(errorAdapter.get()));
+            }
+
+            AND_THEN("The stream object should be the same object passed to constructor")
+            {
+                auto& s = errorAdapter->stream();
+                CHECK(&s == &stream);
+            }
+
+            AND_THEN("The pre append operation should append the expected string")
+            {
+                errorAdapter->preAppend();
+                CHECK(oss.str() == "PRE-APPEND(ERROR)");
+            }
+
+            AND_THEN("The pre append operation should append an EOL symbol")
+            {
+                errorAdapter->postAppend();
+                CHECK(oss.str() == "POST-APPEND(ERROR)");
+            }
+        }
+    }
+}
+
+SCENARIO("Test mocked console adapter null instances", "[mock][ConsoleAdapter]")
+{
+    GIVEN("The ConsoleAdapter::null() instance")
+    {
+        ConsoleAdapter* adapter = ConsoleAdapter::null();
+
+        WHEN("Call info stream adapter getter")
+        {
+            auto infoAdapter = adapter->getInfoStreamAdapter();
+
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            {
+                CHECK(isInstanceOf<StreamAdapter>(infoAdapter.get()));
+            }
+
+            AND_THEN("The returned info stream must be an intance of NullStream")
+            {
+                CHECK(isInstanceOf<NullStream>(infoAdapter->stream()));
+            }
+        }
+
+        WHEN("Call error stream adapter getter")
+        {
+            auto errorAdapter = adapter->getErrorStreamAdapter();
+
+            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            {
+                CHECK(isInstanceOf<StreamAdapter>(errorAdapter.get()));
+            }
+
+            AND_THEN("The returned info stream must be an intance of NullStream")
+            {
+                CHECK(isInstanceOf<NullStream>(errorAdapter->stream()));
             }
         }
     }

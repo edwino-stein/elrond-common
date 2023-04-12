@@ -3,6 +3,7 @@
 
     #include "platform/BaseFactory.ipp"
     #include "static/string.ipp"
+    #include "platform/ConsoleStream.ipp"
     #include "elrond_common.ipp"
 
     #ifdef ELROND_ENABLE_EXTERNAL_ABI_SETUP

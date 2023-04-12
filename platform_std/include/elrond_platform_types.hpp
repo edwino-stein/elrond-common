@@ -36,6 +36,11 @@
         template <class T>
         using pointer = std::shared_ptr<T>;
 
+        namespace interface
+        {
+            class StreamAdapter;
+        }
+
         // Platform specific classes
         namespace platform
         {
@@ -50,6 +55,7 @@
             class FactoryInterface;
             class BaseFactory;
             template <class M> class Factory;
+            class ConsoleStream;
         }
     }
 

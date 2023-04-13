@@ -15,15 +15,15 @@
             ConsoleStream::~ConsoleStream() { this->adapter->postAppend(); }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const char c) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(char c) const
             { return this->adapter->stream() << c; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const unsigned char c) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(unsigned char c) const
             { return this->adapter->stream() << c; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const char c[]) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(const char* c) const
             { return this->adapter->stream() << c; }
 
             ELROND_INLINE
@@ -31,23 +31,23 @@
             { return this->adapter->stream() << str; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const int i) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(int i) const
             { return this->adapter->stream() << i; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const unsigned int i) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(unsigned int i) const
             { return this->adapter->stream() << i; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const long l) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(long l) const
             { return this->adapter->stream() << l; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const unsigned long l) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(unsigned long l) const
             { return this->adapter->stream() << l; }
 
             ELROND_INLINE
-            const elrond::interface::Stream& ConsoleStream::operator<<(const double d) const
+            const elrond::interface::Stream& ConsoleStream::operator<<(double d) const
             { return this->adapter->stream() << d; }
         }
     }

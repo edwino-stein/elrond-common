@@ -10,7 +10,7 @@
             class Console
             {
                 public:
-                    
+
                     ELROND_OPT_DFLT_VDESTRUCTOR(Console);
 
                     //

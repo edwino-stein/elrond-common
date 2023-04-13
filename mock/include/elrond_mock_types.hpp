@@ -11,6 +11,7 @@
         namespace mock
         {
             class RuntimeCtx;
+            class StreamAdapter;
             class ConsoleAdapter;
             class Arguments;
         }

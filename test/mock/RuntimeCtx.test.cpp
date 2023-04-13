@@ -8,6 +8,8 @@ using elrond::interface::Module;
 using elrond::module::BaseGeneric;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
+using elrond::runtime::OStream;
+using elrond::mock::StreamAdapter;
 using Catch::Matchers::Contains;
 
 SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
@@ -183,18 +185,15 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
             }
     };
 
-    GIVEN("A generic module instance")
+    GIVEN("A generic module in a context with ConsoleAdapter instance")
     {
         auto ctx = RuntimeCtx::create<TestConsoleModule>("test");
 
         WHEN("Set a custom console adapter instance")
         {
-            std::ostringstream info, error;
-            ConsoleAdapter consoleAdapter(
-                [&info](std::ostringstream& msg){ info << msg.str(); },
-                [&error](std::ostringstream& msg){ error << msg.str(); }
-            );
-
+            std::ostringstream oss;
+            OStream stream(oss);
+            ConsoleAdapter consoleAdapter(stream, StreamAdapter::makePretty);
             ctx.console(consoleAdapter);
 
             WHEN("The module instance calls console info method")
@@ -205,8 +204,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(info.str() == "Info message");
-                    CHECK(error.str() == "");
+                    CHECK(oss.str() == "[INFO]\tInfo message\n");
                 }
             }
 
@@ -219,8 +217,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(info.str() == "");
-                    CHECK(error.str() == "Error message");
+                    CHECK(oss.str() == "[ERROR]\tError message\n");
                 }
             }
         }
@@ -362,10 +359,9 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
-        std::ostringstream info;
-        ConsoleAdapter consoleAdapter(
-            [&info](std::ostringstream& msg){ info << msg.str(); }
-        );
+        std::ostringstream oss;
+        OStream stream(oss);
+        ConsoleAdapter consoleAdapter(stream);
         ctx.console(consoleAdapter);
 
         WHEN("Calls the factory adapter getter")
@@ -397,7 +393,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callSetup();
             THEN("Must be called the setup method")
             {
-                CHECK(info.str() == "setup");
+                CHECK(oss.str() == "setup");
             }
         }
 
@@ -406,7 +402,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callStart();
             THEN("Must be called the start method")
             {
-                CHECK(info.str() == "start");
+                CHECK(oss.str() == "start");
             }
         }
 
@@ -415,7 +411,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callLoop();
             THEN("Must be called the loop method")
             {
-                CHECK(info.str() == "loop");
+                CHECK(oss.str() == "loop");
             }
         }
 
@@ -424,7 +420,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             ctx.callStop();
             THEN("Must be called the stop method")
             {
-                CHECK(info.str() == "stop");
+                CHECK(oss.str() == "stop");
             }
         }
     }

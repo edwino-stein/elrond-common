@@ -11,19 +11,19 @@ std::ostream& OStream::stream() const
 }
 
 // Char and strings
-const Stream& OStream::operator<<(const char c) const
+const Stream& OStream::operator<<(char c) const
 {
     this->stream() << c;
     return *this;
 }
 
-const Stream& OStream::operator<<(const unsigned char c) const
+const Stream& OStream::operator<<(unsigned char c) const
 {
     this->stream() << c;
     return *this;
 }
 
-const Stream& OStream::operator<<(const char c[]) const
+const Stream& OStream::operator<<(const char* c) const
 {
     this->stream() << c;
     return *this;
@@ -36,31 +36,31 @@ const Stream& OStream::operator<<(elrond::string str) const
 }
 
 // Numeric
-const Stream& OStream::operator<<(const int i) const
+const Stream& OStream::operator<<(int i) const
 {
     this->stream() << i;
     return *this;
 }
 
-const Stream& OStream::operator<<(const unsigned int i) const
+const Stream& OStream::operator<<(unsigned int i) const
 {
     this->stream() << i;
     return *this;
 }
 
-const Stream& OStream::operator<<(const long l) const
+const Stream& OStream::operator<<(long l) const
 {
     this->stream() << l;
     return *this;
 }
 
-const Stream& OStream::operator<<(const unsigned long l) const
+const Stream& OStream::operator<<(unsigned long l) const
 {
     this->stream() << l;
     return *this;
 }
 
-const Stream& OStream::operator<<(const double d) const
+const Stream& OStream::operator<<(double d) const
 {
     this->stream() << d;
     return *this;

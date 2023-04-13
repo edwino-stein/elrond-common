@@ -10,24 +10,22 @@
             class ConsoleAdapter : public elrond::interface::ConsoleAdapter
             {
                 public:
-
-                    using CallbackStream = elrond::procedure<std::ostringstream&>;
+                    using MakeStreamAdapterH = elrond::function<elrond::pointer<elrond::interface::StreamAdapter>, elrond::interface::Stream&, elrond::string>;
 
                 protected:
+                    elrond::interface::Stream& _stream;
+                    MakeStreamAdapterH _makeStreamAdapter;
 
-                    CallbackStream printInfoH;
-                    CallbackStream throwErrorH;
-
-                    static void defaultThrowError(std::ostringstream& msg);
+                    elrond::pointer<elrond::interface::StreamAdapter>
+                    makeStreamAdapter(const elrond::string& severity) const;
 
                 public:
 
-                    ConsoleAdapter();
-                    ConsoleAdapter(const CallbackStream& printInfoH);
-                    ConsoleAdapter(const CallbackStream& printInfoH, const CallbackStream throwErrorH);
+                    ConsoleAdapter(elrond::interface::Stream& stream);
+                    ConsoleAdapter(elrond::interface::Stream& stream, MakeStreamAdapterH makeStreamAdapter);
 
-                    void info(std::ostringstream& msg, const std::string& tag) const override;
-                    void error(std::ostringstream& msg, const std::string& tag) const override;
+                    elrond::pointer<elrond::interface::StreamAdapter> getInfoStreamAdapter() const override;
+                    elrond::pointer<elrond::interface::StreamAdapter> getErrorStreamAdapter() const override;
 
                     static ConsoleAdapter* null();
             };

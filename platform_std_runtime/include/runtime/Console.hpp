@@ -27,21 +27,21 @@
                     //
                     // Char and strings
                     //
-                    void info(const char c) const override;
-                    void info(const unsigned char c) const override;
-                    void info(const char c[]) const override;
+                    void info(char c) const override;
+                    void info(unsigned char c) const override;
+                    void info(const char* c) const override;
                     void info(elrond::string str) const override;
-                    void error(const char c[]) const override;
+                    void error(const char* c) const override;
                     void error(elrond::string str) const override;
 
                     //
                     // Numeric
                     //
-                    void info(const int i) const override;
-                    void info(const unsigned int i) const override;
-                    void info(const long l) const override;
-                    void info(const unsigned long l) const override;
-                    void info(const double d) const override;
+                    void info(int i) const override;
+                    void info(unsigned int i) const override;
+                    void info(long l) const override;
+                    void info(unsigned long l) const override;
+                    void info(double d) const override;
             };
         }
     }

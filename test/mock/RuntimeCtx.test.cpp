@@ -353,7 +353,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 {
     GIVEN("A generic external module instance")
     {
-        auto ctx = RuntimeCtx::create("test", "ExternalModule");
+        auto ctx = RuntimeCtx::create("test", "./dlobject/ExternalModule");
 
         REQUIRE(ctx.name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));

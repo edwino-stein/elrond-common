@@ -2,13 +2,13 @@
 #include "catch2.hpp"
 
 using namespace elrond::platform;
-using Catch::Matchers::Contains;
+using Catch::Matchers::ContainsSubstring;
 
 TEST_CASE("Check elrond::platform::demangle() function", "[platform][demangle]")
 {
-    CHECK_THAT(demangle<int>(), Contains("int"));
-    CHECK_THAT(demangle<elrond::string>(), Contains("basic_string"));
-    CHECK_THAT(demangle<elrond::interface::Module>(), Contains("elrond::interface::Module"));
+    CHECK_THAT(demangle<int>(), ContainsSubstring("int"));
+    CHECK_THAT(demangle<elrond::string>(), ContainsSubstring("basic_string"));
+    CHECK_THAT(demangle<elrond::interface::Module>(), ContainsSubstring("elrond::interface::Module"));
 }
 
 TEST_CASE("Check elrond::platform::isAbsolutePath() function", "[platform][isAbsolutePath]")

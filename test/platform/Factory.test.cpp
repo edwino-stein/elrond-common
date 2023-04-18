@@ -6,7 +6,7 @@ using elrond::platform::ModuleInfo;
 using elrond::interface::Module;
 using elrond::platform::Factory;
 using elrond::platform::ModuleInstanceH;
-using Catch::Matchers::Contains;
+using Catch::Matchers::ContainsSubstring;
 
 SCENARIO("Test the module instance factories", "[platform][Factory]")
 {
@@ -37,7 +37,7 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
             auto& name = factory.name();
             THEN("Should return a string containing the module class name")
             {
-                CHECK_THAT(name, Contains("TestModule"));
+                CHECK_THAT(name, ContainsSubstring("TestModule"));
             }
         }
 

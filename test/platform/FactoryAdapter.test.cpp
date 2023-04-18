@@ -4,7 +4,7 @@
 using elrond::module::BaseGeneric;
 using elrond::platform::ModuleInfo;
 using elrond::platform::InternalFactoryAdapter;
-using Catch::Matchers::Contains;
+using Catch::Matchers::ContainsSubstring;
 
 SCENARIO("Test the module instance factory adapters", "[platform][FactoryAdapter]")
 {
@@ -35,7 +35,7 @@ SCENARIO("Test the module instance factory adapters", "[platform][FactoryAdapter
             auto& name = adapter.name();
             THEN("Should return a string containing the module class name")
             {
-                CHECK_THAT(name, Contains("TestModule"));
+                CHECK_THAT(name, ContainsSubstring("TestModule"));
             }
         }
 

@@ -10,7 +10,7 @@ using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
 using elrond::runtime::OStream;
 using elrond::mock::StreamAdapter;
-using Catch::Matchers::Contains;
+using Catch::Matchers::ContainsSubstring;
 
 SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
 {
@@ -43,7 +43,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
             auto& adapter = ctx.adapter();
             THEN("Must return the expected adapter")
             {
-                CHECK_THAT(adapter.name(), Contains("TestModule"));
+                CHECK_THAT(adapter.name(), ContainsSubstring("TestModule"));
                 CHECK(adapter.apiVersion() == elrond::getApiVersion());
             }
         }
@@ -353,7 +353,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 {
     GIVEN("A generic external module instance")
     {
-        auto ctx = RuntimeCtx::create("test", "ExternalModule");
+        auto ctx = RuntimeCtx::create("test", "./dlobject/ExternalModule");
 
         REQUIRE(ctx.name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
@@ -369,7 +369,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
             auto& adapter = ctx.adapter();
             THEN("Must return the expected adapter")
             {
-                CHECK_THAT(adapter.name(), Contains("ExternalModule"));
+                CHECK_THAT(adapter.name(), ContainsSubstring("ExternalModule"));
                 CHECK(adapter.apiVersion() == elrond::getApiVersion());
                 CHECK(adapter.infoName() == "External Test Module");
                 CHECK(adapter.infoAuthor() == "Edwino Stein");

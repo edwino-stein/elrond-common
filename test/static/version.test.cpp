@@ -16,5 +16,4 @@ TEST_CASE("Check build type decoding byte", "[version]")
     CHECK(elrond::BUILD_TYPE == buildType);
     CHECK(ELROND_BUILD_TYPE == (buildType & 0xF0));
     CHECK(ELROND_API_DEV_STAGE == (buildType & 0x0F));
-
 }

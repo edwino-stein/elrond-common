@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.17)
 
 # Define project info
 project(
-    common
-    DESCRIPTION "Elrond common definitions and code"
+    framework_common
+    DESCRIPTION "Elrond common code framework library"
     LANGUAGES CXX
 )
 

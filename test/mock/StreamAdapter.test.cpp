@@ -4,7 +4,7 @@
 using elrond::mock::StreamAdapter;
 using elrond::runtime::OStream;
 using elrond::interface::Stream;
-using Catch::Matchers::Contains;
+using Catch::Matchers::ContainsSubstring;
 using Catch::Matchers::Matches;
 
 SCENARIO("Test mocked StreamAdapter instances", "[mock][StreamAdapter]")
@@ -66,7 +66,7 @@ SCENARIO("Test mocked StreamAdapter instances", "[mock][StreamAdapter]")
             adapter->preAppend();
             THEN("The string in StringStream should contains the same tag string")
             {
-                CHECK_THAT(oss.str(), Contains("TEST"));
+                CHECK_THAT(oss.str(), ContainsSubstring("TEST"));
             }
 
             AND_THEN("The string capured in StringStream should be a string with expected pattern")

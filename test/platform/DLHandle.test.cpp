@@ -10,7 +10,7 @@ SCENARIO("Test Dynamic Load Handle generic interface", "[platform][DLHandle]")
 {
     GIVEN("An object loaded with the DLHandle class")
     {
-        DlHandle object("dlobject");
+        DlHandle object("./dlobject/dlobject");
 
         WHEN("Get a pointer to function void concat(std::string&, const std::string&)")
         {

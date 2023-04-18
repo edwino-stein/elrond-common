@@ -1,6 +1,7 @@
 #ifndef ELROND_CATCH2_HPP
     #define ELROND_CATCH2_HPP
-    #include <catch2/catch.hpp>
+
+    #include <catch2/catch_all.hpp>
 
     template<typename Base, typename T>
     inline bool isBaseOf(const T*) {

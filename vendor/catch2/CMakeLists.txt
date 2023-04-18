@@ -12,17 +12,17 @@ Include(FetchContent)
 FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG        v2.13.7)
+    GIT_TAG        v3.3.2)
 FetchContent_MakeAvailable(Catch2)
 
 # Build a library with Catch2 entrypoint
-add_library(catch2 STATIC "${PROJECT_SOURCE_DIR}/catch2.cpp")
-target_include_directories(catch2 PUBLIC "${PROJECT_SOURCE_DIR}")
-target_link_libraries(catch2 PUBLIC Catch2::Catch2)
+add_library(catch2 INTERFACE)
+target_include_directories(catch2 INTERFACE "${PROJECT_SOURCE_DIR}")
+target_link_libraries(catch2 INTERFACE Catch2::Catch2WithMain)
 
 # Export targets
 export(
-    TARGETS Catch2 catch2
+    TARGETS Catch2 Catch2WithMain catch2
     NAMESPACE Elrond::
     APPEND FILE ${EXPORT_FILE}
 )

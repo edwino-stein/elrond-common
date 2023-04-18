@@ -6,25 +6,30 @@ project(
     LANGUAGES CXX
 )
 
-FILE(GLOB children RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*)
-SET(dirlist "")
-FOREACH(child ${children})
-    IF(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${child})
-        LIST(APPEND dirlist ${child})
-    ENDIF()
-ENDFOREACH()
+# Look for all sub-directories in test project directory
+file(GLOB CHILDREN RELATIVE ${PROJECT_SOURCE_DIR} "${PROJECT_SOURCE_DIR}/*")
+set(DIR_LIST "")
+foreach(C ${CHILDREN})
+    if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/${C}")
+        list(APPEND DIR_LIST "${C}")
+    endif()
+endforeach()
 
-SET(SUB_DIRECTORIES "")
-SET(SRC_TEST_CASES_FILES "")
-FOREACH(dir ${dirlist})
-    IF(EXISTS ${PROJECT_SOURCE_DIR}/${dir}/CMakeLists.txt)
-        LIST(APPEND SUB_DIRECTORIES ${dir})
-    ELSE()
-        file(GLOB_RECURSE tcs_files "${PROJECT_SOURCE_DIR}/${dir}/*.cpp")
-        LIST(APPEND SRC_TEST_CASES_FILES ${tcs_files})
-    ENDIF()
-ENDFOREACH()
+# Check every sub-directorie if has a CMakeLists.txt file
+set(SUB_DIRECTORIES "")
+set(SRC_TEST_CASES_FILES "")
+foreach(D ${DIR_LIST})
+    if(EXISTS "${PROJECT_SOURCE_DIR}/${D}/CMakeLists.txt")
+        # If has a CMakeLists.txt file, add to sub project directories list
+        list(APPEND SUB_DIRECTORIES "${D}")
+    else()
+        # Else, look for every .cpp file in this directory and add to ordinary test case list
+        file(GLOB_RECURSE TEST_CASE_FILES "${PROJECT_SOURCE_DIR}/${D}/*.cpp")
+        list(APPEND SRC_TEST_CASES_FILES "${TEST_CASE_FILES}")
+    endif()
+endforeach()
 
+# Setup every ordinary test case
 foreach(T ${SRC_TEST_CASES_FILES})
 
     # Get file name and absolute path
@@ -66,6 +71,7 @@ foreach(T ${SRC_TEST_CASES_FILES})
         
 endforeach()
 
+# Add every subproject directory
 foreach(S ${SUB_DIRECTORIES})
     add_subdirectory(${S})
 endforeach()

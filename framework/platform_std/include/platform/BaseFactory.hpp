@@ -1,13 +1,13 @@
 #ifndef ELROND_PLATFORM_BASE_FACTORY_HPP
     #define ELROND_PLATFORM_BASE_FACTORY_HPP
 
-    #include "platform/FactoryInterface.hpp"
+    #include "interface/Factory.hpp"
 
     namespace elrond
     {
         namespace platform
         {
-            class BaseFactory : public FactoryInterface
+            class BaseFactory : public elrond::interface::Factory
             {
                 private:
 

@@ -66,7 +66,7 @@
     #define ELROND_ABI_GET_API_VERSION_FUNC_NAME    __elrond_get_api_version__
     #define ELROND_ABI_GET_FACTORY_FUNC_NAME        __elrond_get_module_factory__
     #define ELROND_ABI_NUM_TYPE                     elrond::dWord
-    #define ELROND_ABI_FACTORY_TYPE                 elrond::platform::FactoryInterface*
+    #define ELROND_ABI_FACTORY_TYPE                 elrond::interface::Factory*
 
     #ifdef ELROND_WINDOWS_PLATFORM
         #define ELROND_ABI_EXPORT                   __declspec(dllexport)

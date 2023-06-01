@@ -10,15 +10,15 @@
             class BaseFactory : public elrond::interface::Factory
             {
                 private:
+                    ModuleInfo _info;
 
-                    const ModuleInfo _info;
-                    const std::string _name;
+                protected:
+                    BaseFactory(const ModuleInfo& info);
 
                 public:
-                    BaseFactory(const ModuleInfo& info, const std::string& name);
+                    ~BaseFactory() = default;
 
                     const ModuleInfo& info() const override;
-                    const elrond::string& name() const override;
                     elrond::dWord apiVersion() const override;
             };
         }

@@ -13,6 +13,7 @@
                     virtual ~Factory() = default;
 
                     virtual elrond::dWord apiVersion() const =0;
+                    virtual const elrond::platform::ModuleInfo& info() const =0;
 
                     virtual elrond::interface::Module* create() const =0;
                     virtual void destroy(elrond::interface::Module* inst) const =0;

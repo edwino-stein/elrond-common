@@ -2,16 +2,16 @@
 
 #include "mock/ConsoleAdapter.hpp"
 #include "mock/Arguments.hpp"
+#include "mock/ModuleInstanceHandle.hpp"
 
 using elrond::mock::RuntimeCtx;
 using elrond::interface::Module;
 using elrond::interface::Console;
 using elrond::mock::Arguments;
 using elrond::mock::ConsoleAdapter;
-using elrond::platform::BaseFactoryAdapter;
-using elrond::platform::FactoryAdapterP;
-using elrond::platform::ExternalFactoryAdapter;
-using elrond::platform::ModuleInfo;
+using elrond::interface::Factory;
+using elrond::mock::ModuleInstanceHandle;
+using elrond::mock::ExternalInstanceModuleHandle;
 
 using IConsoleAdapter = elrond::interface::ConsoleAdapter;
 using IArguments = elrond::interface::Arguments;
@@ -57,14 +57,11 @@ void RuntimeCtx::Context::loopAsync(bool enable)
     ***************** elrond::mock::RuntimeCtx Implementation ******************
     ****************************************************************************/
 
-const ModuleInfo RuntimeCtx::mockedModuleInfo;
-
 /* ******************************* Constructors ******************************* */
 
-RuntimeCtx::RuntimeCtx(elrond::string name, FactoryAdapterP adapter)
+RuntimeCtx::RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle)
 :
-    _adapter(adapter),
-    _instance(_adapter->create(name)),
+    _moduleHandle(moduleHandle),
     _consoleAdapter(ConsoleAdapter::null()),
     _arguments(Arguments::null()),
     _loopEnable(false),
@@ -105,17 +102,17 @@ elrond::pointer<IArguments> RuntimeCtx::arguments() const
 
 elrond::string RuntimeCtx::name() const
 {
-    return this->_instance->name();
+    return this->_moduleHandle->name();
 }
 
 Module& RuntimeCtx::instance() const
 {
-    return this->_instance->instance();
+    return this->_moduleHandle->instance();
 }
 
-BaseFactoryAdapter& RuntimeCtx::adapter() const
+Factory& RuntimeCtx::factory() const
 {
-    return *(this->_adapter);
+    return this->_moduleHandle->factory();
 }
 
 bool RuntimeCtx::loopEnable() const
@@ -176,7 +173,8 @@ RuntimeCtx& RuntimeCtx::callStop()
 
 /* *********************************** Static ********************************* */
 
-RuntimeCtx RuntimeCtx::create(elrond::string name, elrond::string path)
+RuntimeCtx RuntimeCtx::create(const elrond::string& name, const elrond::string& path)
 {
-    return RuntimeCtx(name, std::make_shared<ExternalFactoryAdapter>(path));
+    auto adapter = std::make_shared<ExternalInstanceModuleHandle>(name, path);
+    return RuntimeCtx(adapter);
 }

@@ -2,29 +2,24 @@
     #define ELROND_MOCK_RUNTIME_CTX_IPP
 
     #include "mock/RuntimeCtx.hpp"
+    #include "mock/ModuleInstanceHandle.ipp"
 
     namespace elrond
     {
         namespace mock
         {
             template <class T>
-            RuntimeCtx RuntimeCtx::create(elrond::string name)
+            RuntimeCtx RuntimeCtx::create(const elrond::string& name)
             {
-                return RuntimeCtx (
-                    name,
-                    std::make_shared<elrond::platform::InternalFactoryAdapter<T>>(
-                        RuntimeCtx::mockedModuleInfo
-                    )
-                ); 
+                auto moduleHandle = std::make_shared<InternalInstanceModuleHandle<T>>(name, elrond::platform::ModuleInfo());
+                return RuntimeCtx(moduleHandle); 
             }
 
             template <class T>
-            RuntimeCtx RuntimeCtx::create(elrond::string name, elrond::platform::ModuleInfo& info)
+            RuntimeCtx RuntimeCtx::create(const elrond::string& name, const elrond::platform::ModuleInfo& info)
             {
-                return RuntimeCtx (
-                    name,
-                    std::make_shared<elrond::platform::InternalFactoryAdapter<T>>(info)
-                ); 
+                auto moduleHandle = std::make_shared<InternalInstanceModuleHandle<T>>(name, info);
+                return RuntimeCtx(moduleHandle); 
             }
         }
     }

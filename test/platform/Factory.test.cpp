@@ -5,10 +5,11 @@ using elrond::module::BaseGeneric;
 using elrond::platform::ModuleInfo;
 using elrond::interface::Module;
 using elrond::platform::Factory;
-using elrond::platform::ModuleInstanceH;
 using Catch::Matchers::ContainsSubstring;
 
-SCENARIO("Test the module instance factories", "[platform][Factory]")
+const std::string TEST_BUILD_DIR = std::string(ELROND_BUILD_DIR) + "/test/";
+
+SCENARIO("Test the module instance factory", "[platform][Factory]")
 {
     class TestModule : public BaseGeneric {};
 
@@ -21,7 +22,7 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
             "1.0"
         };
 
-        Factory<TestModule> factory(info, elrond::platform::demangle<TestModule>());
+        Factory<TestModule> factory(info);
 
         WHEN("Call the apiVersion getter method")
         {
@@ -29,15 +30,6 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
             THEN("Should return the current elrond API version")
             {
                 CHECK(apiVer == elrond::getApiVersion());
-            }
-        }
-
-        WHEN("Call the name getter method")
-        {
-            auto& name = factory.name();
-            THEN("Should return a string containing the module class name")
-            {
-                CHECK_THAT(name, ContainsSubstring("TestModule"));
             }
         }
 
@@ -55,7 +47,11 @@ SCENARIO("Test the module instance factories", "[platform][Factory]")
 
         WHEN("Call the create and destroy methods")
         {
-            ModuleInstanceH inst(factory.create(), [&factory](Module* p) { factory.destroy(p); });
+            std::unique_ptr<Module, std::function<void(Module*)>> inst (
+                factory.create(),
+                [&factory](Module* i){ factory.destroy(i); }
+            );
+            
             THEN("Should return a Module instance")
             {
                 CHECK(inst != nullptr);

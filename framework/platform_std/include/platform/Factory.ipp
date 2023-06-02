@@ -8,16 +8,12 @@
         namespace platform
         {
             template <class M>
-            Factory<M>::Factory(const ModuleInfo& info, const std::string& name)
-            :
-                BaseFactory(info, name)
-            {}
+            Factory<M>::Factory(const ModuleInfo& info)
+            : BaseFactory(info) {}
 
             template <class M>
             elrond::interface::Module* Factory<M>::create() const
-            {
-                return new M();
-            }
+            { return new M(); }
             
             template <class M>
             void Factory<M>::destroy(elrond::interface::Module* inst) const

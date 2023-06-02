@@ -8,24 +8,13 @@
         namespace platform
         {
             ELROND_INLINE
-            BaseFactory::BaseFactory(
-                const elrond::platform::ModuleInfo& info,
-                const std::string& name
-            ):
-                _info(info),
-                _name(name)
-            {}
+            BaseFactory::BaseFactory(const elrond::platform::ModuleInfo& info)
+            : _info(info) {}
 
             ELROND_INLINE
             const ModuleInfo& BaseFactory::info() const
             {
                 return this->_info;
-            }
-
-            ELROND_INLINE
-            const elrond::string& BaseFactory::name() const
-            {
-                return this->_name;
             }
 
             ELROND_INLINE

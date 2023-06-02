@@ -1,10 +1,48 @@
 #include "elrond_platform_runtime_types.hpp"
+#include "platform/DlHandle.ipp"
+
 #include <algorithm>
 
 #if defined(__clang__) || defined(__GNUC__)
     #include <cstdlib>
     #include <cxxabi.h>
 #endif
+
+using IFactory = elrond::interface::Factory;
+using elrond::platform::DlHandle;
+
+IFactory& elrond::platform::parseExternalFactoryFromDlHandle(DlHandle& handle)
+{
+    constexpr const char* getApiVerName = ELROND_TO_STR(ELROND_ABI_GET_API_VERSION_FUNC_NAME);
+    constexpr const char* getFactoryName = ELROND_TO_STR(ELROND_ABI_GET_FACTORY_FUNC_NAME);
+    IFactory* factory = nullptr;
+
+    try
+    {
+        auto getApiVer = handle.getFunction<ELROND_ABI_NUM_TYPE>(getApiVerName);
+        const elrond::byte majorVer = elrond::lowByteHighWord(getApiVer());
+        const elrond::byte buildType = elrond::BUILD_TYPE & 0xF0;
+
+        if(buildType == ELROND_BUILD_Release && majorVer != elrond::MAJOR_VER)
+        {
+            throw std::runtime_error("Invalid module version");
+        }
+
+        auto getFactory = handle.getFunction<ELROND_ABI_FACTORY_TYPE>(getFactoryName);
+
+        factory = getFactory();
+        if (factory == nullptr)
+        {
+            throw std::runtime_error("Invalid module factory");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        throw std::runtime_error(std::string("Unable to load elrond module: ") + e.what()); 
+    }
+
+    return *factory;
+}
 
 std::string elrond::platform::demangle(const std::type_info& info)
 {

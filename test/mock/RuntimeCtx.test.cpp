@@ -12,6 +12,8 @@ using elrond::runtime::OStream;
 using elrond::mock::StreamAdapter;
 using Catch::Matchers::ContainsSubstring;
 
+const std::string TEST_BUILD_DIR = std::string(ELROND_BUILD_DIR) + "/test/";
+
 SCENARIO("Test a mocked runtime context with a simple module instance for lyfecycle methods", "[mock][RuntimeCtx]")
 {
     class TestModule : public BaseGeneric
@@ -38,13 +40,12 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
         REQUIRE(isInstanceOf<TestModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
-        WHEN("Calls the factory adapter getter")
+        WHEN("Calls the factory getter")
         {
-            auto& adapter = ctx.adapter();
+            auto& factory = ctx.factory();
             THEN("Must return the expected adapter")
             {
-                CHECK_THAT(adapter.name(), ContainsSubstring("TestModule"));
-                CHECK(adapter.apiVersion() == elrond::getApiVersion());
+                CHECK(factory.apiVersion() == elrond::getApiVersion());
             }
         }
 
@@ -303,10 +304,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
                 );
 
                 ctx->loopInterval(
-                    args->isInt("interval") ?
-                    args->asInt("interval") : 1000
-                );
-            }
+                            args->isInt("interval") ?
+                            args->asInt("interval") : 1000
+                    );
+                }
     };
 
     GIVEN("A generic module instance")
@@ -353,7 +354,7 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 {
     GIVEN("A generic external module instance")
     {
-        auto ctx = RuntimeCtx::create("test", "./dlobject/ExternalModule");
+        auto ctx = RuntimeCtx::create("test", TEST_BUILD_DIR + "dlobject/ExternalModule");
 
         REQUIRE(ctx.name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
@@ -364,17 +365,16 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
         ConsoleAdapter consoleAdapter(stream);
         ctx.console(consoleAdapter);
 
-        WHEN("Calls the factory adapter getter")
+        WHEN("Calls the factory getter")
         {
-            auto& adapter = ctx.adapter();
+            auto& factory = ctx.factory();
             THEN("Must return the expected adapter")
             {
-                CHECK_THAT(adapter.name(), ContainsSubstring("ExternalModule"));
-                CHECK(adapter.apiVersion() == elrond::getApiVersion());
-                CHECK(adapter.infoName() == "External Test Module");
-                CHECK(adapter.infoAuthor() == "Edwino Stein");
-                CHECK(adapter.infoEmail() == "edwino.stein@gmail.com");
-                CHECK(adapter.infoVersion() == "1.0.0");
+                CHECK(factory.apiVersion() == elrond::getApiVersion());
+                CHECK(factory.info().name == "External Test Module");
+                CHECK(factory.info().author == "Edwino Stein");
+                CHECK(factory.info().email== "edwino.stein@gmail.com");
+                CHECK(factory.info().version == "1.0.0");
             }
         }
 

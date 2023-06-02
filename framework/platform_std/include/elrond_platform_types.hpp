@@ -38,6 +38,7 @@
 
         namespace interface
         {
+            class Factory;
             class StreamAdapter;
         }
 
@@ -52,7 +53,6 @@
                 const std::string version;
             };
 
-            class FactoryInterface;
             class BaseFactory;
             template <class M> class Factory;
             class ConsoleStream;

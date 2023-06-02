@@ -11,7 +11,7 @@
             class Factory : public BaseFactory
             {
                 public:
-                    Factory(const ModuleInfo& info, const std::string& name);
+                    Factory(const ModuleInfo& info);
 
                     elrond::interface::Module* create() const override;
                     void destroy(elrond::interface::Module* inst) const override;

@@ -3,6 +3,7 @@
 
     #include "platform/BaseFactory.ipp"
     #include "static/string.ipp"
+    #include "static/timespan.ipp"
     #include "platform/ConsoleStream.ipp"
     #include "elrond_common.ipp"
 

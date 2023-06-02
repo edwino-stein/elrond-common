@@ -2,7 +2,11 @@
 #include "catch2.hpp"
 
 using namespace elrond::platform;
+using elrond::interface::Module;
+using elrond::module::BaseGeneric;
 using Catch::Matchers::ContainsSubstring;
+
+const std::string TEST_BUILD_DIR = std::string(ELROND_BUILD_DIR) + "/test/";
 
 TEST_CASE("Check elrond::platform::demangle() function", "[platform][demangle]")
 {
@@ -70,4 +74,32 @@ TEST_CASE("Check elrond::platform::normilizePath() function", "[platform][normil
 
     CHECK(normilizePath("file.txt") == "file.txt");
     CHECK(normilizePath("file") == "file");
+}
+
+TEST_CASE("Check elrond::platform::parseExternalFactoryFromDlHandle() function", "[platform][parseExternalFactoryFromDlHandle]")
+{
+    DlHandle handle(TEST_BUILD_DIR + "dlobject/ExternalModule");
+
+    try
+    {
+        auto& factory = parseExternalFactoryFromDlHandle(handle);
+
+        CHECK(factory.apiVersion() == elrond::getApiVersion());
+        CHECK(factory.info().name == "External Test Module");
+        CHECK(factory.info().author == "Edwino Stein");
+        CHECK(factory.info().email== "edwino.stein@gmail.com");
+        CHECK(factory.info().version == "1.0.0");
+
+        std::unique_ptr<Module, std::function<void(Module*)>> inst (
+            factory.create(),
+            [&factory](Module* i){ factory.destroy(i); }
+        );
+        CHECK(inst != nullptr);
+        CHECK(isInstanceOf<BaseGeneric>(inst.get()));
+        CHECK(inst->moduleType() == elrond::ModuleType::GENERIC);
+    }
+    catch(const std::exception&)
+    {
+        FAIL("Does should not throw an exception");
+    }
 }

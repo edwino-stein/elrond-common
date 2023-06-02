@@ -14,6 +14,9 @@
             class StreamAdapter;
             class ConsoleAdapter;
             class Arguments;
+            class ModuleInstanceHandle;
+            class ExternalInstanceModuleHandle;
+            template <class T> class InternalInstanceModuleHandle;
         }
     }
 

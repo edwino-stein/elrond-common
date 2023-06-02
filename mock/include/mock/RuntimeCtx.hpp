@@ -10,6 +10,7 @@
             class RuntimeCtx
             {
                 public:
+
                     class Context : public elrond::interface::Context
                     {
                         public:
@@ -33,17 +34,11 @@
 
                 protected:
 
-                    //
-                    // Module instance Handle properties
-                    //
-                    elrond::platform::FactoryAdapterP _adapter;
-                    elrond::platform::ModuleInstanceP _instance;
+                    std::shared_ptr<ModuleInstanceHandle> _moduleHandle;
 
-                    //
-                    // Internal properties
-                    //
                     elrond::interface::ConsoleAdapter* _consoleAdapter;
                     elrond::mock::Arguments* _arguments;
+
                     bool _loopEnable;
                     bool _loopAsync;
                     elrond::timeT _loopInterval;
@@ -53,7 +48,7 @@
                     //
                     // Constructor
                     //
-                    RuntimeCtx(elrond::string name, elrond::platform::FactoryAdapterP adapter);
+                    RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle);
 
                 public:
 
@@ -71,7 +66,7 @@
                     elrond::pointer<elrond::interface::Arguments> arguments() const;
                     elrond::string name() const;
                     elrond::interface::Module& instance() const;
-                    elrond::platform::BaseFactoryAdapter& adapter() const;
+                    elrond::interface::Factory& factory() const;
 
                     bool loopEnable() const;
                     elrond::timeT loopInterval() const;
@@ -91,12 +86,12 @@
                     // Static methods
                     //
                     template <class T>
-                    static RuntimeCtx create(elrond::string name);
+                    static RuntimeCtx create(const elrond::string& name);
 
                     template <class T>
-                    static RuntimeCtx create(elrond::string name, elrond::platform::ModuleInfo& info);
+                    static RuntimeCtx create(const elrond::string& name, const elrond::platform::ModuleInfo& info);
 
-                    static RuntimeCtx create(elrond::string name, elrond::string path);
+                    static RuntimeCtx create(const elrond::string& name, const elrond::string& path);
             };
         }
     }

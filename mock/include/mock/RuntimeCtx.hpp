@@ -15,9 +15,9 @@
                     {
                         public:
 
-                            const RuntimeCtx& ctx;
+                            RuntimeCtx& ctx;
 
-                            Context(const RuntimeCtx& ctx);
+                            Context(RuntimeCtx& ctx);
 
                             elrond::pointer<elrond::interface::Console>
                             console() const override;
@@ -27,9 +27,8 @@
 
                             elrond::string name() const override;
 
-                            void loopEnable(bool enable) override;
-                            void loopInterval(elrond::timeT interval) override;
-                            void loopAsync(bool enable) override;
+                            void setLoopEvery(const elrond::TimeSpan& ts) override;
+                            void unsetLoop() override;
                     };
 
                 protected:
@@ -40,8 +39,7 @@
                     elrond::mock::Arguments* _arguments;
 
                     bool _loopEnable;
-                    bool _loopAsync;
-                    elrond::timeT _loopInterval;
+                    elrond::TimeSpan _loopTs;
 
                     static const elrond::platform::ModuleInfo mockedModuleInfo;
 
@@ -69,8 +67,7 @@
                     elrond::interface::Factory& factory() const;
 
                     bool loopEnable() const;
-                    elrond::timeT loopInterval() const;
-                    bool loopAsync() const;
+                    elrond::TimeSpan loopTs() const;
 
                     //
                     // Others methods

@@ -292,22 +292,16 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
             void setup(elrond::ContextP ctx)
             {
                 auto args = ctx->arguments();
-
-                ctx->loopEnable(
-                    args->isBool("loop") ?
-                    args->asBool("loop") : false
-                );
-
-                ctx->loopAsync(
-                    args->isBool("async") ?
-                    args->asBool("async") : false
-                );
-
-                ctx->loopInterval(
+                if (args->isBool("loop") && args->asBool("loop"))
+                {
+                    ctx->setLoopEvery(
+                        elrond::milliseconds(
                             args->isInt("interval") ?
                             args->asInt("interval") : 1000
+                        )
                     );
                 }
+            }
     };
 
     GIVEN("A generic module instance")
@@ -315,8 +309,8 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
         auto ctx = RuntimeCtx::create<TestLoopCfgModule>("test");
 
         REQUIRE_FALSE(ctx.loopEnable());
-        REQUIRE_FALSE(ctx.loopAsync());
-        REQUIRE(ctx.loopInterval() == 0);
+        REQUIRE(ctx.loopTs().count == 0);
+        REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::SECONDS);
 
         WHEN("Calls the setup method without arguments")
         {
@@ -325,8 +319,8 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
             THEN("Must be called the setup method")
             {
                 CHECK_FALSE(ctx.loopEnable());
-                CHECK_FALSE(ctx.loopAsync());
-                CHECK(ctx.loopInterval() == 1000);
+                REQUIRE(ctx.loopTs().count == 0);
+                REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::SECONDS);
             }
         }
 
@@ -334,7 +328,6 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
         {
             Arguments args;
             args.set("loop", true)
-                .set("async", true)
                 .set("interval", 500);
             ctx.arguments(args);
 
@@ -343,8 +336,8 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
             THEN("Must be called the setup method")
             {
                 CHECK(ctx.loopEnable());
-                CHECK(ctx.loopAsync());
-                CHECK(ctx.loopInterval() == 500);
+                REQUIRE(ctx.loopTs().count == 500);
+                REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::MILLISECONDS);
             }
         }
     }

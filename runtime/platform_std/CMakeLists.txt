@@ -12,17 +12,13 @@ if(UNIX)
     set(DLINK_LIBS ${CMAKE_DL_LIBS})
 endif()
 
-# Find threads library
-find_package(Threads REQUIRED)
-set(DLINK_LIBS ${DLINK_LIBS} Threads::Threads)
-
 # Look for all source code files
 file(GLOB_RECURSE SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 # Define an interface library for headers only
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
-target_link_libraries(${PROJECT_NAME} INTERFACE ${DLINK_LIBS} framework_platform_std)
+target_link_libraries(${PROJECT_NAME} INTERFACE framework_platform_std)
 
 # Define an interface library for sources only
 add_library(${PROJECT_NAME}_src INTERFACE)

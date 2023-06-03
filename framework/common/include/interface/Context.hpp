@@ -17,9 +17,8 @@
                     virtual elrond::pointer<elrond::interface::Arguments> arguments() const =0;
                     virtual elrond::string name() const =0;
 
-                    virtual void loopEnable(bool enable) =0;
-                    virtual void loopInterval(elrond::timeT interval) =0;
-                    virtual void loopAsync(bool enable) =0;
+                    virtual void setLoopEvery(const elrond::TimeSpan& ts) =0;
+                    virtual void unsetLoop() =0;
             };
         }
     }

@@ -36,6 +36,9 @@
         template <class T>
         using pointer = std::shared_ptr<T>;
 
+        enum class TimeUnit;
+        struct TimeSpan;
+    
         namespace interface
         {
             class Factory;
@@ -56,6 +59,16 @@
             class BaseFactory;
             template <class M> class Factory;
             class ConsoleStream;
+
+            using seconds = std::chrono::duration<elrond::timeT>;
+            using milliseconds = std::chrono::duration<elrond::timeT, std::milli>;
+            using microseconds = std::chrono::duration<elrond::timeT, std::micro>;
+
+            template <class D>
+            D tsToDurationConvert(const elrond::TimeSpan& ts);
+
+            template <class D, elrond::TimeUnit U>
+            elrond::TimeSpan tsConvert(const elrond::TimeSpan& ts);
         }
     }
 

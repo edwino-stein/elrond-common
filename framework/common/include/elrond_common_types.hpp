@@ -3,9 +3,16 @@
 
     #include "elrond_platform_types.hpp"
     #include "enum/ModuleType.hpp"
+    #include "enum/TimeUnit.hpp"
 
     namespace elrond
     {
+        struct TimeSpan
+        {
+            elrond::timeT count;
+            elrond::TimeUnit unit;
+        };
+
         constexpr elrond::byte MAJOR_VER  = ELROND_API_MAJOR;
         constexpr elrond::byte MINOR_VER  = ELROND_API_MINOR;
         constexpr elrond::byte PATCH_VER  = ELROND_API_PATCH;

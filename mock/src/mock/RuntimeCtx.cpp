@@ -20,7 +20,7 @@ using IArguments = elrond::interface::Arguments;
     ************ elrond::mock::RuntimeCtx::Context Implementation **************
     ****************************************************************************/
 
-RuntimeCtx::Context::Context(const RuntimeCtx& ctx) : ctx(ctx) {}
+RuntimeCtx::Context::Context(RuntimeCtx& ctx) : ctx(ctx) {}
 
 elrond::pointer<Console> RuntimeCtx::Context::console() const
 {
@@ -38,19 +38,16 @@ elrond::string RuntimeCtx::Context::name() const
     return this->ctx.name();
 }
 
-void RuntimeCtx::Context::loopEnable(bool enable)
+void RuntimeCtx::Context::setLoopEvery(const elrond::TimeSpan& ts)
 {
-    const_cast<RuntimeCtx&>(this->ctx)._loopEnable = enable;
+    this->ctx._loopEnable = true;
+    this->ctx._loopTs = ts;
 }
 
-void RuntimeCtx::Context::loopInterval(elrond::timeT interval)
+void RuntimeCtx::Context::unsetLoop()
 {
-    const_cast<RuntimeCtx&>(this->ctx)._loopInterval = interval;
-}
-
-void RuntimeCtx::Context::loopAsync(bool enable)
-{
-    const_cast<RuntimeCtx&>(this->ctx)._loopAsync = enable;
+    this->ctx._loopEnable = false;
+    this->ctx._loopTs = elrond::seconds(0);
 }
 
 /*  ****************************************************************************
@@ -65,8 +62,7 @@ RuntimeCtx::RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle)
     _consoleAdapter(ConsoleAdapter::null()),
     _arguments(Arguments::null()),
     _loopEnable(false),
-    _loopAsync(false),
-    _loopInterval(0)
+    _loopTs(elrond::seconds(0))
 {}
 
 /* *********************************** Setters ******************************** */
@@ -87,7 +83,7 @@ RuntimeCtx& RuntimeCtx::arguments(Arguments& args)
 
 elrond::ContextP RuntimeCtx::ctx() const
 {
-    return std::make_shared<RuntimeCtx::Context>(*this);
+    return std::make_shared<RuntimeCtx::Context>(const_cast<RuntimeCtx&>(*this));
 }
 
 elrond::pointer<Console> RuntimeCtx::console() const
@@ -120,14 +116,9 @@ bool RuntimeCtx::loopEnable() const
     return this->_loopEnable;
 }
 
-elrond::timeT RuntimeCtx::loopInterval() const
+elrond::TimeSpan RuntimeCtx::loopTs() const
 {
-    return this->_loopInterval;
-}
-
-bool RuntimeCtx::loopAsync() const
-{
-    return this->_loopAsync;
+    return this->_loopTs;
 }
 
 /* *********************************** Others ********************************* */

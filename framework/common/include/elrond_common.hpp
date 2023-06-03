@@ -14,5 +14,6 @@
 
     #include "static/bitwise.hpp"
     #include "static/string.hpp"
+    #include "static/timespan.hpp"
 
 #endif

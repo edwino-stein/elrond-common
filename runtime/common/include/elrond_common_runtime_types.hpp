@@ -8,6 +8,7 @@
         namespace runtime
         {
             class NullStream;
+            class NullArguments;
         }
         
         namespace module

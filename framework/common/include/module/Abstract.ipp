@@ -7,10 +7,10 @@
     {
         namespace module
         {
-            ELROND_INLINE void Abstract::setup(elrond::ContextP) {}
-            ELROND_INLINE void Abstract::start(elrond::ContextP) {}
-            ELROND_INLINE void Abstract::loop(elrond::ContextP) {}
-            ELROND_INLINE void Abstract::stop(elrond::ContextP) {}
+            ELROND_INLINE void Abstract::setup(elrond::Context) {}
+            ELROND_INLINE void Abstract::start(elrond::Context) {}
+            ELROND_INLINE void Abstract::loop(elrond::Context) {}
+            ELROND_INLINE void Abstract::stop(elrond::Context) {}
         }
     }
 

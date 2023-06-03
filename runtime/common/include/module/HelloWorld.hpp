@@ -18,10 +18,10 @@
 
                     HelloWorld();
 
-                    void setup(elrond::ContextP ctx) override;
-                    void start(elrond::ContextP ctx) override;
-                    void loop(elrond::ContextP ctx) override;
-                    void stop(elrond::ContextP ctx) override;
+                    void setup(elrond::Context ctx) override;
+                    void start(elrond::Context ctx) override;
+                    void loop(elrond::Context ctx) override;
+                    void stop(elrond::Context ctx) override;
             };
         }
     }

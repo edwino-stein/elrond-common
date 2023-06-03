@@ -15,10 +15,10 @@
 
                     virtual elrond::ModuleType moduleType() const =0;
 
-                    virtual void setup(elrond::ContextP ctx) =0;
-                    virtual void start(elrond::ContextP ctx) =0;
-                    virtual void loop(elrond::ContextP ctx) =0;
-                    virtual void stop(elrond::ContextP ctx) =0;
+                    virtual void setup(elrond::Context ctx) =0;
+                    virtual void start(elrond::Context ctx) =0;
+                    virtual void loop(elrond::Context ctx) =0;
+                    virtual void stop(elrond::Context ctx) =0;
             };
         }
     }

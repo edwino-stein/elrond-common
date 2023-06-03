@@ -6,22 +6,22 @@ class ExternalModule : public BaseGeneric
 {
     public:
 
-        void setup(elrond::ContextP ctx) override
+        void setup(elrond::Context ctx) override
         {
             ctx->console()->info("setup");
         }
 
-        void start(elrond::ContextP ctx) override
+        void start(elrond::Context ctx) override
         {
             ctx->console()->info("start");
         }
 
-        void loop(elrond::ContextP ctx) override
+        void loop(elrond::Context ctx) override
         {
             ctx->console()->info("loop");
         }
 
-        void stop(elrond::ContextP ctx) override
+        void stop(elrond::Context ctx) override
         {
             ctx->console()->info("stop");
         }

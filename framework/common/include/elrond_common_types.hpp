@@ -47,7 +47,7 @@
         
         // Type alies
         using Stream = elrond::interface::Stream;
-        using ContextP = elrond::pointer<elrond::interface::Context>;
+        using Context = elrond::pointer<elrond::interface::Context>;
     }
 
 #endif

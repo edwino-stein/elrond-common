@@ -8,7 +8,7 @@ HelloWorld::HelloWorld()
     interval(1000)
 {}
 
-void HelloWorld::setup(elrond::ContextP ctx)
+void HelloWorld::setup(elrond::Context ctx)
 {
     ctx->console()->info(ELROND_STR("HelloWorld::setup"));
     auto args = ctx->arguments();
@@ -28,12 +28,12 @@ void HelloWorld::setup(elrond::ContextP ctx)
     }
 }
 
-void HelloWorld::start(elrond::ContextP ctx)
+void HelloWorld::start(elrond::Context ctx)
 {
     ctx->console()->info(ELROND_STR("HelloWorld::start"));
 }
 
-void HelloWorld::loop(elrond::ContextP ctx)
+void HelloWorld::loop(elrond::Context ctx)
 {
     auto console = ctx->console();
     console->info(ELROND_STR("HelloWorld::loop"));
@@ -43,7 +43,7 @@ void HelloWorld::loop(elrond::ContextP ctx)
                     << this->message;
 }
 
-void HelloWorld::stop(elrond::ContextP ctx)
+void HelloWorld::stop(elrond::Context ctx)
 {
     ctx->console()->info(ELROND_STR("HelloWorld::stop"));
 }

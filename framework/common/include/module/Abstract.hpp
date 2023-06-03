@@ -10,10 +10,10 @@
             class Abstract :  public elrond::interface::Module
             {
                 public:
-                    virtual void setup(elrond::ContextP ctx) override;
-                    virtual void start(elrond::ContextP ctx) override;
-                    virtual void loop(elrond::ContextP ctx) override;
-                    virtual void stop(elrond::ContextP ctx) override;
+                    virtual void setup(elrond::Context ctx) override;
+                    virtual void start(elrond::Context ctx) override;
+                    virtual void loop(elrond::Context ctx) override;
+                    virtual void stop(elrond::Context ctx) override;
             };
         }
     }

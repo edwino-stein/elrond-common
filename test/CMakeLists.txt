@@ -67,7 +67,7 @@ foreach(T ${SRC_TEST_CASES_FILES})
     endif()
     
     # Set the incluce directory and add libraries
-    target_link_libraries(${TEST_TARGET} PRIVATE mock)
+    target_link_libraries(${TEST_TARGET} PRIVATE mock_combined)
 
     # Set macro with build directory
     target_compile_options(${TEST_TARGET} PRIVATE -DELROND_BUILD_DIR="${CMAKE_BINARY_DIR}")

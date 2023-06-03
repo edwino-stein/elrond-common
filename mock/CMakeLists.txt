@@ -15,11 +15,16 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 set_property(TARGET ${PROJECT_NAME} PROPERTY OUTPUT_NAME "elrond_${PROJECT_NAME}")
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(${PROJECT_NAME} PUBLIC runtime)
-target_link_libraries(${PROJECT_NAME} PRIVATE runtime_src)
+
+add_library(${PROJECT_NAME}_combined STATIC ${SRC_FILES})
+set_property(TARGET ${PROJECT_NAME}_combined PROPERTY OUTPUT_NAME "elrond_${PROJECT_NAME}_combined")
+target_include_directories(${PROJECT_NAME}_combined PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_link_libraries(${PROJECT_NAME}_combined PUBLIC runtime)
+target_link_libraries(${PROJECT_NAME}_combined PRIVATE runtime_src)
 
 # Export targets
 export(
-    TARGETS mock
+    TARGETS mock mock_combined
     NAMESPACE Elrond::
     APPEND FILE ${EXPORT_FILE}
 )

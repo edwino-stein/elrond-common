@@ -59,7 +59,7 @@
                     //
                     // Getters methods
                     //
-                    elrond::ContextP ctx() const;
+                    elrond::Context ctx();
                     elrond::pointer<elrond::interface::Console> console() const;
                     elrond::pointer<elrond::interface::Arguments> arguments() const;
                     elrond::string name() const;

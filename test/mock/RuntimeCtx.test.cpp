@@ -21,10 +21,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
         public:
             elrond::string called = "none";
             elrond::sizeT loops = 0;
-            void setup(elrond::ContextP) { this->called = "setup"; }
-            void start(elrond::ContextP) { this->called = "start"; }
-            void stop(elrond::ContextP) { this->called = "stop"; }
-            void loop(elrond::ContextP)
+            void setup(elrond::Context) { this->called = "setup"; }
+            void start(elrond::Context) { this->called = "start"; }
+            void stop(elrond::Context) { this->called = "stop"; }
+            void loop(elrond::Context)
             {
                 this->called = "loop";
                 this->loops++;
@@ -178,7 +178,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
     {
         public:
             bool error = false;
-            void setup(elrond::ContextP ctx)
+            void setup(elrond::Context ctx)
             {
                 auto console = ctx->console();
                 if(this->error) console->error("Error message");
@@ -232,7 +232,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
         public:
             elrond::string arg = "none";
             elrond::string called = "none";
-            void setup(elrond::ContextP ctx)
+            void setup(elrond::Context ctx)
             {
                 this->called = "setup";
                 this->arg = ctx->arguments()->asString("arg");
@@ -289,7 +289,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
     class TestLoopCfgModule : public BaseGeneric
     {
         public:
-            void setup(elrond::ContextP ctx)
+            void setup(elrond::Context ctx)
             {
                 auto args = ctx->arguments();
                 if (args->isBool("loop") && args->asBool("loop"))

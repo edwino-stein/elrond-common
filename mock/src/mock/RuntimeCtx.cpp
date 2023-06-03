@@ -81,9 +81,9 @@ RuntimeCtx& RuntimeCtx::arguments(Arguments& args)
 
 /* *********************************** Getters ******************************** */
 
-elrond::ContextP RuntimeCtx::ctx() const
+elrond::Context RuntimeCtx::ctx()
 {
-    return std::make_shared<RuntimeCtx::Context>(const_cast<RuntimeCtx&>(*this));
+    return std::make_shared<RuntimeCtx::Context>(*this);
 }
 
 elrond::pointer<Console> RuntimeCtx::console() const

@@ -26,6 +26,9 @@ TEST_CASE("Check elrond::strAt() function", "[string]")
     CHECK(elrond::strAt(str, 11) == '!');
     CHECK(elrond::strAt(str, 12) == '!');
     CHECK(elrond::strAt(str, 13) == '!');
+    CHECK(elrond::strAt(str, 14) == '\0');
+    CHECK(elrond::strAt(str, 15) == '\0');
+    CHECK(elrond::strAt(str, 100) == '\0');
 }
 
 TEST_CASE("Check elrond::strEq() function", "[string]")
@@ -93,4 +96,13 @@ TEST_CASE("Check elrond::strCpy() function", "[string]")
         REQUIRE(buffer[12] == '\0');
         REQUIRE(elrond::strCmp(str, buffer) > 0);
     }
+}
+
+TEST_CASE("Check elrond::nullstr() function", "[string]")
+{
+    CHECK(elrond::strLen(elrond::nullstr()) == 0);
+    CHECK(elrond::strEq(elrond::nullstr(), ""));
+    CHECK(elrond::strEq(elrond::nullstr(), "\0"));
+    CHECK(elrond::strAt(elrond::nullstr(), 0) == '\0');
+    CHECK(elrond::strAt(elrond::nullstr(), 100) == '\0');
 }

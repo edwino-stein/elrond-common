@@ -16,6 +16,8 @@
 
         elrond::sizeT
         strCpy(elrond::string src, char des[], const elrond::sizeT len);
+
+        elrond::string nullstr();
     }
 
 #endif

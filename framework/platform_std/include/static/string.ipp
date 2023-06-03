@@ -17,7 +17,7 @@
 
         ELROND_INLINE char strAt(elrond::string str, const elrond::sizeT pos)
         {
-            return str[pos];
+            return pos <= str.length() ? str[pos] : '\0';
         }
 
         ELROND_INLINE bool strEq(elrond::string str1, elrond::string str2)
@@ -47,6 +47,11 @@
             if(l == len) l -= 1;
             des[l] = '\0';
             return l;
+        }
+
+        ELROND_INLINE elrond::string nullstr()
+        {
+            return std::string();
         }
     }
 

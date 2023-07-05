@@ -4,6 +4,7 @@
     #include "elrond_platform_types.hpp"
 
     #include "static/string.ipp"
+    #include "static/timespan.ipp"
 
     #include "platform/Factory.ipp"
     #include "interface/StreamAdapter.hpp"

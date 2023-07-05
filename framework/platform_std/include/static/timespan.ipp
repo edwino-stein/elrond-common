@@ -32,22 +32,22 @@
             }
         }
 
-        ELROND_INLINE TimeSpan seconds(elrond::timeT count)
+        inline TimeSpan seconds(elrond::timeT count)
         { return TimeSpan {count, elrond::TimeUnit::SECONDS}; }
 
-        ELROND_INLINE TimeSpan seconds(const TimeSpan& ts)
+        inline TimeSpan seconds(const TimeSpan& ts)
         { return platform::tsConvert<platform::seconds, TimeUnit::SECONDS>(ts); }
 
-        ELROND_INLINE TimeSpan milliseconds(elrond::timeT count)
+        inline TimeSpan milliseconds(elrond::timeT count)
         { return {count, TimeUnit::MILLISECONDS}; }
     
-        ELROND_INLINE TimeSpan milliseconds(const TimeSpan& ts)
+        inline TimeSpan milliseconds(const TimeSpan& ts)
         { return platform::tsConvert<platform::milliseconds, TimeUnit::MILLISECONDS>(ts); }
 
-        ELROND_INLINE TimeSpan microseconds(elrond::timeT count)
+        inline TimeSpan microseconds(elrond::timeT count)
         { return {count, TimeUnit::MICROSECONDS}; }
 
-        ELROND_INLINE TimeSpan microseconds(const TimeSpan& ts)
+        inline TimeSpan microseconds(const TimeSpan& ts)
         { return platform::tsConvert<platform::microseconds, TimeUnit::MICROSECONDS>(ts); }
 
     }

@@ -5,14 +5,14 @@
 
     namespace elrond
     {
-        TimeSpan seconds(elrond::timeT count);
-        TimeSpan seconds(const TimeSpan& ts);
+        inline TimeSpan seconds(elrond::timeT count);
+        inline TimeSpan seconds(const TimeSpan& ts);
 
-        TimeSpan milliseconds(elrond::timeT count);
-        TimeSpan milliseconds(const TimeSpan& ts);
+        inline TimeSpan milliseconds(elrond::timeT count);
+        inline TimeSpan milliseconds(const TimeSpan& ts);
 
-        TimeSpan microseconds(elrond::timeT count);
-        TimeSpan microseconds(const TimeSpan& ts);
+        inline TimeSpan microseconds(elrond::timeT count);
+        inline TimeSpan microseconds(const TimeSpan& ts);
     }
 
 #endif

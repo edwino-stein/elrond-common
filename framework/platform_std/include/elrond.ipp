@@ -2,7 +2,6 @@
     #define ELROND_IPP
 
     #include "platform/BaseFactory.ipp"
-    #include "static/timespan.ipp"
     #include "platform/ConsoleStream.ipp"
     #include "elrond_common.ipp"
 

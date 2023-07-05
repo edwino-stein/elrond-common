@@ -14,7 +14,7 @@
                     void *const handle;
 
                 public:
-
+                    ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(DlHandle, =delete, =delete, =delete, =delete, =delete)
                     DlHandle(const std::string& path);
                     virtual ~DlHandle();
 

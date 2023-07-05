@@ -14,7 +14,7 @@
                     std::ostream& stream() const;
 
                 public:
-
+                    ELROND_CLASS_SPECIAL_MEMBERS(OStream, =delete, =delete, =delete, =delete, =delete)
                     OStream(std::ostream& os);
 
                     // Char and strings

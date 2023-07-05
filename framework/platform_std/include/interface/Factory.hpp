@@ -10,7 +10,8 @@
             class Factory
             {
                 public:
-                    virtual ~Factory() = default;
+
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Factory)
 
                     virtual elrond::dWord apiVersion() const =0;
                     virtual const elrond::platform::ModuleInfo& info() const =0;

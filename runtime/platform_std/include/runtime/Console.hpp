@@ -15,7 +15,7 @@
                     elrond::interface::ConsoleAdapter& adapter;
 
                 public:
-
+                    ELROND_CLASS_SPECIAL_MEMBERS(Console, =delete, =delete, =delete, =delete, =delete)
                     Console(elrond::interface::ConsoleAdapter& adapter);
 
                     //

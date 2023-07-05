@@ -11,6 +11,7 @@
             class Factory : public BaseFactory
             {
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS(Factory, =delete, =delete, =delete, =delete, =delete)
                     Factory(const ModuleInfo& info);
 
                     elrond::interface::Module* create() const override;

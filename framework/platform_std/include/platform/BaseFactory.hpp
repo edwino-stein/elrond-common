@@ -16,7 +16,7 @@
                     BaseFactory(const ModuleInfo& info);
 
                 public:
-                    ~BaseFactory() = default;
+                    ELROND_CLASS_SPECIAL_MEMBERS(BaseFactory, =delete, =delete, =delete, =delete, =delete)
 
                     const ModuleInfo& info() const override;
                     elrond::dWord apiVersion() const override;

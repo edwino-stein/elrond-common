@@ -10,7 +10,7 @@
             class ConsoleAdapter
             {
                 public:
-                    virtual ~ConsoleAdapter() = default;
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ConsoleAdapter)
                     virtual elrond::pointer<elrond::interface::StreamAdapter> getInfoStreamAdapter() const =0;
                     virtual elrond::pointer<elrond::interface::StreamAdapter> getErrorStreamAdapter() const =0;
             };

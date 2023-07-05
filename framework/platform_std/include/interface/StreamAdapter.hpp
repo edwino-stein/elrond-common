@@ -10,7 +10,7 @@
             class StreamAdapter
             {
                 public:
-                    virtual ~StreamAdapter() = default;
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(StreamAdapter)
                     virtual const elrond::interface::Stream& stream() const=0;
                     virtual void preAppend() const =0;
                     virtual void postAppend() const =0;

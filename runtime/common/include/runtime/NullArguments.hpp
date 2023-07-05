@@ -10,6 +10,8 @@
             class NullArguments : public elrond::interface::Arguments
             {
                 public:
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(NullArguments)
+
                     //
                     // Signed integer methods
                     //

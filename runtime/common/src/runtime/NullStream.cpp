@@ -2,8 +2,6 @@
 
 using elrond::runtime::NullStream;
 
-NullStream::NullStream() {}
-
 // Char and strings
 const elrond::interface::Stream& NullStream::operator<<(char) const { return *this; }
 const elrond::interface::Stream& NullStream::operator<<(unsigned char) const { return *this; }

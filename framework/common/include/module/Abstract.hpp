@@ -10,6 +10,8 @@
             class Abstract :  public elrond::interface::Module
             {
                 public:
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Abstract)
+
                     virtual void setup(elrond::Context ctx) override;
                     virtual void start(elrond::Context ctx) override;
                     virtual void loop(elrond::Context ctx) override;

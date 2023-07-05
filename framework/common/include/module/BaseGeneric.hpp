@@ -7,7 +7,11 @@
     {
         namespace module
         {
-            class BaseGeneric : public elrond::module::Base<elrond::ModuleType::GENERIC> {};
+            class BaseGeneric : public elrond::module::Base<elrond::ModuleType::GENERIC>
+            {
+                public:
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(BaseGeneric)
+            };
         }
     }
 

@@ -11,6 +11,7 @@
             class Base : public elrond::module::Abstract
             {
                 public:
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Base)
                     elrond::ModuleType moduleType() const override;
             };
         }

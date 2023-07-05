@@ -15,8 +15,7 @@
                     long interval;
 
                 public:
-
-                    HelloWorld();
+                    ELROND_CLASS_SPECIAL_MEMBERS(HelloWorld,, =delete, =delete, =delete, =delete)
 
                     void setup(elrond::Context ctx) override;
                     void start(elrond::Context ctx) override;

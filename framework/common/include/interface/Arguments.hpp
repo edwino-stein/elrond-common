@@ -11,7 +11,7 @@
             {
                 public:
 
-                    ELROND_OPT_DFLT_VDESTRUCTOR(Arguments);
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Arguments);
 
                     //
                     // Signed integer methods

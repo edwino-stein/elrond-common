@@ -11,7 +11,7 @@
             {
                 public:
 
-                    ELROND_OPT_DFLT_VDESTRUCTOR(Console);
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Console);
 
                     //
                     // Stream directly

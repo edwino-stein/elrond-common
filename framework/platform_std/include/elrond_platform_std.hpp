@@ -30,14 +30,21 @@
 
     #define ELROND_STD_PLATFORM
 
-    // #define ELROND_DISABLE_DESTRUCTORS
-    #ifdef ELROND_DISABLE_DESTRUCTORS
-        #define ELROND_OPT_DFLT_DESTRUCTOR(NAME) // No default destructor
-        #define ELROND_OPT_DFLT_VDESTRUCTOR(NAME) // No default virtual destructor
-    #else
-        #define ELROND_OPT_DFLT_DESTRUCTOR(NAME)  ~ NAME() = default
-        #define ELROND_OPT_DFLT_VDESTRUCTOR(NAME) virtual ~ NAME() = default
-    #endif
+    #define ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(CLASS, DC, CC, MC, CAO, MAO)\
+        CLASS () DC;\
+        CLASS (const CLASS&) CC;\
+        CLASS (CLASS&&) MC;\
+        CLASS& operator= (const CLASS&) CAO;\
+        CLASS& operator= (CLASS&&) MAO;
+
+    #define ELROND_DEFAULT_DESTRUCTOR(CLASS) virtual ~CLASS () = default
+
+    #define ELROND_CLASS_SPECIAL_MEMBERS(CLASS, DC, CC, MC, CAO, MAO)\
+        ELROND_DEFAULT_DESTRUCTOR(CLASS);\
+        ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(CLASS, DC, CC, MC, CAO, MAO)
+
+    #define ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(CLASS)\
+        ELROND_CLASS_SPECIAL_MEMBERS(CLASS, =default, =delete, =delete, =delete, =delete)
 
     #ifdef ELROND_DISABLE_INLINE
         #define ELROND_INLINE

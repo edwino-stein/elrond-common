@@ -10,8 +10,7 @@
             class Module
             {
                 public:
-
-                    ELROND_OPT_DFLT_VDESTRUCTOR(Module);
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Module)
 
                     virtual elrond::ModuleType moduleType() const =0;
 

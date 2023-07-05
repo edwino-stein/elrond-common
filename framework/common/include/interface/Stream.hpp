@@ -10,8 +10,10 @@
             class Stream
             {
                 public:
-
-                    ELROND_OPT_DFLT_VDESTRUCTOR(Stream);
+                    //
+                    // Special Members
+                    //
+                    ELROND_CLASS_SPECIAL_MEMBERS(Stream, =default, =delete, =default, =delete, =delete)
 
                     //
                     // Char and strings

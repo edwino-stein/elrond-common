@@ -20,6 +20,7 @@
                     makeStreamAdapter(const elrond::string& severity) const;
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS(ConsoleAdapter, =delete, =default, =default, =default, =default)
 
                     ConsoleAdapter(elrond::interface::Stream& stream);
                     ConsoleAdapter(elrond::interface::Stream& stream, MakeStreamAdapterH makeStreamAdapter);

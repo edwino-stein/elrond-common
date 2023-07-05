@@ -14,9 +14,9 @@
                     class Context : public elrond::interface::Context
                     {
                         public:
-
                             RuntimeCtx& ctx;
 
+                            ELROND_CLASS_SPECIAL_MEMBERS(Context, =delete, =delete, =delete, =delete, =delete)
                             Context(RuntimeCtx& ctx);
 
                             elrond::pointer<elrond::interface::Console>
@@ -41,14 +41,13 @@
                     bool _loopEnable;
                     elrond::TimeSpan _loopTs;
 
-                    static const elrond::platform::ModuleInfo mockedModuleInfo;
-
                     //
                     // Constructor
                     //
                     RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle);
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS(RuntimeCtx, =delete, =default, =default, =default, =default)
 
                     //
                     // Setters methods

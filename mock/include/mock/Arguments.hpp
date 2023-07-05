@@ -24,7 +24,8 @@
                     struct ValueBase
                     {
                         using Ptr = std::shared_ptr<ValueBase>;
-                        virtual ~ValueBase() = default;
+
+                        ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ValueBase)
 
                         virtual elrond::int32 asInt() const =0;
                         virtual elrond::uInt32 asUInt() const =0;
@@ -34,10 +35,10 @@
                     };
 
                 protected:
-
                     std::map<elrond::string, ValueBase::Ptr> values;
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS(Arguments, =default, =default, =default, =default, =default)
 
                     //
                     // Signed integer methods

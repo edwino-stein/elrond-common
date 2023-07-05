@@ -18,6 +18,7 @@
                     AppendH _postAppend;
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS(StreamAdapter, =delete, =default, =default, =default, =default)
                     StreamAdapter(elrond::interface::Stream& stream, AppendH preAppend, AppendH postAppend);
 
                     const elrond::interface::Stream& stream() const override;

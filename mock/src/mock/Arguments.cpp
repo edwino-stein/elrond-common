@@ -14,6 +14,7 @@ struct Arguments::Value : public ValueBase
 {
     const T value;
 
+    ELROND_CLASS_SPECIAL_MEMBERS(Value, =delete, =delete, =delete, =delete, =delete)
     Value(const T value) : value(value) {}
 
     static bool isTypeOf(ValueBase::Ptr obj)
@@ -26,6 +27,8 @@ struct Arguments::Value : public ValueBase
 
 struct Arguments::Null : public Arguments::ValueBase
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(Null, =default, =delete, =delete, =delete, =delete)
+
     elrond::int32 asInt() const override { return elrond::int32(); };
     elrond::uInt32 asUInt() const override { return elrond::uInt32(); };
     bool asBool() const override { return false; };
@@ -37,6 +40,7 @@ struct Arguments::Null : public Arguments::ValueBase
 
 struct Arguments::Int : public Arguments::Value<elrond::int32>
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(Int, =delete, =delete, =delete, =delete, =delete)
     Int(const elrond::int32 i) : Value(i) {}
 
     elrond::int32 asInt() const override
@@ -69,6 +73,7 @@ struct Arguments::Int : public Arguments::Value<elrond::int32>
 
 struct Arguments::UInt : public Arguments::Value<elrond::uInt32>
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(UInt, =delete, =delete, =delete, =delete, =delete)
     UInt(const elrond::uInt32 i) : Value(i) {}
 
     elrond::int32 asInt() const override
@@ -101,6 +106,7 @@ struct Arguments::UInt : public Arguments::Value<elrond::uInt32>
 
 struct Arguments::Bool : public Arguments::Value<bool>
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(Bool, =delete, =delete, =delete, =delete, =delete)
     Bool(const bool b) : Value(b) {}
 
     elrond::int32 asInt() const override
@@ -133,6 +139,7 @@ struct Arguments::Bool : public Arguments::Value<bool>
 
 struct Arguments::Double : public Arguments::Value<double>
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(Double, =delete, =delete, =delete, =delete, =delete)
     Double(const double d) : Value(d) {}
 
     elrond::int32 asInt() const override
@@ -165,6 +172,7 @@ struct Arguments::Double : public Arguments::Value<double>
 
 struct Arguments::String : public Arguments::Value<elrond::string>
 {
+    ELROND_CLASS_SPECIAL_MEMBERS(String, =delete, =delete, =delete, =delete, =delete)
     String(const elrond::string s) : Value(s) {}
 
     elrond::int32 asInt() const override

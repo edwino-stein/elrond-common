@@ -93,7 +93,7 @@ elrond::pointer<Console> RuntimeCtx::console() const
 
 elrond::pointer<IArguments> RuntimeCtx::arguments() const
 {
-    return std::make_shared<Arguments>(*(this->_arguments));
+    return std::shared_ptr<IArguments>(this->_arguments, [](IArguments*){});
 }
 
 elrond::string RuntimeCtx::name() const

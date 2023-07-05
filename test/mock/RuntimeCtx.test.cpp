@@ -263,7 +263,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
             args.set("arg", "Hello world!!");
             ctx.arguments(args);
 
-            REQUIRE(ctx.arguments().get() != &args);
+            REQUIRE(ctx.arguments().get() == &args);
             REQUIRE(ctx.arguments()->asString("arg") == "Hello world!!");
 
             WHEN("Calls the setup method")

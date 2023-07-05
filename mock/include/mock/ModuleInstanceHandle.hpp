@@ -16,8 +16,7 @@
                     ModuleInstanceHandle(const elrond::string& name);
 
                 public:
-
-                    virtual ~ModuleInstanceHandle() = default;
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ModuleInstanceHandle)
 
                     virtual elrond::interface::Factory& factory() const =0;
                     elrond::string name() const;
@@ -31,8 +30,9 @@
                     elrond::interface::Factory& _factory;
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(ExternalInstanceModuleHandle, =delete, =delete, =delete, =delete, =delete)
                     ExternalInstanceModuleHandle(const elrond::string& name, const elrond::string& path);
-                    ~ExternalInstanceModuleHandle();
+                    virtual ~ExternalInstanceModuleHandle();
 
                     elrond::interface::Factory& factory() const override;
             };
@@ -44,8 +44,9 @@
                     elrond::platform::Factory<T> _factory;
 
                 public:
+                    ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(InternalInstanceModuleHandle, =delete, =delete, =delete, =delete, =delete)
                     InternalInstanceModuleHandle(const elrond::string& name, const elrond::platform::ModuleInfo& info);
-                    ~InternalInstanceModuleHandle();
+                    virtual ~InternalInstanceModuleHandle();
 
                     elrond::interface::Factory& factory() const override;
             };

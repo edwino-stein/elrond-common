@@ -38,7 +38,7 @@
                     std::map<elrond::string, ValueBase::Ptr> values;
 
                 public:
-                    ELROND_CLASS_SPECIAL_MEMBERS(Arguments, =default, =default, =default, =default, =default)
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Arguments)
 
                     //
                     // Signed integer methods

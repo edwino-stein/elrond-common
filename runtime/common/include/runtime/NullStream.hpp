@@ -11,7 +11,7 @@
             {
                 public:
 
-                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(NullStream);
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(NullStream)
 
                     // Char and strings
                     const elrond::interface::Stream&

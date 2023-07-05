@@ -11,7 +11,7 @@
             {
                 public:
 
-                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Context);
+                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(Context)
 
                     virtual elrond::pointer<elrond::interface::Console> console() const =0;
                     virtual elrond::pointer<elrond::interface::Arguments> arguments() const =0;

@@ -1,4 +1,5 @@
 #include "runtime/NullArguments.hpp"
+#include "static/string.ipp"
 
 using elrond::runtime::NullArguments;
 

@@ -10,38 +10,25 @@
 
     namespace elrond
     {
-        ELROND_INLINE elrond::sizeT strLen(elrond::string str)
-        {
-            return str.size();
-        }
+        inline elrond::sizeT strLen(elrond::string str)
+        { return str.size(); }
 
-        ELROND_INLINE char strAt(elrond::string str, const elrond::sizeT pos)
-        {
-            return pos <= str.length() ? str[pos] : '\0';
-        }
+        inline char strAt(elrond::string str, elrond::sizeT pos)
+        { return pos <= str.length() ? str[pos] : '\0'; }
 
-        ELROND_INLINE bool strEq(elrond::string str1, elrond::string str2)
-        {
-            return str1 == str2;
-        }
+        inline bool strEq(elrond::string str1, elrond::string str2)
+        { return str1 == str2; }
 
-        ELROND_INLINE bool strEq(elrond::string str1, const char*  str2)
-        {
-            return str1 == str2;
-        }
+        inline bool strEq(elrond::string str1, const char* str2)
+        { return str1 == str2; }
 
-        ELROND_INLINE int strCmp(elrond::string str1, elrond::string str2)
-        {
-            return str1.compare(str2);
-        }
+        inline int strCmp(elrond::string str1, elrond::string str2)
+        { return str1.compare(str2); }
 
-        ELROND_INLINE int strCmp(elrond::string str1, const char*  str2)
-        {
-            return str1.compare(str2);
-        }
+        inline int strCmp(elrond::string str1, const char* str2)
+        { return str1.compare(str2); }
 
-        ELROND_INLINE elrond::sizeT
-        strCpy(elrond::string src, char des[], const elrond::sizeT len)
+        inline elrond::sizeT strCpy(elrond::string src, char des[], elrond::sizeT len)
         {
             auto l = src.copy(des, len);
             if(l == len) l -= 1;
@@ -49,10 +36,7 @@
             return l;
         }
 
-        ELROND_INLINE elrond::string nullstr()
-        {
-            return std::string();
-        }
+        inline elrond::string nullstr() { return std::string(); }
     }
 
 #endif

@@ -3,6 +3,8 @@
 
     #include "elrond_platform_types.hpp"
 
+    #include "static/string.ipp"
+
     #include "platform/Factory.ipp"
     #include "interface/StreamAdapter.hpp"
     #include "platform/ConsoleStream.hpp"

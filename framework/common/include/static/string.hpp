@@ -5,19 +5,18 @@
 
     namespace elrond
     {
-        elrond::sizeT strLen(elrond::string str);
-        char strAt(elrond::string str, const elrond::sizeT pos);
+        inline elrond::sizeT strLen(elrond::string str);
+        inline char strAt(elrond::string str, elrond::sizeT pos);
 
-        bool strEq(elrond::string str1, elrond::string str2);
-        bool strEq(elrond::string str1, const char*  str2);
+        inline bool strEq(elrond::string str1, elrond::string str2);
+        inline bool strEq(elrond::string str1, const char* str2);
 
-        int strCmp(elrond::string str1, elrond::string str2);
-        int strCmp(elrond::string str1, const char*  str2);
+        inline int strCmp(elrond::string str1, elrond::string str2);
+        inline int strCmp(elrond::string str1, const char* str2);
 
-        elrond::sizeT
-        strCpy(elrond::string src, char des[], const elrond::sizeT len);
+        inline elrond::sizeT strCpy(elrond::string src, char des[], elrond::sizeT len);
 
-        elrond::string nullstr();
+        inline elrond::string nullstr();
     }
 
 #endif

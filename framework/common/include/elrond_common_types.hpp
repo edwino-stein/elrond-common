@@ -41,12 +41,8 @@
             template<elrond::ModuleType M> class Base;
             class BaseGeneric;
         }
-
-        // Handles
-        using StreamH = elrond::procedure<elrond::interface::Stream&>;
         
         // Type alies
-        using Stream = elrond::interface::Stream;
         using Context = elrond::pointer<elrond::interface::Context>;
     }
 

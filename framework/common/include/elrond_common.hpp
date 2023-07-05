@@ -12,7 +12,7 @@
     #include "module/Abstract.hpp"
     #include "module/BaseGeneric.hpp"
 
-    #include "static/bitwise.hpp"
+    #include "static/bitwise.ipp"
     #include "static/string.hpp"
     #include "static/timespan.hpp"
 

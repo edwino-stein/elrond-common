@@ -1,9 +1,7 @@
 #include "mock/ConsoleAdapter.hpp"
-#include "mock/StreamAdapter.hpp"
 
 using elrond::mock::ConsoleAdapter;
 using elrond::interface::Stream;
-using elrond::mock::StreamAdapter;
 using elrond::runtime::NullStream;
 
 ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream):

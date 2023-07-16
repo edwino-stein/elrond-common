@@ -2,7 +2,6 @@
     #define ELROND_PLATFORM_BASE_CONSOLE_STREAM_HPP
 
     #include "interface/Stream.hpp"
-    #include "interface/StreamAdapter.hpp"
 
     namespace elrond
     {

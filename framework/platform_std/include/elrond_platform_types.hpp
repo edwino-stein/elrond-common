@@ -43,7 +43,6 @@
         {
             class Factory;
             class ConsoleAdapter;
-            class StreamAdapter;
         }
 
         // Platform specific classes

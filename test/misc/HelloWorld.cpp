@@ -5,13 +5,20 @@ using elrond::mock::RuntimeCtx;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
 using elrond::runtime::OStream;
+using elrond::interface::Stream;
+using elrond::mock::SeverityToStr;
 
 int main()
 {
     auto ctx = RuntimeCtx::create<HelloWorld>("teste");
 
-    OStream stream(std::cout);
-    ConsoleAdapter consoleAdapter(stream, elrond::mock::StreamAdapter::makePretty);
+    ConsoleAdapter consoleAdapter(
+        [](){ return std::make_shared<OStream>(std::cout); },
+        [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
+        { s << tag << " [" << SeverityToStr(severity) << "]: "; },
+        [](Stream& s, const elrond::string&, ConsoleAdapter::SEVERITY) { s << "\n"; }
+    );
+
     ctx.console(consoleAdapter);
 
     ctx.callSetup()

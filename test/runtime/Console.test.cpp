@@ -5,16 +5,17 @@ using elrond::runtime::Console;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::StreamAdapter;
 using elrond::runtime::OStream;
+using elrond::interface::Stream;
+using elrond::mock::SeverityToStr;
 
-SCENARIO("Test a mocked console instance with default console adapter", "[runtime][Console]")
+SCENARIO("Test a mocked console instance with simple info and error console adapters", "[runtime][Console]")
 {
     std::ostringstream oss;
-    OStream stream(oss);
-    ConsoleAdapter adapter(stream);
 
-    GIVEN("A Console mocked to handle info outputs")
+    GIVEN("A Console mocked to handle info and error outputs")
     {
-        Console console(adapter);
+        ConsoleAdapter adapter([&oss](){ return std::make_shared<OStream>(oss); });
+        Console console(adapter, "CONSOLE-TEST");
 
         WHEN("Calls info method passing a single char")
         {
@@ -136,11 +137,6 @@ SCENARIO("Test a mocked console instance with default console adapter", "[runtim
                 );
             }
         }
-    }
-
-    GIVEN("A Console mocked to handle error outputs")
-    {
-        Console console(adapter);
 
         WHEN("Calls error method passing a literal string")
         {
@@ -187,15 +183,19 @@ SCENARIO("Test a mocked console instance with default console adapter", "[runtim
     }
 }
 
-SCENARIO("Test a mocked console instance with a custom console adapter", "[runtime][Console]")
+SCENARIO("Test a mocked console instance with complex info and error console adapters", "[runtime][Console]")
 {
     std::ostringstream oss;
-    OStream stream(oss);
-    ConsoleAdapter adapter(stream, StreamAdapter::makePretty);
+    ConsoleAdapter adapter (
+        [&oss](){ return std::make_shared<OStream>(oss); },
+        [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
+        { s << tag << " [" << SeverityToStr(severity) << "]: "; },
+        [](Stream& s, const elrond::string&, ConsoleAdapter::SEVERITY) { s << "\n"; }
+    );
 
     GIVEN("A Console mocked to handle outputs")
-    {
-        Console console(adapter);
+    {   
+        Console console(adapter, "CONSOLE-TEST");
 
         WHEN("Calls info method and do concatenation directly on returned stream object")
         {
@@ -203,7 +203,7 @@ SCENARIO("Test a mocked console instance with a custom console adapter", "[runti
 
             THEN("The stream must capture everything as string between the pre and post appened strings")
             {
-                CHECK(oss.str() == "[INFO]\tThis is an info test message\n");
+                CHECK(oss.str() == "CONSOLE-TEST [INFO]: This is an info test message\n");
             }
         }
 
@@ -213,18 +213,18 @@ SCENARIO("Test a mocked console instance with a custom console adapter", "[runti
 
             THEN("The stream must capture everything as string between the pre and post appened strings")
             {
-                CHECK(oss.str() == "[ERROR]\tThis is an error test message\n");
+                CHECK(oss.str() == "CONSOLE-TEST [ERROR]: This is an error test message\n");
             }
         }
 
         WHEN("Calls info method and do concatenation directly on returned stream object")
         {
-            auto& s = console.info();
+            auto s = console.info();
             s << "This is an info test message";
 
             THEN("The stream must capture everything as string after pre appened, but not the post append")
             {
-                CHECK(oss.str() == "[INFO]\tThis is an info test message");
+                CHECK(oss.str() == "CONSOLE-TEST [INFO]: This is an info test message");
             }
         }
     }

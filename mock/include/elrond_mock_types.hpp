@@ -17,6 +17,20 @@
             class ModuleInstanceHandle;
             class ExternalInstanceModuleHandle;
             template <class T> class InternalInstanceModuleHandle;
+
+            inline std::string SeverityToStr(elrond::interface::ConsoleAdapter::SEVERITY severity)
+            {
+                switch (severity)
+                {
+                    case elrond::interface::ConsoleAdapter::ERROR:
+                        return "ERROR";
+                    break;
+                    default:
+                    case elrond::interface::ConsoleAdapter::INFO:
+                        return "INFO";
+                    break;
+                }
+            }
         }
     }
 

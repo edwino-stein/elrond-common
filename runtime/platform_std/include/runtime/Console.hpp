@@ -2,7 +2,6 @@
     #define ELROND_PLATFORM_RUNTIME_RUNTIME_CONSOLE_HPP
 
     #include "elrond_platform_runtime_types.hpp"
-    #include "interface/ConsoleAdapter.hpp"
 
     namespace elrond
     {
@@ -11,12 +10,12 @@
             class Console : public elrond::interface::Console
             {
                 protected:
-
-                    elrond::interface::ConsoleAdapter& adapter;
+                    elrond::interface::ConsoleAdapter* _adapter;
+                    elrond::string _tag;
 
                 public:
                     ELROND_CLASS_SPECIAL_MEMBERS(Console, =delete, =delete, =delete, =delete, =delete)
-                    Console(elrond::interface::ConsoleAdapter& adapter);
+                    Console(elrond::interface::ConsoleAdapter& adapter, const elrond::string& tag);
 
                     //
                     // Stream directly

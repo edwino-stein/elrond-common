@@ -8,11 +8,20 @@
         namespace platform 
         {
             ELROND_INLINE
-            ConsoleStream::ConsoleStream(elrond::pointer<elrond::interface::StreamAdapter> adapter)
-            : adapter(adapter) { this->adapter->preAppend(); }
+            ConsoleStream::ConsoleStream(
+                elrond::interface::ConsoleAdapter& adapter,
+                const elrond::string& tag,
+                elrond::interface::ConsoleAdapter::SEVERITY severity
+            ):
+                _adapter(&adapter),
+                _stream(_adapter->makeStream()),
+                _tag(tag),
+                _severity(severity)
+            { this->_adapter->preAppend(*(this->_stream), this->_tag, this->_severity); }
 
             ELROND_INLINE
-            ConsoleStream::~ConsoleStream() { this->adapter->postAppend(); }
+            ConsoleStream::~ConsoleStream()
+            { this->_adapter->postAppend(*(this->_stream), this->_tag, this->_severity); }
 
             ELROND_INLINE
             elrond::interface::Stream& ConsoleStream::operator<<(char c)

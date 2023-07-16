@@ -88,7 +88,7 @@ elrond::Context RuntimeCtx::ctx()
 
 elrond::pointer<Console> RuntimeCtx::console() const
 {
-    return std::make_shared<elrond::runtime::Console>(*(this->_consoleAdapter));
+    return std::make_shared<elrond::runtime::Console>(*(this->_consoleAdapter), "TEST");
 }
 
 elrond::pointer<IArguments> RuntimeCtx::arguments() const

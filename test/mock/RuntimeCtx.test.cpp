@@ -9,8 +9,10 @@ using elrond::module::BaseGeneric;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
 using elrond::runtime::OStream;
-using elrond::mock::StreamAdapter;
+using elrond::interface::Stream;
+using elrond::mock::SeverityToStr;
 using Catch::Matchers::ContainsSubstring;
+using SEVERITY = elrond::interface::ConsoleAdapter::SEVERITY;
 
 const std::string TEST_BUILD_DIR = std::string(ELROND_BUILD_DIR) + "/test/";
 
@@ -193,9 +195,15 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
         WHEN("Set a custom console adapter instance")
         {
             std::ostringstream oss;
-            OStream stream(oss);
-            ConsoleAdapter consoleAdapter(stream, StreamAdapter::makePretty);
-            ctx.console(consoleAdapter);
+            ConsoleAdapter adapter(
+                [&oss](){ return std::make_shared<OStream>(oss); },
+                [](Stream& s, const elrond::string& tag, SEVERITY severity)
+                { s << tag << " [" << SeverityToStr(severity) << "]: "; },
+                [](Stream& s, const elrond::string&, SEVERITY)
+                { s << '\n'; }
+            );
+
+            ctx.console(adapter);
 
             WHEN("The module instance calls console info method")
             {
@@ -205,7 +213,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(oss.str() == "[INFO]\tInfo message\n");
+                    CHECK(oss.str() == "TEST [INFO]: Info message\n");
                 }
             }
 
@@ -218,7 +226,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(oss.str() == "[ERROR]\tError message\n");
+                    CHECK(oss.str() == "TEST [ERROR]: Error message\n");
                 }
             }
         }
@@ -354,9 +362,8 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         std::ostringstream oss;
-        OStream stream(oss);
-        ConsoleAdapter consoleAdapter(stream);
-        ctx.console(consoleAdapter);
+        ConsoleAdapter adapter([&oss](){ return std::make_shared<OStream>(oss); });
+        ctx.console(adapter);
 
         WHEN("Calls the factory getter")
         {

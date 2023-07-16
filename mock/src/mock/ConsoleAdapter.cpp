@@ -6,31 +6,40 @@ using elrond::interface::Stream;
 using elrond::mock::StreamAdapter;
 using elrond::runtime::NullStream;
 
-ConsoleAdapter::ConsoleAdapter(Stream& stream):
-_stream(stream), _makeStreamAdapter(StreamAdapter::makeNull) {}
+ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream):
+    _makeStream(makeStream),
+    _preAppend(ConsoleAdapter::nullAppend),
+    _postAppend(ConsoleAdapter::nullAppend)
+{}
 
-ConsoleAdapter::ConsoleAdapter(Stream& stream, MakeStreamAdapterH makeStreamAdapter):
-_stream(stream), _makeStreamAdapter(makeStreamAdapter) {}
+ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend):
+    _makeStream(makeStream),
+    _preAppend(preAppend),
+    _postAppend(ConsoleAdapter::nullAppend)
+{}
 
-elrond::pointer<elrond::interface::StreamAdapter>
-ConsoleAdapter::makeStreamAdapter(const elrond::string& severity) const
+ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend, AppendH postAppend):
+    _makeStream(makeStream),
+    _preAppend(preAppend),
+    _postAppend(postAppend)
+{}
+
+void ConsoleAdapter::preAppend(Stream& stream, const elrond::string& tag, ConsoleAdapter::SEVERITY severity) const
+{ this->_preAppend(stream, tag, severity); }
+
+void ConsoleAdapter::postAppend(Stream& stream, const elrond::string& tag, SEVERITY severity) const
+{ this->_postAppend(stream, tag, severity); }
+
+elrond::pointer<Stream> ConsoleAdapter::makeStream() const
+{ return this->_makeStream(); }
+
+ConsoleAdapter& ConsoleAdapter::null()
 {
-    return this->_makeStreamAdapter(this->_stream, severity);
+    static ConsoleAdapter nullConsoleAdapter(ConsoleAdapter::makeNullStream);
+    return nullConsoleAdapter;
 }
 
-elrond::pointer<elrond::interface::StreamAdapter> ConsoleAdapter::getInfoStreamAdapter() const
-{
-    return this->makeStreamAdapter("INFO");
-}
+void ConsoleAdapter::nullAppend(Stream&, const elrond::string&, ConsoleAdapter::SEVERITY) {}
 
-elrond::pointer<elrond::interface::StreamAdapter> ConsoleAdapter::getErrorStreamAdapter() const
-{
-    return this->makeStreamAdapter("ERROR");
-}
-
-ConsoleAdapter* ConsoleAdapter::null()
-{
-    static NullStream nullStream;
-    static ConsoleAdapter nullConsoleAdapter(nullStream);
-    return &nullConsoleAdapter;
-}
+elrond::pointer<Stream> ConsoleAdapter::makeNullStream()
+{ return std::make_shared<NullStream>(); }

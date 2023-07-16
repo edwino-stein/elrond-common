@@ -42,6 +42,7 @@
         namespace interface
         {
             class Factory;
+            class ConsoleAdapter;
             class StreamAdapter;
         }
 

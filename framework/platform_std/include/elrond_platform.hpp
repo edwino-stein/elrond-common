@@ -7,6 +7,7 @@
     #include "static/timespan.ipp"
 
     #include "platform/Factory.ipp"
+    #include "interface/ConsoleAdapter.hpp"
     #include "interface/StreamAdapter.hpp"
     #include "platform/ConsoleStream.hpp"
 

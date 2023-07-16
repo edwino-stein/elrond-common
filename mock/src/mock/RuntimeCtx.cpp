@@ -59,7 +59,7 @@ void RuntimeCtx::Context::unsetLoop()
 RuntimeCtx::RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle)
 :
     _moduleHandle(moduleHandle),
-    _consoleAdapter(ConsoleAdapter::null()),
+    _consoleAdapter(&(ConsoleAdapter::null())),
     _arguments(Arguments::null()),
     _loopEnable(false),
     _loopTs(elrond::seconds(0))
@@ -67,9 +67,9 @@ RuntimeCtx::RuntimeCtx(std::shared_ptr<ModuleInstanceHandle> moduleHandle)
 
 /* *********************************** Setters ******************************** */
 
-RuntimeCtx& RuntimeCtx::console(IConsoleAdapter& consoleAdapter)
+RuntimeCtx& RuntimeCtx::console(elrond::interface::ConsoleAdapter& adapter)
 {
-    this->_consoleAdapter = &consoleAdapter;
+    this->_consoleAdapter = &adapter;
     return *this;
 }
 

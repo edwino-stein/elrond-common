@@ -52,7 +52,7 @@
                     //
                     // Setters methods
                     //
-                    RuntimeCtx& console(elrond::interface::ConsoleAdapter& consoleAdapter);
+                    RuntimeCtx& console(elrond::interface::ConsoleAdapter& adapter);
                     RuntimeCtx& arguments(elrond::mock::Arguments& args);
 
                     //

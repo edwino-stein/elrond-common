@@ -10,25 +10,33 @@
             class ConsoleAdapter : public elrond::interface::ConsoleAdapter
             {
                 public:
-                    using MakeStreamAdapterH = elrond::function<elrond::pointer<elrond::interface::StreamAdapter>, elrond::interface::Stream&, elrond::string>;
+                    using MakeStreamH = elrond::function<elrond::pointer<elrond::interface::Stream>>;
+                    using AppendH = elrond::procedure<elrond::interface::Stream&, const elrond::string&, elrond::interface::ConsoleAdapter::SEVERITY>;
 
                 protected:
-                    elrond::interface::Stream& _stream;
-                    MakeStreamAdapterH _makeStreamAdapter;
-
-                    elrond::pointer<elrond::interface::StreamAdapter>
-                    makeStreamAdapter(const elrond::string& severity) const;
+                    MakeStreamH _makeStream;
+                    AppendH _preAppend;
+                    AppendH _postAppend;
 
                 public:
-                    ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ConsoleAdapter)
+                    ELROND_CLASS_SPECIAL_MEMBERS(ConsoleAdapter, =delete, =delete, =delete, =delete, =delete)
+                    ConsoleAdapter(MakeStreamH makeStream);
+                    ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend);
+                    ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend, AppendH postAppend);
 
-                    ConsoleAdapter(elrond::interface::Stream& stream);
-                    ConsoleAdapter(elrond::interface::Stream& stream, MakeStreamAdapterH makeStreamAdapter);
+                    void preAppend( elrond::interface::Stream& stream,
+                                    const elrond::string& tag,
+                                    elrond::interface::ConsoleAdapter::SEVERITY severity) const override;
 
-                    elrond::pointer<elrond::interface::StreamAdapter> getInfoStreamAdapter() const override;
-                    elrond::pointer<elrond::interface::StreamAdapter> getErrorStreamAdapter() const override;
+                    void postAppend(elrond::interface::Stream& stream,
+                                    const elrond::string& tag,
+                                    elrond::interface::ConsoleAdapter::SEVERITY severity) const override;
 
-                    static ConsoleAdapter* null();
+                    elrond::pointer<elrond::interface::Stream> makeStream() const override;
+
+                    static ConsoleAdapter& null();
+                    static void nullAppend(elrond::interface::Stream&, const elrond::string&, ConsoleAdapter::SEVERITY);
+                    static elrond::pointer<elrond::interface::Stream> makeNullStream();
             };
         }
     }

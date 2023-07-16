@@ -27,11 +27,6 @@
             std::string normilizePath(const std::string& path);
         }
 
-        namespace interface
-        {
-            class ConsoleAdapter;
-        }
-
         namespace runtime
         {
             class Console;

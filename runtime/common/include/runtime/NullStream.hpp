@@ -14,33 +14,17 @@
                     ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(NullStream)
 
                     // Char and strings
-                    const elrond::interface::Stream&
-                    operator<<(char) const override;
-
-                    const elrond::interface::Stream&
-                    operator<<(unsigned char) const override;
-
-                    const elrond::interface::Stream&
-                    operator<<(const char*) const override;
-    
-                    const elrond::interface::Stream&
-                    operator<<(elrond::string) const override;
+                    elrond::interface::Stream& operator<<(char) override;
+                    elrond::interface::Stream& operator<<(unsigned char) override;
+                    elrond::interface::Stream& operator<<(const char*) override;
+                    elrond::interface::Stream& operator<<(elrond::string) override;
 
                     // Numeric
-                    const elrond::interface::Stream&
-                    operator<<(int) const override;
-                    
-                    const elrond::interface::Stream&
-                    operator<<(unsigned int) const override;
-
-                    const elrond::interface::Stream&
-                    operator<<(long) const override;
-                    
-                    const elrond::interface::Stream&
-                    operator<<(unsigned long) const override;
-                    
-                    const elrond::interface::Stream&
-                    operator<<(double) const override;
+                    elrond::interface::Stream& operator<<(int) override;
+                    elrond::interface::Stream& operator<<(unsigned int) override;
+                    elrond::interface::Stream& operator<<(long) override;
+                    elrond::interface::Stream& operator<<(unsigned long) override;
+                    elrond::interface::Stream& operator<<(double) override;
             };
         }
     }

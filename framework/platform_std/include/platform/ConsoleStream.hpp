@@ -21,19 +21,19 @@
                     //
                     // Char and strings
                     //
-                    const elrond::interface::Stream& operator<<(char c) const override;
-                    const elrond::interface::Stream& operator<<(unsigned char c) const override;
-                    const elrond::interface::Stream& operator<<(const char* c) const override;
-                    const elrond::interface::Stream& operator<<(elrond::string str) const override;
+                    elrond::interface::Stream& operator<<(char c) override;
+                    elrond::interface::Stream& operator<<(unsigned char c) override;
+                    elrond::interface::Stream& operator<<(const char* c) override;
+                    elrond::interface::Stream& operator<<(elrond::string str) override;
 
                     //
                     // Numeric
                     //
-                    const elrond::interface::Stream& operator<<(int i) const override;
-                    const elrond::interface::Stream& operator<<(unsigned int i) const override;
-                    const elrond::interface::Stream& operator<<(long l) const override;
-                    const elrond::interface::Stream& operator<<(unsigned long l) const override;
-                    const elrond::interface::Stream& operator<<(double d) const override;
+                    elrond::interface::Stream& operator<<(int i) override;
+                    elrond::interface::Stream& operator<<(unsigned int i) override;
+                    elrond::interface::Stream& operator<<(long l) override;
+                    elrond::interface::Stream& operator<<(unsigned long l) override;
+                    elrond::interface::Stream& operator<<(double d) override;
             };
         }
     }

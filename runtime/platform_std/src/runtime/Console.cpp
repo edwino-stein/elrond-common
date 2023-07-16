@@ -9,10 +9,10 @@ Console::Console(ConsoleAdapter& adapter) : adapter(adapter) {}
 //
 // Stream directly
 //
-const elrond::platform::ConsoleStream Console::info() const
+elrond::platform::ConsoleStream Console::info() const
 { return this->adapter.getInfoStreamAdapter(); }
 
-const elrond::platform::ConsoleStream Console::error() const
+elrond::platform::ConsoleStream Console::error() const
 { return this->adapter.getErrorStreamAdapter(); }
 
 //

@@ -21,8 +21,8 @@
                     //
                     // Stream directly
                     //
-                    const elrond::platform::ConsoleStream info() const override;
-                    const elrond::platform::ConsoleStream error() const override;
+                    elrond::platform::ConsoleStream info() const override;
+                    elrond::platform::ConsoleStream error() const override;
 
                     //
                     // Char and strings

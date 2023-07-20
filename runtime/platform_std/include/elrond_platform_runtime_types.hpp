@@ -8,6 +8,7 @@
     #endif
 
     #include <sstream>
+    #include <map>
 
     namespace elrond
     {
@@ -15,7 +16,7 @@
         {
             class DlHandle;
 
-
+            std::map<std::string, elrond::interface::Factory*>& internalModuleFactories();
             elrond::interface::Factory& parseExternalFactoryFromDlHandle(DlHandle& handle);
             std::string demangle(const std::type_info& info);
 

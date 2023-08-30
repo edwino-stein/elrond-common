@@ -1,8 +1,10 @@
 #include "mock/ConsoleAdapter.hpp"
 
 using elrond::mock::ConsoleAdapter;
+using elrond::mock::ConsoleStreamAdapter;
 using elrond::interface::Stream;
 using elrond::runtime::NullStream;
+using IConsoleStreamAdapter = elrond::interface::ConsoleStreamAdapter;
 
 ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream):
     _makeStream(makeStream),
@@ -22,14 +24,8 @@ ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend, Append
     _postAppend(postAppend)
 {}
 
-void ConsoleAdapter::preAppend(Stream& stream, const elrond::string& tag, ConsoleAdapter::SEVERITY severity) const
-{ this->_preAppend(stream, tag, severity); }
-
-void ConsoleAdapter::postAppend(Stream& stream, const elrond::string& tag, SEVERITY severity) const
-{ this->_postAppend(stream, tag, severity); }
-
-elrond::pointer<Stream> ConsoleAdapter::makeStream() const
-{ return this->_makeStream(); }
+elrond::pointer<ConsoleStreamAdapter> ConsoleAdapter::makeConsoleStreamAdapter()
+{ return std::make_shared<ConsoleStreamAdapter>(*this); }
 
 ConsoleAdapter& ConsoleAdapter::null()
 {
@@ -37,7 +33,21 @@ ConsoleAdapter& ConsoleAdapter::null()
     return nullConsoleAdapter;
 }
 
-void ConsoleAdapter::nullAppend(Stream&, const elrond::string&, ConsoleAdapter::SEVERITY) {}
+void ConsoleAdapter::nullAppend(IConsoleStreamAdapter&, elrond::SEVERITY) {}
 
 elrond::pointer<Stream> ConsoleAdapter::makeNullStream()
 { return std::make_shared<NullStream>(); }
+
+ConsoleStreamAdapter::ConsoleStreamAdapter(ConsoleAdapter& adapter)
+: _adapter(&adapter), _stream(_adapter->_makeStream())
+{}
+
+Stream& ConsoleStreamAdapter::stream() const
+{ return *(this->_stream); }
+
+void ConsoleStreamAdapter::preAppend(elrond::SEVERITY severity)
+{ this->_adapter->_preAppend(*this, severity); }
+
+void ConsoleStreamAdapter::postAppend(elrond::SEVERITY severity)
+{ this->_adapter->_postAppend(*this, severity); }
+

@@ -5,9 +5,9 @@ using elrond::mock::ConsoleAdapter;
 using elrond::interface::Stream;
 using elrond::runtime::OStream;
 using elrond::runtime::NullStream;
-using elrond::mock::StreamAdapter;
-using SEVERITY = elrond::interface::ConsoleAdapter::SEVERITY;
+using elrond::mock::ConsoleStreamAdapter;
 using elrond::mock::SeverityToStr;
+using IConsoleStreamAdapter = elrond::interface::ConsoleStreamAdapter;
 
 SCENARIO("Test mocked console adapter instances", "[mock][ConsoleAdapter]")
 {
@@ -15,26 +15,31 @@ SCENARIO("Test mocked console adapter instances", "[mock][ConsoleAdapter]")
 
     GIVEN("A ConsoleAdapter mocked with only stream maker function")
     {
-        ConsoleAdapter adapter([&oss](){ return std::make_shared<OStream>(oss); });
+        ConsoleAdapter consoleAdapter([&oss](){ return std::make_shared<OStream>(oss); });
 
-        WHEN("Call stream maker function")
+        WHEN("Create a console stream adapter")
         {
-            auto stream = adapter.makeStream();
+            auto csa = consoleAdapter.makeConsoleStreamAdapter();
 
-            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            THEN("The returned console stream adapter object should be an intance of mock::ConsoleStreamAdapter")
             {
-                CHECK(isInstanceOf<OStream>(stream.get()));
+                CHECK(isInstanceOf<ConsoleStreamAdapter>(csa.get()));
             }
 
-            AND_THEN("The pre append operation should do nothing")
+            THEN("The stream in console stream adapter should be an instance of runtime::OStream")
             {
-                adapter.preAppend(*stream, "NONE", SEVERITY::INFO);
+                CHECK(isInstanceOf<OStream>(csa->stream()));
+            }
+
+            THEN("The pre append operation should do nothing")
+            {
+                csa->preAppend(elrond::SEVERITY::INFO);
                 CHECK(oss.str() == "");
             }
 
-            AND_THEN("The post append operation should do nothing")
+            THEN("The post append operation should do nothing")
             {
-                adapter.postAppend(*stream, "NONE", SEVERITY::INFO);
+                csa->postAppend(elrond::SEVERITY::INFO);
                 CHECK(oss.str() == "");
             }
         }
@@ -42,30 +47,35 @@ SCENARIO("Test mocked console adapter instances", "[mock][ConsoleAdapter]")
 
     GIVEN("A ConsoleAdapter mocked an pre append function")
     {
-        ConsoleAdapter adapter(
+        ConsoleAdapter consoleAdapter(
             [&oss](){ return std::make_shared<OStream>(oss); },
-            [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
-            { s << "PRE-APPEND(" << tag << ", " << SeverityToStr(severity) << ')'; }
+            [](IConsoleStreamAdapter& a, elrond::SEVERITY severity)
+            { a.stream() << "PRE-APPEND(" << SeverityToStr(severity) << ')'; }
         );
 
-        WHEN("Call stream maker function")
+        WHEN("Create a console stream adapter")
         {
-            auto stream = adapter.makeStream();
+            auto csa = consoleAdapter.makeConsoleStreamAdapter();
 
-            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            THEN("The returned console stream adapter object should be an intance of mock::ConsoleStreamAdapter")
             {
-                CHECK(isInstanceOf<OStream>(stream.get()));
+                CHECK(isInstanceOf<ConsoleStreamAdapter>(csa.get()));
             }
 
-            AND_THEN("The pre append operation should append the expected string")
+            THEN("The stream in console stream adapter should be an instance of runtime::OStream")
             {
-                adapter.preAppend(*stream, "NONE", SEVERITY::INFO);
-                CHECK(oss.str() == "PRE-APPEND(NONE, INFO)");
+                CHECK(isInstanceOf<OStream>(csa->stream()));
             }
 
-            AND_THEN("The post append operation should do nothing")
+            THEN("The pre append operation should do nothing")
             {
-                adapter.postAppend(*stream, "NONE", SEVERITY::INFO);
+                csa->preAppend(elrond::SEVERITY::INFO);
+                CHECK(oss.str() == "PRE-APPEND(INFO)");
+            }
+
+            THEN("The post append operation should do nothing")
+            {
+                csa->postAppend(elrond::SEVERITY::INFO);
                 CHECK(oss.str() == "");
             }
         }
@@ -73,33 +83,38 @@ SCENARIO("Test mocked console adapter instances", "[mock][ConsoleAdapter]")
 
     GIVEN("A ConsoleAdapter mocked an pre append and post append functions")
     {
-        ConsoleAdapter adapter(
+        ConsoleAdapter consoleAdapter(
             [&oss](){ return std::make_shared<OStream>(oss); },
-            [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
-            { s << "PRE-APPEND(" << tag << ", " << SeverityToStr(severity) << ')'; },
-            [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
-            { s << "POST-APPEND(" << tag << ", " << SeverityToStr(severity) << ')'; }
+            [](IConsoleStreamAdapter& a, elrond::SEVERITY severity)
+            { a.stream() << "PRE-APPEND(" << SeverityToStr(severity) << ')'; },
+            [](IConsoleStreamAdapter& a, elrond::SEVERITY severity)
+            { a.stream() << "POST-APPEND(" << SeverityToStr(severity) << ')'; }
         );
 
-        WHEN("Call stream maker function")
+        WHEN("Create a console stream adapter")
         {
-            auto stream = adapter.makeStream();
+            auto csa = consoleAdapter.makeConsoleStreamAdapter();
 
-            THEN("The returned info adapter object should be an intance of mock::StreamAdapter")
+            THEN("The returned console stream adapter object should be an intance of mock::ConsoleStreamAdapter")
             {
-                CHECK(isInstanceOf<OStream>(stream.get()));
+                CHECK(isInstanceOf<ConsoleStreamAdapter>(csa.get()));
             }
 
-            AND_THEN("The pre append operation should append the expected string")
+            THEN("The stream in console stream adapter should be an instance of runtime::OStream")
             {
-                adapter.preAppend(*stream, "NONE", SEVERITY::INFO);
-                CHECK(oss.str() == "PRE-APPEND(NONE, INFO)");
+                CHECK(isInstanceOf<OStream>(csa->stream()));
+            }
+
+            THEN("The pre append operation should do nothing")
+            {
+                csa->preAppend(elrond::SEVERITY::INFO);
+                CHECK(oss.str() == "PRE-APPEND(INFO)");
             }
 
             AND_THEN("The post append operation should do nothing")
             {
-                adapter.postAppend(*stream, "NONE", SEVERITY::INFO);
-                CHECK(oss.str() == "POST-APPEND(NONE, INFO)");
+                csa->postAppend(elrond::SEVERITY::INFO);
+                CHECK(oss.str() == "POST-APPEND(INFO)");
             }
         }
     }
@@ -109,15 +124,20 @@ SCENARIO("Test mocked console adapter null instances", "[mock][ConsoleAdapter]")
 {
     GIVEN("The ConsoleAdapter::null() instance")
     {
-        auto& adapter = ConsoleAdapter::null();
+        auto& consoleAdapter = ConsoleAdapter::null();
 
-        WHEN("Call stream maker function")
+        WHEN("Create a console stream adapter")
         {
-            auto stream = adapter.makeStream();
+            auto csa = consoleAdapter.makeConsoleStreamAdapter();
 
-            THEN("The returned info adapter object should be an intance of runtime::NullStream")
+            THEN("The returned console stream adapter object should be an intance of mock::ConsoleStreamAdapter")
             {
-                CHECK(isInstanceOf<NullStream>(stream.get()));
+                CHECK(isInstanceOf<ConsoleStreamAdapter>(csa.get()));
+            }
+
+            THEN("The stream in console stream adapter should be an instance of runtime::NullStream")
+            {
+                CHECK(isInstanceOf<NullStream>(csa->stream()));
             }
         }
     }

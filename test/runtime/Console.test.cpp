@@ -6,16 +6,17 @@ using elrond::mock::ConsoleAdapter;
 using elrond::mock::StreamAdapter;
 using elrond::runtime::OStream;
 using elrond::interface::Stream;
+using elrond::interface::ConsoleStreamAdapter;
 using elrond::mock::SeverityToStr;
 
-SCENARIO("Test a mocked console instance with simple info and error console adapters", "[runtime][Console]")
+SCENARIO("Test a mocked console instance with simple console adapter", "[runtime][Console]")
 {
     std::ostringstream oss;
 
     GIVEN("A Console mocked to handle info and error outputs")
     {
         ConsoleAdapter adapter([&oss](){ return std::make_shared<OStream>(oss); });
-        Console console(adapter, "CONSOLE-TEST");
+        Console console(adapter.makeConsoleStreamAdapter());
 
         WHEN("Calls info method passing a single char")
         {
@@ -186,16 +187,17 @@ SCENARIO("Test a mocked console instance with simple info and error console adap
 SCENARIO("Test a mocked console instance with complex info and error console adapters", "[runtime][Console]")
 {
     std::ostringstream oss;
-    ConsoleAdapter adapter (
-        [&oss](){ return std::make_shared<OStream>(oss); },
-        [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
-        { s << tag << " [" << SeverityToStr(severity) << "]: "; },
-        [](Stream& s, const elrond::string&, ConsoleAdapter::SEVERITY) { s << "\n"; }
-    );
+    ConsoleAdapter consoleAdapter(
+            [&oss](){ return std::make_shared<OStream>(oss); },
+            [](ConsoleStreamAdapter& a, elrond::SEVERITY severity)
+            { a.stream() << "[" << SeverityToStr(severity) << "]: "; },
+            [](ConsoleStreamAdapter& a, elrond::SEVERITY)
+            { a.stream() << '\n'; }
+        );
 
     GIVEN("A Console mocked to handle outputs")
     {   
-        Console console(adapter, "CONSOLE-TEST");
+        Console console(consoleAdapter.makeConsoleStreamAdapter());
 
         WHEN("Calls info method and do concatenation directly on returned stream object")
         {
@@ -203,7 +205,7 @@ SCENARIO("Test a mocked console instance with complex info and error console ada
 
             THEN("The stream must capture everything as string between the pre and post appened strings")
             {
-                CHECK(oss.str() == "CONSOLE-TEST [INFO]: This is an info test message\n");
+                CHECK(oss.str() == "[INFO]: This is an info test message\n");
             }
         }
 
@@ -213,7 +215,7 @@ SCENARIO("Test a mocked console instance with complex info and error console ada
 
             THEN("The stream must capture everything as string between the pre and post appened strings")
             {
-                CHECK(oss.str() == "CONSOLE-TEST [ERROR]: This is an error test message\n");
+                CHECK(oss.str() == "[ERROR]: This is an error test message\n");
             }
         }
 
@@ -224,7 +226,7 @@ SCENARIO("Test a mocked console instance with complex info and error console ada
 
             THEN("The stream must capture everything as string after pre appened, but not the post append")
             {
-                CHECK(oss.str() == "CONSOLE-TEST [INFO]: This is an info test message");
+                CHECK(oss.str() == "[INFO]: This is an info test message");
             }
         }
     }

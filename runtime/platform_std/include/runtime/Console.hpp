@@ -10,12 +10,11 @@
             class Console : public elrond::interface::Console
             {
                 protected:
-                    elrond::interface::ConsoleAdapter* _adapter;
-                    elrond::string _tag;
+                    elrond::pointer<elrond::interface::ConsoleStreamAdapter> _adapter;
 
                 public:
                     ELROND_CLASS_SPECIAL_MEMBERS(Console, =delete, =delete, =delete, =delete, =delete)
-                    Console(elrond::interface::ConsoleAdapter& adapter, const elrond::string& tag);
+                    Console(elrond::pointer<elrond::interface::ConsoleStreamAdapter> adapter);
 
                     //
                     // Stream directly

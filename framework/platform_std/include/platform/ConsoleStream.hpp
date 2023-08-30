@@ -10,16 +10,13 @@
             class ConsoleStream : public elrond::interface::Stream
             {
                 protected:
-                    elrond::interface::ConsoleAdapter* _adapter;
-                    elrond::pointer<elrond::interface::Stream> _stream;
-                    elrond::string _tag;
-                    elrond::interface::ConsoleAdapter::SEVERITY _severity;
+                    elrond::pointer<elrond::interface::ConsoleStreamAdapter> _adapter;
+                    elrond::SEVERITY _severity;
 
                 public:
                     ELROND_CLASS_SPECIAL_MEMBERS_CONSTUCTORS(ConsoleStream, =delete, =delete, =default, =delete, =delete)
-                    ConsoleStream(elrond::interface::ConsoleAdapter& adapter,
-                                    const elrond::string& tag,
-                                    elrond::interface::ConsoleAdapter::SEVERITY severity);
+                    ConsoleStream(elrond::pointer<elrond::interface::ConsoleStreamAdapter> adapter,
+                                  elrond::SEVERITY severity);
 
                     ~ConsoleStream();
 

@@ -1,20 +1,20 @@
 #include "runtime/Console.hpp"
 
 using elrond::runtime::Console;
-using elrond::interface::ConsoleAdapter;
+using elrond::interface::ConsoleStreamAdapter;
 using elrond::platform::ConsoleStream;
 
-Console::Console(ConsoleAdapter& adapter, const elrond::string& tag)
-: _adapter(&adapter), _tag(tag) {}
+Console::Console(elrond::pointer<ConsoleStreamAdapter> adapter)
+: _adapter(adapter) {}
 
 //
 // Stream directly
 //
 elrond::platform::ConsoleStream Console::info() const
-{ return { *(this->_adapter), this->_tag, ConsoleAdapter::INFO }; }
+{ return { this->_adapter, elrond::SEVERITY::INFO }; }
 
 elrond::platform::ConsoleStream Console::error() const
-{ return { *(this->_adapter), this->_tag, ConsoleAdapter::ERROR }; }
+{ return { this->_adapter, elrond::SEVERITY::ERROR }; }
 
 //
 // Char and strings

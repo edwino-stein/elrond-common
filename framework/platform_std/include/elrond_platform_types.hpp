@@ -38,11 +38,17 @@
 
         enum class TimeUnit;
         struct TimeSpan;
-    
+
+        enum class SEVERITY
+        {
+            INFO,
+            ERROR
+        };
+
         namespace interface
         {
             class Factory;
-            class ConsoleAdapter;
+            class ConsoleStreamAdapter;
         }
 
         // Platform specific classes

@@ -8,7 +8,7 @@ using elrond::interface::Module;
 /*   ModuleInstanceHandle   */
 
 ModuleInstanceHandle::ModuleInstanceHandle(const elrond::string& name)
-: _name(name), _instance(nullptr) {}
+: _name(name), _instance(nullptr), loopEnable(false), loopTs(elrond::seconds(0)) {}
 
 elrond::string ModuleInstanceHandle::name() const
 { return this->_name; }

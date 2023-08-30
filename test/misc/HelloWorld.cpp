@@ -7,6 +7,7 @@ using elrond::mock::Arguments;
 using elrond::runtime::OStream;
 using elrond::interface::Stream;
 using elrond::mock::SeverityToStr;
+using IConsoleStreamAdapter = elrond::interface::ConsoleStreamAdapter;
 
 int main()
 {
@@ -14,12 +15,12 @@ int main()
 
     ConsoleAdapter consoleAdapter(
         [](){ return std::make_shared<OStream>(std::cout); },
-        [](Stream& s, const elrond::string& tag, ConsoleAdapter::SEVERITY severity)
-        { s << tag << " [" << SeverityToStr(severity) << "]: "; },
-        [](Stream& s, const elrond::string&, ConsoleAdapter::SEVERITY) { s << "\n"; }
+        [&ctx](IConsoleStreamAdapter& adapter, elrond::SEVERITY severity)
+        { adapter.stream() << ctx.moduleHandle().name() << " [" << SeverityToStr(severity) << "]: "; },
+        [](IConsoleStreamAdapter& adapter, elrond::SEVERITY) { adapter.stream() << "\n"; }
     );
 
-    ctx.console(consoleAdapter);
+    ctx.with(consoleAdapter);
 
     ctx.callSetup()
         .callStart()
@@ -32,7 +33,7 @@ int main()
         .set("async", true)
         .set("interval", 500);
 
-    ctx.arguments(args);
+    ctx.with(args);
 
     ctx.callSetup()
         .callStart()

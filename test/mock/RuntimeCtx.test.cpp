@@ -4,15 +4,16 @@
 #include <ctime>
 
 using elrond::mock::RuntimeCtx;
+using elrond::mock::Context;
 using elrond::interface::Module;
 using elrond::module::BaseGeneric;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
 using elrond::runtime::OStream;
 using elrond::interface::Stream;
+using elrond::interface::ConsoleStreamAdapter;
 using elrond::mock::SeverityToStr;
 using Catch::Matchers::ContainsSubstring;
-using SEVERITY = elrond::interface::ConsoleAdapter::SEVERITY;
 
 const std::string TEST_BUILD_DIR = std::string(ELROND_BUILD_DIR) + "/test/";
 
@@ -37,7 +38,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
     {
         auto ctx = RuntimeCtx::create<TestModule>("test");
 
-        REQUIRE(ctx.name() == "test");
+        REQUIRE(ctx.moduleHandle().name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(isInstanceOf<TestModule>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
@@ -53,11 +54,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance for lyfecy
 
         WHEN("Module instance requires your context")
         {
-            auto context = ctx.ctx();
+            auto context = ctx.makeCtx();
             THEN("Must be the same context instance")
             {
-                REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
-                REQUIRE(&(reinterpret_cast<RuntimeCtx::Context*>(context.get())->ctx) == &ctx);
+                REQUIRE(isInstanceOf<Context>(context.get()));
             }
         }
 
@@ -195,15 +195,15 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
         WHEN("Set a custom console adapter instance")
         {
             std::ostringstream oss;
-            ConsoleAdapter adapter(
+            ConsoleAdapter consoleAdapter(
                 [&oss](){ return std::make_shared<OStream>(oss); },
-                [](Stream& s, const elrond::string& tag, SEVERITY severity)
-                { s << tag << " [" << SeverityToStr(severity) << "]: "; },
-                [](Stream& s, const elrond::string&, SEVERITY)
-                { s << '\n'; }
+                [](ConsoleStreamAdapter& a, elrond::SEVERITY severity)
+                { a.stream() << "[" << SeverityToStr(severity) << "]: "; },
+                [](ConsoleStreamAdapter& a, elrond::SEVERITY)
+                { a.stream() << '\n'; }
             );
 
-            ctx.console(adapter);
+            ctx.with(consoleAdapter);
 
             WHEN("The module instance calls console info method")
             {
@@ -213,7 +213,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(oss.str() == "TEST [INFO]: Info message\n");
+                    CHECK(oss.str() == "[INFO]: Info message\n");
                 }
             }
 
@@ -226,7 +226,7 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
                 ctx.callSetup();
                 THEN("The info ostringstream must capture the string")
                 {
-                    CHECK(oss.str() == "TEST [ERROR]: Error message\n");
+                    CHECK(oss.str() == "[ERROR]: Error message\n");
                 }
             }
         }
@@ -269,10 +269,10 @@ SCENARIO("Test a mocked runtime context with a simple module instance with argum
         {
             Arguments args;
             args.set("arg", "Hello world!!");
-            ctx.arguments(args);
+            ctx.with(args);
 
-            REQUIRE(ctx.arguments().get() == &args);
-            REQUIRE(ctx.arguments()->asString("arg") == "Hello world!!");
+            REQUIRE(ctx.makeArguments().get() == &args);
+            REQUIRE(ctx.makeArguments()->asString("arg") == "Hello world!!");
 
             WHEN("Calls the setup method")
             {
@@ -316,9 +316,9 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
     {
         auto ctx = RuntimeCtx::create<TestLoopCfgModule>("test");
 
-        REQUIRE_FALSE(ctx.loopEnable());
-        REQUIRE(ctx.loopTs().count == 0);
-        REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::SECONDS);
+        REQUIRE_FALSE(ctx.moduleHandle().loopEnable);
+        REQUIRE(ctx.moduleHandle().loopTs.count == 0);
+        REQUIRE(ctx.moduleHandle().loopTs.unit == elrond::TimeUnit::SECONDS);
 
         WHEN("Calls the setup method without arguments")
         {
@@ -326,9 +326,9 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
 
             THEN("Must be called the setup method")
             {
-                CHECK_FALSE(ctx.loopEnable());
-                REQUIRE(ctx.loopTs().count == 0);
-                REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::SECONDS);
+                CHECK_FALSE(ctx.moduleHandle().loopEnable);
+                REQUIRE(ctx.moduleHandle().loopTs.count == 0);
+                REQUIRE(ctx.moduleHandle().loopTs.unit == elrond::TimeUnit::SECONDS);
             }
         }
 
@@ -337,15 +337,15 @@ SCENARIO("Test a mocked runtime context with a simple module instance for check 
             Arguments args;
             args.set("loop", true)
                 .set("interval", 500);
-            ctx.arguments(args);
+            ctx.with(args);
 
             ctx.callSetup();
 
             THEN("Must be called the setup method")
             {
-                CHECK(ctx.loopEnable());
-                REQUIRE(ctx.loopTs().count == 500);
-                REQUIRE(ctx.loopTs().unit == elrond::TimeUnit::MILLISECONDS);
+                CHECK(ctx.moduleHandle().loopEnable);
+                REQUIRE(ctx.moduleHandle().loopTs.count == 500);
+                REQUIRE(ctx.moduleHandle().loopTs.unit == elrond::TimeUnit::MILLISECONDS);
             }
         }
     }
@@ -357,13 +357,13 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
     {
         auto ctx = RuntimeCtx::create("test", TEST_BUILD_DIR + "dlobject/ExternalModule");
 
-        REQUIRE(ctx.name() == "test");
+        REQUIRE(ctx.moduleHandle().name() == "test");
         REQUIRE(isInstanceOf<BaseGeneric>(ctx.instance()));
         REQUIRE(ctx.instance().moduleType() == elrond::ModuleType::GENERIC);
 
         std::ostringstream oss;
-        ConsoleAdapter adapter([&oss](){ return std::make_shared<OStream>(oss); });
-        ctx.console(adapter);
+        ConsoleAdapter consoleAdapter([&oss](){ return std::make_shared<OStream>(oss); });
+        ctx.with(consoleAdapter);
 
         WHEN("Calls the factory getter")
         {
@@ -380,11 +380,10 @@ SCENARIO("Test a mocked runtime context with a simple external module", "[mock][
 
         WHEN("Module instance requires your context")
         {
-            auto context = ctx.ctx();
+            auto context = ctx.makeCtx();
             THEN("Must be the same context instance")
             {
-                REQUIRE(isInstanceOf<RuntimeCtx::Context>(context.get()));
-                REQUIRE(&(reinterpret_cast<RuntimeCtx::Context*>(context.get())->ctx) == &ctx);
+                REQUIRE(isInstanceOf<Context>(context.get()));
             }
         }
 

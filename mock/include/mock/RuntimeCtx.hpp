@@ -1,45 +1,16 @@
 #ifndef ELROND_MOCK_RUNTIME_CTX_HPP
     #define ELROND_MOCK_RUNTIME_CTX_HPP
 
-    #include "elrond_mock_types.hpp"
+    #include "mock/Application.hpp"
 
     namespace elrond
     {
         namespace mock
         {
-            class RuntimeCtx
+            class RuntimeCtx : public elrond::mock::Application
             {
-                public:
-
-                    class Context : public elrond::interface::Context
-                    {
-                        public:
-                            RuntimeCtx& ctx;
-
-                            ELROND_CLASS_SPECIAL_MEMBERS(Context, =delete, =delete, =delete, =delete, =delete)
-                            Context(RuntimeCtx& ctx);
-
-                            elrond::pointer<elrond::interface::Console>
-                            console() const override;
-
-                            elrond::pointer<elrond::interface::Arguments>
-                            arguments() const override;
-
-                            elrond::string name() const override;
-
-                            void setLoopEvery(const elrond::TimeSpan& ts) override;
-                            void unsetLoop() override;
-                    };
-
                 protected:
-
                     std::shared_ptr<ModuleInstanceHandle> _moduleHandle;
-
-                    elrond::interface::ConsoleAdapter* _consoleAdapter;
-                    elrond::mock::Arguments* _arguments;
-
-                    bool _loopEnable;
-                    elrond::TimeSpan _loopTs;
 
                     //
                     // Constructor
@@ -49,24 +20,14 @@
                 public:
                     ELROND_CLASS_SPECIAL_MEMBERS(RuntimeCtx, =delete, =default, =default, =default, =default)
 
-                    //
-                    // Setters methods
-                    //
-                    RuntimeCtx& console(elrond::interface::ConsoleAdapter& adapter);
-                    RuntimeCtx& arguments(elrond::mock::Arguments& args);
+                    elrond::pointer<elrond::interface::Context> makeCtx();
 
                     //
                     // Getters methods
                     //
-                    elrond::Context ctx();
-                    elrond::pointer<elrond::interface::Console> console() const;
-                    elrond::pointer<elrond::interface::Arguments> arguments() const;
-                    elrond::string name() const;
+                    ModuleInstanceHandle& moduleHandle() const;
                     elrond::interface::Module& instance() const;
                     elrond::interface::Factory& factory() const;
-
-                    bool loopEnable() const;
-                    elrond::TimeSpan loopTs() const;
 
                     //
                     // Others methods
@@ -89,7 +50,24 @@
 
                     static RuntimeCtx create(const elrond::string& name, const elrond::string& path);
             };
+
+            class Context : public elrond::interface::Context
+            {
+                protected:
+                    RuntimeCtx* _app;
+
+                public:
+
+                    ELROND_CLASS_SPECIAL_MEMBERS(Context, =delete, =delete, =delete, =delete, =delete)
+                    Context(RuntimeCtx& app);
+
+                    elrond::pointer<elrond::interface::Console> console() const override;
+                    elrond::pointer<elrond::interface::Arguments> arguments() const override;
+                    elrond::string name() const override;
+
+                    void setLoopEvery(const elrond::TimeSpan& ts) override;
+                    void unsetLoop() override;
+            };
         }
     }
-
 #endif

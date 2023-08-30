@@ -87,4 +87,15 @@
 
     #define ELROND_STR(S) std::string(S)
 
+    namespace std
+    {
+        template <typename T>
+        inline std::shared_ptr<T> wrap_shared(T& object)
+        { return std::shared_ptr<T>(&object, [](T*){}); }
+
+        template <typename T>
+        inline std::shared_ptr<T> wrap_shared(T* object)
+        { return std::shared_ptr<T>(object, [](T*){}); }
+    }
+
 #endif

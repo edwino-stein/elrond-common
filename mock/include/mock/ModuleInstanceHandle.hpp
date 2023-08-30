@@ -16,6 +16,9 @@
                     ModuleInstanceHandle(const elrond::string& name);
 
                 public:
+                    bool loopEnable;
+                    elrond::TimeSpan loopTs;
+
                     ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ModuleInstanceHandle)
 
                     virtual elrond::interface::Factory& factory() const =0;

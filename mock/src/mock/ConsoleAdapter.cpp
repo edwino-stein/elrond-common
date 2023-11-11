@@ -8,20 +8,12 @@ using IConsoleStreamAdapter = elrond::interface::ConsoleStreamAdapter;
 
 ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream):
     _makeStream(makeStream),
-    _preAppend(ConsoleAdapter::nullAppend),
-    _postAppend(ConsoleAdapter::nullAppend)
+    _flush(ConsoleAdapter::nullFlush)
 {}
 
-ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend):
+ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, FlushH flush):
     _makeStream(makeStream),
-    _preAppend(preAppend),
-    _postAppend(ConsoleAdapter::nullAppend)
-{}
-
-ConsoleAdapter::ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend, AppendH postAppend):
-    _makeStream(makeStream),
-    _preAppend(preAppend),
-    _postAppend(postAppend)
+    _flush(flush)
 {}
 
 elrond::pointer<ConsoleStreamAdapter> ConsoleAdapter::makeConsoleStreamAdapter()
@@ -33,21 +25,16 @@ ConsoleAdapter& ConsoleAdapter::null()
     return nullConsoleAdapter;
 }
 
-void ConsoleAdapter::nullAppend(IConsoleStreamAdapter&, elrond::SEVERITY) {}
+void ConsoleAdapter::nullFlush(Stream&, elrond::SEVERITY) {}
 
 elrond::pointer<Stream> ConsoleAdapter::makeNullStream()
 { return std::make_shared<NullStream>(); }
 
 ConsoleStreamAdapter::ConsoleStreamAdapter(ConsoleAdapter& adapter)
-: _adapter(&adapter), _stream(_adapter->_makeStream())
-{}
+: _adapter(&adapter) {}
 
-Stream& ConsoleStreamAdapter::stream() const
-{ return *(this->_stream); }
+void ConsoleStreamAdapter::flush(Stream& stream, elrond::SEVERITY severity)
+{ this->_adapter->_flush(stream, severity); }
 
-void ConsoleStreamAdapter::preAppend(elrond::SEVERITY severity)
-{ this->_adapter->_preAppend(*this, severity); }
-
-void ConsoleStreamAdapter::postAppend(elrond::SEVERITY severity)
-{ this->_adapter->_postAppend(*this, severity); }
-
+elrond::pointer<Stream> ConsoleStreamAdapter::makeStream() const
+{ return _adapter->_makeStream(); }

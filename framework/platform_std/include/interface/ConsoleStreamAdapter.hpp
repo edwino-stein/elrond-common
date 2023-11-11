@@ -11,9 +11,8 @@
             {
                 public:
                     ELROND_DEFAULT_CLASS_SPECIAL_MEMBERS(ConsoleStreamAdapter)
-                    virtual void preAppend(elrond::SEVERITY severity) =0;
-                    virtual void postAppend(elrond::SEVERITY severity) =0;
-                    virtual elrond::interface::Stream& stream() const =0;
+                    virtual void flush(elrond::interface::Stream& stream, elrond::SEVERITY severity) =0;
+                    virtual elrond::pointer<elrond::interface::Stream> makeStream() const =0;
             };
         }
     }

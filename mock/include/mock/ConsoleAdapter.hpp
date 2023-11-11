@@ -11,21 +11,19 @@
             {
                 public:
                     using MakeStreamH = elrond::function<elrond::pointer<elrond::interface::Stream>>;
-                    using AppendH = elrond::procedure<elrond::interface::ConsoleStreamAdapter&, elrond::SEVERITY>;
+                    using FlushH = elrond::procedure<elrond::interface::Stream&, elrond::SEVERITY>;
 
                     MakeStreamH _makeStream;
-                    AppendH _preAppend;
-                    AppendH _postAppend;
+                    FlushH _flush;
 
                     ELROND_CLASS_SPECIAL_MEMBERS(ConsoleAdapter, =delete, =delete, =delete, =delete, =delete)
                     ConsoleAdapter(MakeStreamH makeStream);
-                    ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend);
-                    ConsoleAdapter(MakeStreamH makeStream, AppendH preAppend, AppendH postAppend);
+                    ConsoleAdapter(MakeStreamH makeStream, FlushH flush);
 
                     elrond::pointer<ConsoleStreamAdapter> makeConsoleStreamAdapter();
 
                     static ConsoleAdapter& null();
-                    static void nullAppend(elrond::interface::ConsoleStreamAdapter&, elrond::SEVERITY);
+                    static void nullFlush(elrond::interface::Stream&, elrond::SEVERITY);
                     static elrond::pointer<elrond::interface::Stream> makeNullStream();
             };
 
@@ -33,15 +31,13 @@
             {
                 protected:
                     ConsoleAdapter* _adapter;
-                    elrond::pointer<elrond::interface::Stream> _stream;
 
                 public:
                     ELROND_CLASS_SPECIAL_MEMBERS(ConsoleStreamAdapter, =delete, =delete, =delete, =delete, =delete)
                     ConsoleStreamAdapter(ConsoleAdapter& adapter);
 
-                    void preAppend(elrond::SEVERITY severity) override;
-                    void postAppend(elrond::SEVERITY severity) override;
-                    elrond::interface::Stream& stream() const override;
+                    void flush(elrond::interface::Stream& stream, elrond::SEVERITY severity) override;
+                    elrond::pointer<elrond::interface::Stream> makeStream() const override;
             };
         }
     }

@@ -11,6 +11,7 @@
             {
                 protected:
                     elrond::pointer<elrond::interface::ConsoleStreamAdapter> _adapter;
+                    elrond::pointer<elrond::interface::Stream> _stream;
                     elrond::SEVERITY _severity;
 
                 public:

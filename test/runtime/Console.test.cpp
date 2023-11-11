@@ -2,12 +2,11 @@
 #include "catch2.hpp"
 
 using elrond::runtime::Console;
+using elrond::runtime::OStream;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::StreamAdapter;
-using elrond::runtime::OStream;
 using elrond::interface::Stream;
 using elrond::interface::ConsoleStreamAdapter;
-using elrond::mock::SeverityToStr;
 
 SCENARIO("Test a mocked console instance with simple console adapter", "[runtime][Console]")
 {
@@ -179,54 +178,6 @@ SCENARIO("Test a mocked console instance with simple console adapter", "[runtime
                     oss.str() ==
                     "Error:Error Messagem\nCode:5\n"
                 );
-            }
-        }
-    }
-}
-
-SCENARIO("Test a mocked console instance with complex info and error console adapters", "[runtime][Console]")
-{
-    std::ostringstream oss;
-    ConsoleAdapter consoleAdapter(
-            [&oss](){ return std::make_shared<OStream>(oss); },
-            [](ConsoleStreamAdapter& a, elrond::SEVERITY severity)
-            { a.stream() << "[" << SeverityToStr(severity) << "]: "; },
-            [](ConsoleStreamAdapter& a, elrond::SEVERITY)
-            { a.stream() << '\n'; }
-        );
-
-    GIVEN("A Console mocked to handle outputs")
-    {   
-        Console console(consoleAdapter.makeConsoleStreamAdapter());
-
-        WHEN("Calls info method and do concatenation directly on returned stream object")
-        {
-            console.info() << "This is an info test message";
-
-            THEN("The stream must capture everything as string between the pre and post appened strings")
-            {
-                CHECK(oss.str() == "[INFO]: This is an info test message\n");
-            }
-        }
-
-        WHEN("Calls error method and do concatenation directly on returned stream object")
-        {
-            console.error() << "This is an error test message";
-
-            THEN("The stream must capture everything as string between the pre and post appened strings")
-            {
-                CHECK(oss.str() == "[ERROR]: This is an error test message\n");
-            }
-        }
-
-        WHEN("Calls info method and do concatenation directly on returned stream object")
-        {
-            auto s = console.info();
-            s << "This is an info test message";
-
-            THEN("The stream must capture everything as string after pre appened, but not the post append")
-            {
-                CHECK(oss.str() == "[INFO]: This is an info test message");
             }
         }
     }

@@ -10,6 +10,7 @@ using elrond::module::BaseGeneric;
 using elrond::mock::ConsoleAdapter;
 using elrond::mock::Arguments;
 using elrond::runtime::OStream;
+using elrond::runtime::OStringStream;
 using elrond::interface::Stream;
 using elrond::interface::ConsoleStreamAdapter;
 using elrond::mock::SeverityToStr;
@@ -196,11 +197,9 @@ SCENARIO("Test a mocked runtime context with a simple module instance for consol
         {
             std::ostringstream oss;
             ConsoleAdapter consoleAdapter(
-                [&oss](){ return std::make_shared<OStream>(oss); },
-                [](ConsoleStreamAdapter& a, elrond::SEVERITY severity)
-                { a.stream() << "[" << SeverityToStr(severity) << "]: "; },
-                [](ConsoleStreamAdapter& a, elrond::SEVERITY)
-                { a.stream() << '\n'; }
+                [](){ return std::make_shared<OStringStream>(); },
+                [&oss](Stream& s, elrond::SEVERITY severity)
+                { oss << "[" << SeverityToStr(severity) << "]: " << reinterpret_cast<OStringStream&>(s).oss().str() << '\n'; }
             );
 
             ctx.with(consoleAdapter);

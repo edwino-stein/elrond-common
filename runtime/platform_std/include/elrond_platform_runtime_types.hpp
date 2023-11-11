@@ -32,6 +32,7 @@
         {
             class Console;
             class OStream;
+            class OStringStream;
         }
     }
 

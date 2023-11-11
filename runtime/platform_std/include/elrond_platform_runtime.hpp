@@ -4,5 +4,6 @@
     #include "platform/DlHandle.ipp"
     #include "runtime/Console.hpp"
     #include "runtime/OStream.hpp"
+    #include "runtime/OStringStream.hpp"
 
 #endif
